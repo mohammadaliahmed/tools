@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item android:title="Offers">
+            <menu>
+                <item
+                    android:id="@+id/categoryListing"
+                    android:icon="@drawable/user"
+                    android:title="Category Listing" />
+                <item
+                    android:id="@+id/newListing"
+                    android:icon="@drawable/checklist"
+                    android:title="New Sales and Arrivals" />
+
+            </menu>
+        </item>
+    </group>
+    <item android:title="My Profile">
+        <menu>
+            <item
+                android:id="@+id/orders"
+                android:icon="@drawable/checklist"
+                android:title="My Orders" />
+            <item
+                android:id="@+id/cart"
+                android:icon="@drawable/cart"
+                android:title="My Cart" />
+            <item
+                android:id="@+id/chat"
+                android:icon="@drawable/chat"
+                android:title="Live Chat" />
+            <item
+                android:id="@+id/profile"
+                android:icon="@drawable/user"
+                android:title="Account Management" />
+            <item
+                android:id="@+id/openSlider"
+                android:icon="@drawable/ic_slider"
+                android:title="Open Slider" />
+        </menu>
+    </item>
+    <item android:title="Help &amp; Support">
+        <menu>
+            <item
+                android:id="@+id/contactUs"
+                android:icon="@drawable/phone_call"
+                android:title="Contact Us" />
+            <item
+                android:id="@+id/aboutUs"
+                android:icon="@drawable/ic_about"
+                android:title="About Us" />
+            <item
+                android:id="@+id/terms"
+                android:icon="@drawable/ic_terms"
+                android:title="Terms &amp; Condition" />
+            <item
+                android:id="@+id/signout"
+                android:icon="@drawable/power"
+                android:title="Sign Out" />
+        </menu>
+    </item>
+
+
+</menu>

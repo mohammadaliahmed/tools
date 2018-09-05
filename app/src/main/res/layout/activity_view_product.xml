@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.appsinventiv.toolsbazzar.Activities.ViewProduct">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp">
+
+        </android.support.v4.view.ViewPager>
+
+        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+            android:id="@+id/dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="190dp"
+            app:dotsColor="@color/colorPrimary"
+            app:dotsSize="5dp"
+            app:dotsWidthFactor="3" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/viewpager"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:hint="sdfsd"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subtitle"
+            android:layout_marginLeft="10dp"
+            android:hint="Rs 3232"
+            android:text=""
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginLeft="10dp"
+            android:hint="sdfsdfs"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="140dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/price"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/add_to_cart_bg_colored">
+
+            <TextView
+                android:id="@+id/count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="5dp"
+                android:text="Add to cart"
+                android:textColor="#fff" />
+
+            <ImageView
+                android:id="@+id/decrease"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:src="@drawable/delete"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/increase"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:src="@drawable/ic_add_btn"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/relativeLayout"
+            android:layout_marginTop="20dp"
+            android:background="@color/default_grey"></View>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relativeLayout"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:text="Similar Products"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/relatedProducts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relativeLayout"
+            android:layout_marginTop="60dp">
+
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+
+</ScrollView>

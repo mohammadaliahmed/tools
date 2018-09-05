@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/scrollView"
+    android:background="#efefef"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.appsinventiv.toolsbazzar.Activities.MainActivity"
+    tools:showIn="@layout/app_bar_main">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v4.view.ViewPager>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/sliding_tabs1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            app:tabMode="scrollable"
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager1"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:layout_below="@id/sliding_tabs"
+             />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/sliding_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            app:tabMode="scrollable"
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="510dp"
+            android:layout_below="@id/sliding_tabs"
+            />
+
+    </LinearLayout>
+</ScrollView>

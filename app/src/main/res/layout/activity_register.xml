@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_brick"
+    tools:context="com.appsinventiv.toolsbazzar.Activities.Register">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="100dp"
+                android:text="Create new Account"
+
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/signin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:text="Sign In"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="130dp"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:visibility="visible">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/default_grey">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/name"
+                    android:textColor="@color/default_grey"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/default_grey"
+                    android:hint="Full name"
+
+                    android:inputType="textCapWords"
+                    android:maxLines="1" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+
+                android:textColorHint="@color/default_grey">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/default_grey"
+
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/default_grey"
+                    android:digits="abcdefghijklmnopqrstuvwxyz"
+                    android:hint="Username"
+                    android:imeOptions="actionNext"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+
+                android:textColorHint="@color/default_grey">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/default_grey"
+
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/default_grey"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/default_grey"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/default_grey">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/password"
+                    android:textColor="@color/default_grey"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/default_grey"
+                    android:hint="Password"
+
+                    android:inputType="textPassword"
+                    android:maxLines="1" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/default_grey">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/default_grey"
+
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/default_grey"
+                    android:hint="Phone number"
+                    android:inputType="phone" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/default_grey">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/telPhone"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/default_grey"
+
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/default_grey"
+                    android:hint="Tel number"
+                    android:inputType="phone" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+
+                android:textColorHint="@color/default_grey">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/storeName"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/default_grey"
+
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/default_grey"
+                    android:hint="Store Name"
+                    android:inputType="textCapWords" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+
+                android:textColorHint="@color/default_grey">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/businessRegNumber"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/default_grey"
+
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/default_grey"
+                    android:hint="Business Registration Number"
+                    android:inputType="number" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+
+                android:textColorHint="@color/default_grey"
+                android:visibility="visible">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/address"
+                    android:textColor="@color/default_grey"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/default_grey"
+                    android:hint="Adress"
+
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapWords"
+                    android:lines="1"
+                    android:maxLines="1" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/chooseLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edit_text_background"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp"
+                android:text="Choose city and country"
+                android:textColor="#fff"
+                android:textSize="18sp" />
+
+
+            <Button
+                android:id="@+id/signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/btn_bg"
+                android:inputType="text"
+                android:text="Sign Up"
+                android:textColor="@color/default_grey" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="By Signing up you agree with our Terms and Conditions"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>

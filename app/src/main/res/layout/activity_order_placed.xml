@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.appsinventiv.toolsbazzar.Activities.OrderPlaced">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/order_completed3" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="59dp"
+        android:background="@color/default_grey"></View>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/view2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="76dp"
+        android:src="@drawable/success" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:textColor="#000"
+        android:text="Order Placed Successfuly" />
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Thank you..\nWe Would like to see you again\nwith a fresh order" />
+
+    <Button
+        android:id="@+id/home"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/myOrders"
+        android:layout_alignStart="@+id/myOrders"
+
+        android:layout_below="@+id/textView4"
+        android:layout_marginTop="102dp"
+        android:background="@drawable/btn_bg"
+        android:inputType="textCapSentences"
+        android:text="Home"
+        android:textColor="#fff" />
+
+    <Button
+        android:id="@+id/myOrders"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/home"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_bg"
+
+        android:inputType="textCapSentences"
+        android:text="My Orders"
+        android:textColor="#fff" />
+</RelativeLayout>
