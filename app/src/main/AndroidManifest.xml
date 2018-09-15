@@ -81,10 +81,16 @@
             android:name=".Activities.Welcome"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.ChooseLocation" />
-        <activity android:name=".Activities.AboutUs" />
-        <activity android:name=".Activities.TermsAndConditions" />
-        <activity android:name=".Activities.ViewPictures"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity
+            android:name=".Activities.AboutUs"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.TermsAndConditions"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.ViewPictures"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".Activities.Whishlist"></activity>
     </application>
 
 </manifest>

@@ -215,6 +215,7 @@ public class TopSellerFragment extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         ProductCountModel product = snapshot.getValue(ProductCountModel.class);
                         if (product != null) {
+
                             userCartProductList.add(product);
 
                         }
@@ -246,7 +247,13 @@ public class TopSellerFragment extends Fragment {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
                             if (product.getIsActive().equals("true")) {
-                                productArrayList.add(product);
+//                                if (product.getSellingTo() != null) {
+//                                    if (product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
+                                        productArrayList.add(product);
+//                                    } else {
+//                                        productArrayList.add(product);
+//                                    }
+//                                }
                                 Collections.sort(productArrayList, new Comparator<Product>() {
                                     @Override
                                     public int compare(Product listData, Product t1) {

@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class TermsAndConditions extends AppCompatActivity {
     DatabaseReference mDatabase;
-    TextView terms;
+    TextView terms, cookies, license, hyperlink, iframes, contentLiability, reservation, removal, disclaimer, replacement, other;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

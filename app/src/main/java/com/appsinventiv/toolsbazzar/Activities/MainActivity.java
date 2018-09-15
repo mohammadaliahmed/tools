@@ -1,6 +1,7 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -35,8 +37,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,6 +57,8 @@ public class MainActivity extends AppCompatActivity
     int pos;
 
     ScrollView scrollView;
+    DotsIndicator dots_indicator;
+    TextView chat;
 
     @Override
     protected void onResume() {
@@ -69,16 +76,41 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         this.setTitle("Tools Bazzar");
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        dots_indicator = findViewById(R.id.dots_indicator);
+
 
         if (SharedPrefs.getIsLoggedIn().equals("yes")) {
             mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("fcmKey").setValue(SharedPrefs.getFcmKey());
         }
 
 
+        getBannerImagesFromDb();
+        initViewPager();
         initDealView();
         initCategoryView();
         initDrawer();
-        initViewPager();
+    }
+
+    private void getBannerImagesFromDb() {
+        mDatabase.child("Settings").child("Banners").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> imgList = new ArrayList<>();
+                if (dataSnapshot.getValue() != null) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String url = snapshot.child("url").getValue(String.class);
+                        imgList.add(url);
+                    }
+                    SharedPrefs.saveArrayList(imgList, "banners");
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void initDealView() {
@@ -130,30 +162,55 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+
     private void initViewPager() {
-        pics.add("https://static.daraz.pk/cms/2017/W43/lipton/Lipton_06.jpg");
-        pics.add("https://i.pinimg.com/originals/c8/ea/1c/c8ea1c22157b50a8e455e17128afe497.png");
+        pics = SharedPrefs.getArrayList("banners");
+//        CommonUtils.showToast(""+pics);
+
+//        pics.add("https://static.daraz.pk/cms/2017/W43/lipton/Lipton_06.jpg");
+//        pics.add("https://i.pinimg.com/originals/c8/ea/1c/c8ea1c22157b50a8e455e17128afe497.png");
 
 
         banner = findViewById(R.id.slider);
         mViewPagerAdapter = new MainSliderAdapter(this, pics);
         banner.setAdapter(mViewPagerAdapter);
+        mViewPagerAdapter.notifyDataSetChanged();
+        dots_indicator.setViewPager(banner);
+        banner.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                currentPic = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 // Magic here
-                if (currentPic >= pics.size()) {
-                    currentPic = 0;
-                    banner.setCurrentItem(currentPic);
-                } else {
-                    banner.setCurrentItem(currentPic);
-                    currentPic++;
+                if (pics != null) {
+                    if (currentPic >= pics.size()) {
+                        currentPic = 0;
+                        banner.setCurrentItem(currentPic);
+                    } else {
+                        banner.setCurrentItem(currentPic);
+                        currentPic++;
+                    }
                 }
-                new Handler().postDelayed(this, 2000);
+                new Handler().postDelayed(this, 3000);
             }
-        }, 2000); // Millisecond 1000 = 1 sec
+        }, 3000); // Millisecond 1000 = 1 sec
+
     }
 
 
@@ -163,14 +220,38 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
-                super.onBackPressed();
-                return;
-            } else {
-                Toast.makeText(getBaseContext(), "Tap back button in order to exit", Toast.LENGTH_SHORT).show();
-            }
 
-            mBackPressed = System.currentTimeMillis();
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Exiting")
+                    .setContentText("Are you sure you want to exit?")
+                    .setCancelText("No, cancel!")
+                    .setConfirmText("Yes, exit!")
+                    .showCancelButton(true)
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            finish();
+                            moveTaskToBack(true);
+                            android.os.Process.killProcess(android.os.Process.myPid());
+                            System.exit(1);
+
+                        }
+                    })
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.cancel();
+                        }
+                    })
+                    .show();
+//            if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+//                super.onBackPressed();
+//                return;
+//            } else {
+//                Toast.makeText(getBaseContext(), "Tap back button in order to exit", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            mBackPressed = System.currentTimeMillis();
         }
 
     }
@@ -186,7 +267,16 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = (TextView) headerView.findViewById(R.id.name_drawer);
-        TextView navSubtitle = (TextView) headerView.findViewById(R.id.phone_drawer);
+        TextView navSubtitle = (TextView) headerView.findViewById(R.id.customerType);
+
+
+        chat = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
+                findItem(R.id.chat));
+
+        chat.setTextColor(getResources().getColor(R.color.colorAccent));
+        chat.setText("(New msg)");
+        chat.setGravity(Gravity.CENTER_VERTICAL);
+        chat.setTypeface(null, Typeface.BOLD);
         if (SharedPrefs.getUsername().equalsIgnoreCase("")) {
             navSubtitle.setText("Welcome to Tools Bazzar");
 
@@ -202,6 +292,11 @@ public class MainActivity extends AppCompatActivity
             navSubtitle.setText(SharedPrefs.getCity());
 
             navUsername.setText(SharedPrefs.getName());
+            if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+                navSubtitle.setText("Wholesale");
+            } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+                navSubtitle.setText("Retail");
+            }
         }
     }
 
@@ -258,8 +353,8 @@ public class MainActivity extends AppCompatActivity
 //            if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
 //                CommonUtils.showToast("Your Cart is empty");
 //            } else {
-                Intent i = new Intent(MainActivity.this, Cart.class);
-                startActivity(i);
+            Intent i = new Intent(MainActivity.this, Cart.class);
+            startActivity(i);
 //            }
 
             return true;
@@ -282,7 +377,13 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
 
         } else if (id == R.id.chat) {
+
             Intent i = new Intent(MainActivity.this, LiveChat.class);
+            startActivity(i);
+
+
+        } else if (id == R.id.whishlist) {
+            Intent i = new Intent(MainActivity.this, Whishlist.class);
             startActivity(i);
 
 
@@ -292,14 +393,15 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.terms) {
             Intent i = new Intent(MainActivity.this, TermsAndConditions.class);
             startActivity(i);
-        }
-        else if (id == R.id.cart) {
+        } else if (id == R.id.cart) {
             Intent i = new Intent(MainActivity.this, Cart.class);
             startActivity(i);
-        }
-        else if (id == R.id.aboutUs) {
+        } else if (id == R.id.aboutUs) {
             Intent i = new Intent(MainActivity.this, AboutUs.class);
             startActivity(i);
+        } else if (id == R.id.rateUs) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + MainActivity.this.getPackageName())));
         } else if (id == R.id.openSlider) {
             PrefManager prefManager = new PrefManager(this);
             prefManager.setIsFirstTimeLaunchWelcome(true);

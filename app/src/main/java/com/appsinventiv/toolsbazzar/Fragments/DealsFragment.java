@@ -246,7 +246,12 @@ public class DealsFragment extends Fragment {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
                             if (product.getIsActive().equals("true")) {
-                                productArrayList.add(product);
+//                                if (product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
+                                    productArrayList.add(product);
+//                                } else {
+//                                    productArrayList.add(product);
+//                                }
+
                                 Collections.sort(productArrayList, new Comparator<Product>() {
                                     @Override
                                     public int compare(Product listData, Product t1) {

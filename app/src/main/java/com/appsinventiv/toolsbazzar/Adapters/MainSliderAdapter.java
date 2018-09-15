@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.appsinventiv.toolsbazzar.Activities.ListOfProducts;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -23,41 +24,51 @@ public class MainSliderAdapter extends PagerAdapter {
     LayoutInflater layoutInflater;
     ArrayList<String> picturesList;
 
-    public MainSliderAdapter(Context context,ArrayList<String> picturesList) {
+    public MainSliderAdapter(Context context, ArrayList<String> picturesList) {
 
-        this.context=context;
-        this.picturesList=picturesList;
+        this.context = context;
+        this.picturesList = picturesList;
     }
+
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
 
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View view=layoutInflater.inflate(R.layout.main_product_slider,container,false);
-        ImageView imageView=view.findViewById(R.id.slider_image);
+        View view = layoutInflater.inflate(R.layout.main_product_slider, container, false);
+        ImageView imageView = view.findViewById(R.id.slider_image);
         Glide.with(context).load(picturesList.get(position)).into(imageView);
         container.addView(view);
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(context, ListOfProducts.class);
-                if(position==0) {
-                    i.putExtra("category", "Tea");
-                    i.putExtra("position", 2);
-                }else if(position==1){
-                    i.putExtra("category", "Laundry");
-                    i.putExtra("position", 1);
-                }
-                context.startActivity(i);
-            }
-        });
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(context, ListOfProducts.class);
+//                if(position==0) {
+//                    i.putExtra("category", "Tea");
+//                    i.putExtra("position", 2);
+//                }else if(position==1){
+//                    i.putExtra("category", "Laundry");
+//                    i.putExtra("position", 1);
+//                }
+//                context.startActivity(i);
+//            }
+//        });
 
         return view;
     }
+
     @Override
     public int getCount() {
-        return picturesList.size();
+
+        if (picturesList == null) {
+            return 0;
+        } else if (picturesList.size() > 0) {
+            return picturesList.size();
+        } else {
+            return picturesList.size();
+        }
+
     }
 
     @Override

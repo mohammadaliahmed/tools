@@ -1,10 +1,15 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,14 +40,22 @@ public class Register extends AppCompatActivity {
     EditText e_fullname, e_username, e_email, e_password, e_phone, e_address, e_storeName, e_businessNumber, e_telPhone;
     String fullname, username, email, password, phone, address, businessNumber, storeName, telPhone = "";
     long time;
-    TextView chooseLocation;
-    String city, country;
+    TextView chooseLocation, createAccountText;
+    String city="", country="";
+    TextInputLayout abc1, abc2;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.BLACK);
+        }
+
         prefManager = new PrefManager(this);
         if (!prefManager.isFirstTimeLaunch()) {
             launchHomeScreen();
@@ -78,6 +91,11 @@ public class Register extends AppCompatActivity {
             }
         });
 
+        abc1 = findViewById(R.id.abc1);
+        abc2 = findViewById(R.id.abc2);
+
+
+        createAccountText = findViewById(R.id.createAccountText);
         e_fullname = findViewById(R.id.name);
         e_username = findViewById(R.id.username);
         e_email = findViewById(R.id.email);
@@ -91,8 +109,15 @@ public class Register extends AppCompatActivity {
 
 
         if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+            createAccountText.setText("Create Retail Account");
             e_businessNumber.setVisibility(View.GONE);
             e_storeName.setVisibility(View.GONE);
+            abc1.setVisibility(View.GONE);
+            abc2.setVisibility(View.GONE);
+
+        } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+            createAccountText.setText("Create Wholesale Account");
+
         }
 
 
@@ -129,6 +154,10 @@ public class Register extends AppCompatActivity {
                     e_phone.setError("Cannot be null");
                 } else if (e_address.getText().toString().length() == 0) {
                     e_address.setError("Cannot be null");
+                } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+                    if (e_businessNumber.getText().toString().length() == 0) {
+                        e_businessNumber.setError("Cannot be null");
+                    }
                 } else if (city.equalsIgnoreCase("")) {
                     CommonUtils.showToast("Please choose country and city");
                     Intent i = new Intent(Register.this, ChooseLocation.class);

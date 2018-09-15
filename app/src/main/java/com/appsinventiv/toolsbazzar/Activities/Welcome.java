@@ -32,7 +32,7 @@ public class Welcome extends AppCompatActivity {
     private int[] layouts;
     DotsIndicator dotsIndicator;
     Switch sw_wholesale, sw_retail;
-    String customerType=null ;
+    String customerType="" ;
     private PrefManager prefManager;
     int flag;
 
@@ -103,7 +103,7 @@ public class Welcome extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-                    if (customerType != null) {
+                    if (!customerType .equalsIgnoreCase("")) {
 
                         SharedPrefs.setCustomerType(customerType);
 //                        CommonUtils.showToast(customerType);

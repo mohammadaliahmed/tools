@@ -13,6 +13,7 @@ public class Product {
     VendorModel vendor;
     int salesCount, likesCount;
     int sku;
+    String sellingTo;
 
     public Product(String id, String title, String subtitle, String isActive, int sku,
                    String thumbnailUrl, String mainCategory, String subCategory,
@@ -38,6 +39,14 @@ public class Product {
     }
 
     public Product() {
+    }
+
+    public String getSellingTo() {
+        return sellingTo;
+    }
+
+    public void setSellingTo(String sellingTo) {
+        this.sellingTo = sellingTo;
     }
 
     public VendorModel getVendor() {
