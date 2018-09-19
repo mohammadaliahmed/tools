@@ -134,7 +134,7 @@ public class Login extends AppCompatActivity {
                 mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot != null) {
+                        if (dataSnapshot.getValue()!= null) {
                             Customer user = dataSnapshot.child("" + username).getValue(Customer.class);
                             if (user != null) {
                                 if (user.getPassword().equals(password)) {

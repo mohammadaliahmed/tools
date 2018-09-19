@@ -53,9 +53,20 @@
             android:layout_below="@id/subtitle"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="1dp"
-            android:hint="Rs 85"
+            android:text="Rs 1200"
             android:textSize="12sp"
             android:textColor="@color/colorPrimaryDark" />
+        <TextView
+            android:id="@+id/oldPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subtitle"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/price"
+            android:layout_marginTop="1dp"
+            android:text="Rs 1500"
+            android:textSize="12sp"
+           />
 
         <com.like.LikeButton
             android:id="@+id/heart_button"

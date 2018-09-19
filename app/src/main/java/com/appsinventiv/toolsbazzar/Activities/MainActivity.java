@@ -406,7 +406,7 @@ public class MainActivity extends AppCompatActivity
             PrefManager prefManager = new PrefManager(this);
             prefManager.setIsFirstTimeLaunchWelcome(true);
             Intent i = new Intent(MainActivity.this, Welcome.class);
-            i.putExtra("flag", 1);
+            i.putExtra("flag", 0);
 
             startActivity(i);
         } else if (id == R.id.signout) {

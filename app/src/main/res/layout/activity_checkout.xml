@@ -14,8 +14,10 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/order_completed2" />
+            android:src="@drawable/ic_p2" />
 
         <View
             android:layout_width="match_parent"

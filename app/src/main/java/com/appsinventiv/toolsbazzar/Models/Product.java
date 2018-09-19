@@ -1,5 +1,7 @@
 package com.appsinventiv.toolsbazzar.Models;
 
+import java.util.List;
+
 /**
  * Created by AliAh on 20/06/2018.
  */
@@ -13,12 +15,20 @@ public class Product {
     VendorModel vendor;
     int salesCount, likesCount;
     int sku;
+
     String sellingTo;
+    String description;
+    List<String> attributesList;
+    float oldWholeSalePrice, oldRetailPrice;
+    float rating;
 
     public Product(String id, String title, String subtitle, String isActive, int sku,
                    String thumbnailUrl, String mainCategory, String subCategory,
                    long time, float costPrice, float wholeSalePrice, float retailPrice,
-                   int minOrderQuantity, String measurement, VendorModel vendor, int salesCount, int likesCount) {
+                   int minOrderQuantity, String measurement, VendorModel vendor, int salesCount, int likesCount,
+
+    float rating
+    ) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
@@ -36,13 +46,54 @@ public class Product {
         this.vendor = vendor;
         this.salesCount = salesCount;
         this.likesCount = likesCount;
+        this.rating=rating;
     }
 
     public Product() {
     }
 
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
     public String getSellingTo() {
         return sellingTo;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<String> getAttributesList() {
+        return attributesList;
+    }
+
+    public void setAttributesList(List<String> attributesList) {
+        this.attributesList = attributesList;
+    }
+
+    public float getOldWholeSalePrice() {
+        return oldWholeSalePrice;
+    }
+
+    public void setOldWholeSalePrice(float oldWholeSalePrice) {
+        this.oldWholeSalePrice = oldWholeSalePrice;
+    }
+
+    public float getOldRetailPrice() {
+        return oldRetailPrice;
+    }
+
+    public void setOldRetailPrice(float oldRetailPrice) {
+        this.oldRetailPrice = oldRetailPrice;
     }
 
     public void setSellingTo(String sellingTo) {

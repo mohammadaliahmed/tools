@@ -1,6 +1,8 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -11,7 +13,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,12 +42,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class ViewProduct extends AppCompatActivity {
+public class ViewProduct extends AppCompatActivity implements View.OnClickListener {
     String productId;
     TextView textCartItemCount;
     DatabaseReference mDatabase;
-    TextView title, price, subtitle, count;
+    TextView title, price, oldPrice, subtitle, count, product_description;
     public static ArrayList<String> picUrls = new ArrayList<>();
+    LinearLayout sizes;
 
     ImageView image, increase, decrease;
     RecyclerView recyclerView;
@@ -58,9 +64,12 @@ public class ViewProduct extends AppCompatActivity {
     ViewPager mViewPager;
     SliderAdapter sliderAdapter;
     DotsIndicator dotsIndicator;
+    String sizeSelected;
+    int selected = -1;
 
     Product product;
     RelativeLayout relativeLayout;
+    RatingBar rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +84,17 @@ public class ViewProduct extends AppCompatActivity {
 
         title = findViewById(R.id.title);
         price = findViewById(R.id.price);
+        oldPrice = findViewById(R.id.oldPrice);
         subtitle = findViewById(R.id.subtitle);
         count = findViewById(R.id.count);
         increase = findViewById(R.id.increase);
+        rating = findViewById(R.id.rating);
+
         decrease = findViewById(R.id.decrease);
         relativeLayout = findViewById(R.id.relativeLayout);
+        product_description = findViewById(R.id.product_description);
         dotsIndicator = (DotsIndicator) findViewById(R.id.dots_indicator);
+        sizes = findViewById(R.id.sizes);
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -92,9 +106,18 @@ public class ViewProduct extends AppCompatActivity {
                     if (product != null) {
                         title.setText(product.getTitle());
                         subtitle.setText(product.getMeasurement());
-                        price.setText("Rs. " + product.getRetailPrice());
+                        if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+                            price.setText("Rs. " + product.getRetailPrice());
+                            oldPrice.setText("Rs. " + product.getOldRetailPrice());
+                        } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+                            price.setText("Rs. " + product.getWholeSalePrice());
+                            oldPrice.setText("Rs. " + product.getOldWholeSalePrice());
+                        }
+                        rating.setRating(product.getRating());
+                        oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                         ViewProduct.this.setTitle(product.getTitle());
                         productCategory = product.getMainCategory();
+                        product_description.setText(product.getDescription());
                         getProductsFromDB(productCategory);
 
                         getUserCartProductsFromDB();
@@ -107,6 +130,7 @@ public class ViewProduct extends AppCompatActivity {
                             sliderAdapter.notifyDataSetChanged();
 
                         }
+                        initiliazeButtons();
 
 
                     }
@@ -428,6 +452,26 @@ public class ViewProduct extends AppCompatActivity {
 
     }
 
+    @SuppressLint("ResourceAsColor")
+    public void initiliazeButtons() {
+        sizes.removeAllViews();
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.height = 110;
+        params.width = 130;
+        params.setMargins(10, 1, 10, 1);
+
+        for (int i = 0; i < product.getAttributesList().size(); i++) {
+            Button btn = new Button(ViewProduct.this);
+            btn.setLayoutParams(params);
+            btn.setBackgroundResource(R.drawable.size_button_layout);
+            btn.setText("" + product.getAttributesList().get(i));
+            sizes.addView(btn);
+            btn.setId(i);
+
+            btn.setOnClickListener(ViewProduct.this);
+        }
+    }
+
     @Override
     protected void onResume() {
         getProductsFromDB(productCategory);
@@ -582,5 +626,21 @@ public class ViewProduct extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    @SuppressLint("ResourceAsColor")
+    @Override
+    public void onClick(View view) {
+        if (selected == -1) {
+            selected = view.getId();
+
+        } else {
+            sizes.getChildAt(selected).setBackgroundResource(R.drawable.size_button_layout);
+            selected = view.getId();
+        }
+        sizes.getChildAt(view.getId()).setBackgroundResource(R.drawable.size_button_selected);
+        sizeSelected = product.getAttributesList().get(selected);
+
+
     }
 }

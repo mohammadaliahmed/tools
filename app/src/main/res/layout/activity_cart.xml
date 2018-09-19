@@ -16,8 +16,10 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/order_completed1" />
+            android:src="@drawable/ic_p1" />
 
         <ScrollView
             android:layout_width="match_parent"

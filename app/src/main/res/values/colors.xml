@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#dea505</color>
     <color name="colorAccent">#ffffbb33</color>
     <color name="colorWhite">#fff</color>
+    <color name="colorRed">#ff0000</color>
+
     <color name="default_grey">#dadada</color>
 
     <color name="default_back">#000000</color>

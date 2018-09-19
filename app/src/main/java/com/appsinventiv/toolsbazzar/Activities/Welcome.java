@@ -32,7 +32,7 @@ public class Welcome extends AppCompatActivity {
     private int[] layouts;
     DotsIndicator dotsIndicator;
     Switch sw_wholesale, sw_retail;
-    String customerType="" ;
+    String customerType = "";
     private PrefManager prefManager;
     int flag;
 
@@ -63,17 +63,28 @@ public class Welcome extends AppCompatActivity {
         btnNext = (Button) findViewById(R.id.btn_next);
         dotsIndicator = (DotsIndicator) findViewById(R.id.dots_indicator);
 
-        if (flag == 1) {
-            layouts = new int[]{
-                    R.layout.welcome_slide1,
-                    R.layout.welcome_slide2,
-                    R.layout.welcome_slide3};
-        } else {
+        if (SharedPrefs.getIsLoggedIn().equalsIgnoreCase("no")) {
+
             layouts = new int[]{
                     R.layout.welcome_slide1,
                     R.layout.welcome_slide2,
                     R.layout.welcome_slide3,
-                    R.layout.welcome_slide4};
+                    R.layout.welcome_slide4
+            };
+        } else if (SharedPrefs.getIsLoggedIn().equalsIgnoreCase("yes")) {
+            customerType = SharedPrefs.getCustomerType();
+            layouts = new int[]{
+                    R.layout.welcome_slide1,
+                    R.layout.welcome_slide2,
+                    R.layout.welcome_slide3,
+            };
+        } else if (SharedPrefs.getIsLoggedIn().equalsIgnoreCase("")) {
+            layouts = new int[]{
+                    R.layout.welcome_slide1,
+                    R.layout.welcome_slide2,
+                    R.layout.welcome_slide3,
+                    R.layout.welcome_slide4
+            };
         }
         myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
@@ -103,10 +114,9 @@ public class Welcome extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-                    if (!customerType .equalsIgnoreCase("")) {
+                    if (!customerType.equalsIgnoreCase("")) {
 
                         SharedPrefs.setCustomerType(customerType);
-//                        CommonUtils.showToast(customerType);
                         launchHomeScreen();
                     } else {
                         CommonUtils.showToast("Please choose your type");

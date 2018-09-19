@@ -2,6 +2,7 @@ package com.appsinventiv.toolsbazzar.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -62,8 +63,13 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
         holder.title.setText(model.getTitle());
         if(SharedPrefs.getCustomerType().equalsIgnoreCase("retail")){
             holder.price.setText("Rs. " + model.getRetailPrice());
+            holder.oldPrice.setText("Rs. "+model.getOldRetailPrice());
+            holder.oldPrice.setPaintFlags(holder.oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
         }else if(SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")){
             holder.price.setText("Rs. " + model.getWholeSalePrice());
+            holder.oldPrice.setText("Rs. "+model.getWholeSalePrice());
+            holder.oldPrice.setPaintFlags(holder.oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
         holder.subtitle.setText(model.getMeasurement());
@@ -251,7 +257,7 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
-        TextView title, subtitle, price, count;
+        TextView title, subtitle, price, count,oldPrice;
         ImageView image, increase, decrease;
         RelativeLayout relativeLayout;
         LikeButton heart_button;
@@ -267,6 +273,7 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
             count = itemView.findViewById(R.id.count);
             relativeLayout = itemView.findViewById(R.id.relativeLayout);
             heart_button = itemView.findViewById(R.id.heart_button);
+            oldPrice = itemView.findViewById(R.id.oldPrice);
 
         }
     }

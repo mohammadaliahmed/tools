@@ -14,6 +14,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 
 public class Splash extends AppCompatActivity {
     private static int SPLASH_TIME_OUT = 2000;
@@ -31,6 +33,7 @@ public class Splash extends AppCompatActivity {
         ImageView myImageView= (ImageView)findViewById(R.id.logo);
         Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fadein);
         myImageView.startAnimation(myFadeInAnimation);
+
 
         new Handler().postDelayed(new Runnable() {
 

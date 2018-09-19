@@ -9,14 +9,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp">
+        android:layout_height="match_parent">
 
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp">
+            android:layout_width="match_parent"
+            android:layout_height="350dp">
 
         </android.support.v4.view.ViewPager>
 
@@ -25,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="190dp"
+            android:layout_marginTop="340dp"
             app:dotsColor="@color/colorPrimary"
             app:dotsSize="5dp"
             app:dotsWidthFactor="3" />
@@ -57,6 +56,18 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/oldPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subtitle"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/price"
+            android:hint="Rs 3232"
+            android:text=""
+            android:textColor="#6aff0000"
+            android:textSize="15sp" />
+
+        <TextView
             android:id="@+id/subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,15 +78,29 @@
             android:textColor="#000"
             android:textSize="15sp" />
 
+        <RatingBar
+            android:id="@+id/rating"
+            style="@style/Base.Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
+            android:layout_below="@id/price"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:isIndicator="false"
+            android:progressBackgroundTint="#dac20a"
+            android:progressTint="#dac20a" />
+
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="140dp"
             android:layout_height="30dp"
-            android:layout_marginTop="20dp"
             android:layout_below="@id/price"
             android:layout_centerHorizontal="true"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/add_to_cart_bg_colored">
 
             <TextView
@@ -108,17 +133,84 @@
 
         </RelativeLayout>
 
+        <android.support.v7.widget.CardView
+            android:id="@+id/description_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relativeLayout"
+            android:layout_margin="5dp"
+            android:elevation="2dp"
+            android:visibility="visible"
+            app:cardCornerRadius="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Attribute"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+
+                    android:id="@+id/sizes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="40dp"
+                    android:background="#e6e6e6"></View>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Description"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/product_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="10dp"
+                    android:text="" />
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/relativeLayout"
+            android:layout_below="@id/description_card"
             android:layout_marginTop="20dp"
             android:background="@color/default_grey"></View>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/relativeLayout"
+            android:layout_below="@id/description_card"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="30dp"
             android:text="Similar Products"
@@ -129,7 +221,7 @@
             android:id="@+id/relatedProducts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/relativeLayout"
+            android:layout_below="@id/description_card"
             android:layout_marginTop="60dp">
 
         </android.support.v7.widget.RecyclerView>

@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.appsinventiv.toolsbazzar.Models.TermsModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,13 +29,36 @@ public class TermsAndConditions extends AppCompatActivity {
         }
         this.setTitle("Terms & Conditions");
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
         terms = findViewById(R.id.terms);
+        cookies = findViewById(R.id.cookies);
+        license = findViewById(R.id.license);
+        hyperlink = findViewById(R.id.hyperlink);
+        iframes = findViewById(R.id.iframes);
+        contentLiability = findViewById(R.id.contentLiability);
+        reservation = findViewById(R.id.reservation);
+        removal = findViewById(R.id.removal);
+        disclaimer = findViewById(R.id.disclaimer);
+        replacement = findViewById(R.id.replacement);
+        other = findViewById(R.id.other);
 
         mDatabase.child("Settings").child("Terms").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null) {
-                    terms.setText(dataSnapshot.getValue(String.class));
+                    TermsModel model = dataSnapshot.getValue(TermsModel.class);
+                    terms.setText(model.getTerms());
+                    cookies.setText(model.getCookies());
+                    license.setText(model.getLicense());
+                    hyperlink.setText(model.getHyperlink());
+                    iframes.setText(model.getIframes());
+                    contentLiability.setText(model.getContentLiability());
+                    reservation.setText(model.getReservation());
+                    removal.setText(model.getRemoval());
+                    disclaimer.setText(model.getDisclaimer());
+                    replacement.setText(model.getReplacement());
+                    other.setText(model.getOther());
+
                 }
             }
 

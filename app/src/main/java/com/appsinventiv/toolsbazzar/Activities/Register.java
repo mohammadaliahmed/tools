@@ -248,6 +248,7 @@ public class Register extends AppCompatActivity {
 
     private void launchHomeScreen() {
         prefManager.setFirstTimeLaunch(false);
+        prefManager.setIsFirstTimeLaunchWelcome(false);
 
         startActivity(new Intent(Register.this, MainActivity.class));
 

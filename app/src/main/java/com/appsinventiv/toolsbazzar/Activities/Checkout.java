@@ -147,7 +147,6 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
                     orderNumber=(dataSnapshot.getChildrenCount()+orderNumber);
-                    CommonUtils.showToast(orderNumber+"");
                 }
             }
 
