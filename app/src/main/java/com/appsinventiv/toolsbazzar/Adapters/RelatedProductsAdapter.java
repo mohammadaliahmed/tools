@@ -61,16 +61,17 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
         final Product model = productList.get(position);
 
         holder.title.setText(model.getTitle());
-        if(SharedPrefs.getCustomerType().equalsIgnoreCase("retail")){
-            holder.price.setText("Rs. " + model.getRetailPrice());
-            holder.oldPrice.setText("Rs. "+model.getOldRetailPrice());
-            holder.oldPrice.setPaintFlags(holder.oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+            holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+            holder.oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
 
-        }else if(SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")){
-            holder.price.setText("Rs. " + model.getWholeSalePrice());
-            holder.oldPrice.setText("Rs. "+model.getWholeSalePrice());
-            holder.oldPrice.setPaintFlags(holder.oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+            holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+            holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+
         }
+        holder.oldPrice.setPaintFlags(holder.oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
 
         holder.subtitle.setText(model.getMeasurement());
         Glide.with(context).load(model.getThumbnailUrl()).into(holder.image);
@@ -149,7 +150,7 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
                     holder.increase.setVisibility(View.VISIBLE);
                     holder.decrease.setVisibility(View.VISIBLE);
                     if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
-                        CommonUtils.showToast("Minimum order qty: "+model.getMinOrderQuantity());
+                        CommonUtils.showToast("Minimum order qty: " + model.getMinOrderQuantity());
                         addToCartInterface.addedToCart(model, model.getMinOrderQuantity(), position);
                     } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
                         addToCartInterface.addedToCart(model, count[0], position);
@@ -173,7 +174,7 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
             @Override
             public void onClick(View view) {
                 if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
-                    if (count[0] > (model.getMinOrderQuantity() +1 )) {
+                    if (count[0] > (model.getMinOrderQuantity() + 1)) {
                         count[0] -= 1;
                         holder.count.setText("" + count[0]);
                         addToCartInterface.quantityUpdate(model, count[0], position);
@@ -257,7 +258,7 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
-        TextView title, subtitle, price, count,oldPrice;
+        TextView title, subtitle, price, count, oldPrice;
         ImageView image, increase, decrease;
         RelativeLayout relativeLayout;
         LikeButton heart_button;

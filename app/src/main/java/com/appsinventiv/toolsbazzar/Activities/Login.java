@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Models.Customer;
+import com.appsinventiv.toolsbazzar.Models.LocationAndChargesModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
@@ -67,8 +68,8 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Customers");
-        mDatabase.addChildEventListener(new ChildEventListener() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("Customers").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 userlist.add(dataSnapshot.getKey());
@@ -112,9 +113,9 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(CommonUtils.isNetworkConnected()) {
+                if (CommonUtils.isNetworkConnected()) {
                     userLogin();
-                }else{
+                } else {
                     CommonUtils.showToast("No internet");
                 }
             }
@@ -131,10 +132,10 @@ public class Login extends AppCompatActivity {
             username = e_username.getText().toString();
             password = e_password.getText().toString();
             if (userlist.contains(username)) {
-                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                mDatabase.child("Customers").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.getValue()!= null) {
+                        if (dataSnapshot.getValue() != null) {
                             Customer user = dataSnapshot.child("" + username).getValue(Customer.class);
                             if (user != null) {
                                 if (user.getPassword().equals(password)) {
@@ -143,7 +144,10 @@ public class Login extends AppCompatActivity {
                                     SharedPrefs.setCity(user.getCity());
                                     SharedPrefs.setIsLoggedIn("yes");
                                     SharedPrefs.setCustomerType(user.getCustomerType());
-                                    launchHomeScreen();
+                                    SharedPrefs.setCurrencySymbol(user.getCurrencySymbol());
+                                    SharedPrefs.setLocationId(user.getLocationId());
+                                    getLocationObjectFromDb(user.getLocationId());
+
                                 } else {
                                     CommonUtils.showToast("Wrong password\nPlease try again");
                                 }
@@ -164,25 +168,32 @@ public class Login extends AppCompatActivity {
 
     }
 
+    private void getLocationObjectFromDb(String id) {
+        mDatabase.child("Settings").child("DeliveryCharges").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    LocationAndChargesModel model = dataSnapshot.getValue(LocationAndChargesModel.class);
+                    if (model != null) {
+                        SharedPrefs.setExchangeRate(model.getCurrencyRate() + "");
+                        launchHomeScreen();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     private void launchHomeScreen() {
         prefManager.setFirstTimeLaunch(false);
         startActivity(new Intent(Login.this, MainActivity.class));
         prefManager.setIsFirstTimeLaunchWelcome(false);
 
-//        if(takeUserToActivity.equalsIgnoreCase(Constants.HOME_ACTIVITY)){
-//            startActivity(new Intent(Login.this, ListOfProducts.class));
-//
-//        }else if(takeUserToActivity.equalsIgnoreCase(Constants.CART_ACTIVITY)){
-//            startActivity(new Intent(Login.this, Cart.class));
-//        }
-//        else if(takeUserToActivity.equalsIgnoreCase(Constants.MY_ORDERS_ACTIVITY)){
-//            startActivity(new Intent(Login.this, MyOrders.class));
-//        }else if(takeUserToActivity.equalsIgnoreCase(Constants.PRODUCT_DETAIL_ACTIVITY)){
-//            Intent i=new Intent(Login.this,ProductDescription.class);
-//            i.putExtra("productId",productId);
-//            startActivity(i);
-//
-//        }
 
         finish();
     }

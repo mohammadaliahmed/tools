@@ -66,7 +66,7 @@ public class Search extends AppCompatActivity {
             @Override
             public void addedToCart(final Product product, final int quantity, int position) {
                 mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                        .child("cart").child(product.getId()).setValue(new ProductCountModel(product, quantity, System.currentTimeMillis()))
+                        .child("cart").child(product.getId()).setValue(new ProductCountModel(product, quantity, System.currentTimeMillis(),"10",""))
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {

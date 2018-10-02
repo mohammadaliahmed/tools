@@ -16,6 +16,7 @@ import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final Product model = productList.get(position);
         holder.title.setText(model.getTitle());
-        holder.price.setText("Rs. " + model.getRetailPrice());
+        holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
         holder.subtitle.setText(model.getSubtitle());
         Glide.with(context).load(model.getThumbnailUrl()).into(holder.image);
 

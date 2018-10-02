@@ -34,6 +34,7 @@ public class CommonUtils {
             }
         });
     }
+
     public static String getFormattedDate(long smsTimeInMilis) {
         Calendar smsTime = Calendar.getInstance();
         smsTime.setTimeInMillis(smsTimeInMilis);
@@ -52,6 +53,23 @@ public class CommonUtils {
         } else {
             return DateFormat.format("dd MMM , h:mm aa", smsTime).toString();
         }
+    }
+
+    public static String getFormattedDateOnly(long smsTimeInMilis) {
+        Calendar smsTime = Calendar.getInstance();
+        smsTime.setTimeInMillis(smsTimeInMilis);
+
+        return DateFormat.format("dd-MMM-yyyy", smsTime).toString();
+
+    }
+
+
+    public static String getFormattedTime(long smsTimeInMilis) {
+        Calendar smsTime = Calendar.getInstance();
+        smsTime.setTimeInMillis(smsTimeInMilis);
+
+        return DateFormat.format("h:mm aa", smsTime).toString();
+
     }
 
     public static boolean isNetworkConnected() {

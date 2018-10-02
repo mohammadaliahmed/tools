@@ -46,11 +46,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.title.setText(model.getProduct().getTitle());
 
         if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
-            holder.price.setText("Rs. " + model.getProduct().getRetailPrice());
+            holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getProduct().getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
         } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
             holder.price.setText("Rs. " + model.getProduct().getWholeSalePrice());
         }
-        holder.subtitle.setText(model.getProduct().getSubtitle());
+
+        if (model.getSize() != null && !model.getSize().equalsIgnoreCase("")) {
+            holder.size.setText("Size: " + model.getSize());
+        }else{
+            holder.size.setVisibility(View.GONE);
+        }
+        if (model.getColor() != null && !model.getColor().equalsIgnoreCase("")) {
+            holder.color.setText("Color: " + model.getColor());
+        }else{
+            holder.color.setVisibility(View.GONE);
+        }
+
+
+        holder.subtitle.setText(model.getProduct().getMeasurement());
         Glide.with(context).load(model.getProduct().getThumbnailUrl()).into(holder.image);
 
         holder.viewProduct.setVisibility(View.GONE);
@@ -163,7 +176,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title, subtitle, price, count;
+        TextView title, subtitle, price, count, size, color;
         ImageView image, increase, decrease, viewProduct;
 
         public ViewHolder(View itemView) {
@@ -176,6 +189,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             decrease = itemView.findViewById(R.id.decrease);
             count = itemView.findViewById(R.id.count);
             viewProduct = itemView.findViewById(R.id.viewProduct);
+            size = itemView.findViewById(R.id.size);
+            color = itemView.findViewById(R.id.color);
 
 
         }

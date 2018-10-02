@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -21,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     int currentPic = 0;
     int pos;
 
+
     ScrollView scrollView;
     DotsIndicator dots_indicator;
     TextView chat;
@@ -79,6 +83,8 @@ public class MainActivity extends AppCompatActivity
         dots_indicator = findViewById(R.id.dots_indicator);
 
 
+
+
         if (SharedPrefs.getIsLoggedIn().equals("yes")) {
             mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("fcmKey").setValue(SharedPrefs.getFcmKey());
         }
@@ -90,6 +96,7 @@ public class MainActivity extends AppCompatActivity
         initCategoryView();
         initDrawer();
     }
+
 
     private void getBannerImagesFromDb() {
         mDatabase.child("Settings").child("Banners").addListenerForSingleValueEvent(new ValueEventListener() {

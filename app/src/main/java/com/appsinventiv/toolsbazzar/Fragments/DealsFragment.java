@@ -1,10 +1,12 @@
 package com.appsinventiv.toolsbazzar.Fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -48,6 +50,7 @@ public class DealsFragment extends Fragment {
     DatabaseReference mDatabase;
     ProgressBar progress;
     LinearLayoutManager layoutManager;
+    String size = "", color = "";
 
     @Nullable
     @Override
@@ -69,19 +72,66 @@ public class DealsFragment extends Fragment {
         adapter = new RelatedProductsAdapter(context, productArrayList, userCartProductList, userWishList, new AddToCartInterface() {
             @Override
             public void addedToCart(final Product product, final int quantity, int position) {
-                mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                        .child("cart").child(product.getId()).setValue(new ProductCountModel(product, quantity, System.currentTimeMillis()))
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
+                size = "";
+                color = "";
+                if (product.getSizeList() != null) {
 
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                    String[] sizes = new String[product.getSizeList().size()];
+                    sizes = product.getSizeList().toArray(sizes);
 
-                    }
-                });
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Select size");
+                    final String[] finalItems = sizes;
+                    builder.setItems(sizes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            size = finalItems[item];
+
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("product").setValue(product);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("size").setValue(size);
+
+                            dialog.dismiss();
+
+                        }
+                    });
+                    builder.setCancelable(false);
+
+                    builder.show();
+                }
+                if (product.getColorList() != null) {
+                    String[] sizes = new String[product.getColorList().size()];
+                    sizes = product.getColorList().toArray(sizes);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Select color");
+                    final String[] finalItems = sizes;
+                    builder.setItems(sizes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+
+                            color = finalItems[item];
+
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("product").setValue(product);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("color").setValue(color);
+                            dialog.dismiss();
+
+                        }
+                    });
+                    builder.setCancelable(false);
+
+                    builder.show();
+                }
             }
 
             @Override

@@ -45,7 +45,7 @@ public class OrderedProductsLayout extends RecyclerView.Adapter<OrderedProductsL
         holder.title.setText(model.getProduct().getTitle());
 
         if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
-            holder.price.setText("Rs. " + model.getProduct().getRetailPrice());
+            holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getProduct().getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
         } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
             holder.price.setText("Rs. " + model.getProduct().getWholeSalePrice());
         }

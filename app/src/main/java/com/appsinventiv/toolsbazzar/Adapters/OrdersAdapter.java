@@ -1,6 +1,7 @@
 package com.appsinventiv.toolsbazzar.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,13 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.appsinventiv.toolsbazzar.Activities.TrackOrder;
 import com.appsinventiv.toolsbazzar.Models.OrderModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 
 import java.util.ArrayList;
 
@@ -46,9 +50,14 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     public void onBindViewHolder(@NonNull OrdersAdapter.ViewHolder holder, int position) {
         final OrderModel model = itemList.get(position);
         holder.order.setText("Order Status: " + model.getOrderStatus()
-                + "\n\nTotal amount: Rs." + model.getTotalPrice());
-        holder.time.setText("Order Time: "+CommonUtils.getFormattedDate(model.getTime()));
+                + "\n\nTotal amount: "+ SharedPrefs.getCurrencySymbol()+" "
+                +String.format("%.2f",(model.getTotalPrice()*Float.parseFloat(SharedPrefs.getExchangeRate()))));
+        holder.time.setText("Order Time: "+CommonUtils.getFormattedTime(model.getTime()));
+        holder.date.setText("Date: "+CommonUtils.getFormattedDateOnly(model.getTime()));
         holder.serial.setText((position + 1) + ")");
+
+
+
         if(model.getOrderStatus().equalsIgnoreCase("pending")){
             holder.cancelOrder.setVisibility(View.VISIBLE);
         }else {
@@ -56,7 +65,6 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
         }
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2);
         LinearLayoutManager layoutManager=new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false);
         holder.recycler_order_products.setLayoutManager(layoutManager);
         adapter = new OrderedProductsLayout(context, model.getCountModelArrayList());
@@ -71,6 +79,15 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             }
         });
 
+        holder.track.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(context, TrackOrder.class);
+                i.putExtra("orderId",model.getOrderId());
+                i.putExtra("orderStatus",model.getOrderStatus());
+                context.startActivity(i);
+            }
+        });
 
     }
 
@@ -80,9 +97,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView serial, order, time;
+        TextView serial, order, time, date;
         RecyclerView recycler_order_products;
         ImageView cancelOrder;
+        Button track;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -91,6 +109,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             order = itemView.findViewById(R.id.order);
             time = itemView.findViewById(R.id.time);
             cancelOrder=itemView.findViewById(R.id.cancelOrder);
+            date=itemView.findViewById(R.id.date);
+            track=itemView.findViewById(R.id.track);
         }
     }
     public interface ChangeOrderStatus{

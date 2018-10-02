@@ -83,7 +83,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_margin="15dp"
-                            android:text="Rs. " />
+                            android:text="" />
 
                         <View
                             android:layout_width="match_parent"
@@ -91,6 +91,7 @@
                             android:layout_below="@id/subtotal"
                             android:background="@color/default_grey"></View>
 
+                        <!--Delivery charges-->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -105,7 +106,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_below="@id/subtotal"
                             android:layout_margin="15dp"
-                            android:text="Rs. 40" />
+                            android:text="" />
 
                         <View
                             android:layout_width="match_parent"
@@ -113,10 +114,35 @@
                             android:layout_below="@id/deliveryCharges"
                             android:background="@color/default_grey"></View>
 
+
+                        <!--Shipping charges-->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/deliveryCharges"
+                            android:layout_margin="15dp"
+                            android:text="Shipping Charges" />
+
+                        <TextView
+                            android:id="@+id/shippingCharges"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/deliveryCharges"
+                            android:layout_margin="15dp"
+                            android:text="" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@id/shippingCharges"
+                            android:background="@color/default_grey"></View>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/shippingCharges"
                             android:layout_margin="15dp"
                             android:text="Total Amount"
                             android:textColor="#000" />
@@ -126,9 +152,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_below="@id/deliveryCharges"
+                            android:layout_below="@id/shippingCharges"
                             android:layout_margin="15dp"
-                            android:text="Rs. 40"
+                            android:text=""
                             android:textColor="#000" />
 
                         <View
@@ -176,7 +202,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_toLeftOf="@+id/view"
                 android:layout_toStartOf="@+id/view"
-                android:text="Rs 40"
+                android:text=""
                 android:textColor="#fff"
                 android:textSize="15sp" />
 
@@ -204,40 +230,44 @@
                 android:src="@drawable/ic_right_arrow" />
         </RelativeLayout>
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/noItemInCart"
-        android:background="#fff"
-
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+
+        android:background="#fff"
+        android:visibility="visible">
+
         <ImageView
-            android:layout_centerInParent="true"
-            android:src="@drawable/emptycart"
             android:layout_width="100dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/emptycart" />
 
         <TextView
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="82dp"
             android:layout_marginEnd="115dp"
             android:layout_marginRight="115dp"
             android:gravity="center"
             android:text="Your cart is empty\nShop now" />
+
         <Button
             android:id="@+id/startShopping"
-            android:layout_margin="20dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimary"
-            android:textColor="#fff"
-            android:text="Start Shopping"
-            android:inputType="textCapSentences"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="20dp"
+            android:background="@color/colorPrimary"
+            android:inputType="textCapSentences"
+            android:text="Start Shopping"
+            android:textColor="#fff" />
     </RelativeLayout>
 
 

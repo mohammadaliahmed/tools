@@ -5,12 +5,12 @@
 
     <ImageView
         android:id="@+id/image"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
         android:layout_width="80dp"
-        android:layout_marginLeft="10dp"
-
         android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:paddingBottom="20dp"
+
+        android:paddingTop="20dp"
         android:src="@drawable/placeholder" />
 
     <TextView
@@ -27,12 +27,31 @@
     <TextView
         android:id="@+id/subtitle"
         android:layout_width="match_parent"
-
+        android:textSize="10sp"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/image"
         android:text="12 gm" />
+
+    <TextView
+        android:id="@+id/size"
+        android:layout_width="match_parent"
+        android:textSize="10sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subtitle"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/image"
+         />
+    <TextView
+        android:id="@+id/color"
+        android:layout_width="match_parent"
+        android:textSize="10sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/size"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/image"
+         />
 
     <TextView
         android:id="@+id/price"
@@ -43,7 +62,7 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/image"
         android:text="Rs 85"
-        android:textColor="#000" />
+        android:textColor="@color/colorPrimary" />
 
     <ImageView
         android:id="@+id/viewProduct"
@@ -68,30 +87,30 @@
 
         <TextView
             android:id="@+id/count"
-            android:padding="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:padding="5dp"
             android:text="Add to cart" />
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/decrease"
             android:layout_width="30dp"
-            android:padding="5dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/delete" />
+            android:padding="5dp"
+            android:src="@drawable/delete"
+            android:visibility="gone" />
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/increase"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:padding="5dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_add_btn" />
+            android:padding="5dp"
+            android:src="@drawable/ic_add_btn"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

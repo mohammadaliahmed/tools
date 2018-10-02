@@ -47,13 +47,15 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.MyProfile"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.OrderPlaced"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.ViewProduct"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/title_activity_main"
@@ -90,7 +92,8 @@
         <activity
             android:name=".Activities.ViewPictures"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".Activities.Whishlist"></activity>
+        <activity android:name=".Activities.Whishlist" />
+        <activity android:name=".Activities.TrackOrder"></activity>
     </application>
 
 </manifest>

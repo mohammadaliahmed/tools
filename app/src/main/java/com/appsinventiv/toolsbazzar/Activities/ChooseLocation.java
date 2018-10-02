@@ -2,71 +2,115 @@ package com.appsinventiv.toolsbazzar.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.appsinventiv.toolsbazzar.Adapters.CustomExpandableListAdapter;
+import com.appsinventiv.toolsbazzar.Adapters.ExpandableListAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.ExpandableListDataPump;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class ChooseLocation extends AppCompatActivity {
-    ExpandableListView expandableListView;
-    ExpandableListAdapter expandableListAdapter;
-    List<String> expandableListTitle;
-    HashMap<String, List<String>> expandableListDetail;
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader = new ArrayList<String>();
+    List<String> countryList = new ArrayList<String>();
+    HashMap<String, List<String>> listDataChild = new HashMap<String, List<String>>();
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_location);
         this.setTitle("Choose Country and City");
-        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-        expandableListDetail = ExpandableListDataPump.getData();
-        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
-        expandableListAdapter = new CustomExpandableListAdapter(this, expandableListTitle, expandableListDetail);
-        expandableListView.setAdapter(expandableListAdapter);
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+        expListView = (ExpandableListView) findViewById(R.id.lvExp);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Settings").child("DeliveryCharges");
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    listDataHeader.clear();
+                    for (DataSnapshot header : dataSnapshot.getChildren()) {
+                        listDataHeader.add(header.getKey());
+                        countryList.add(header.child("countryName").getValue(String.class));
+                    }
+                    setChildList();
+
+
+                }
+
+            }
 
             @Override
-            public void onGroupExpand(int groupPosition) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+        listAdapter = new ExpandableListAdapter(this, listDataHeader,countryList,
+                listDataChild,
+                new ExpandableListAdapter.CategoryChoosen() {
+                    @Override
+                    public void whichCategory(String parent, String text,String locationId,int locationPosition) {
+//                        category.setText("Category: "+text);
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("country", parent);
+                        returnIntent.putExtra("city", text);
+                        returnIntent.putExtra("locationId", locationId);
+                        returnIntent.putExtra("locationPosition", locationPosition);
 
-        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    }
+                });
 
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-
-            }
-        });
-
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
 
 
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("country", expandableListTitle.get(groupPosition));
-                returnIntent.putExtra("city",
-                        expandableListDetail.get(expandableListTitle.get(groupPosition))
-                                .get(childPosition));
+    }
 
-                setResult(Activity.RESULT_OK, returnIntent);
-                finish();
-                return false;
-            }
-        });
+    private void setChildList() {
+        int ijk = 0;
+        for (String head : listDataHeader) {
+
+            final int finalIjk = ijk;
+            mDatabase.child(head).child("cities").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() != null) {
+                        GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {
+                        };
+                        List<String> abc = dataSnapshot.getValue(t);
+                        listDataChild.put(listDataHeader.get(finalIjk), abc);
+                        listAdapter.notifyDataSetChanged();
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+            ijk++;
+        }
 
     }
 

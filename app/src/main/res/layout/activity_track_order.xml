@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context="com.appsinventiv.toolsbazzar.Activities.TrackOrder">
+
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="380dp"
+        android:layout_height="380dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/trackingInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/goBack"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/carrier"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:text="Carrier: TNT" />
+
+        <TextView
+            android:id="@+id/trackingNumber"
+            android:textColor="#000"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+
+            android:textStyle="bold"
+            android:text="Tracking Number: 123432432423" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal"
+            android:text="Please visit TNT official website to track \nyour shipment status "
+            android:textSize="12sp"
+             />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/goBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:text="My Orders"
+        android:textColor="#fff" />
+</RelativeLayout>

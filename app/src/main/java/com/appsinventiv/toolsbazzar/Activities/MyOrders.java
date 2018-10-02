@@ -135,9 +135,9 @@ public class MyOrders extends AppCompatActivity {
                     OrderModel model = dataSnapshot.getValue(OrderModel.class);
                     if (model != null) {
                         progress.setVisibility(View.GONE);
-                        if (!model.getOrderStatus().equalsIgnoreCase("cancelled")) {
+//                        if (!locationAndChargesModel.getOrderStatus().equalsIgnoreCase("cancelled")) {
                             orderModelArrayList.add(model);
-                        }
+//                        }
                         Collections.sort(orderModelArrayList, new Comparator<OrderModel>() {
                             @Override
                             public int compare(OrderModel listData, OrderModel t1) {

@@ -18,17 +18,15 @@ public class Product {
 
     String sellingTo;
     String description;
-    List<String> attributesList;
+    List<String> colorList;
+    List<String> sizeList;
     float oldWholeSalePrice, oldRetailPrice;
     float rating;
 
     public Product(String id, String title, String subtitle, String isActive, int sku,
                    String thumbnailUrl, String mainCategory, String subCategory,
                    long time, float costPrice, float wholeSalePrice, float retailPrice,
-                   int minOrderQuantity, String measurement, VendorModel vendor, int salesCount, int likesCount,
-
-    float rating
-    ) {
+                   int minOrderQuantity, String measurement, VendorModel vendor, int salesCount, int likesCount) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
@@ -46,10 +44,17 @@ public class Product {
         this.vendor = vendor;
         this.salesCount = salesCount;
         this.likesCount = likesCount;
-        this.rating=rating;
     }
 
     public Product() {
+    }
+
+    public List<String> getSizeList() {
+        return sizeList;
+    }
+
+    public void setSizeList(List<String> sizeList) {
+        this.sizeList = sizeList;
     }
 
     public float getRating() {
@@ -72,12 +77,13 @@ public class Product {
         this.description = description;
     }
 
-    public List<String> getAttributesList() {
-        return attributesList;
+    public List<String> getColorList() {
+        return colorList;
     }
 
-    public void setAttributesList(List<String> attributesList) {
-        this.attributesList = attributesList;
+
+    public void setColorList(List<String> colorList) {
+        this.colorList = colorList;
     }
 
     public float getOldWholeSalePrice() {

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Adapters.CartAdapter;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
+import com.appsinventiv.toolsbazzar.Models.LocationAndChargesModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
@@ -37,12 +38,13 @@ public class Cart extends AppCompatActivity {
     public static ArrayList<ProductCountModel> userCartProductList = new ArrayList<>();
     DatabaseReference mDatabase;
     CartAdapter adapter;
-    TextView subtotal, totalAmount, grandTotal;
+    TextView subtotal, totalAmount, deliveryCharges, shippingCharges, grandTotal;
     float total;
     int items;
     public static float grandTotalAmount;
-    RelativeLayout checkout,wholeLayout,noItemInCart;
+    RelativeLayout checkout, wholeLayout, noItemInCart;
     Button startShopping;
+    public static LocationAndChargesModel locationAndChargesModel;
 
 
     @Override
@@ -58,15 +60,17 @@ public class Cart extends AppCompatActivity {
         subtotal = findViewById(R.id.subtotal);
         totalAmount = findViewById(R.id.totalAmount);
         grandTotal = findViewById(R.id.totalPrice);
-        checkout=findViewById(R.id.checkout);
-        startShopping=findViewById(R.id.startShopping);
-        wholeLayout=findViewById(R.id.wholeLayout);
-        noItemInCart=findViewById(R.id.noItemInCart);
+        checkout = findViewById(R.id.checkout);
+        startShopping = findViewById(R.id.startShopping);
+        wholeLayout = findViewById(R.id.wholeLayout);
+        noItemInCart = findViewById(R.id.noItemInCart);
+        shippingCharges = findViewById(R.id.shippingCharges);
+        deliveryCharges = findViewById(R.id.deliveryCharges);
 
         startShopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(Cart.this,MainActivity.class);
+                Intent i = new Intent(Cart.this, MainActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -75,7 +79,7 @@ public class Cart extends AppCompatActivity {
         checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(Cart.this,Checkout.class);
+                Intent i = new Intent(Cart.this, Checkout.class);
                 i.putExtra("grandTotal", grandTotalAmount);
                 startActivity(i);
             }
@@ -84,6 +88,9 @@ public class Cart extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerView = findViewById(R.id.recycler);
+
+        getUserCartProductsFromDB();
+        getLocationChargesFromDb();
         calculateTotal();
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -91,7 +98,7 @@ public class Cart extends AppCompatActivity {
             @Override
             public void addedToCart(final Product product, final int quantity, int position) {
                 mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                        .child("cart").child(product.getId()).setValue(new ProductCountModel(product, quantity, System.currentTimeMillis()))
+                        .child("cart").child(product.getId()).setValue(new ProductCountModel(product, quantity, System.currentTimeMillis(), "10", ""))
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -108,7 +115,7 @@ public class Cart extends AppCompatActivity {
             @Override
             public void deletedFromCart(final Product product, final int position) {
                 userCartProductList.remove(position);
-                if(userCartProductList.isEmpty()){
+                if (userCartProductList.isEmpty()) {
                     wholeLayout.setVisibility(View.GONE);
                     noItemInCart.setVisibility(View.VISIBLE);
 
@@ -119,8 +126,6 @@ public class Cart extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         calculateTotal();
-
-//                        adapter.notifyDataSetChanged();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -153,15 +158,34 @@ public class Cart extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(adapter);
-        getUserCartProductsFromDB();
 
 
     }
 
+    private void getLocationChargesFromDb() {
+        mDatabase.child("Settings").child("DeliveryCharges").child(SharedPrefs.getLocationId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    locationAndChargesModel = dataSnapshot.getValue(LocationAndChargesModel.class);
+                    if (locationAndChargesModel != null) {
+                        calculateTotal();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
     public void calculateTotal() {
         total = 0;
         items = 0;
-         grandTotalAmount=0;
+        grandTotalAmount = 0;
         mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -171,21 +195,29 @@ public class Cart extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         ProductCountModel model = snapshot.getValue(ProductCountModel.class);
                         if (model != null) {
-                            if(SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")){
-                                total = total + (model.getQuantity() * model.getProduct().getWholeSalePrice());
+                            if (locationAndChargesModel != null) {
+                                if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+                                    total = total + (model.getQuantity() * model.getProduct().getWholeSalePrice() + locationAndChargesModel.getDeliveryCharges() + locationAndChargesModel.getShippingCharges());
 
-                            }else if(SharedPrefs.getCustomerType().equalsIgnoreCase("retail")){
-                                total = total + (model.getQuantity() * model.getProduct().getRetailPrice());
+                                } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+                                    total = total + ((model.getQuantity() * model.getProduct().getRetailPrice()) + locationAndChargesModel.getDeliveryCharges() + locationAndChargesModel.getShippingCharges());
+
+                                }
+
+                                subtotal.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", total * Float.parseFloat(SharedPrefs.getExchangeRate())));
+
+                                deliveryCharges.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", locationAndChargesModel.getDeliveryCharges() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+                                shippingCharges.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", locationAndChargesModel.getShippingCharges() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+
+
+                                grandTotalAmount = total + locationAndChargesModel.getDeliveryCharges();
+                                totalAmount.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", grandTotalAmount * Float.parseFloat(SharedPrefs.getExchangeRate())));
+                                grandTotal.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", grandTotalAmount * Float.parseFloat(SharedPrefs.getExchangeRate())));
 
                             }
-                            subtotal.setText("Rs. " + total);
-
-                             grandTotalAmount = total + 40;
-                            totalAmount.setText("Rs. " + grandTotalAmount);
-                            grandTotal.setText("Rs. " + grandTotalAmount);
                         }
                     }
-                }else {
+                } else {
                     noItemInCart.setVisibility(View.VISIBLE);
                 }
             }

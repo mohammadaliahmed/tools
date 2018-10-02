@@ -2,9 +2,11 @@ package com.appsinventiv.toolsbazzar.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.appsinventiv.toolsbazzar.Adapters.ProductsAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.RelatedProductsAdapter;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.Product;
@@ -29,7 +30,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.like.LikeButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +51,7 @@ public class ProductListFragment extends Fragment {
     String flag;
     GridLayoutManager gridLayoutManager;
     LinearLayoutManager layoutManager;
-
+    String size = "", color = "";
 
     public ProductListFragment() {
         // Required empty public constructor
@@ -80,8 +80,8 @@ public class ProductListFragment extends Fragment {
         progress = rootView.findViewById(R.id.progress);
         recyclerView = rootView.findViewById(R.id.recycler_view_products);
 
-        setUpRecycler();
 
+        setUpRecycler();
 
         return rootView;
 
@@ -90,32 +90,82 @@ public class ProductListFragment extends Fragment {
     private void setUpRecycler() {
         layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         gridLayoutManager = new GridLayoutManager(context, 2);
-
-        if (flag.equalsIgnoreCase("0")) {
-            recyclerView.setLayoutManager(layoutManager);
-        } else if (flag.equalsIgnoreCase("1")) {
-            recyclerView.setLayoutManager(gridLayoutManager);
+        if (flag != null) {
+            if (flag.equalsIgnoreCase("0")) {
+                recyclerView.setLayoutManager(layoutManager);
+            } else if (flag.equalsIgnoreCase("1")) {
+                recyclerView.setLayoutManager(gridLayoutManager);
+            }
         }
         adapter = new RelatedProductsAdapter(context, productArrayList, userCartProductList, userWishList, new AddToCartInterface() {
             @Override
             public void addedToCart(final Product product, final int quantity, int position) {
-                mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                        .child("cart").child(product.getId()).setValue(new ProductCountModel(product, quantity, System.currentTimeMillis()))
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
+                size = "";
+                color = "";
+                if (product.getSizeList() != null) {
 
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                    String[] sizes = new String[product.getSizeList().size()];
+                    sizes = product.getSizeList().toArray(sizes);
 
-                    }
-                });
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Select size");
+                    final String[] finalItems = sizes;
+                    builder.setItems(sizes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            size = finalItems[item];
+
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("product").setValue(product);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("size").setValue(size);
+
+                            dialog.dismiss();
+
+                        }
+                    });
+                    builder.setCancelable(false);
+
+                    builder.show();
+                }
+                if (product.getColorList() != null) {
+                    String[] sizes = new String[product.getColorList().size()];
+                    sizes = product.getColorList().toArray(sizes);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Select color");
+                    final String[] finalItems = sizes;
+                    builder.setItems(sizes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+
+                            color = finalItems[item];
+
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("product").setValue(product);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("color").setValue(color);
+                            dialog.dismiss();
+
+                        }
+                    });
+                    builder.setCancelable(false);
+
+                    builder.show();
+                }
+
             }
 
             @Override
             public void deletedFromCart(final Product product, final int position) {
+
                 mDatabase.child("Customers").child(SharedPrefs.getUsername())
                         .child("cart").child(product.getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

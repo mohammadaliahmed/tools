@@ -35,7 +35,7 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
     ImageView editAddress;
     EditText instructions;
     Customer customer;
-    Long orderNumber=10001L;
+    Long orderNumber = 10001L;
     String adminFcmKey;
 
 
@@ -96,8 +96,8 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
                 if (CommonUtils.isNetworkConnected()) {
                     progress.setVisibility(View.VISIBLE);
                     if (customer != null) {
-                        mDatabase.child("Orders").child(""+orderNumber)
-                                .setValue(new OrderModel(""+orderNumber,
+                        mDatabase.child("Orders").child("" + orderNumber)
+                                .setValue(new OrderModel("" + orderNumber,
                                         customer,
                                         Cart.userCartProductList,
                                         Cart.grandTotalAmount,
@@ -105,11 +105,13 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
                                         instructions.getText().toString() + " ",
                                         "23rd june",
                                         "33",
-                                        "Pending"
+                                        "Pending",
+                                        Cart.locationAndChargesModel.getDeliveryCharges(),
+                                        Cart.locationAndChargesModel.getShippingCharges()
                                 )).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("Orders").child(""+orderNumber).setValue(""+orderNumber);
+                                mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("Orders").child("" + orderNumber).setValue("" + orderNumber);
 
                                 mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -133,7 +135,7 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
                             }
                         });
                     }
-                }else{
+                } else {
                     CommonUtils.showToast("Please connect to internet");
                 }
             }
@@ -145,8 +147,8 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
         mDatabase.child("Orders").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue()!=null){
-                    orderNumber=(dataSnapshot.getChildrenCount()+orderNumber);
+                if (dataSnapshot.getValue() != null) {
+                    orderNumber = (dataSnapshot.getChildrenCount() + orderNumber);
                 }
             }
 

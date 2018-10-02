@@ -9,12 +9,17 @@ public class Customer {
     long time;
     String customerType;
     String storeName,businessRegistrationNumber;
+    String locationId;
+    String currencySymbol;
 
 
     public Customer() {
     }
 
-    public Customer(String id, String name, String username, String email, String password, String phone, String telNumber, String address, String city, String country, String fcmKey, long time, String customerType, String storeName, String businessRegistrationNumber) {
+    public Customer(String id, String name, String username,
+                    String email, String password, String phone, String telNumber,
+                    String address, String city, String country, String fcmKey,
+                    long time, String customerType, String storeName, String businessRegistrationNumber, String locationId, String currencySymbol) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -30,6 +35,24 @@ public class Customer {
         this.customerType = customerType;
         this.storeName = storeName;
         this.businessRegistrationNumber = businessRegistrationNumber;
+        this.locationId = locationId;
+        this.currencySymbol = currencySymbol;
+    }
+
+    public String getCurrencySymbol() {
+        return currencySymbol;
+    }
+
+    public void setCurrencySymbol(String currencySymbol) {
+        this.currencySymbol = currencySymbol;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
     }
 
     public String getTelNumber() {

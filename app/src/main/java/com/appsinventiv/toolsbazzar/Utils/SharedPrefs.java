@@ -26,17 +26,45 @@ public class SharedPrefs {
     public static String getUsername() {
         return preferenceGetter("username");
     }
+
     public static void setUsername(String username) {
         preferenceSetter("username", username);
     }
 
+    public static String getLocationId() {
+        return preferenceGetter("LocationId");
+    }
+
+    public static void setLocationId(String username) {
+        preferenceSetter("LocationId", username);
+    }
+
+
+    public static String getExchangeRate() {
+        return preferenceGetter("ExchangeRate");
+    }
+
+    public static void setExchangeRate(String username) {
+        preferenceSetter("ExchangeRate", username);
+    }
+
+
+    public static String getCurrencySymbol() {
+        return preferenceGetter("CurrencySymbol");
+    }
+
+    public static void setCurrencySymbol(String username) {
+        preferenceSetter("CurrencySymbol", username);
+    }
+
+
     public static String getCustomerType() {
         return preferenceGetter("customerType");
     }
+
     public static void setCustomerType(String username) {
         preferenceSetter("customerType", username);
     }
-
 
 
     public static void setCartCount(String count) {
@@ -46,8 +74,6 @@ public class SharedPrefs {
     public static String getCartCount() {
         return preferenceGetter("cartCount");
     }
-
-
 
 
     public static void setName(String value) {
@@ -70,7 +96,6 @@ public class SharedPrefs {
     }
 
 
-
     public static void setIsLoggedIn(String value) {
 
         preferenceSetter("isLoggedIn", value);
@@ -90,7 +115,7 @@ public class SharedPrefs {
     }
 
 
-    public static void saveArrayList(ArrayList<String> list, String key){
+    public static void saveArrayList(ArrayList<String> list, String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ApplicationClass.getInstance().getApplicationContext());
         SharedPreferences.Editor editor = prefs.edit();
         Gson gson = new Gson();
@@ -99,17 +124,17 @@ public class SharedPrefs {
         editor.apply();     // This line is IMPORTANT !!!
     }
 
-    public static ArrayList<String> getArrayList(String key){
+    public static ArrayList<String> getArrayList(String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ApplicationClass.getInstance().getApplicationContext());
         Gson gson = new Gson();
         String json = prefs.getString(key, null);
-        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        Type type = new TypeToken<ArrayList<String>>() {
+        }.getType();
         return gson.fromJson(json, type);
     }
 
 
-
-    public  static void preferenceSetter(String key, String value) {
+    public static void preferenceSetter(String key, String value) {
         SharedPreferences pref = ApplicationClass.getInstance().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(key, value);

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.appsinventiv.toolsbazzar.Models.ChatModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
+import com.appsinventiv.toolsbazzar.Models.LocationAndChargesModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
@@ -28,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -41,9 +43,10 @@ public class Register extends AppCompatActivity {
     String fullname, username, email, password, phone, address, businessNumber, storeName, telPhone = "";
     long time;
     TextView chooseLocation, createAccountText;
-    String city="", country="";
+    String city = "", country = "", locationId = "";
+    int locationPosition;
     TextInputLayout abc1, abc2;
-
+    LocationAndChargesModel chargesModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,7 +202,9 @@ public class Register extends AppCompatActivity {
                                         time,
                                         SharedPrefs.getCustomerType(),
                                         storeName,
-                                        "" + businessNumber
+                                        "" + businessNumber,
+                                        locationId,
+                                        chargesModel.getCurrency()
 
                                 ))
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -211,6 +216,9 @@ public class Register extends AppCompatActivity {
                                         SharedPrefs.setCity(city);
                                         SharedPrefs.setIsLoggedIn("yes");
                                         startChatWithAdmin(username);
+                                        SharedPrefs.setCurrencySymbol(chargesModel.getCurrency());
+                                        SharedPrefs.setExchangeRate("" + chargesModel.getCurrencyRate());
+                                        SharedPrefs.setLocationId(locationId);
                                         launchHomeScreen();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
@@ -229,6 +237,26 @@ public class Register extends AppCompatActivity {
 
     }
 
+    private void getListOfCountriesFromDb(String id) {
+        mDatabase.child("Settings").child("DeliveryCharges").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+
+                    chargesModel = dataSnapshot.getValue(LocationAndChargesModel.class);
+//                    CommonUtils.showToast(chargesModel.getCurrency());
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -239,7 +267,10 @@ public class Register extends AppCompatActivity {
                 if (extras.getString("city") != null) {
                     city = extras.getString("city");
                     country = extras.getString("country");
+                    locationId = extras.getString("locationId");
+                    locationPosition = extras.getInt("locationPosition");
                     chooseLocation.setText("Location: " + extras.getString("country") + " > " + extras.get("city"));
+                    getListOfCountriesFromDb(locationId);
 
                 }
             }

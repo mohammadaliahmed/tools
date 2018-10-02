@@ -15,6 +15,7 @@ public class OrderModel {
     String instructions;
     String date,chosenTime;
     String orderStatus;
+    Float shippingCharges,deliveryCharges;
 
 
 
@@ -22,7 +23,8 @@ public class OrderModel {
     }
 
     public OrderModel(String orderId, Customer customer, ArrayList<ProductCountModel> countModelArrayList,
-                      float totalPrice, long time, String instructions, String date, String chosenTime,String orderStatus) {
+                      float totalPrice, long time, String instructions, String date,
+                      String chosenTime,String orderStatus,Float shippingCharges,Float deliveryCharges) {
         this.orderId = orderId;
         this.time = time;
         this.customer = customer;
@@ -32,6 +34,24 @@ public class OrderModel {
         this.date = date;
         this.chosenTime = chosenTime;
         this.orderStatus=orderStatus;
+        this.deliveryCharges=deliveryCharges;
+        this.shippingCharges=shippingCharges;
+    }
+
+    public Float getShippingCharges() {
+        return shippingCharges;
+    }
+
+    public void setShippingCharges(Float shippingCharges) {
+        this.shippingCharges = shippingCharges;
+    }
+
+    public Float getDeliveryCharges() {
+        return deliveryCharges;
+    }
+
+    public void setDeliveryCharges(Float deliveryCharges) {
+        this.deliveryCharges = deliveryCharges;
     }
 
     public String getOrderStatus() {
