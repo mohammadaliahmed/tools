@@ -31,7 +31,7 @@
             android:ellipsize="end"
             android:textStyle="bold"
             android:textSize="10sp"
-            android:hint="Rosepair Oregano Leaves"
+            android:hint=""
             android:lines="1"
             android:textColor="#000" />
 
@@ -42,7 +42,7 @@
             android:layout_below="@id/title"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="1dp"
-            android:hint="12 gm"
+            android:hint=""
             android:textSize="10sp"
              />
 
@@ -53,7 +53,7 @@
             android:layout_below="@id/subtitle"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="1dp"
-            android:text="Rs 1200"
+            android:text=""
             android:textSize="12sp"
             android:textColor="@color/colorPrimaryDark" />
         <TextView
@@ -64,7 +64,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/price"
             android:layout_marginTop="1dp"
-            android:text="Rs 1500"
+            android:text=""
             android:textSize="12sp"
            />
 

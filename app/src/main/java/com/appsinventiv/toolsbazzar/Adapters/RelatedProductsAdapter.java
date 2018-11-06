@@ -65,12 +65,16 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
             holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
             if (model.getOldRetailPrice() != 0) {
                 holder.oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+            }else{
+                holder.oldPrice.setText("");
             }
         } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
             holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
 
             if (model.getOldWholeSalePrice() != 0) {
                 holder.oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+            }else {
+                holder.oldPrice.setText("");
             }
         }
         holder.oldPrice.setPaintFlags(holder.oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

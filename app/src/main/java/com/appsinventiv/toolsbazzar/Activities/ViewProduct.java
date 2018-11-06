@@ -86,7 +86,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     ImageView share;
     private String productIdFromLink;
     LikeButton heart_button;
-    boolean isLiked=false;
+    boolean isLiked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +99,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        mDatabase=FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         onNewIntent(getIntent());
 
         Intent i = getIntent();
@@ -111,8 +111,6 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         } else {
             getDataFromServer(productId);
         }
-
-
 
 
         heart_button = findViewById(R.id.heart_button);
@@ -192,8 +190,8 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         commentsCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(ViewProduct.this,ProductComments.class);
-                i.putExtra("productId",productId);
+                Intent i = new Intent(ViewProduct.this, ProductComments.class);
+                i.putExtra("productId", productId);
                 startActivity(i);
             }
         });
@@ -332,13 +330,13 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("WishList").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue()!=null){
-                    if(dataSnapshot.child(productId).getValue()!=null){
+                if (dataSnapshot.getValue() != null) {
+                    if (dataSnapshot.child(productId).getValue() != null) {
                         heart_button.setLiked(true);
-                        isLiked=true;
-                    }else{
+                        isLiked = true;
+                    } else {
                         heart_button.setLiked(false);
-                        isLiked=false;
+                        isLiked = false;
                     }
                 }
             }
@@ -361,18 +359,33 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                         subtitle.setText(product.getMeasurement());
                         if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
                             price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-                            oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
 
-                            String percent = "" + String.format("%.0f",((product.getOldRetailPrice()-product.getRetailPrice() )/ product.getOldRetailPrice()) * 100);
+                            if (product.getOldRetailPrice() != 0) {
+                                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
 
-                            percentageOff.setText(percent + "% Off");
+
+                                String percent = "" + String.format("%.0f", ((product.getOldRetailPrice() - product.getRetailPrice()) / product.getOldRetailPrice()) * 100);
+
+                                percentageOff.setText(percent + "% Off");
+                            }
+                            else{
+                                oldPrice.setVisibility(View.GONE);
+                                percentageOff.setVisibility(View.GONE);
+                            }
 
                         } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
                             price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-                            oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-                            String percent = "" +  String.format("%.0f",((product.getOldWholeSalePrice()-product.getWholeSalePrice() )/ product.getOldWholeSalePrice()) * 100);
+                            if (product.getOldWholeSalePrice() != 0) {
+                                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+                                String percent = "" + String.format("%.0f", ((product.getOldWholeSalePrice() - product.getWholeSalePrice()) / product.getOldWholeSalePrice()) * 100);
 
-                            percentageOff.setText(percent + "% Off");
+                                percentageOff.setText(percent + "% Off");
+                            }
+                            else{
+                                oldPrice.setVisibility(View.GONE);
+
+                                percentageOff.setVisibility(View.GONE);
+                            }
 
                         }
                         rating.setRating(product.getRating());
@@ -418,7 +431,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT,
-                "Check this out on "+getResources().getString(R.string.app_name)+": \n"+product.getTitle()+"\n\nhttp://toolsbazar.com/product/"+product.getTitle().replace(" ","-")+"/"+product.getId());
+                "Check this out on " + getResources().getString(R.string.app_name) + ": \n" + product.getTitle() + "\n\nhttp://toolsbazar.com/product/" + product.getTitle().replace(" ", "-") + "/" + product.getId());
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, "");
         startActivity(Intent.createChooser(shareIntent, "Share  via.."));
     }
@@ -1019,6 +1032,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 //        }
 
     }
+
     protected void onNewIntent(Intent intent) {
 
         String action = intent.getAction();

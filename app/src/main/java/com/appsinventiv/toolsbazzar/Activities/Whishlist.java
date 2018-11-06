@@ -45,7 +45,7 @@ public class Whishlist extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     ArrayList<Product> productArrayList = new ArrayList<>();
     ArrayList<ProductCountModel> userCartProductList = new ArrayList<>();
-    RelatedProductsAdapter adapter;
+    SearchProductsAdapter adapter;
     DatabaseReference mDatabase;
     EditText search;
     long cartItemCountFromDb;
@@ -66,8 +66,9 @@ public class Whishlist extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerView = findViewById(R.id.recycler);
         layoutManager = new LinearLayoutManager(Whishlist.this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        adapter = new RelatedProductsAdapter(Whishlist.this, productArrayList, userCartProductList, userWishList, new AddToCartInterface() {
+//        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new SearchProductsAdapter(Whishlist.this, productArrayList, userCartProductList, new AddToCartInterface() {
             @Override
             public void addedToCart(final Product product, final int quantity, int position) {
                 size = "";
