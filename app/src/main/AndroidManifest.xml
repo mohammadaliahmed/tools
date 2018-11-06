@@ -47,15 +47,27 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.MyProfile"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".Activities.OrderPlaced"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.ViewProduct"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://recipe-app.com/recipe" -->
+                <data
+                    android:host="toolsbazar.com"
+                    android:pathPrefix="/product"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/title_activity_main"
@@ -93,7 +105,8 @@
             android:name=".Activities.ViewPictures"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".Activities.Whishlist" />
-        <activity android:name=".Activities.TrackOrder"></activity>
+        <activity android:name=".Activities.TrackOrder" />
+        <activity android:name=".Activities.ProductComments"></activity>
     </application>
 
 </manifest>

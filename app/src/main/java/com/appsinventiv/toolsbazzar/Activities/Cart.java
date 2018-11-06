@@ -197,10 +197,10 @@ public class Cart extends AppCompatActivity {
                         if (model != null) {
                             if (locationAndChargesModel != null) {
                                 if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
-                                    total = total + (model.getQuantity() * model.getProduct().getWholeSalePrice() + locationAndChargesModel.getDeliveryCharges() + locationAndChargesModel.getShippingCharges());
+                                    total = total + (model.getQuantity() * model.getProduct().getWholeSalePrice() );
 
                                 } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
-                                    total = total + ((model.getQuantity() * model.getProduct().getRetailPrice()) + locationAndChargesModel.getDeliveryCharges() + locationAndChargesModel.getShippingCharges());
+                                    total = total + ((model.getQuantity() * model.getProduct().getRetailPrice()) );
 
                                 }
 
@@ -210,7 +210,7 @@ public class Cart extends AppCompatActivity {
                                 shippingCharges.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", locationAndChargesModel.getShippingCharges() * Float.parseFloat(SharedPrefs.getExchangeRate())));
 
 
-                                grandTotalAmount = total + locationAndChargesModel.getDeliveryCharges();
+                                grandTotalAmount = total + locationAndChargesModel.getDeliveryCharges()+locationAndChargesModel.getShippingCharges();
                                 totalAmount.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", grandTotalAmount * Float.parseFloat(SharedPrefs.getExchangeRate())));
                                 grandTotal.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", grandTotalAmount * Float.parseFloat(SharedPrefs.getExchangeRate())));
 

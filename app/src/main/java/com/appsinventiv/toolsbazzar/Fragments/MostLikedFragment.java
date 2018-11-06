@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.appsinventiv.toolsbazzar.Adapters.AttributesAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.RelatedProductsAdapter;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.Product;
@@ -25,6 +26,7 @@ import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.github.javiersantos.bottomdialogs.BottomDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -82,43 +84,54 @@ public class MostLikedFragment extends Fragment {
 
                     String[] sizes = new String[product.getSizeList().size()];
                     sizes = product.getSizeList().toArray(sizes);
+                    LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View customView = inflater.inflate(R.layout.attributes_list_layout, null);
+                    final BottomDialog bottomDialog = new BottomDialog.Builder(getContext())
+                            .setCustomView(customView)
+                            .setTitle("Select Size")
+                            .setCancelable(false)
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Select size");
-                    final String[] finalItems = sizes;
-                    builder.setItems(sizes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                            size = finalItems[item];
-
+                            .build();
+                    RecyclerView recyclerView = customView.findViewById(R.id.recycler1);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+                    AttributesAdapter adapter = new AttributesAdapter(context, sizes, new AttributesAdapter.OnItemSelected() {
+                        @Override
+                        public void onOptionSelected(String value) {
                             mDatabase.child("Customers").child(SharedPrefs.getUsername())
                                     .child("cart").child(product.getId()).child("product").setValue(product);
                             mDatabase.child("Customers").child(SharedPrefs.getUsername())
                                     .child("cart").child(product.getId()).child("quantity").setValue(quantity);
                             mDatabase.child("Customers").child(SharedPrefs.getUsername())
                                     .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+
                             mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                                    .child("cart").child(product.getId()).child("size").setValue(size);
-
-                            dialog.dismiss();
-
+                                    .child("cart").child(product.getId()).child("color").setValue(value);
+                            bottomDialog.dismiss();
                         }
                     });
-                    builder.setCancelable(false);
 
-                    builder.show();
+                    recyclerView.setAdapter(adapter);
+                    bottomDialog.show();
+
+
                 }
                 if (product.getColorList() != null) {
                     String[] sizes = new String[product.getColorList().size()];
                     sizes = product.getColorList().toArray(sizes);
+                    LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View customView = inflater.inflate(R.layout.attributes_list_layout, null);
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Select color");
-                    final String[] finalItems = sizes;
-                    builder.setItems(sizes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
+                    final BottomDialog bottomDialog = new BottomDialog.Builder(getContext())
+                            .setCustomView(customView)
+                            .setTitle("Select Color")
+                            .setCancelable(false)
 
-                            color = finalItems[item];
-
+                            .build();
+                    RecyclerView recyclerView = customView.findViewById(R.id.recycler1);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+                    AttributesAdapter adapter = new AttributesAdapter(context, sizes, new AttributesAdapter.OnItemSelected() {
+                        @Override
+                        public void onOptionSelected(String value) {
                             mDatabase.child("Customers").child(SharedPrefs.getUsername())
                                     .child("cart").child(product.getId()).child("product").setValue(product);
                             mDatabase.child("Customers").child(SharedPrefs.getUsername())
@@ -127,15 +140,28 @@ public class MostLikedFragment extends Fragment {
                                     .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
 
                             mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                                    .child("cart").child(product.getId()).child("color").setValue(color);
-                            dialog.dismiss();
-
+                                    .child("cart").child(product.getId()).child("color").setValue(value);
+                            bottomDialog.dismiss();
                         }
                     });
-                    builder.setCancelable(false);
 
-                    builder.show();
+                    recyclerView.setAdapter(adapter);
+
+
+//
+                    bottomDialog.show();
+
+
                 }
+                if (product.getColorList() == null && product.getSizeList() == null) {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("product").setValue(product);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+                }
+
             }
 
             @Override

@@ -7,6 +7,7 @@
     tools:context="com.appsinventiv.toolsbazzar.Activities.OrderPlaced">
 
     <ImageView
+        android:id="@+id/img"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="10dp"
@@ -14,11 +15,43 @@
         android:layout_marginTop="10dp"
         android:src="@drawable/ic_p3" />
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img"
+        android:layout_toLeftOf="@+id/home"
+        android:layout_toStartOf="@+id/home"
+        android:text="1. Your bill"
+        android:textColor="@color/main_green_color"
+        android:textSize="11sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img"
+        android:layout_centerHorizontal="true"
+        android:text="2. Place order"
+        android:textColor="@color/main_green_color"
+        android:textSize="11sp" />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/img"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:text="3. Completed"
+        android:textColor="@color/main_green_color"
+        android:textSize="11sp" />
+
     <View
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="59dp"
+        android:layout_marginTop="79dp"
         android:background="@color/default_grey"></View>
 
     <ImageView
@@ -37,8 +70,9 @@
         android:layout_below="@+id/imageView2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
-        android:textColor="#000"
-        android:text="Order Placed Successfuly" />
+        android:text="Order Placed Successfuly"
+        android:textColor="#000" />
+
     <TextView
 
         android:layout_width="wrap_content"

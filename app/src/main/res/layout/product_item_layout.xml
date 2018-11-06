@@ -83,9 +83,10 @@
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/edit_text_background">
+        android:background="@drawable/add_to_cart_bg_colored">
 
-        <TextView
+
+    <TextView
             android:id="@+id/count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

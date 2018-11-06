@@ -47,12 +47,17 @@ public class TrackOrder extends AppCompatActivity {
         }
         if (orderStatus.equalsIgnoreCase("delivered")) {
             img.setImageResource(R.drawable.order_delivered);
+        }
+
+        if (orderStatus.equalsIgnoreCase("Delivered By Courier")) {
+            img.setImageResource(R.drawable.order_delivered);
             trackingInfo.setVisibility(View.VISIBLE);
-
-
         }
         if (orderStatus.equalsIgnoreCase("cancelled")) {
             img.setImageResource(R.drawable.order_canceled);
+        }
+        if (orderStatus.equalsIgnoreCase("Out Of Stock")) {
+            img.setImageResource(R.drawable.order_out_of_stock);
         }
 
 

@@ -4,8 +4,9 @@
     <shared>
       <config>
         <devices>
-          <device id="pixel_2" />
           <device id="Nexus 5" />
+          <device id="Nexus 7 2013" />
+          <device id="pixel_2" />
           <device id="Nexus 7" />
           <device id="pixel" />
           <device id="Nexus One" />
@@ -19,91 +20,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="482d02f4-70bf-42ec-9316-d28a4f966b11" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/air.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/axe.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/baking.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/cleaning.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/coffee.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/colddrinks.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/dalain.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/dentalcare.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/floor.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/fruits.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/groceri.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/grocery_banner.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/hair.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/jam.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/juices.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/kitchencleaning.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/laundry.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/men.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/oil.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/order_completed.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/order_completed1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/order_completed2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/order_completed3.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/polish.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/repellents.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/sauces.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/sharbat.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/skincare.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/soap.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/spices.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/tea.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/vegetable.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/water.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/women.jpg" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/resourceHashesCache.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/resourceHashesCache.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/jarAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/jarAnalysis.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/javaCompile.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/javaCompile.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskHistory.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskJars.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskJars.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Cart.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Cart.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Checkout.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Checkout.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ChooseLocation.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ChooseLocation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Login.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Login.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyOrders.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyOrders.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyProfile.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyProfile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Register.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Register.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Search.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Search.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/TrackOrder.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/TrackOrder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ViewProduct.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ViewProduct.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Whishlist.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Whishlist.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CartAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CartAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CustomExpandableListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CustomExpandableListAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/OrderedProductsLayout.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/OrderedProductsLayout.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/OrdersAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/OrdersAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/ProductsAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/ProductsAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/DealsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/DealsFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/MostLikedFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/MostLikedFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/ProductListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/ProductListFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/TopSellerFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/TopSellerFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/Customer.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/Customer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/OrderModel.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/OrderModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/Product.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/Product.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/ProductCountModel.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/ProductCountModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Utils/CommonUtils.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Utils/CommonUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Utils/SharedPrefs.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Utils/SharedPrefs.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/edit_text_background.xml" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/edit_text_background.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_cart.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_cart.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_choose_location.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_choose_location.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_orders.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_orders.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_profile.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_profile.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_checkout.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_checkout.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_order_placed.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_order_placed.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_view_product.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_view_product.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/cart_count_layout.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/cart_count_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_group.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_group.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/order_layout.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/order_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/ordered_products_layout.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/ordered_products_layout.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_whishlist.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_whishlist.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/product_item_layout.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/product_item_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/product_list_fragment.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/product_list_fragment.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/related_product_layout.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/related_product_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -127,21 +75,78 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MainActivity.java">
+      <file leaf-file-name="ProductListFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/ProductListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="83" column="0" lean-forward="false" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+            <state relative-caret-position="296">
+              <caret line="281" column="0" lean-forward="false" selection-start-line="105" selection-start-column="6" selection-end-line="281" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyProfile.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyProfile.java">
+      <file leaf-file-name="Whishlist.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Whishlist.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="82" column="17" lean-forward="true" selection-start-line="82" selection-start-column="17" selection-end-line="82" selection-end-column="17" />
+            <state relative-caret-position="282">
+              <caret line="417" column="0" lean-forward="false" selection-start-line="417" selection-start-column="0" selection-end-line="417" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#4194#5252#0" expanded="true" />
+                <element signature="e#5251#5252#0" expanded="true" />
+                <element signature="e#6386#7444#0" expanded="true" />
+                <element signature="e#7443#7444#0" expanded="true" />
+                <element signature="e#17795#17960#0" expanded="true" />
+                <element signature="e#17959#17960#0" expanded="true" />
+                <marker date="1541505356667" expanded="false" signature="8542:8659" ph="onSuccess(aVoid) → {" />
+                <marker date="1541505356667" expanded="false" signature="8678:8701" ph="}" />
+                <marker date="1541505356667" expanded="false" signature="9385:9526" ph="onSuccess(aVoid) → {" />
+                <marker date="1541505356667" expanded="false" signature="9626:9661" ph="}" />
+                <marker date="1541505356667" expanded="false" signature="10246:10371" ph="onSuccess(aVoid) → {" />
+                <marker date="1541505356667" expanded="false" signature="10464:10491" ph="}" />
+                <marker date="1541505356667" expanded="false" signature="10514:10643" ph="onFailure(e) → {" />
+                <marker date="1541505356667" expanded="false" signature="10725:10752" ph="}" />
+                <marker date="1541505356667" expanded="false" signature="11179:11304" ph="onSuccess(aVoid) → {" />
+                <marker date="1541505356667" expanded="false" signature="11403:11430" ph="}" />
+                <marker date="1541505356667" expanded="false" signature="11453:11582" ph="onFailure(e) → {" />
+                <marker date="1541505356667" expanded="false" signature="11664:11691" ph="}" />
+                <marker date="1541505356667" expanded="false" signature="14591:14781" ph="compare(listData, t1) → {" />
+                <marker date="1541505356667" expanded="false" signature="15019:15058" ph="}" />
+                <marker date="1541505356667" expanded="false" signature="15955:16107" ph="(Comparator) (listData, t1) → {" />
+                <marker date="1541505356667" expanded="false" signature="16335:16370" ph="}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Cart.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Cart.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="291">
+              <caret line="271" column="9" lean-forward="false" selection-start-line="267" selection-start-column="6" selection-end-line="271" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RelatedProductsAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="185">
+              <caret line="38" column="11" lean-forward="false" selection-start-line="38" selection-start-column="11" selection-end-line="38" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_whishlist.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_whishlist.xml">
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="9" column="33" lean-forward="false" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -160,20 +165,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find />
-      <find>&quot;Rs</find>
-      <find>Rs</find>
-      <find>Rs.</find>
-      <find>m</find>
-      <find>model.g</find>
-      <find>model.ge</find>
-      <find>model.getPrice</find>
-      <find>model.getPric</find>
-      <find>model.getPri</find>
-      <find>model.getPr</find>
-      <find>model.getP</find>
-      <find>model.get</find>
-      <find>model.getRe</find>
       <find>model.getRet</find>
       <find>model.getReta</find>
       <find>model.getRetai</find>
@@ -190,6 +181,20 @@
       <find>setTot</find>
       <find>chooselo</find>
       <find>mypro</find>
+      <find>placeOrder</find>
+      <find>subtotal</find>
+      <find>sizes</find>
+      <find>addtocart</find>
+      <find>count</find>
+      <find>count.</find>
+      <find>viewp</find>
+      <find>comments</find>
+      <find>heart_button</find>
+      <find>clear</find>
+      <find>productArrayList</find>
+      <find>which</find>
+      <find>textCartItemCount</find>
+      <find>context</find>
     </findStrings>
     <replaceStrings>
       <replace>Tools bazzar</replace>
@@ -202,6 +207,7 @@
       <replace>default_grey</replace>
       <replace>ProductCountModel(product, quantity, System.currentTimeMillis(),&quot;10&quot;,&quot;Blue&quot;))</replace>
       <replace />
+      <replace>Whishlist.this</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -1959,36 +1965,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Welcome.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_my_orders.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/ordered_products_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Utils/CommonUtils.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/order_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyOrders.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/TrackOrder.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_track_order.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/botoom_sheet.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/product_list_fragment.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/product_list_fragment1.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/ProductCountModel.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/product_item_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/Product.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/ProductListFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/related_product_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/TopSellerFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/DealsFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/MostLikedFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CartAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_view_product1.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/badge_background_white.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_view_product.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/product_slider.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_view_product.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/cart_count_layout_black.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/cart_count_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ViewProduct.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_choose_location.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/list_group.xml" />
@@ -1999,24 +1978,51 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/ExpandableListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/Customer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Login.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/OrdersAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_cart.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Checkout.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Cart.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/OrderModel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Register.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_my_profile.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyProfile.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/TrackOrder.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_order_placed.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_cart.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_checkout.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Cart.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-27/data/res/layout/simple_list_item_1.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/AttributesAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/attributes_list_layout.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/attribute_item_layout.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/TopSellerFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/DealsFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/MostLikedFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/ProductListFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/related_product_layout.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_view_product.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CommentsAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/CommentsModel.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/comments_item_layout.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ProductComments.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_product_comments.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ViewProduct.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/ProductsAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/product_item_layout.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Search.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/SearchProductsAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CartAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_whishlist.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Whishlist.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
+    <option name="width" value="1378" />
     <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -2037,22 +2043,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
-      <pane id="AndroidView">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="groceri" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gradle Scripts" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidBuildScriptsGroupNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2148,11 +2139,126 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="AndroidView">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="groceri" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Gradle Scripts" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidBuildScriptsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="groceri" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="groceri" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="groceri" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="toolsbazzar" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="groceri" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="toolsbazzar" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Adapters" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="groceri" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="toolsbazzar" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Activities" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="groceri" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="D:/Shoes/Bulksms" />
-    <property name="SearchEverywhereHistoryKey" value="mypro&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyProfile.java&#10;main&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MainActivity.java&#10;mani&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/AndroidManifest.xml&#10;regis&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/activity_register.xml&#10;mypr&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.MyProfile&#10;cust&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Models/Customer.java&#10;check&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.Checkout&#10;cart&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Cart.java&#10;custom&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Models/Customer.java&#10;ordersa&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Adapters.OrdersAdapter&#10;ogin&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Login.java&#10;s&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Utils/SharedPrefs.java&#10;related&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java&#10;login&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.Login&#10;share&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Utils.SharedPrefs&#10;choosel&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ChooseLocation.java&#10;mainac&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MainActivity.java&#10;register&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.Register&#10;styl&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/values/styles.xml&#10;mains&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Adapters.MainSliderAdapter&#10;app&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/app_bar_main.xml&#10;manif&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/AndroidManifest.xml&#10;color&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/values/colors.xml&#10;appba&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/app_bar_main.xml&#10;view&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ViewProduct.java&#10;cartad&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CartAdapter.java&#10;rela&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java&#10;relat&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java&#10;product&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/ProductListFragment.java&#10;viewpr&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ViewProduct.java&#10;ordermo&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Models.OrderModel&#10;produc&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Models/ProductCountModel.java&#10;adap&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java&#10;cont&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/content_main.xml&#10;bott&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/bottom_sheet.xml&#10;maina&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MainActivity.java&#10;content&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/content_main.xml&#10;rel&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java&#10;listo&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.ListOfProducts&#10;conten&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/content_main.xml&#10;myorders&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyOrders.java&#10;spl&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Splash.java&#10;welcome&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.Welcome&#10;splas&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Splash.java&#10;viewp&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/activity_view_product.xml&#10;checko&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/activity_checkout.xml&#10;place&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.OrderPlaced&#10;terms&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/TermsAndConditions.java&#10;order&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyOrders.java&#10;logi&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/activity_login.xml" />
+    <property name="last_opened_file_path" value="D:/AndroidStudioProjects/clothes/Clothes admin" />
+    <property name="SearchEverywhereHistoryKey" value="cart&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Cart.java&#10;pro&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/ProductListFragment.java&#10;prod&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/ProductListFragment.java&#10;main&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MainActivity.java&#10;search&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.Search&#10;maina&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MainActivity.java&#10;sear&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/SearchProductsAdapter.java&#10;rela&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java&#10;rel&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/related_product_layout.xml&#10;produ&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/ProductListFragment.java&#10;relat&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java&#10;re&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java&#10;earc&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.Search&#10;viewpro&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ViewProduct.java&#10;post&#9;PSI&#9;JAVA://javax.annotation.PostConstruct&#10;livec&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/LiveChat.java&#10;live&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/activity_live_chat.xml&#10;related&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java&#10;com&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/comments_item_layout.xml&#10;comm&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CommentsAdapter.java&#10;comments&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ProductComments.java&#10;view&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ViewProduct.java&#10;chat&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.LiveChat&#10;manif&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/AndroidManifest.xml&#10;viewpr&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/activity_view_product.xml&#10;mainac&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MainActivity.java&#10;rea&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java&#10;car&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/activity_cart.xml&#10;myor&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.MyOrders&#10;check&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Checkout.java&#10;ma&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MainActivity.java&#10;orderp&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.OrderPlaced&#10;chec&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Checkout.java&#10;order&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/OrdersAdapter.java&#10;mypro&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyProfile.java&#10;mani&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/AndroidManifest.xml&#10;regis&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/activity_register.xml&#10;mypr&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.MyProfile&#10;cust&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Models/Customer.java&#10;custom&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Models/Customer.java&#10;ordersa&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Adapters.OrdersAdapter&#10;ogin&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Login.java&#10;s&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Utils/SharedPrefs.java&#10;login&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.Login&#10;share&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Utils.SharedPrefs&#10;choosel&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ChooseLocation.java&#10;register&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Activities.Register&#10;styl&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/values/styles.xml&#10;mains&#9;PSI&#9;JAVA://com.appsinventiv.toolsbazzar.Adapters.MainSliderAdapter&#10;app&#9;FILE&#9;file://D:/Total bazar/groceri/app/src/main/res/layout/app_bar_main.xml" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
     <property name="device.picker.selection" value="9885e63457354d4139" />
     <property name="android.project.structure.last.selected" value="app" />
@@ -2163,6 +2269,10 @@
     <property name="DEBUGGER_ID" value="Auto" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.appsinventiv.toolsbazzar.Models" />
+      <recent name="com.appsinventiv.toolsbazzar.Adapters" />
+    </key>
     <key name="android.template.packageName">
       <recent name="com.appsinventiv.toolsbazzar.Activities" />
       <recent name="com.appsinventiv.totalbazar.Activities" />
@@ -2171,8 +2281,8 @@
       <recent name="" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.appsinventiv.toolsbazzar.Models" />
       <recent name="com.appsinventiv.toolsbazzar.Adapters" />
+      <recent name="com.appsinventiv.toolsbazzar.Models" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Total bazar\groceri\app\src\main\res\drawable" />
@@ -2264,7 +2374,8 @@
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1538460837484" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1541505594740" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -2311,7 +2422,8 @@
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
       </Profilers>
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1538460837485" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1541505594740" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2493,7 +2605,8 @@
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1538460837486" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1541505594746" />
       </method>
     </configuration>
     <list size="1">
@@ -2550,7 +2663,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1378" height="744" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2560,16 +2674,16 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27760968" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2754173" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935154" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.63076925" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18986385" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18892261" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
@@ -2599,7 +2713,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/TopSellerFragment.java</url>
-          <line>302</line>
+          <line>328</line>
           <properties />
           <option name="timeStamp" value="43" />
         </line-breakpoint>
@@ -2615,15 +2729,118 @@
           <properties />
           <option name="timeStamp" value="61" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/SearchProductsAdapter.java</url>
+          <line>48</line>
+          <properties />
+          <option name="timeStamp" value="75" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/SearchProductsAdapter.java</url>
+          <line>60</line>
+          <properties class="com.appsinventiv.toolsbazzar.Adapters.SearchProductsAdapter" method="filter">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="74" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="62" />
+      <option name="time" value="76" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_my_profile.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/OrderModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="24" column="11" lean-forward="false" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyProfile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1098">
+          <caret line="81" column="29" lean-forward="false" selection-start-line="81" selection-start-column="29" selection-end-line="81" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/OrdersAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="96" column="5" lean-forward="false" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/TrackOrder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="51" column="58" lean-forward="false" selection-start-line="51" selection-start-column="58" selection-end-line="51" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/OrderPlaced.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="15" column="48" lean-forward="true" selection-start-line="15" selection-start-column="48" selection-end-line="15" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_checkout.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_order_placed.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="20" column="42" lean-forward="false" selection-start-line="20" selection-start-column="42" selection-end-line="20" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Checkout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1266">
+          <caret line="59" column="53" lean-forward="true" selection-start-line="59" selection-start-column="53" selection-end-line="59" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyOrders.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="30" column="13" lean-forward="false" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_cart.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="115" column="53" lean-forward="false" selection-start-line="115" selection-start-column="45" selection-end-line="115" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/size_button_layout.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -2631,443 +2848,416 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-27/android.jar!/android/view/ViewGroup.class">
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="412" column="16" lean-forward="false" selection-start-line="412" selection-start-column="16" selection-end-line="412" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/related_product_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="81" column="33" lean-forward="true" selection-start-line="81" selection-start-column="33" selection-end-line="81" selection-end-column="33" />
+        <state relative-caret-position="377">
+          <caret line="48" column="0" lean-forward="true" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-27/data/res/layout/simple_list_item_1.xml">
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/ProductListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="53" column="4" lean-forward="false" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="33" />
+        <state relative-caret-position="342">
+          <caret line="19" column="39" lean-forward="false" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/AttributesAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="30" column="74" lean-forward="false" selection-start-line="30" selection-start-column="74" selection-end-line="30" selection-end-column="74" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1300#1475#0" expanded="false" />
+            <element signature="e#1474#1475#0" expanded="false" />
+            <element signature="e#1529#1530#0" expanded="false" />
+            <element signature="e#1563#1564#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/attribute_item_layout.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="33" lean-forward="true" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/attributes_list_layout.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="28" lean-forward="false" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/TopSellerFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="161" column="0" lean-forward="false" selection-start-line="161" selection-start-column="0" selection-end-line="161" selection-end-column="0" />
+          <folding>
+            <element signature="e#4054#5112#0" expanded="true" />
+            <element signature="e#5111#5112#0" expanded="true" />
+            <element signature="e#6243#7301#0" expanded="true" />
+            <element signature="e#7300#7301#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/DealsFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="494">
-          <caret line="133" column="17" lean-forward="false" selection-start-line="133" selection-start-column="17" selection-end-line="133" selection-end-column="17" />
+          <caret line="159" column="0" lean-forward="false" selection-start-line="159" selection-start-column="0" selection-end-line="159" selection-end-column="0" />
+          <folding>
+            <element signature="e#3989#5047#0" expanded="false" />
+            <element signature="e#5046#5047#0" expanded="false" />
+            <element signature="e#6178#7236#0" expanded="false" />
+            <element signature="e#7235#7236#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/TopSellerFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/DealsFragmentAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="53" column="19" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="170">
+          <caret line="34" column="32" lean-forward="false" selection-start-line="34" selection-start-column="32" selection-end-line="34" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/MostLikedFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="140" column="21" lean-forward="true" selection-start-line="140" selection-start-column="21" selection-end-line="140" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CartAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="56" column="48" lean-forward="false" selection-start-line="56" selection-start-column="48" selection-end-line="56" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="40" lean-forward="false" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_view_product1.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/app_bar_main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="18" column="12" lean-forward="false" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/badge_background_white.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="30" lean-forward="false" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/badge_background.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_cart_black.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/MainSliderAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="37" column="64" lean-forward="false" selection-start-line="37" selection-start-column="64" selection-end-line="37" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/main_product_slider.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="32" lean-forward="false" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/SliderAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="52" column="63" lean-forward="false" selection-start-line="52" selection-start-column="63" selection-end-line="52" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/product_slider.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="18" column="26" lean-forward="false" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_view_product.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="19" column="46" lean-forward="false" selection-start-line="19" selection-start-column="46" selection-end-line="19" selection-end-column="46" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/cart_count_layout_black.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="30" lean-forward="false" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="30" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/cart_count_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="16" lean-forward="false" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_view_product.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="24" lean-forward="false" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ViewProduct.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="793" column="7" lean-forward="false" selection-start-line="793" selection-start-column="7" selection-end-line="793" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/ExpandableListDataPump.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-424">
-          <caret line="11" column="48" lean-forward="false" selection-start-line="11" selection-start-column="48" selection-end-line="11" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_choose_location.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="17" lean-forward="false" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-27/android.jar!/android/widget/ExpandableListAdapter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="11" column="17" lean-forward="false" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="36" lean-forward="false" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_group.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="38" lean-forward="false" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CustomExpandableListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-828">
-          <caret line="19" column="23" lean-forward="true" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/ExpandableListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="56" column="22" lean-forward="false" selection-start-line="56" selection-start-column="22" selection-end-line="56" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ChooseLocation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="42" column="109" lean-forward="false" selection-start-line="42" selection-start-column="65" selection-end-line="42" selection-end-column="109" />
+        <state relative-caret-position="296">
+          <caret line="152" column="0" lean-forward="true" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
           <folding>
-            <element signature="e#1228#1236#0" expanded="false" />
-            <element signature="e#1284#1292#0" expanded="false" />
-            <element signature="e#1357#1379#0" expanded="false" />
-            <element signature="e#2646#3388#0" expanded="false" />
-            <element signature="e#3387#3388#0" expanded="false" />
-            <marker date="1538134930928" expanded="false" signature="4467:4478" ph=" { " />
-            <marker date="1538134930928" expanded="false" signature="4539:4545" ph=" }" />
+            <element signature="e#4087#5145#0" expanded="false" />
+            <element signature="e#5144#5145#0" expanded="false" />
+            <element signature="e#6276#7334#0" expanded="false" />
+            <element signature="e#7333#7334#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Utils/SharedPrefs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="51" column="42" lean-forward="false" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Login.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-508">
-          <caret line="134" column="44" lean-forward="false" selection-start-line="134" selection-start-column="44" selection-end-line="134" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/OrdersAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="732">
-          <caret line="107" column="42" lean-forward="false" selection-start-line="107" selection-start-column="42" selection-end-line="107" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="68" column="94" lean-forward="false" selection-start-line="68" selection-start-column="73" selection-end-line="68" selection-end-column="94" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/LocationAndChargesModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="81" column="17" lean-forward="false" selection-start-line="81" selection-start-column="17" selection-end-line="81" selection-end-column="17" />
-          <folding>
-            <element signature="e#1787#1788#0" expanded="false" />
-            <element signature="e#1825#1826#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_cart.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="239" column="35" lean-forward="false" selection-start-line="239" selection-start-column="35" selection-end-line="239" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/product_list_fragment.xml">
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/ProductCountModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/OrderModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="24" column="11" lean-forward="false" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
-          <folding>
-            <element signature="e#1200#1201#0" expanded="false" />
-            <element signature="e#1238#1239#0" expanded="false" />
-            <element signature="e#1394#1395#0" expanded="false" />
-            <element signature="e#1432#1433#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Checkout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="102" column="52" lean-forward="false" selection-start-line="102" selection-start-column="52" selection-end-line="102" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Cart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="52" column="47" lean-forward="true" selection-start-line="52" selection-start-column="47" selection-end-line="52" selection-end-column="47" />
-          <folding>
-            <element signature="e#11857#11858#0" expanded="true" />
-            <element signature="e#11911#11912#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/Customer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="21" lean-forward="false" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="233" column="6" lean-forward="true" selection-start-line="233" selection-start-column="6" selection-end-line="244" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/activity_main_drawer.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="42" column="27" lean-forward="false" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Register.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="247" column="0" lean-forward="false" selection-start-line="247" selection-start-column="0" selection-end-line="247" selection-end-column="0" />
+        <state relative-caret-position="276">
+          <caret line="16" column="20" lean-forward="false" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="49" column="58" lean-forward="false" selection-start-line="49" selection-start-column="58" selection-end-line="49" selection-end-column="58" />
-          <folding />
+        <state relative-caret-position="239">
+          <caret line="64" column="21" lean-forward="false" selection-start-line="64" selection-start-column="21" selection-end-line="64" selection-end-column="21" />
+          <folding>
+            <marker date="1541488777693" expanded="true" signature="4624:4653" ph="..." />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-manifest">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_my_profile.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Utils/CommonUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="311">
+          <caret line="37" column="41" lean-forward="false" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="41" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CommentsAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="32" column="76" lean-forward="false" selection-start-line="32" selection-start-column="76" selection-end-line="32" selection-end-column="76" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/comments_item_layout.xml">
       <provider editor-type-id="android-designer2">
         <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="34" lean-forward="false" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_live_chat.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="26" column="7" lean-forward="false" selection-start-line="26" selection-start-column="7" selection-end-line="29" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/jre/jre/lib/rt.jar!/javax/annotation/PostConstruct.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="16" column="18" lean-forward="false" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ProductComments.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/LiveChat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="152" column="11" lean-forward="false" selection-start-line="144" selection-start-column="6" selection-end-line="152" selection-end-column="11" />
+          <folding>
+            <element signature="e#5435#5703#0" expanded="false" />
+            <element signature="e#5702#5703#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/CommentsModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="11" lean-forward="false" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_product_comments.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="72" column="12" lean-forward="false" selection-start-line="72" selection-start-column="12" selection-end-line="72" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_view_product.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="91" column="57" lean-forward="false" selection-start-line="91" selection-start-column="45" selection-end-line="91" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Interface/AddToCartInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="24" lean-forward="false" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ViewProduct.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="337" column="0" lean-forward="false" selection-start-line="337" selection-start-column="0" selection-end-line="337" selection-end-column="0" />
+          <folding>
+            <element signature="e#6210#6428#0" expanded="true" />
+            <element signature="e#6427#6428#0" expanded="true" />
+            <element signature="e#7647#7928#0" expanded="true" />
+            <element signature="e#7927#7928#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-27/android.jar!/java/util/List.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-460">
+          <caret line="20" column="30" lean-forward="true" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-27/android.jar!/java/util/ArrayList.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="12" column="63" lean-forward="false" selection-start-line="12" selection-start-column="63" selection-end-line="12" selection-end-column="63" />
+          <folding>
+            <element signature="e#2073#2074#0" expanded="true" />
+            <element signature="e#2124#2125#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/ProductsAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="204" column="0" lean-forward="false" selection-start-line="204" selection-start-column="0" selection-end-line="204" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/search_menu.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/related_product_layout.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-363">
+          <caret line="84" column="8" lean-forward="false" selection-start-line="84" selection-start-column="8" selection-end-line="84" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/SearchProductsAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="141" column="82" lean-forward="false" selection-start-line="141" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/product_item_layout.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="88" column="4" lean-forward="false" selection-start-line="88" selection-start-column="4" selection-end-line="88" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CartAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-600">
+          <caret line="81" column="95" lean-forward="false" selection-start-line="81" selection-start-column="95" selection-end-line="81" selection-end-column="95" />
+          <folding>
+            <element signature="e#3724#4107#0" expanded="true" />
+            <element signature="e#4106#4107#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Search.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="313" column="5" lean-forward="true" selection-start-line="313" selection-start-column="5" selection-end-line="314" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/RelatedProductsAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="38" column="11" lean-forward="false" selection-start-line="38" selection-start-column="11" selection-end-line="38" selection-end-column="11" />
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="83" column="0" lean-forward="false" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+        <state relative-caret-position="314">
+          <caret line="370" column="5" lean-forward="false" selection-start-line="309" selection-start-column="4" selection-end-line="370" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MyProfile.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_whishlist.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="82" column="17" lean-forward="true" selection-start-line="82" selection-start-column="17" selection-end-line="82" selection-end-column="17" />
+        <state relative-caret-position="162">
+          <caret line="9" column="33" lean-forward="false" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Fragments/ProductListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="281" column="0" lean-forward="false" selection-start-line="105" selection-start-column="6" selection-end-line="281" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Cart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="291">
+          <caret line="271" column="9" lean-forward="false" selection-start-line="267" selection-start-column="6" selection-end-line="271" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/Whishlist.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="417" column="0" lean-forward="false" selection-start-line="417" selection-start-column="0" selection-end-line="417" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4194#5252#0" expanded="true" />
+            <element signature="e#5251#5252#0" expanded="true" />
+            <element signature="e#6386#7444#0" expanded="true" />
+            <element signature="e#7443#7444#0" expanded="true" />
+            <element signature="e#17795#17960#0" expanded="true" />
+            <element signature="e#17959#17960#0" expanded="true" />
+            <marker date="1541505356667" expanded="false" signature="8542:8659" ph="onSuccess(aVoid) → {" />
+            <marker date="1541505356667" expanded="false" signature="8678:8701" ph="}" />
+            <marker date="1541505356667" expanded="false" signature="9385:9526" ph="onSuccess(aVoid) → {" />
+            <marker date="1541505356667" expanded="false" signature="9626:9661" ph="}" />
+            <marker date="1541505356667" expanded="false" signature="10246:10371" ph="onSuccess(aVoid) → {" />
+            <marker date="1541505356667" expanded="false" signature="10464:10491" ph="}" />
+            <marker date="1541505356667" expanded="false" signature="10514:10643" ph="onFailure(e) → {" />
+            <marker date="1541505356667" expanded="false" signature="10725:10752" ph="}" />
+            <marker date="1541505356667" expanded="false" signature="11179:11304" ph="onSuccess(aVoid) → {" />
+            <marker date="1541505356667" expanded="false" signature="11403:11430" ph="}" />
+            <marker date="1541505356667" expanded="false" signature="11453:11582" ph="onFailure(e) → {" />
+            <marker date="1541505356667" expanded="false" signature="11664:11691" ph="}" />
+            <marker date="1541505356667" expanded="false" signature="14591:14781" ph="compare(listData, t1) → {" />
+            <marker date="1541505356667" expanded="false" signature="15019:15058" ph="}" />
+            <marker date="1541505356667" expanded="false" signature="15955:16107" ph="(Comparator) (listData, t1) → {" />
+            <marker date="1541505356667" expanded="false" signature="16335:16370" ph="}" />
+          </folding>
         </state>
       </provider>
     </entry>

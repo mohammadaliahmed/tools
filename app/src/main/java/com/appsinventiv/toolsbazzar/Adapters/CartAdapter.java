@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
@@ -53,12 +54,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         if (model.getSize() != null && !model.getSize().equalsIgnoreCase("")) {
             holder.size.setText("Size: " + model.getSize());
-        }else{
+        } else {
             holder.size.setVisibility(View.GONE);
         }
         if (model.getColor() != null && !model.getColor().equalsIgnoreCase("")) {
             holder.color.setText("Color: " + model.getColor());
-        }else{
+        } else {
             holder.color.setVisibility(View.GONE);
         }
 
@@ -72,10 +73,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.increase.setVisibility(View.VISIBLE);
         holder.count.setText("" + count[0]);
         if (count[0] > 1) {
+            holder.relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
+
             holder.count.setOnClickListener(null);
             holder.decrease.setImageResource(R.drawable.ic_decrease_btn);
             holder.decrease.setVisibility(View.VISIBLE);
         } else {
+            holder.relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
             holder.count.setOnClickListener(null);
             holder.decrease.setImageResource(R.drawable.delete);
             holder.decrease.setVisibility(View.VISIBLE);
@@ -128,7 +132,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
                         }
                     } else if (count[0] == model.getProduct().getMinOrderQuantity()) {
-//                        holder.relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_colored);
+                        holder.relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_colored);
                         holder.count.setText("Add to cart");
                         holder.count.setTextColor(context.getResources().getColor(R.color.colorWhite));
                         holder.increase.setVisibility(View.GONE);
@@ -178,6 +182,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, subtitle, price, count, size, color;
         ImageView image, increase, decrease, viewProduct;
+        RelativeLayout relativeLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -191,6 +196,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             viewProduct = itemView.findViewById(R.id.viewProduct);
             size = itemView.findViewById(R.id.size);
             color = itemView.findViewById(R.id.color);
+            relativeLayout = itemView.findViewById(R.id.relativeLayout);
 
 
         }

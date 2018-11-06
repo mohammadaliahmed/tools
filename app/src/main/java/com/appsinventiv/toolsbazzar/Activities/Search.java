@@ -1,6 +1,7 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,13 +19,16 @@ import android.support.v7.widget.SearchView;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.appsinventiv.toolsbazzar.Adapters.AttributesAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.ProductsAdapter;
+import com.appsinventiv.toolsbazzar.Adapters.SearchProductsAdapter;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.github.javiersantos.bottomdialogs.BottomDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -41,13 +46,15 @@ public class Search extends AppCompatActivity {
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     ArrayList<Product> productArrayList = new ArrayList<>();
+    ArrayList<Product> arrayList = new ArrayList<>();
     ArrayList<ProductCountModel> userCartProductList = new ArrayList<>();
-    ProductsAdapter adapter;
+    SearchProductsAdapter adapter;
     DatabaseReference mDatabase;
     EditText search;
     long cartItemCountFromDb;
     Product product;
-    String searchTerm;
+    String size = "", color = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,21 +69,96 @@ public class Search extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler);
         layoutManager = new LinearLayoutManager(Search.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ProductsAdapter(Search.this, productArrayList, userCartProductList, new AddToCartInterface() {
+        adapter = new SearchProductsAdapter(Search.this, productArrayList, userCartProductList, new AddToCartInterface() {
             @Override
             public void addedToCart(final Product product, final int quantity, int position) {
-                mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                        .child("cart").child(product.getId()).setValue(new ProductCountModel(product, quantity, System.currentTimeMillis(),"10",""))
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                size = "";
+                color = "";
 
-                    }
-                });
+
+
+                if (product.getSizeList() != null) {
+
+                    String[] sizes = new String[product.getSizeList().size()];
+                    sizes = product.getSizeList().toArray(sizes);
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View customView = inflater.inflate(R.layout.attributes_list_layout, null);
+                    final BottomDialog bottomDialog = new BottomDialog.Builder(Search.this)
+                            .setCustomView(customView)
+                            .setTitle("Select Size")
+                            .setCancelable(false)
+
+                            .build();
+                    RecyclerView recyclerView = customView.findViewById(R.id.recycler1);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(Search.this, LinearLayoutManager.VERTICAL, false));
+                    AttributesAdapter adapter = new AttributesAdapter(Search.this, sizes, new AttributesAdapter.OnItemSelected() {
+                        @Override
+                        public void onOptionSelected(String value) {
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("product").setValue(product);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("color").setValue(value);
+                            bottomDialog.dismiss();
+                        }
+                    });
+
+                    recyclerView.setAdapter(adapter);
+                    bottomDialog.show();
+
+
+                }
+                if (product.getColorList() != null) {
+                    String[] sizes = new String[product.getColorList().size()];
+                    sizes = product.getColorList().toArray(sizes);
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View customView = inflater.inflate(R.layout.attributes_list_layout, null);
+
+                    final BottomDialog bottomDialog = new BottomDialog.Builder(Search.this)
+                            .setCustomView(customView)
+                            .setTitle("Select Color")
+                            .setCancelable(false)
+
+                            .build();
+                    RecyclerView recyclerView = customView.findViewById(R.id.recycler1);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(Search.this, LinearLayoutManager.VERTICAL, false));
+                    AttributesAdapter adapter = new AttributesAdapter(Search.this, sizes, new AttributesAdapter.OnItemSelected() {
+                        @Override
+                        public void onOptionSelected(String value) {
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("product").setValue(product);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("color").setValue(value);
+                            bottomDialog.dismiss();
+                        }
+                    });
+
+                    recyclerView.setAdapter(adapter);
+
+
+//
+                    bottomDialog.show();
+
+
+                }
+                if (product.getColorList() == null && product.getSizeList() == null) {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("product").setValue(product);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+                }
+
             }
 
             @Override
@@ -118,43 +200,22 @@ public class Search extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(adapter);
-        search = findViewById(R.id.search);
-        search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                userCartProductList.clear();
-                productArrayList.clear();
-            }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                userCartProductList.clear();
-                productArrayList.clear();
-            }
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                userCartProductList.clear();
-                productArrayList.clear();
-                searchTerm = "" + editable;
-                if (editable.length() > 0) {
-                    getProductsFromDB("" + editable);
-                    getUserCartProductsFromDB();
-                }
-
-            }
-        });
+        getProductsFromDB();
+        getUserCartProductsFromDB();
 
 
     }
 
 
     private void getUserCartProductsFromDB() {
-        userCartProductList.clear();
+
         mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
+                    userCartProductList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         ProductCountModel product = snapshot.getValue(ProductCountModel.class);
                         if (product != null) {
@@ -184,8 +245,8 @@ public class Search extends AppCompatActivity {
         });
     }
 
-    private void getProductsFromDB(final String text) {
-        productArrayList.clear();
+    private void getProductsFromDB() {
+//        productArrayList.clear();
         mDatabase.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -195,26 +256,26 @@ public class Search extends AppCompatActivity {
                         product = snapshot.getValue(Product.class);
                         if (product != null) {
                             if (product.getIsActive().equals("true")) {
-                                if (product.getTitle().toLowerCase().contains(text)) {
-                                    getUserCartProductsFromDB();
-                                    if (!productArrayList.contains(product)) {
-                                        productArrayList.add(product);
-                                        Collections.sort(productArrayList, new Comparator<Product>() {
-                                            @Override
-                                            public int compare(Product listData, Product t1) {
-                                                String ob1 = listData.getTitle();
-                                                String ob2 = t1.getTitle();
+                                productArrayList.add(product);
+                                Collections.sort(productArrayList, new Comparator<Product>() {
+                                    @Override
+                                    public int compare(Product listData, Product t1) {
+                                        String ob1 = listData.getTitle();
+                                        String ob2 = t1.getTitle();
 
-                                                return ob1.compareTo(ob2);
+                                        return ob1.compareTo(ob2);
 
-                                            }
-                                        });
-                                        adapter.notifyDataSetChanged();
                                     }
-                                }
+                                });
+
                             }
                         }
+
+
                     }
+                    adapter.updatelist(productArrayList);
+                    adapter.notifyDataSetChanged();
+
                 }
             }
 
@@ -252,22 +313,23 @@ public class Search extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.search_menu, menu);
         final MenuItem menuItem = menu.findItem(R.id.action_cart);
         final MenuItem mSearch = menu.findItem(R.id.action_search);
-
+        mSearch.expandActionView();
         SearchView mSearchView = (SearchView) mSearch.getActionView();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                userCartProductList.clear();
-                productArrayList.clear();
-                searchTerm = "" + newText;
+
                 if (newText.length() > 0) {
-                    getProductsFromDB("" + newText);
-                    getUserCartProductsFromDB();
+                    adapter.filter(newText);
+//                    getUserCartProductsFromDB();
+                }else{
+                    adapter.filter("all");
                 }
                 return false;
             }

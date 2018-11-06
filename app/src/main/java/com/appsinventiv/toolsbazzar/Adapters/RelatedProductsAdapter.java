@@ -63,12 +63,15 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
         holder.title.setText(model.getTitle());
         if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
             holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-            holder.oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-
+            if (model.getOldRetailPrice() != 0) {
+                holder.oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+            }
         } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
             holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-            holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
 
+            if (model.getOldWholeSalePrice() != 0) {
+                holder.oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+            }
         }
         holder.oldPrice.setPaintFlags(holder.oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
@@ -145,6 +148,7 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
 
                 } else {
                     holder.relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
+                    holder.count.setTextColor(context.getResources().getColor(R.color.default_grey_text));
 
                     holder.count.setText("" + count[0]);
                     holder.increase.setVisibility(View.VISIBLE);

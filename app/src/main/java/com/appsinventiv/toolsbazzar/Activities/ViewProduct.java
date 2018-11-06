@@ -41,6 +41,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
@@ -50,7 +52,7 @@ import java.util.Comparator;
 public class ViewProduct extends AppCompatActivity implements View.OnClickListener {
     String productId;
     TextView textCartItemCount;
-    FrameLayout blackCart,whiteCart;
+    FrameLayout blackCart, whiteCart;
     DatabaseReference mDatabase;
     TextView title, price, oldPrice, subtitle, count, product_description, textSize, textColor;
     public static ArrayList<String> picUrls = new ArrayList<>();
@@ -79,6 +81,12 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     RelativeLayout relativeLayout;
     RatingBar rating;
     String size = "", color = "";
+    TextView percentageOff;
+    TextView commentsCount;
+    ImageView share;
+    private String productIdFromLink;
+    LikeButton heart_button;
+    boolean isLiked=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +98,28 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        mDatabase=FirebaseDatabase.getInstance().getReference();
+        onNewIntent(getIntent());
+
         Intent i = getIntent();
         productId = i.getStringExtra("productId");
+
+        if (productId == null) {
+            productId = productIdFromLink;
+            getDataFromServer(productId);
+        } else {
+            getDataFromServer(productId);
+        }
+
+
+
+
+        heart_button = findViewById(R.id.heart_button);
         collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         title = findViewById(R.id.title);
+        commentsCount = findViewById(R.id.commentsCount);
+        share = findViewById(R.id.share);
         price = findViewById(R.id.price);
         oldPrice = findViewById(R.id.oldPrice);
         subtitle = findViewById(R.id.subtitle);
@@ -102,6 +128,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         rating = findViewById(R.id.rating);
         textSize = findViewById(R.id.textSize);
         textColor = findViewById(R.id.textColor);
+        percentageOff = findViewById(R.id.percentageOff);
 
         decrease = findViewById(R.id.decrease);
         relativeLayout = findViewById(R.id.relativeLayout);
@@ -110,7 +137,66 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         sizes = findViewById(R.id.sizes);
         colors = findViewById(R.id.colors);
         app_bar_layout = findViewById(R.id.app_bar_layout);
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareProduct();
+            }
+        });
+        getLikeFromDB();
 
+        heart_button.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                        .child("WishList").child(product.getId()).setValue(product.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        CommonUtils.showToast("Added to Wishlist");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        CommonUtils.showToast("Error");
+
+                    }
+                });
+                int likesCount = product.getLikesCount();
+                likesCount += 1;
+                mDatabase.child("Products").child(product.getId()).child("likesCount").setValue(likesCount);
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                        .child("WishList").child(product.getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        CommonUtils.showToast("Removed from Wishlist");
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        CommonUtils.showToast("Error");
+
+                    }
+                });
+                int likesCount = product.getLikesCount();
+                likesCount -= 1;
+                mDatabase.child("Products").child(product.getId()).child("likesCount").setValue(likesCount);
+            }
+        });
+
+        commentsCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(ViewProduct.this,ProductComments.class);
+                i.putExtra("productId",productId);
+                startActivity(i);
+            }
+        });
         app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -127,59 +213,6 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("Products").child(productId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    product = dataSnapshot.getValue(Product.class);
-                    if (product != null) {
-                        title.setText(product.getTitle());
-                        subtitle.setText(product.getMeasurement());
-                        if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
-                            price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-                            oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-                        } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
-                            price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-                            oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-                        }
-                        rating.setRating(product.getRating());
-                        oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                        ViewProduct.this.setTitle(product.getTitle());
-                        productCategory = product.getMainCategory();
-                        product_description.setText(product.getDescription());
-                        getProductsFromDB(productCategory);
-
-                        getUserCartProductsFromDB();
-
-                        setUpAddToCartButton();
-                        picUrls.clear();
-                        for (DataSnapshot childSnapshot : dataSnapshot.child("pictures").getChildren()) {
-                            String model = childSnapshot.getValue(String.class);
-                            picUrls.add(model);
-                            sliderAdapter.notifyDataSetChanged();
-
-                        }
-                        if (product.getSizeList() != null) {
-                            initiliazeSizeButtons();
-                        } else {
-                            textSize.setVisibility(View.GONE);
-                        }
-                        if (product.getColorList() != null) {
-                            initializeColorButtons();
-                        } else {
-                            textColor.setVisibility(View.GONE);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         recyclerView = findViewById(R.id.relatedProducts);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -293,6 +326,101 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         mViewPager.setAdapter(sliderAdapter);
         dotsIndicator.setViewPager(mViewPager);
 
+    }
+
+    private void getLikeFromDB() {
+        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("WishList").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()!=null){
+                    if(dataSnapshot.child(productId).getValue()!=null){
+                        heart_button.setLiked(true);
+                        isLiked=true;
+                    }else{
+                        heart_button.setLiked(false);
+                        isLiked=false;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getDataFromServer(String id) {
+        mDatabase.child("Products").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    product = dataSnapshot.getValue(Product.class);
+                    if (product != null) {
+                        title.setText(product.getTitle());
+                        subtitle.setText(product.getMeasurement());
+                        if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+                            price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+                            oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+
+                            String percent = "" + String.format("%.0f",((product.getOldRetailPrice()-product.getRetailPrice() )/ product.getOldRetailPrice()) * 100);
+
+                            percentageOff.setText(percent + "% Off");
+
+                        } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+                            price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+                            oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+                            String percent = "" +  String.format("%.0f",((product.getOldWholeSalePrice()-product.getWholeSalePrice() )/ product.getOldWholeSalePrice()) * 100);
+
+                            percentageOff.setText(percent + "% Off");
+
+                        }
+                        rating.setRating(product.getRating());
+                        oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                        ViewProduct.this.setTitle(product.getTitle());
+                        productCategory = product.getMainCategory();
+                        product_description.setText(product.getDescription());
+                        getProductsFromDB(productCategory);
+
+                        getUserCartProductsFromDB();
+
+                        setUpAddToCartButton();
+                        picUrls.clear();
+                        for (DataSnapshot childSnapshot : dataSnapshot.child("pictures").getChildren()) {
+                            String model = childSnapshot.getValue(String.class);
+                            picUrls.add(model);
+                            sliderAdapter.notifyDataSetChanged();
+
+                        }
+                        if (product.getSizeList() != null) {
+                            initiliazeSizeButtons();
+                        } else {
+                            textSize.setVisibility(View.GONE);
+                        }
+                        if (product.getColorList() != null) {
+                            initializeColorButtons();
+                        } else {
+                            textColor.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void shareProduct() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT,
+                "Check this out on "+getResources().getString(R.string.app_name)+": \n"+product.getTitle()+"\n\nhttp://toolsbazar.com/product/"+product.getTitle().replace(" ","-")+"/"+product.getId());
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+        startActivity(Intent.createChooser(shareIntent, "Share  via.."));
     }
 
     private void setUpAddToCartButton() {
@@ -459,6 +587,41 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                         } else {
                             CommonUtils.showToast("Please select color");
                         }
+                    } else {
+                        if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+                            relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
+                            count.setTextColor(getResources().getColor(R.color.default_grey_text));
+                            quantity = product.getMinOrderQuantity();
+                            count.setText("" + quantity);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("product").setValue(product);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("color").setValue(colorSelected);
+
+
+                        } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+                            if (quantity > 0) {
+                            } else {
+                                relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
+                                count.setTextColor(getResources().getColor(R.color.default_grey_text));
+                                quantity = 1;
+                                count.setText("" + quantity);
+                                mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                        .child("cart").child(product.getId()).child("product").setValue(product);
+                                mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                        .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                                mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                        .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+
+                                mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                        .child("cart").child(product.getId()).child("color").setValue(colorSelected);
+                            }
+                        }
                     }
 
 
@@ -623,6 +786,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             btn.setBackgroundResource(R.drawable.size_button_layout);
             btn.setText("" + product.getSizeList().get(i));
             sizes.addView(btn);
+            btn.setTextSize(11);
             btn.setId(i);
 
             btn.setOnClickListener(new View.OnClickListener() {
@@ -787,7 +951,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_view_product, menu);
 
-         menuItem = menu.findItem(R.id.action_cart);
+        menuItem = menu.findItem(R.id.action_cart);
 
         View actionView = MenuItemCompat.getActionView(menuItem);
         textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
@@ -855,4 +1019,14 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 //        }
 
     }
+    protected void onNewIntent(Intent intent) {
+
+        String action = intent.getAction();
+        String data = intent.getDataString();
+        if (Intent.ACTION_VIEW.equals(action) && data != null) {
+            productIdFromLink = data.substring(data.lastIndexOf("/") + 1);
+            productId = productIdFromLink;
+        }
+    }
+
 }
