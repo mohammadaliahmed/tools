@@ -69,7 +69,8 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
             }
         });
 
-        totalPrice.setText("Rs. " + grandTotal);
+        totalPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", grandTotal * Float.parseFloat(SharedPrefs.getExchangeRate())));
+
         getOrdersCountFromDb();
 
         mDatabase.addValueEventListener(new ValueEventListener() {

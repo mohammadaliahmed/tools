@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_return"
+        android:layout_height="30dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Return/Exchange"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="50dp"
+        android:layout_height="wrap_content" />
+
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_cash_ond"
+        android:layout_height="30dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Cash On Delivery "
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="50dp"
+        android:layout_height="wrap_content" />
+
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_onlie_pay"
+        android:layout_height="30dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Online Payments, Visa/ Debit/ Credit Cards"
+        android:layout_marginTop="75dp"
+        android:layout_marginBottom="10dp"
+
+        android:layout_marginLeft="50dp"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_promo_code"
+        android:layout_height="30dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Promo Code Applicable"
+        android:layout_marginTop="105dp"
+        android:layout_marginBottom="10dp"
+
+        android:layout_marginLeft="50dp"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

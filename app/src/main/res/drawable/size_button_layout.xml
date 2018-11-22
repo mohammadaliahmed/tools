@@ -5,5 +5,12 @@
 
     <!--<solid android:color="@android:color/holo_red_dark"/>-->
     <stroke android:color="#d9d9d9" android:width="2dp"/>
+    <corners
+        android:topLeftRadius="5dp"
+        android:topRightRadius="5dp"
+        android:bottomLeftRadius="5dp"
+        android:bottomRightRadius="5dp"
+
+        />
 
 </shape>

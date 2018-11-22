@@ -89,16 +89,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         holder.count.setTextColor(context.getResources().getColor(R.color.default_grey_text));
 
-        holder.count.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.count.setText("" + count[0]);
-                holder.increase.setVisibility(View.VISIBLE);
-                holder.decrease.setVisibility(View.VISIBLE);
-                addToCartInterface.addedToCart(model.getProduct(), count[0], position);
 
-            }
-        });
         holder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

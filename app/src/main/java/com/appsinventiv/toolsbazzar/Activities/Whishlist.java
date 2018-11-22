@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.appsinventiv.toolsbazzar.Adapters.AttributesAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.RelatedProductsAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.SearchProductsAdapter;
+import com.appsinventiv.toolsbazzar.Adapters.WishListAdapter;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
@@ -45,7 +46,7 @@ public class Whishlist extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     ArrayList<Product> productArrayList = new ArrayList<>();
     ArrayList<ProductCountModel> userCartProductList = new ArrayList<>();
-    SearchProductsAdapter adapter;
+    WishListAdapter adapter;
     DatabaseReference mDatabase;
     EditText search;
     long cartItemCountFromDb;
@@ -68,7 +69,7 @@ public class Whishlist extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(Whishlist.this, LinearLayoutManager.VERTICAL, false);
 //        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new SearchProductsAdapter(Whishlist.this, productArrayList, userCartProductList, new AddToCartInterface() {
+        adapter = new WishListAdapter(Whishlist.this, productArrayList, userCartProductList,userWishList, new AddToCartInterface() {
             @Override
             public void addedToCart(final Product product, final int quantity, int position) {
                 size = "";
@@ -101,7 +102,7 @@ public class Whishlist extends AppCompatActivity {
                                     .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
 
                             mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                                    .child("cart").child(product.getId()).child("color").setValue(value);
+                                    .child("cart").child(product.getId()).child("size").setValue(value);
                             bottomDialog.dismiss();
                         }
                     });

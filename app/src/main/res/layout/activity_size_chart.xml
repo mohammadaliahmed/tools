@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.appsinventiv.toolsbazzar.Activities.SizeChart">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Size Guide"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:textColor="#000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+
+            android:text="Actual Product size May Vary from measurments by product Manufacturer
+"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_marginTop="5dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="Boots, Sports Shoes, Loafers &amp; Slip-Ons Sneakers, Casual Shoes, Dress Shoes, Wedding Shoes, Sandals, Rain Boots Slippers"
+            android:textSize="11sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="642dp"
+            android:layout_margin="15dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/men_shoes" />
+        <View
+            android:background="@color/default_grey"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Size Guide"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#000"
+            android:text="Actual Product size May Vary from measurments by product Manufacturer
+"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_marginTop="5dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+
+            android:text="Boots, Slippers, Flats, Sandals, Wedding Shoes, Pumps, Casual shoes, Sports Shoes
+"
+            android:textSize="11sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="697dp"
+            android:layout_margin="15dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/women_shoes" />
+        <View
+            android:background="@color/default_grey"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Size Guide"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#000"
+            android:text="Actual Product size May Vary from measurments by product Manufacturer
+"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_marginTop="5dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+
+            android:text="Jeans, Trousers, Shorts &amp; Swim Shorts
+"
+            android:textSize="11sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="424dp"
+            android:layout_margin="15dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/men_pant" />
+        <View
+            android:background="@color/default_grey"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Size Guide"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#000"
+            android:text="Actual Product size May Vary from measurments by product Manufacturer
+"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_marginTop="5dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+
+            android:text="Shirts, T-Shirts, Vests, Pullovers, Hoodies, Sweetshirts, Coats &amp; jackets, Longewear Tops"
+            android:textSize="11sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="480dp"
+            android:layout_margin="15dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/men_shirt" />
+        <View
+            android:background="@color/default_grey"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Size Guide"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#000"
+            android:text="Actual Product size May Vary from measurments by product Manufacturer
+"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_marginTop="5dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+
+            android:text="Weddings &amp; Events Skirts, Leggings, Pants, Sweatshirts &amp; Hoodies, Knitwear, Dresses, Jackets &amp; Coats, Tops, Plus Size Blouse, Frocks, Abaya, Scarve,s Saaree, Shalwar, Womens Jeans"
+            android:textSize="11sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="633dp"
+            android:layout_margin="15dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/women_shirt" />
+    </LinearLayout>
+
+</ScrollView>

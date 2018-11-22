@@ -12,9 +12,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +36,8 @@ import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.bumptech.glide.Glide;
+import com.github.javiersantos.bottomdialogs.BottomDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -72,9 +76,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     ViewPager mViewPager;
     SliderAdapter sliderAdapter;
     DotsIndicator dotsIndicator;
-    String sizeSelected, colorSelected;
-    int selected = -1;
-    int selectedColor = -1;
+  
     CollapsingToolbarLayout collapsing_toolbar;
     AppBarLayout app_bar_layout;
     Product product;
@@ -87,6 +89,10 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     private String productIdFromLink;
     LikeButton heart_button;
     boolean isLiked = false;
+    int selectedColor = -1;
+    String colorSelected = "";
+    int selected = -1;
+    String sizeSelected = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,72 +219,29 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 
 
         recyclerView = findViewById(R.id.relatedProducts);
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+//        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         adapter = new RelatedProductsAdapter(ViewProduct.this, productArrayList, userCartProductList, userWishList, new AddToCartInterface() {
             @Override
             public void addedToCart(final Product product, final int quantity, int position) {
 
                 size = "";
                 color = "";
-                if (product.getSizeList() != null) {
-
-                    String[] sizes = new String[product.getSizeList().size()];
-                    sizes = product.getSizeList().toArray(sizes);
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ViewProduct.this);
-                    builder.setTitle("Select size");
-                    final String[] finalItems = sizes;
-                    builder.setItems(sizes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                            size = finalItems[item];
-
-                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                                    .child("cart").child(product.getId()).child("product").setValue(product);
-                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                                    .child("cart").child(product.getId()).child("quantity").setValue(quantity);
-                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                                    .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
-                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                                    .child("cart").child(product.getId()).child("size").setValue(size);
-
-                            dialog.dismiss();
-
-                        }
-                    });
-                    builder.setCancelable(false);
-
-                    builder.show();
+                if (product.getSizeList() != null && product.getColorList() != null) {
+                    showSizeAndColorBottomDialog(product, quantity);
+                } else if (product.getSizeList() != null && product.getColorList() == null) {
+                    showSizeBottomDialog(product, quantity);
+                } else if (product.getColorList() != null && product.getSizeList() == null) {
+                    showColorBottomDialog(product, quantity);
+                } else if (product.getColorList() == null && product.getSizeList() == null) {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("product").setValue(product);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
                 }
-                if (product.getColorList() != null) {
-                    String[] sizes = new String[product.getColorList().size()];
-                    sizes = product.getColorList().toArray(sizes);
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ViewProduct.this);
-                    builder.setTitle("Select color");
-                    final String[] finalItems = sizes;
-                    builder.setItems(sizes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-
-                            color = finalItems[item];
-
-                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                                    .child("cart").child(product.getId()).child("product").setValue(product);
-                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                                    .child("cart").child(product.getId()).child("quantity").setValue(quantity);
-                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                                    .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
-
-                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                                    .child("cart").child(product.getId()).child("color").setValue(color);
-                            dialog.dismiss();
-
-                        }
-                    });
-                    builder.setCancelable(false);
-
-                    builder.show();
-                }
+            
             }
 
             @Override
@@ -315,7 +278,43 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 
             @Override
             public void isProductLiked(Product product, boolean isLiked, int position) {
+                if (isLiked) {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("WishList").child(product.getId()).setValue(product.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            CommonUtils.showToast("Added to Wishlist");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            CommonUtils.showToast("Error");
 
+                        }
+                    });
+                    int likesCount = product.getLikesCount();
+                    likesCount += 1;
+                    mDatabase.child("Products").child(product.getId()).child("likesCount").setValue(likesCount);
+                } else {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("WishList").child(product.getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            CommonUtils.showToast("Removed from Wishlist");
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            CommonUtils.showToast("Error");
+
+                        }
+                    });
+                    int likesCount = product.getLikesCount();
+                    likesCount -= 1;
+                    mDatabase.child("Products").child(product.getId()).child("likesCount").setValue(likesCount);
+                }
             }
         });
         recyclerView.setAdapter(adapter);
@@ -325,6 +324,303 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         dotsIndicator.setViewPager(mViewPager);
 
     }
+    private void showColorBottomDialog(final Product product, final int quantity) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(ViewProduct.this.LAYOUT_INFLATER_SERVICE);
+        View customView = inflater.inflate(R.layout.attributes_color_layout, null);
+//
+        final BottomDialog bottomDialog = new BottomDialog.Builder(this)
+                .setContent(null)
+                .setCustomView(customView)
+
+                .setCancelable(false)
+                .build();
+
+        TextView title = customView.findViewById(R.id.title);
+        TextView price = customView.findViewById(R.id.price);
+        ImageView image = customView.findViewById(R.id.image);
+        ImageView close = customView.findViewById(R.id.close);
+        Button confirm = customView.findViewById(R.id.confirm);
+        LinearLayout sizes = customView.findViewById(R.id.sizes);
+        LinearLayout colors = customView.findViewById(R.id.colors);
+
+        title.setText(product.getTitle());
+        price.setText("Rs: " + product.getRetailPrice());
+        Glide.with(ViewProduct.this).load(product.getThumbnailUrl()).into(image);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.notifyDataSetChanged();
+                bottomDialog.dismiss();
+            }
+        });
+
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!colorSelected.equalsIgnoreCase("")) {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("product").setValue(product);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+
+
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("color").setValue(colorSelected).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            colorSelected = "";
+                            selectedColor = -1;
+                            sizeSelected = "";
+                            selected = -1;
+                        }
+                    });
+
+
+                    bottomDialog.dismiss();
+                } else {
+                    CommonUtils.showToast("Please select color");
+
+                }
+            }
+        });
+        initializeColorButtons(product, colors);
+
+        bottomDialog.show();
+    }
+
+    private void showSizeBottomDialog(final Product product, final int quantity) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(ViewProduct.this.LAYOUT_INFLATER_SERVICE);
+        View customView = inflater.inflate(R.layout.attributes_size_layout, null);
+//
+        final BottomDialog bottomDialog = new BottomDialog.Builder(this)
+                .setContent(null)
+                .setCustomView(customView)
+
+                .setCancelable(false)
+                .build();
+
+        TextView title = customView.findViewById(R.id.title);
+        TextView price = customView.findViewById(R.id.price);
+        ImageView image = customView.findViewById(R.id.image);
+        ImageView close = customView.findViewById(R.id.close);
+        Button confirm = customView.findViewById(R.id.confirm);
+        LinearLayout sizes = customView.findViewById(R.id.sizes);
+        TextView sizeChart = customView.findViewById(R.id.sizeChart);
+
+        sizeChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(ViewProduct.this, SizeChart.class);
+                startActivity(i);
+            }
+        });
+
+
+        title.setText(product.getTitle());
+        price.setText("Rs: " + product.getRetailPrice());
+        Glide.with(ViewProduct.this).load(product.getThumbnailUrl()).into(image);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.notifyDataSetChanged();
+                bottomDialog.dismiss();
+            }
+        });
+
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!sizeSelected.equalsIgnoreCase("")) {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("product").setValue(product);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("size").setValue(sizeSelected).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            sizeSelected = "";
+                            selected = -1;
+                            colorSelected = "";
+                            selectedColor = -1;
+                        }
+                    });
+
+
+                    bottomDialog.dismiss();
+                } else {
+                    CommonUtils.showToast("Please select size ");
+
+                }
+            }
+        });
+        initiliazeSizeButtons(product, sizes);
+
+        bottomDialog.show();
+    }
+
+    private void showSizeAndColorBottomDialog(final Product product, final int quantity) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(ViewProduct.this.LAYOUT_INFLATER_SERVICE);
+        View customView = inflater.inflate(R.layout.attributes_size_color_layout, null);
+//
+        final BottomDialog bottomDialog = new BottomDialog.Builder(this)
+                .setContent(null)
+                .setCustomView(customView)
+
+                .setCancelable(false)
+                .build();
+
+        TextView title = customView.findViewById(R.id.title);
+        TextView price = customView.findViewById(R.id.price);
+        ImageView image = customView.findViewById(R.id.image);
+        ImageView close = customView.findViewById(R.id.close);
+        Button confirm = customView.findViewById(R.id.confirm);
+        LinearLayout sizes = customView.findViewById(R.id.sizes);
+        LinearLayout colors = customView.findViewById(R.id.colors);
+        TextView sizeChart = customView.findViewById(R.id.sizeChart);
+
+        sizeChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(ViewProduct.this, SizeChart.class);
+                startActivity(i);
+            }
+        });
+
+        title.setText(product.getTitle());
+        price.setText("Rs: " + product.getRetailPrice());
+        Glide.with(ViewProduct.this).load(product.getThumbnailUrl()).into(image);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.notifyDataSetChanged();
+                bottomDialog.dismiss();
+            }
+        });
+
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!sizeSelected.equalsIgnoreCase("") && !colorSelected.equalsIgnoreCase("")) {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("product").setValue(product);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("size").setValue(sizeSelected).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            sizeSelected = "";
+                            selected = -1;
+                        }
+                    });
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("color").setValue(colorSelected).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            colorSelected = "";
+                            selectedColor = -1;
+                        }
+                    });
+
+
+                    bottomDialog.dismiss();
+                } else {
+                    CommonUtils.showToast("Please select size and color");
+
+                }
+            }
+        });
+        initializeColorButtons(product, colors);
+        initiliazeSizeButtons(product, sizes);
+
+        bottomDialog.show();
+    }
+
+    @SuppressLint("ResourceAsColor")
+    public void initiliazeSizeButtons(final Product product, final LinearLayout sizes) {
+        sizes.removeAllViews();
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.height = 120;
+        params.width = 130;
+        params.setMargins(10, 1, 10, 1);
+
+        for (int i = 0; i < product.getSizeList().size(); i++) {
+            Button btn = new Button(ViewProduct.this);
+            btn.setLayoutParams(params);
+            btn.setBackgroundResource(R.drawable.size_button_layout);
+            btn.setText("" + product.getSizeList().get(i));
+            sizes.addView(btn);
+            btn.setTextSize(8);
+            btn.setId(i);
+
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (selected == -1) {
+                        selected = view.getId();
+
+                    } else {
+                        sizes.getChildAt(selected).setBackgroundResource(R.drawable.size_button_layout);
+                        selected = view.getId();
+                    }
+                    sizes.getChildAt(view.getId()).setBackgroundResource(R.drawable.size_button_selected);
+                    sizeSelected = product.getSizeList().get(selected);
+                }
+            });
+        }
+    }
+
+    @SuppressLint("ResourceAsColor")
+    public void initializeColorButtons(final Product product, final LinearLayout colors) {
+        colors.removeAllViews();
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.height = 120;
+        params.width = 170;
+        params.setMargins(10, 1, 10, 1);
+        if (product.getColorList() != null) {
+            for (int i = 0; i < product.getColorList().size(); i++) {
+                Button btn = new Button(ViewProduct.this);
+                btn.setLayoutParams(params);
+                btn.setBackgroundResource(R.drawable.size_button_layout);
+                btn.setText("" + product.getColorList().get(i));
+                btn.setTextSize(8);
+                colors.addView(btn);
+                btn.setId(i);
+
+
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (selectedColor == -1) {
+                            selectedColor = view.getId();
+
+                        } else {
+                            colors.getChildAt(selectedColor).setBackgroundResource(R.drawable.size_button_layout);
+                            selectedColor = view.getId();
+                        }
+                        colors.getChildAt(view.getId()).setBackgroundResource(R.drawable.size_button_selected);
+                        colorSelected = product.getColorList().get(selectedColor);
+                    }
+                });
+            }
+        }
+    }
+
 
     private void getLikeFromDB() {
         mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("WishList").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -789,7 +1085,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     public void initiliazeSizeButtons() {
         sizes.removeAllViews();
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.height = 110;
+        params.height = 120;
         params.width = 130;
         params.setMargins(10, 1, 10, 1);
 
@@ -799,7 +1095,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             btn.setBackgroundResource(R.drawable.size_button_layout);
             btn.setText("" + product.getSizeList().get(i));
             sizes.addView(btn);
-            btn.setTextSize(11);
+            btn.setTextSize(8);
             btn.setId(i);
 
             btn.setOnClickListener(new View.OnClickListener() {
@@ -823,8 +1119,8 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     public void initializeColorButtons() {
         colors.removeAllViews();
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.height = 90;
-        params.width = 150;
+        params.height = 120;
+        params.width = 170;
         params.setMargins(10, 1, 10, 1);
         if (product.getColorList() != null) {
             for (int i = 0; i < product.getColorList().size(); i++) {
@@ -832,7 +1128,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                 btn.setLayoutParams(params);
                 btn.setBackgroundResource(R.drawable.size_button_layout);
                 btn.setText("" + product.getColorList().get(i));
-                btn.setTextSize(9);
+                btn.setTextSize(8);
                 colors.addView(btn);
                 btn.setId(i);
 

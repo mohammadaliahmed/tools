@@ -70,10 +70,12 @@ public class MyProfile extends AppCompatActivity {
                 if (!city.equalsIgnoreCase("")) {
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("city").setValue(city);
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("country").setValue(country);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("locationId").setValue(chargesModel.getId());
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("currencySymbol").setValue(chargesModel.getCurrency());
                     SharedPrefs.setExchangeRate("" + chargesModel.getCurrencyRate());
                     SharedPrefs.setLocationId("" + locationId);
                     SharedPrefs.setCurrencySymbol("" + chargesModel.getCurrency());
+
                     CommonUtils.showToast("Profile updated");
                     finish();
 

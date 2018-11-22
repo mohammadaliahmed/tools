@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Adapters.AttributesAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.ProductsAdapter;
+import com.appsinventiv.toolsbazzar.Adapters.RelatedProductsAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.SearchProductsAdapter;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.Product;
@@ -50,10 +52,10 @@ public class Search extends AppCompatActivity {
     ArrayList<ProductCountModel> userCartProductList = new ArrayList<>();
     SearchProductsAdapter adapter;
     DatabaseReference mDatabase;
-    EditText search;
     long cartItemCountFromDb;
     Product product;
     String size = "", color = "";
+    ArrayList<String> userWishList = new ArrayList<>();
 
 
     @Override
@@ -69,7 +71,7 @@ public class Search extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler);
         layoutManager = new LinearLayoutManager(Search.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new SearchProductsAdapter(Search.this, productArrayList, userCartProductList, new AddToCartInterface() {
+        adapter = new SearchProductsAdapter(Search.this, productArrayList, userCartProductList, userWishList, new AddToCartInterface() {
             @Override
             public void addedToCart(final Product product, final int quantity, int position) {
                 size = "";
@@ -102,7 +104,7 @@ public class Search extends AppCompatActivity {
                                     .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
 
                             mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                                    .child("cart").child(product.getId()).child("color").setValue(value);
+                                    .child("cart").child(product.getId()).child("size").setValue(value);
                             bottomDialog.dismiss();
                         }
                     });
@@ -162,12 +164,14 @@ public class Search extends AppCompatActivity {
             }
 
             @Override
-            public void deletedFromCart(final Product product, int position) {
+            public void deletedFromCart(final Product product, final int position) {
+
                 mDatabase.child("Customers").child(SharedPrefs.getUsername())
                         .child("cart").child(product.getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        getUserCartProductsFromDB();
+
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -180,61 +184,133 @@ public class Search extends AppCompatActivity {
 
             @Override
             public void quantityUpdate(Product product, final int quantity, int position) {
-                mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                        .child("cart").child(product.getId()).child("quantity").setValue(quantity).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                if (product != null) {
+                    Log.d("here", userCartProductList.get(0).getProduct().getTitle() + "");
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("quantity").setValue(quantity)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
 
-                    }
-                });
+//                                    adapter.notifyDataSetChanged();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+                }
 
             }
 
             @Override
-            public void isProductLiked(Product product, boolean isLiked, int position) {
+            public void isProductLiked(Product product, final boolean isLiked, int position) {
+                if (isLiked) {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("WishList").child(product.getId()).setValue(product.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            CommonUtils.showToast("Added to Wishlist");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            CommonUtils.showToast("Error");
+
+                        }
+                    });
+                    int likesCount = product.getLikesCount();
+                    likesCount += 1;
+                    mDatabase.child("Products").child(product.getId()).child("likesCount").setValue(likesCount);
+                } else {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("WishList").child(product.getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            CommonUtils.showToast("Removed from Wishlist");
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            CommonUtils.showToast("Error");
+
+                        }
+                    });
+                    int likesCount = product.getLikesCount();
+                    likesCount -= 1;
+                    mDatabase.child("Products").child(product.getId()).child("likesCount").setValue(likesCount);
+                }
 
             }
         });
         recyclerView.setAdapter(adapter);
 
 
+
         getProductsFromDB();
         getUserCartProductsFromDB();
+        getUserWishList();
+
 
 
     }
+    private void getUserWishList() {
+        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("WishList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    userWishList.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String productId = snapshot.getValue(String.class);
+                        if (productId != null) {
+                            userWishList.add(productId);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
 
+                } else {
+                    userWishList.clear();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     private void getUserCartProductsFromDB() {
-
-        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     userCartProductList.clear();
+
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         ProductCountModel product = snapshot.getValue(ProductCountModel.class);
                         if (product != null) {
-                            if (!userCartProductList.contains(product)) {
-                                userCartProductList.add(product);
-                                Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
-                                    @Override
-                                    public int compare(ProductCountModel listData, ProductCountModel t1) {
-                                        Long ob1 = listData.getTime();
-                                        Long ob2 = t1.getTime();
+                            userCartProductList.add(product);
+                            Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
+                                @Override
+                                public int compare(ProductCountModel listData, ProductCountModel t1) {
+                                    Long ob1 = listData.getTime();
+                                    Long ob2 = t1.getTime();
+                                    return ob2.compareTo(ob1);
 
-                                        return ob2.compareTo(ob1);
-
-                                    }
-                                });
-                                adapter.notifyDataSetChanged();
-                            }
+                                }
+                            });
                         }
                     }
+                    adapter.notifyDataSetChanged();
+
+                } else {
+                    userCartProductList.clear();
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -328,8 +404,6 @@ public class Search extends AppCompatActivity {
                 if (newText.length() > 0) {
                     adapter.filter(newText);
 //                    getUserCartProductsFromDB();
-                }else{
-                    adapter.filter("all");
                 }
                 return false;
             }
