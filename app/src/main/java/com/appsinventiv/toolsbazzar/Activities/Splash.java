@@ -46,8 +46,14 @@ public class Splash extends AppCompatActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent i = new Intent(Splash.this, Welcome.class);
-                startActivity(i);
+                if (CommonUtils.isNetworkConnected()) {
+                    Intent i = new Intent(Splash.this, Welcome.class);
+                    startActivity(i);
+                } else {
+                    Intent i = new Intent(Splash.this, No_Internet.class);
+                    startActivity(i);
+                }
+
 
                 // close this activity
                 finish();

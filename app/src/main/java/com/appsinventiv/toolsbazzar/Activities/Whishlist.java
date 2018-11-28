@@ -14,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Adapters.AttributesAdapter;
@@ -53,6 +55,8 @@ public class Whishlist extends AppCompatActivity {
     Product product;
     String size = "", color = "";
     ArrayList<String> userWishList = new ArrayList<>();
+    RelativeLayout wholeLayout;
+    Button startShopping;
 
 
     @Override
@@ -65,7 +69,19 @@ public class Whishlist extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
         recyclerView = findViewById(R.id.recycler);
+        wholeLayout = findViewById(R.id.wholeLayout);
+        startShopping = findViewById(R.id.startShopping);
+
+        startShopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+
         layoutManager = new LinearLayoutManager(Whishlist.this, LinearLayoutManager.VERTICAL, false);
 //        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setLayoutManager(layoutManager);
@@ -286,9 +302,12 @@ public class Whishlist extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     productArrayList.clear();
+                    wholeLayout.setVisibility(View.GONE);
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         getProductsFromDB(snapshot.getKey());
                     }
+                }else{
+                    wholeLayout.setVisibility(View.VISIBLE);
                 }
             }
 

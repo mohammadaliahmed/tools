@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.R;
 
@@ -18,6 +19,8 @@ public class TrackOrder extends AppCompatActivity {
     Button back;
     ImageView img;
     LinearLayout trackingInfo;
+    TextView deliveredTo;
+    private String deliveredToWhom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +32,14 @@ public class TrackOrder extends AppCompatActivity {
         }
         back = findViewById(R.id.goBack);
         img = findViewById(R.id.img);
+        deliveredTo = findViewById(R.id.deliveredTo);
         trackingInfo = findViewById(R.id.trackingInfo);
 
 
         Intent i = getIntent();
         orderId = i.getStringExtra("orderId");
         orderStatus = i.getStringExtra("orderStatus");
+        deliveredToWhom = i.getStringExtra("deliveredToWhom");
 
         if (orderStatus.equalsIgnoreCase("pending")) {
             img.setImageResource(R.drawable.order_pending);
@@ -47,6 +52,7 @@ public class TrackOrder extends AppCompatActivity {
         }
         if (orderStatus.equalsIgnoreCase("delivered")) {
             img.setImageResource(R.drawable.order_delivered);
+            deliveredTo.setText("Delivered to: " + deliveredToWhom);
         }
 
         if (orderStatus.equalsIgnoreCase("Delivered By Courier")) {

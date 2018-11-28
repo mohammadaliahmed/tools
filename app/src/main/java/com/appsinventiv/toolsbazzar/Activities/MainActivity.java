@@ -149,13 +149,13 @@ public class MainActivity extends AppCompatActivity
 
         tabLayout.setupWithViewPager(viewPager);
 
-        mDatabase.child("Settings").child("Categories").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Settings").child("Categories").child("MainCategory").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     categoryList.add("All");
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String categoryTitle = snapshot.getKey();
+                        String categoryTitle = snapshot.getValue(String.class);
                         categoryList.add(categoryTitle);
                     }
                     adapter.notifyDataSetChanged();

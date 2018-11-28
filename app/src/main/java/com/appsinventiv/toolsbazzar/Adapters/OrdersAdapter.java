@@ -85,6 +85,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
                 Intent i=new Intent(context, TrackOrder.class);
                 i.putExtra("orderId",model.getOrderId());
                 i.putExtra("orderStatus",model.getOrderStatus());
+                if(model.getOrderStatus().equalsIgnoreCase("delivered")){
+//                    model.deli
+                }
                 context.startActivity(i);
             }
         });

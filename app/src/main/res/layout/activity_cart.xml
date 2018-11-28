@@ -14,15 +14,16 @@
 
 
         <ImageView
+            android:id="@+id/img"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:id="@+id/img"
             android:src="@drawable/ic_p1" />
 
         <TextView
+            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/checkout"
@@ -32,8 +33,7 @@
             android:layout_marginStart="9dp"
             android:text="1. Your bill"
             android:textColor="@color/main_green_color"
-            android:textSize="11sp"
-            android:id="@+id/textView6" />
+            android:textSize="11sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -272,26 +272,23 @@
         android:layout_height="match_parent"
 
         android:background="#fff"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
-            android:layout_width="100dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/emptycart" />
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitStart"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/my_cart" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_above="@id/startShopping"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="82dp"
-            android:layout_marginEnd="115dp"
-            android:layout_marginRight="115dp"
             android:gravity="center"
-            android:text="Your cart is empty\nShop now" />
+            android:text="Please feel free to add your favorite \nproducts in to your cart &amp; explore the world" />
 
         <Button
             android:id="@+id/startShopping"

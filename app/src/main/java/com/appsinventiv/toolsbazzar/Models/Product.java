@@ -1,5 +1,6 @@
 package com.appsinventiv.toolsbazzar.Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,8 @@ public class Product {
     List<String> sizeList;
     float oldWholeSalePrice, oldRetailPrice;
     float rating;
+    ArrayList<String> category;
+
 
     public Product(String id, String title, String subtitle, String isActive, int sku,
                    String thumbnailUrl, String mainCategory, String subCategory,
@@ -47,6 +50,14 @@ public class Product {
     }
 
     public Product() {
+    }
+
+    public ArrayList<String> getCategory() {
+        return category;
+    }
+
+    public void setCategory(ArrayList<String> category) {
+        this.category = category;
     }
 
     public List<String> getSizeList() {

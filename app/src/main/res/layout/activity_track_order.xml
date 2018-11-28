@@ -15,45 +15,52 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp" />
 
-    <LinearLayout
+    <TextView
         android:visibility="gone"
+        android:layout_margin="10dp"
+        android:id="@+id/deliveredTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img" />
+
+    <LinearLayout
         android:id="@+id/trackingInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/goBack"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/carrier"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textStyle="bold"
+            android:text="Carrier: TNT"
             android:textColor="#000"
-            android:text="Carrier: TNT" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/trackingNumber"
-            android:textColor="#000"
-
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:text="Tracking Number: 123432432423"
 
-            android:textStyle="bold"
-            android:text="Tracking Number: 123432432423" />
+            android:textColor="#000"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
             android:layout_marginBottom="5dp"
+            android:layout_marginTop="15dp"
             android:gravity="center_horizontal"
             android:text="Please visit TNT official website to track \nyour shipment status "
-            android:textSize="12sp"
-             />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <Button

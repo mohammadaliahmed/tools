@@ -12,7 +12,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsinventiv.toolsbazzar.Activities.No_Internet;
+import com.appsinventiv.toolsbazzar.Activities.Splash;
 import com.appsinventiv.toolsbazzar.Activities.ViewProduct;
+import com.appsinventiv.toolsbazzar.Activities.Welcome;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
@@ -238,9 +241,15 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, ViewProduct.class);
-                i.putExtra("productId", model.getId());
-                context.startActivity(i);
+                if (CommonUtils.isNetworkConnected()) {
+                    Intent i = new Intent(context, ViewProduct.class);
+                    i.putExtra("productId", model.getId());
+                    context.startActivity(i);
+                } else {
+                    Intent i = new Intent(context, No_Internet.class);
+                    context.startActivity(i);
+                }
+
             }
         });
 

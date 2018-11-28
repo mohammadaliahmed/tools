@@ -308,7 +308,7 @@ public class ProductListFragment extends Fragment {
         sizeChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(context, SizeChart.class);
+                Intent i = new Intent(context, SizeChart.class);
                 context.startActivity(i);
             }
         });
@@ -389,7 +389,7 @@ public class ProductListFragment extends Fragment {
         sizeChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(context, SizeChart.class);
+                Intent i = new Intent(context, SizeChart.class);
                 context.startActivity(i);
             }
         });
@@ -612,19 +612,21 @@ public class ProductListFragment extends Fragment {
                                         }
                                     });
                                     adapter.notifyDataSetChanged();
-                                } else if (category.equalsIgnoreCase(product.getMainCategory())) {
-                                    productArrayList.add(product);
-                                    Collections.sort(productArrayList, new Comparator<Product>() {
-                                        @Override
-                                        public int compare(Product listData, Product t1) {
-                                            String ob1 = listData.getTitle();
-                                            String ob2 = t1.getTitle();
+                                } else if (product.getCategory()!=null) {
+                                    if (product.getCategory().contains(category)) {
+                                        productArrayList.add(product);
+                                        Collections.sort(productArrayList, new Comparator<Product>() {
+                                            @Override
+                                            public int compare(Product listData, Product t1) {
+                                                String ob1 = listData.getTitle();
+                                                String ob2 = t1.getTitle();
 
-                                            return ob1.compareTo(ob2);
+                                                return ob1.compareTo(ob2);
 
-                                        }
-                                    });
-                                    adapter.notifyDataSetChanged();
+                                            }
+                                        });
+                                        adapter.notifyDataSetChanged();
+                                    }
                                 }
                             }
                         }

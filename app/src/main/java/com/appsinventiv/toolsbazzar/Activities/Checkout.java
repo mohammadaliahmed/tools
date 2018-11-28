@@ -137,7 +137,11 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
                         });
                     }
                 } else {
-                    CommonUtils.showToast("Please connect to internet");
+
+
+                    Intent i = new Intent(Checkout.this, No_Internet.class);
+                    startActivity(i);
+
                 }
             }
         });

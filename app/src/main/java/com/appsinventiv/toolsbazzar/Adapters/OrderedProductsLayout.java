@@ -60,6 +60,16 @@ public class OrderedProductsLayout extends RecyclerView.Adapter<OrderedProductsL
                 context.startActivity(i);
             }
         });
+        if (model.getSize() != null) {
+            holder.size.setText("Size: " + model.getSize());
+        } else {
+
+        }
+        if (model.getColor() != null) {
+            holder.color.setText("Color: " + model.getColor());
+        } else {
+
+        }
 
 
     }
@@ -70,7 +80,7 @@ public class OrderedProductsLayout extends RecyclerView.Adapter<OrderedProductsL
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title, subtitle, price, quantity;
+        TextView title, subtitle, price, quantity, color, size;
         ImageView image;
 
         public ViewHolder(View itemView) {
@@ -81,6 +91,8 @@ public class OrderedProductsLayout extends RecyclerView.Adapter<OrderedProductsL
             image = itemView.findViewById(R.id.image);
 
             quantity = itemView.findViewById(R.id.quantity);
+            color = itemView.findViewById(R.id.color);
+            size = itemView.findViewById(R.id.size);
 
 
         }

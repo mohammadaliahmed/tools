@@ -145,7 +145,7 @@ public class ProductComments extends AppCompatActivity {
                                     Long ob1 = listData.getTime();
                                     Long ob2 = t1.getTime();
 
-                                    return ob2.compareTo(ob1);
+                                    return ob1.compareTo(ob2);
 
                                 }
                             });
