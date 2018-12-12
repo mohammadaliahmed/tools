@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/scrollView"
-    android:background="#efefef"
+    android:background="@color/body_grey"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.appsinventiv.toolsbazzar.Activities.MainActivity"
     tools:showIn="@layout/app_bar_main">

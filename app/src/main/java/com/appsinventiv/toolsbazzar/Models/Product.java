@@ -26,6 +26,30 @@ public class Product {
     ArrayList<String> category;
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+        if (id != null && product.id != null) {
+            if (id.equalsIgnoreCase(product.id)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+
+        }
+//        return id != null ? !id.equals(product.id) : product.id != null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
     public Product(String id, String title, String subtitle, String isActive, int sku,
                    String thumbnailUrl, String mainCategory, String subCategory,
                    long time, float costPrice, float wholeSalePrice, float retailPrice,

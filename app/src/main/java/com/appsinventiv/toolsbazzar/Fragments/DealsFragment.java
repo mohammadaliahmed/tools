@@ -190,6 +190,7 @@ public class DealsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
     }
+
     private void showColorBottomDialog(final Product product, final int quantity) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View customView = inflater.inflate(R.layout.attributes_color_layout, null);
@@ -280,7 +281,7 @@ public class DealsFragment extends Fragment {
         sizeChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(context, SizeChart.class);
+                Intent i = new Intent(context, SizeChart.class);
                 context.startActivity(i);
             }
         });
@@ -357,7 +358,7 @@ public class DealsFragment extends Fragment {
         sizeChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(context, SizeChart.class);
+                Intent i = new Intent(context, SizeChart.class);
                 context.startActivity(i);
             }
         });
@@ -487,6 +488,7 @@ public class DealsFragment extends Fragment {
             }
         }
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -563,12 +565,18 @@ public class DealsFragment extends Fragment {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
                             if (product.getIsActive().equals("true")) {
-//                                if (product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
-                                    productArrayList.add(product);
-//                                } else {
-//                                    productArrayList.add(product);
-//                                }
+                                if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
 
+                                    if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+                                        if (product.getOldWholeSalePrice() != 0) {
+                                            productArrayList.add(product);
+                                        }
+                                    } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+                                        if (product.getOldRetailPrice() != 0) {
+                                            productArrayList.add(product);
+                                        }
+                                    }
+                                }
                                 Collections.sort(productArrayList, new Comparator<Product>() {
                                     @Override
                                     public int compare(Product listData, Product t1) {
@@ -579,12 +587,13 @@ public class DealsFragment extends Fragment {
 
                                     }
                                 });
-                                mDatabase.removeEventListener(this);
-                                adapter.notifyDataSetChanged();
+
                             }
 
                         }
                     }
+                    mDatabase.removeEventListener(this);
+                    adapter.notifyDataSetChanged();
                 }
             }
 

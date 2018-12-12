@@ -8,7 +8,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
 
         android:layout_marginBottom="10dp"
         android:elevation="2dp"
@@ -22,36 +22,24 @@
 
             <ImageView
                 android:id="@+id/productImage"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
                 android:src="@drawable/placeholder" />
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@id/productImage"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text=""
-                android:textColor="#000"
-                android:textSize="12sp" />
+                android:layout_marginLeft="90dp"
+                android:layout_marginTop="10dp" />
 
             <TextView
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/productImage"
-                android:text=""
                 android:textColor="@color/colorPrimary"
-                android:textSize="12sp" />
-
+                android:layout_marginLeft="90dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -69,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/aaaa"
-        android:layout_marginTop="65dp">
+        android:layout_marginTop="85dp">
 
     </android.support.v7.widget.RecyclerView>
 

@@ -1,20 +1,35 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.appsinventiv.toolsbazzar.Adapters.AttributesAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.FragmentAdapter;
+import com.appsinventiv.toolsbazzar.Adapters.SearchProductsAdapter;
+import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
+import com.appsinventiv.toolsbazzar.Models.Product;
+import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.github.javiersantos.bottomdialogs.BottomDialog;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,17 +37,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ListOfProducts extends AppCompatActivity {
-    public static TextView textCartItemCount;
+    RecyclerView recyclerView;
+    LinearLayoutManager layoutManager;
+    ArrayList<Product> productArrayList = new ArrayList<>();
+    ArrayList<Product> arrayList = new ArrayList<>();
+    ArrayList<ProductCountModel> userCartProductList = new ArrayList<>();
+    SearchProductsAdapter adapter;
     DatabaseReference mDatabase;
-    ArrayList<String> categoryList = new ArrayList<>();
     long cartItemCountFromDb;
-    int pos;
+    Product product;
+    String size = "", color = "";
+    ArrayList<String> userWishList = new ArrayList<>();
     String category;
-    int flag;
-
-    boolean tabScrollable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,255 +63,354 @@ public class ListOfProducts extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        Intent i = getIntent();
-        pos = i.getIntExtra("position", 0);
-        category = i.getStringExtra("category");
-        flag = i.getIntExtra("flag", 0);
+        category = getIntent().getStringExtra("parentCategory");
+        this.setTitle("Category: " + category);
 
-        this.setTitle(category);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        recyclerView = findViewById(R.id.recycler);
+        layoutManager = new LinearLayoutManager(ListOfProducts.this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new SearchProductsAdapter(ListOfProducts.this, productArrayList, userCartProductList, userWishList, new AddToCartInterface() {
+            @Override
+            public void addedToCart(final Product product, final int quantity, int position) {
+                size = "";
+                color = "";
 
-        ViewPager viewPager = findViewById(R.id.viewpager);
-        if (category != null) {
-            if (category.equalsIgnoreCase("Oil & Ghee")) {
-                categoryList.add("Sunflower Oil");
-                categoryList.add("Cooking Oil");
-                categoryList.add("Other Edible Oil");
-                categoryList.add("Canola Oil");
-                categoryList.add("Olive Oil");
-                categoryList.add("Corn Oil");
-                categoryList.add("Ghee");
-                categoryList.add("Desi Ghee");
-            } else if (category.equalsIgnoreCase("Spices, Salt & Sugar")) {
-                categoryList.add("Herbs & Spices");
-                categoryList.add("Salt");
-                categoryList.add("Sugar");
-                categoryList.add("National Masala");
-                categoryList.add("Shan Masala");
-                categoryList.add("Seasoning Cubes");
-                categoryList.add("Vinegar");
-            } else if (category.equalsIgnoreCase("Daalain, Rice & Flour")) {
-                categoryList.add("Daalian");
-                categoryList.add("Rice");
-                categoryList.add("Flour");
-                categoryList.add("Dry Fruit");
-                categoryList.add("Other");
 
-            } else if (category.equalsIgnoreCase("Sauces, Olives & Pickles")) {
-                categoryList.add("Ketchup");
-                categoryList.add("Chilli Sauce");
-                categoryList.add("Mayonise");
-                categoryList.add("Olives");
-                categoryList.add("Pickles");
+                if (product.getSizeList() != null) {
 
-            } else if (category.equalsIgnoreCase("Jam, Honey & Spread")) {
-                categoryList.add("Jam");
-                categoryList.add("Honey");
-                categoryList.add("Spread");
-                categoryList.add("Syrup");
+                    String[] sizes = new String[product.getSizeList().size()];
+                    sizes = product.getSizeList().toArray(sizes);
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View customView = inflater.inflate(R.layout.attributes_list_layout, null);
+                    final BottomDialog bottomDialog = new BottomDialog.Builder(ListOfProducts.this)
+                            .setCustomView(customView)
+                            .setTitle("Select Size")
+                            .setCancelable(false)
 
-            } else if (category.equalsIgnoreCase("Baking & Desert")) {
-                categoryList.add("Baking Mix");
-                categoryList.add("Jelly");
-                categoryList.add("Laziza Deserts");
-                categoryList.add("Other");
-            } else if (category.equalsIgnoreCase("Women Care")) {
-                categoryList.add("W Body Spray");
-                categoryList.add("W Roll on");
-                categoryList.add("Pads");
-                categoryList.add("Hair Remover");
-                categoryList.add("Nail Polish Remover");
+                            .build();
+                    RecyclerView recyclerView = customView.findViewById(R.id.recycler1);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(ListOfProducts.this, LinearLayoutManager.VERTICAL, false));
+                    AttributesAdapter adapter = new AttributesAdapter(ListOfProducts.this, sizes, new AttributesAdapter.OnItemSelected() {
+                        @Override
+                        public void onOptionSelected(String value) {
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("product").setValue(product);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
 
-            } else if (category.equalsIgnoreCase("Men Care")) {
-                categoryList.add("M Roll on");
-                categoryList.add("Body Spray");
-                categoryList.add("Razors");
-                categoryList.add("Shaving Foams");
-                categoryList.add("After Shave");
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("size").setValue(value);
+                            bottomDialog.dismiss();
+                        }
+                    });
 
-            } else if (category.equalsIgnoreCase("Hair Care")) {
-                categoryList.add("Hair Color");
-                categoryList.add("Shampoo");
-                categoryList.add("Conditioner");
-                categoryList.add("Gel");
-                categoryList.add("Hair Cream");
-            } else if (category.equalsIgnoreCase("Skin Care")) {
-                categoryList.add("Scrubs");
-                categoryList.add("Lotion & Cream");
-                categoryList.add("Face Wash");
-                categoryList.add("Sun Block");
-            } else if (category.equalsIgnoreCase("Dental Care")) {
-                categoryList.add("Tooth Brush");
-                categoryList.add("Tooth paste");
-                categoryList.add("Mouth Wash");
-                tabScrollable = true;
-            } else if (category.equalsIgnoreCase("Soap, Hand Wash & Sanitizer")) {
-                categoryList.add("Soap");
-                categoryList.add("Hand Wash");
-                categoryList.add("Shower Gel");
-                tabScrollable = true;
-            } else if (category.equalsIgnoreCase("Shoes Ploish & Brush")) {
-                categoryList.add("Polish");
-                categoryList.add("Brush");
-                tabScrollable = true;
-            } else if (category.equalsIgnoreCase("Fruits")) {
-                categoryList.add("Vegetables");
-                categoryList.add("Fruits");
-                pos = 1;
-                tabScrollable = true;
+                    recyclerView.setAdapter(adapter);
+                    bottomDialog.show();
 
-            } else if (category.equalsIgnoreCase("Vegetables")) {
-                categoryList.add("Vegetables");
-                categoryList.add("Fruits");
-                pos = 0;
-                tabScrollable = true;
-            } else if (category.equalsIgnoreCase("Floor & Bath Cleaning")) {
-                categoryList.add("Floor & Bath Cleaning");
-                categoryList.add("Laundry");
-                categoryList.add("Kitchen Cleaning");
-                categoryList.add("Repellents");
-                categoryList.add("Air Refreshners");
-                categoryList.add("Cleaning Accessories");
 
-                pos = 0;
+                }
+                if (product.getColorList() != null) {
+                    String[] sizes = new String[product.getColorList().size()];
+                    sizes = product.getColorList().toArray(sizes);
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View customView = inflater.inflate(R.layout.attributes_list_layout, null);
 
-            } else if (category.equalsIgnoreCase("Laundry")) {
-                categoryList.add("Floor & Bath Cleaning");
-                categoryList.add("Laundry");
-                categoryList.add("Kitchen Cleaning");
-                categoryList.add("Repellents");
-                categoryList.add("Air Refreshners");
-                categoryList.add("Cleaning Accessories");
+                    final BottomDialog bottomDialog = new BottomDialog.Builder(ListOfProducts.this)
+                            .setCustomView(customView)
+                            .setTitle("Select Color")
+                            .setCancelable(false)
 
-                pos = 1;
+                            .build();
+                    RecyclerView recyclerView = customView.findViewById(R.id.recycler1);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(ListOfProducts.this, LinearLayoutManager.VERTICAL, false));
+                    AttributesAdapter adapter = new AttributesAdapter(ListOfProducts.this, sizes, new AttributesAdapter.OnItemSelected() {
+                        @Override
+                        public void onOptionSelected(String value) {
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("product").setValue(product);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
 
-            } else if (category.equalsIgnoreCase("Kitchen Cleaning")) {
-                categoryList.add("Floor & Bath Cleaning");
-                categoryList.add("Laundry");
-                categoryList.add("Kitchen Cleaning");
-                categoryList.add("Repellents");
-                categoryList.add("Air Refreshners");
-                categoryList.add("Cleaning Accessories");
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                    .child("cart").child(product.getId()).child("color").setValue(value);
+                            bottomDialog.dismiss();
+                        }
+                    });
 
-                pos = 2;
+                    recyclerView.setAdapter(adapter);
 
-            } else if (category.equalsIgnoreCase("Repellents")) {
-                categoryList.add("Floor & Bath Cleaning");
-                categoryList.add("Laundry");
-                categoryList.add("Kitchen Cleaning");
-                categoryList.add("Repellents");
-                categoryList.add("Air Refreshners");
-                categoryList.add("Cleaning Accessories");
 
-                pos = 3;
+//
+                    bottomDialog.show();
 
-            } else if (category.equalsIgnoreCase("Air Refreshners")) {
-                categoryList.add("Floor & Bath Cleaning");
-                categoryList.add("Laundry");
-                categoryList.add("Kitchen Cleaning");
-                categoryList.add("Repellents");
-                categoryList.add("Air Refreshners");
-                categoryList.add("Cleaning Accessories");
 
-                pos = 4;
-
-            } else if (category.equalsIgnoreCase("Cleaning Accessories")) {
-                categoryList.add("Floor & Bath Cleaning");
-                categoryList.add("Laundry");
-                categoryList.add("Kitchen Cleaning");
-                categoryList.add("Repellents");
-                categoryList.add("Air Refreshners");
-                categoryList.add("Cleaning Accessories");
-
-                pos = 5;
-
-            } else if (category.equalsIgnoreCase("Cold Drinks")) {
-                categoryList.add("Cold Drinks");
-                categoryList.add("Juices");
-                categoryList.add("Tea");
-                categoryList.add("Mineral Water");
-                categoryList.add("Sharbat");
-                categoryList.add("Coffee");
-
-                pos = 0;
-
-            } else if (category.equalsIgnoreCase("Juices")) {
-                categoryList.add("Cold Drinks");
-                categoryList.add("Juices");
-                categoryList.add("Tea");
-                categoryList.add("Mineral Water");
-                categoryList.add("Sharbat");
-                categoryList.add("Coffee");
-
-                pos = 1;
-
-            } else if (category.equalsIgnoreCase("Tea")) {
-                categoryList.add("Cold Drinks");
-                categoryList.add("Juices");
-                categoryList.add("Tea");
-                categoryList.add("Mineral Water");
-                categoryList.add("Sharbat");
-                categoryList.add("Coffee");
-
-                pos = 2;
-
-            } else if (category.equalsIgnoreCase("Mineral Water")) {
-                categoryList.add("Cold Drinks");
-                categoryList.add("Juices");
-                categoryList.add("Tea");
-                categoryList.add("Mineral Water");
-                categoryList.add("Sharbat");
-                categoryList.add("Coffee");
-                pos = 3;
-
-            } else if (category.equalsIgnoreCase("Sharbat")) {
-                categoryList.add("Cold Drinks");
-                categoryList.add("Juices");
-                categoryList.add("Tea");
-                categoryList.add("Mineral Water");
-                categoryList.add("Sharbat");
-                categoryList.add("Coffee");
-
-                pos = 4;
-
-            } else if (category.equalsIgnoreCase("Coffee")) {
-                categoryList.add("Cold Drinks");
-                categoryList.add("Juices");
-                categoryList.add("Tea");
-                categoryList.add("Mineral Water");
-                categoryList.add("Sharbat");
-                categoryList.add("Coffee");
-
-                pos = 5;
+                }
+                if (product.getColorList() == null && product.getSizeList() == null) {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("product").setValue(product);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+                }
 
             }
 
-        }
+            @Override
+            public void deletedFromCart(final Product product, final int position) {
 
-        FragmentAdapter adapter = new FragmentAdapter(this, getSupportFragmentManager(), categoryList,"0");
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(pos);
+                mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                        .child("cart").child(product.getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
 
-        // Give the TabLayout the ViewPager
-        TabLayout tabLayout = findViewById(R.id.sliding_tabs);
-        if (tabScrollable) {
-            tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        } else {
 
-        }
-        tabLayout.setupWithViewPager(viewPager);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void quantityUpdate(Product product, final int quantity, int position) {
+                if (product != null) {
+                    Log.d("here", userCartProductList.get(0).getProduct().getTitle() + "");
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("cart").child(product.getId()).child("quantity").setValue(quantity)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+//                                    adapter.notifyDataSetChanged();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void isProductLiked(Product product, final boolean isLiked, int position) {
+                if (isLiked) {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("WishList").child(product.getId()).setValue(product.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            CommonUtils.showToast("Added to Wishlist");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            CommonUtils.showToast("Error");
+
+                        }
+                    });
+                    int likesCount = product.getLikesCount();
+                    likesCount += 1;
+                    mDatabase.child("Products").child(product.getId()).child("likesCount").setValue(likesCount);
+                } else {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                            .child("WishList").child(product.getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            CommonUtils.showToast("Removed from Wishlist");
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            CommonUtils.showToast("Error");
+
+                        }
+                    });
+                    int likesCount = product.getLikesCount();
+                    likesCount -= 1;
+                    mDatabase.child("Products").child(product.getId()).child("likesCount").setValue(likesCount);
+                }
+
+            }
+        }, true);
+        recyclerView.setAdapter(adapter);
+
+
+        getProductsFromDB();
+        getUserCartProductsFromDB();
+        getUserWishList();
+
+
     }
 
+    private void getUserWishList() {
+        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("WishList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    userWishList.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String productId = snapshot.getValue(String.class);
+                        if (productId != null) {
+                            userWishList.add(productId);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+
+                } else {
+                    userWishList.clear();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getUserCartProductsFromDB() {
+        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    userCartProductList.clear();
+
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        ProductCountModel product = snapshot.getValue(ProductCountModel.class);
+                        if (product != null) {
+                            userCartProductList.add(product);
+                            Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
+                                @Override
+                                public int compare(ProductCountModel listData, ProductCountModel t1) {
+                                    Long ob1 = listData.getTime();
+                                    Long ob2 = t1.getTime();
+                                    return ob2.compareTo(ob1);
+
+                                }
+                            });
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+
+                } else {
+                    userCartProductList.clear();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getProductsFromDB() {
+//        productArrayList.clear();
+        mDatabase.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    productArrayList.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        product = snapshot.getValue(Product.class);
+                        if (product != null) {
+                            if (product.getIsActive().equals("true")) {
+                                if (product.getCategory() != null) {
+                                    if (product.getCategory().contains(category)) {
+                                        if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
+
+                                            if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+                                                if (product.getOldWholeSalePrice() != 0) {
+                                                    productArrayList.add(product);
+                                                }
+                                            } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+                                                if (product.getOldRetailPrice() != 0) {
+                                                    productArrayList.add(product);
+                                                }
+                                            }
+                                        }
+                                        Collections.sort(productArrayList, new Comparator<Product>() {
+                                            @Override
+                                            public int compare(Product listData, Product t1) {
+                                                String ob1 = listData.getTitle();
+                                                String ob2 = t1.getTitle();
+
+                                                return ob1.compareTo(ob2);
+
+                                            }
+                                        });
+
+                                    }
+                                }
+                            }
+                        }
+
+
+                    }
+                    adapter.updatelist(productArrayList);
+                    adapter.notifyDataSetChanged();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+
+            finish();
+        }
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_search) {
+            Intent i = new Intent(ListOfProducts.this, Search.class);
+            startActivity(i);
+        } else if (id == R.id.action_cart) {
+//            if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
+//                CommonUtils.showToast("Your Cart is empty");
+//            } else {
+            Intent i = new Intent(ListOfProducts.this, Cart.class);
+            startActivity(i);
+//            }
+
+            return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
 
         final MenuItem menuItem = menu.findItem(R.id.action_cart);
 
         View actionView = MenuItemCompat.getActionView(menuItem);
-        textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
+        final TextView textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
 
         mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
             @Override
@@ -302,8 +421,6 @@ public class ListOfProducts extends AppCompatActivity {
                 if (dataSnapshot.getChildrenCount() == 0) {
                     SharedPrefs.setCartCount("0");
                 }
-
-
             }
 
             @Override
@@ -320,39 +437,20 @@ public class ListOfProducts extends AppCompatActivity {
 
 
         return true;
+
+    }
+
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (item.getItemId() == android.R.id.home) {
-
-            finish();
-        }
-        if (id == R.id.action_search) {
-            Intent i = new Intent(ListOfProducts.this, Search.class);
-            startActivity(i);
-        } else if (id == R.id.action_cart) {
-//            if (SharedPrefs.getIsLoggedIn().equals("yes")) {
-            if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
-                CommonUtils.showToast("Your Cart is empty");
-            } else {
-                Intent i = new Intent(ListOfProducts.this, Cart.class);
-                startActivity(i);
-            }
-//            } else {
-//                Intent i = new Intent(ListOfProducts.this, Login.class);
-//                i.putExtra("takeUserToActivity", Constants.CART_ACTIVITY);
-//                startActivity(i);
-//            }
-            return true;
-        }
-
-
-        return super.onOptionsItemSelected(item);
+    public void onBackPressed() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
-
 }

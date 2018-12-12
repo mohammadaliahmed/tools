@@ -18,7 +18,7 @@ import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 
 public class Splash extends AppCompatActivity {
-    private static int SPLASH_TIME_OUT = 2000;
+    public static int SPLASH_TIME_OUT = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

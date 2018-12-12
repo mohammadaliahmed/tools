@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.format.DateFormat;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 import android.net.ConnectivityManager;
@@ -13,6 +14,7 @@ import android.net.ConnectivityManager;
 
 import com.appsinventiv.toolsbazzar.ApplicationClass;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 /**
@@ -33,6 +35,11 @@ public class CommonUtils {
                 Toast.makeText(ApplicationClass.getInstance().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    public static String getFormattedPrice(Object price) {
+        DecimalFormat formatter = new DecimalFormat("##,##,###");
+        String formattedPrice = formatter.format(price);
+        return formattedPrice;
     }
 
     public static String getFormattedDate(long smsTimeInMilis) {
@@ -77,6 +84,30 @@ public class CommonUtils {
                 (ConnectivityManager) ApplicationClass.getInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+    public static double screenSize() {
+
+        double size = 0;
+        try {
+
+            // Compute screen size
+
+            DisplayMetrics dm = ApplicationClass.getInstance().getApplicationContext().getResources().getDisplayMetrics();
+
+            float screenWidth  = dm.widthPixels / dm.xdpi;
+
+            float screenHeight = dm.heightPixels / dm.ydpi;
+
+            size = Math.sqrt(Math.pow(screenWidth, 2) +
+
+                    Math.pow(screenHeight, 2));
+
+        } catch(Throwable t) {
+
+        }
+
+        return size;
+
     }
 
 

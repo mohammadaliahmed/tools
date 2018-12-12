@@ -2,7 +2,8 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#e6e6e6">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -64,7 +65,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:background="#e6e6e6"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.CardView
@@ -308,63 +309,93 @@
 
                         </RelativeLayout>
 
-                        <TextView
-                            android:id="@+id/textSize"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:text="Select Size"
-                            android:textStyle="bold" />
+                        <RelativeLayout
+                            android:id="@+id/sizeSection"
 
-                        <HorizontalScrollView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="15dp">
+                            android:layout_height="wrap_content">
 
-                            <LinearLayout
-                                android:id="@+id/sizes"
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:orientation="horizontal"></LinearLayout>
-                        </HorizontalScrollView>
+                            <TextView
+                                android:id="@+id/textSize"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:text="Select Size"
+                                android:textStyle="bold" />
 
-                        <View
+                            <TextView
+                                android:id="@+id/sizeGuide"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="10dp"
+                                android:text="Size Guide"
+                                android:textStyle="bold" />
+
+                            <HorizontalScrollView
+                                android:id="@+id/hori"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/textSize"
+                                android:padding="15dp">
+
+                                <LinearLayout
+                                    android:id="@+id/sizes"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:orientation="horizontal"></LinearLayout>
+                            </HorizontalScrollView>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_below="@id/hori"
+                                android:layout_marginTop="20dp"
+                                android:background="#e6e6e6"></View>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/colorSection"
+
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="20dp"
-                            android:background="#e6e6e6"></View>
+                            android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/textColor"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="20dp"
-                            android:text="Select Color"
-                            android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/textColor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="20dp"
+                                android:text="Select Color"
+                                android:textStyle="bold" />
 
-                        <HorizontalScrollView
-                            android:layout_width="match_parent"
+                            <HorizontalScrollView
+                                android:layout_width="match_parent"
+                                android:id="@+id/horic"
+                                android:layout_below="@id/textColor"
+                                android:layout_height="wrap_content"
+                                android:padding="15dp">
 
-                            android:layout_height="wrap_content"
-                            android:padding="15dp">
+                                <LinearLayout
 
-                            <LinearLayout
+                                    android:id="@+id/colors"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
 
-                                android:id="@+id/colors"
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
+                                    android:orientation="horizontal"></LinearLayout>
+                            </HorizontalScrollView>
 
-                                android:orientation="horizontal"></LinearLayout>
-                        </HorizontalScrollView>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginBottom="30dp"
-                            android:layout_marginTop="40dp"
-                            android:background="#e6e6e6"></View>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_below="@+id/horic"
+                                android:layout_marginBottom="30dp"
+                                android:layout_marginTop="10dp"
+                                android:background="#e6e6e6"></View>
+                        </RelativeLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -402,7 +433,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/description_card"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="5dp"
                     android:text="Similar Products"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -412,8 +443,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/description_card"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp">
 
                 </android.support.v7.widget.RecyclerView>
 

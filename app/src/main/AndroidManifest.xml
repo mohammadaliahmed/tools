@@ -75,7 +75,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.Search"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".Activities.LiveChat"
             android:screenOrientation="portrait" />
@@ -108,8 +109,11 @@
         <activity android:name=".Activities.TrackOrder" />
         <activity android:name=".Activities.ProductComments" />
         <activity android:name=".Activities.SizeChart" />
-        <activity android:name=".Activities.No_Internet"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Activities.No_Internet" />
+        <activity android:name=".Activities.NewSales" />
+        <activity android:name=".Activities.ChooseCategory" />
+        <activity android:name=".Activities.ViewInvoice"
+            android:theme="@style/AppTheme.NoActionBar" ></activity>
     </application>
 
 </manifest>

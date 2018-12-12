@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +46,7 @@ public class Register extends AppCompatActivity {
     TextView chooseLocation, createAccountText;
     String city = "", country = "", locationId = "";
     int locationPosition;
-    TextInputLayout abc1, abc2;
+    RelativeLayout abc1, abc2;
     LocationAndChargesModel chargesModel;
 
     @Override

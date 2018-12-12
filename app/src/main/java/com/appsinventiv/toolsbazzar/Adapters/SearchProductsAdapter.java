@@ -37,19 +37,23 @@ public class SearchProductsAdapter extends RecyclerView.Adapter<SearchProductsAd
     ArrayList<ProductCountModel> userCartProductList;
     ArrayList<String> userWishList;
     private ArrayList<Product> arrayList;
-
+    boolean showPercentage = false;
 
     public SearchProductsAdapter(Context context,
                                  ArrayList<Product> productList,
                                  ArrayList<ProductCountModel> userCartProductList,
                                  ArrayList<String> userWishList,
-                                 AddToCartInterface addToCartInterface) {
+                                 AddToCartInterface addToCartInterface,
+                                 boolean showPercentage
+
+    ) {
         this.context = context;
         this.productList = productList;
         this.addToCartInterface = addToCartInterface;
         this.userWishList = userWishList;
         this.userCartProductList = userCartProductList;
         this.arrayList = new ArrayList<>(productList);
+        this.showPercentage = showPercentage;
 //        this.arrayList.addAll(productList);
 
 
@@ -101,15 +105,33 @@ public class SearchProductsAdapter extends RecyclerView.Adapter<SearchProductsAd
             holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
             if (model.getOldRetailPrice() != 0) {
                 holder.oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-            }else{
+
+                String percent = "" + String.format("%.0f", ((model.getOldRetailPrice() - model.getRetailPrice()) / model.getOldRetailPrice()) * 100);
+
+                if (showPercentage) {
+                    holder.percentageOff.setVisibility(View.VISIBLE);
+                    holder.percentageOff.setText(percent + "% Off");
+                } else {
+                    holder.percentageOff.setVisibility(View.GONE);
+                }
+            } else {
                 holder.oldPrice.setText("");
             }
         } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
             holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-
             if (model.getOldWholeSalePrice() != 0) {
                 holder.oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-            }else {
+                String percent = "" + String.format("%.0f", ((model.getWholeSalePrice() - model.getWholeSalePrice()) / model.getWholeSalePrice()) * 100);
+
+                if (showPercentage) {
+                    holder.percentageOff.setVisibility(View.VISIBLE);
+
+                    holder.percentageOff.setText(percent + "% Off");
+                } else {
+                    holder.percentageOff.setVisibility(View.GONE);
+                }
+
+            } else {
                 holder.oldPrice.setText("");
             }
         }
@@ -312,7 +334,7 @@ public class SearchProductsAdapter extends RecyclerView.Adapter<SearchProductsAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title, subtitle, price, count, oldPrice;
+        TextView title, subtitle, price, count, oldPrice, percentageOff;
         ImageView image, increase, decrease;
         RelativeLayout relativeLayout;
         LikeButton heart_button;
@@ -331,6 +353,7 @@ public class SearchProductsAdapter extends RecyclerView.Adapter<SearchProductsAd
             relativeLayout = itemView.findViewById(R.id.relativeLayout);
             heart_button = itemView.findViewById(R.id.heart_button);
             oldPrice = itemView.findViewById(R.id.oldPrice);
+            percentageOff = itemView.findViewById(R.id.percentageOff);
 
 
         }

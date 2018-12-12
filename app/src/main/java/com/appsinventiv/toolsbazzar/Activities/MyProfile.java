@@ -31,6 +31,7 @@ public class MyProfile extends AppCompatActivity {
     TextView chooseLocation, createAccountText;
     String city = "", country = "", locationId = "";
     int locationPosition;
+    TextView nameof;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class MyProfile extends AppCompatActivity {
         e_password = findViewById(R.id.password);
         e_username = findViewById(R.id.username);
         chooseLocation = findViewById(R.id.chooseLocation);
+        nameof = findViewById(R.id.nameof);
 
 
         chooseLocation.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +99,7 @@ public class MyProfile extends AppCompatActivity {
                         e_phone.setText(customer.getPhone());
                         e_username.setText(customer.getUsername());
                         e_password.setText(customer.getPassword());
+                        nameof.setText(customer.getName() + "\n" + customer.getCustomerType());
                         chooseLocation.setText(customer.getCountry() + " > " + customer.getCity());
 
                     }

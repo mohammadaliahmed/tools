@@ -383,6 +383,14 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(MainActivity.this, MyOrders.class);
             startActivity(i);
 
+        } else if (id == R.id.categoryListing) {
+            Intent i = new Intent(MainActivity.this, ChooseCategory.class);
+            startActivity(i);
+
+        }  else if (id == R.id.newListing) {
+            Intent i = new Intent(MainActivity.this, NewSales.class);
+            startActivity(i);
+
         } else if (id == R.id.chat) {
 
             Intent i = new Intent(MainActivity.this, LiveChat.class);

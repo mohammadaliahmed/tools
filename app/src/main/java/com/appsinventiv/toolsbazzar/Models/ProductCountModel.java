@@ -14,6 +14,21 @@ public class ProductCountModel {
     public ProductCountModel() {
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProductCountModel model = (ProductCountModel) o;
+        return product != null ? product.equals(model.product) : model.product == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = product != null ? product.hashCode() : 0;
+
+        return result;
+    }
 
     public ProductCountModel(Product product, int quantity, long time, String size, String color) {
         this.product = product;

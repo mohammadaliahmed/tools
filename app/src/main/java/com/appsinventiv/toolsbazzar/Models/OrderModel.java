@@ -16,6 +16,7 @@ public class OrderModel {
     String date,chosenTime;
     String orderStatus;
     Float shippingCharges,deliveryCharges;
+    String invoicePath;
 
 
 
@@ -36,6 +37,14 @@ public class OrderModel {
         this.orderStatus=orderStatus;
         this.deliveryCharges=deliveryCharges;
         this.shippingCharges=shippingCharges;
+    }
+
+    public String getInvoicePath() {
+        return invoicePath;
+    }
+
+    public void setInvoicePath(String invoicePath) {
+        this.invoicePath = invoicePath;
     }
 
     public Float getShippingCharges() {

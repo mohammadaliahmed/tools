@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="330dp"
+    android:layout_height="340dp"
     android:layout_margin="10dp"
     app:cardCornerRadius="5dp"
     app:cardElevation="2dp">
@@ -39,9 +39,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/serial"
-            android:text="Order Id:sdfsdf"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:text="Order Id:sdfsdf" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_order_products"
@@ -49,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/order"
             android:layout_marginBottom="20dp"
-            android:padding="10dp"
+            android:padding="5dp"
 
             ></android.support.v7.widget.RecyclerView>
 
@@ -62,6 +60,18 @@
             android:layout_margin="5dp"
             android:text="2:33 pm"
             android:textSize="12sp"
+
+            />
+
+        <TextView
+            android:id="@+id/viewInvoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/time"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:text="View Invoice"
+            android:textColor="#2f86ff"
 
             />
 

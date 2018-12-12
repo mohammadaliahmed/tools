@@ -84,7 +84,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     RatingBar rating;
     String size = "", color = "";
     TextView percentageOff;
-    TextView commentsCount;
+    TextView commentsCount,sizeGuide;
     ImageView share;
     private String productIdFromLink;
     LikeButton heart_button;
@@ -93,6 +93,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     String colorSelected = "";
     int selected = -1;
     String sizeSelected = "";
+    RelativeLayout sizeSection,colorSection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +121,8 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 
 
         heart_button = findViewById(R.id.heart_button);
+        colorSection = findViewById(R.id.colorSection);
+        sizeSection = findViewById(R.id.sizeSection);
         collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         title = findViewById(R.id.title);
         commentsCount = findViewById(R.id.commentsCount);
@@ -133,6 +136,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         textSize = findViewById(R.id.textSize);
         textColor = findViewById(R.id.textColor);
         percentageOff = findViewById(R.id.percentageOff);
+        sizeGuide = findViewById(R.id.sizeGuide);
 
         decrease = findViewById(R.id.decrease);
         relativeLayout = findViewById(R.id.relativeLayout);
@@ -148,6 +152,16 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             }
         });
         getLikeFromDB();
+
+
+
+        sizeGuide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(ViewProduct.this,SizeChart.class);
+                startActivity(i);
+            }
+        });
 
         heart_button.setOnLikeListener(new OnLikeListener() {
             @Override
@@ -220,7 +234,8 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 
         recyclerView = findViewById(R.id.relatedProducts);
 //        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+//        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         adapter = new RelatedProductsAdapter(ViewProduct.this, productArrayList, userCartProductList, userWishList, new AddToCartInterface() {
             @Override
             public void addedToCart(final Product product, final int quantity, int position) {
@@ -704,11 +719,12 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                         if (product.getSizeList() != null) {
                             initiliazeSizeButtons();
                         } else {
-                            textSize.setVisibility(View.GONE);
+                            sizeSection.setVisibility(View.GONE);
                         }
                         if (product.getColorList() != null) {
                             initializeColorButtons();
                         } else {
+                            colorSection.setVisibility(View.GONE);
                             textColor.setVisibility(View.GONE);
                         }
                     }
@@ -779,7 +795,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             public void onClick(View view) {
                 if (CommonUtils.isNetworkConnected()) {
                     if (product.getSizeList() != null && product.getColorList() != null) {
-                        if (sizeSelected != null && colorSelected != null) {
+                        if (!sizeSelected .equalsIgnoreCase("") && !colorSelected .equalsIgnoreCase("")) {
                             if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
                                 relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
                                 count.setTextColor(getResources().getColor(R.color.default_grey_text));
@@ -820,7 +836,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                             CommonUtils.showToast("Please select size & color");
                         }
                     } else if (product.getSizeList() != null) {
-                        if (sizeSelected != null) {
+                        if (!sizeSelected .equalsIgnoreCase("")) {
                             if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
                                 relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
                                 count.setTextColor(getResources().getColor(R.color.default_grey_text));
@@ -857,7 +873,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                             CommonUtils.showToast("Please select size");
                         }
                     } else if (product.getColorList() != null) {
-                        if (colorSelected != null) {
+                        if (!colorSelected.equalsIgnoreCase("")) {
                             if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
                                 relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
                                 count.setTextColor(getResources().getColor(R.color.default_grey_text));

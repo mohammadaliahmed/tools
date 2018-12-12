@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appsinventiv.toolsbazzar.Activities.SizeChart;
 import com.appsinventiv.toolsbazzar.Adapters.RelatedProductsAdapter;
@@ -97,9 +99,18 @@ public class ProductListFragment extends Fragment {
 
     }
 
+
     private void setUpRecycler() {
-        layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-        gridLayoutManager = new GridLayoutManager(context, 2);
+        int gridCount = 2;
+        if (CommonUtils.screenSize() > 7) {
+            gridCount = 3;
+        }
+        if (CommonUtils.screenSize() > 9) {
+            gridCount = 4;
+        }
+
+
+        gridLayoutManager = new GridLayoutManager(context, gridCount);
         if (flag != null) {
             if (flag.equalsIgnoreCase("0")) {
                 recyclerView.setLayoutManager(layoutManager);
@@ -599,38 +610,34 @@ public class ProductListFragment extends Fragment {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
                             if (product.getIsActive().equals("true")) {
-                                if (category.equalsIgnoreCase("All")) {
-                                    productArrayList.add(product);
-                                    Collections.sort(productArrayList, new Comparator<Product>() {
-                                        @Override
-                                        public int compare(Product listData, Product t1) {
-                                            String ob1 = listData.getTitle();
-                                            String ob2 = t1.getTitle();
+                                if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
 
-                                            return ob1.compareTo(ob2);
+                                    if (category == null || category.equalsIgnoreCase("All")) {
+                                        productArrayList.add(product);
+
+                                    } else if (product.getCategory() != null) {
+                                        if (product.getCategory().contains(category)) {
+                                            productArrayList.add(product);
 
                                         }
-                                    });
-                                    adapter.notifyDataSetChanged();
-                                } else if (product.getCategory()!=null) {
-                                    if (product.getCategory().contains(category)) {
-                                        productArrayList.add(product);
-                                        Collections.sort(productArrayList, new Comparator<Product>() {
-                                            @Override
-                                            public int compare(Product listData, Product t1) {
-                                                String ob1 = listData.getTitle();
-                                                String ob2 = t1.getTitle();
-
-                                                return ob1.compareTo(ob2);
-
-                                            }
-                                        });
-                                        adapter.notifyDataSetChanged();
                                     }
                                 }
+
+                                Collections.sort(productArrayList, new Comparator<Product>() {
+                                    @Override
+                                    public int compare(Product listData, Product t1) {
+                                        String ob1 = listData.getTitle();
+                                        String ob2 = t1.getTitle();
+
+                                        return ob1.compareTo(ob2);
+
+                                    }
+                                });
                             }
+
                         }
                     }
+                    adapter.notifyDataSetChanged();
                 }
             }
 

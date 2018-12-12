@@ -7,8 +7,10 @@
     tools:context="com.appsinventiv.toolsbazzar.Activities.No_Internet">
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/internetText"
         android:layout_centerInParent="true"
         android:src="@drawable/no_internet" />
 
@@ -17,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/retry"
         android:layout_margin="10dp"
+        android:id="@+id/internetText"
         android:gravity="center"
         android:text="Something went wrong. Please check your internet connection and try again" />
 

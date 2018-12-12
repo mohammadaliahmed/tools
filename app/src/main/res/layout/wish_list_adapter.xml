@@ -23,17 +23,33 @@
             android:src="@drawable/placeholder" />
 
         <TextView
+            android:id="@+id/percentageOff"
+            android:layout_width="60dp"
+            android:visibility="gone"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/price"
+            android:layout_margin="10dp"
+            android:background="@drawable/ic_tag"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#fff"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
+
+            android:layout_marginTop="40dp"
             android:ellipsize="end"
             android:hint=""
             android:lines="1"
-            android:textSize="20sp"
             android:text=">"
             android:textColor="#d1d1d1"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -41,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/image"
             android:ellipsize="end"
             android:hint=""
@@ -113,9 +129,9 @@
             <TextView
                 android:id="@+id/count"
                 android:layout_width="match_parent"
-                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:gravity="center"
                 android:padding="5dp"
                 android:text="Add to cart" />
 
