@@ -102,7 +102,6 @@ public class Whishlist extends AppCompatActivity {
 
         }
 //        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        recyclerView.setLayoutManager(layoutManager);
         adapter = new WishListAdapter(Whishlist.this, productArrayList, userCartProductList, userWishList, new AddToCartInterface() {
             @Override
             public void addedToCart(final Product product, final int quantity, int position) {
