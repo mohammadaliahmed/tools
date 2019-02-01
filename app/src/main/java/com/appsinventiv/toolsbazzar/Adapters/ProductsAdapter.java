@@ -58,7 +58,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         holder.title.setText(model.getTitle());
         holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
         holder.subtitle.setText(model.getSubtitle());
-        Glide.with(context).load(model.getThumbnailUrl()).into(holder.image);
+        Glide.with(context).load(model.getThumbnailUrl()).placeholder(R.drawable.placeholder).into(holder.image);
 
         final int[] count = {1};
         ProductCountModel productCountModel = null;

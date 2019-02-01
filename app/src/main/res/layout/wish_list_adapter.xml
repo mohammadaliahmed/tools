@@ -25,32 +25,26 @@
         <TextView
             android:id="@+id/percentageOff"
             android:layout_width="60dp"
-            android:visibility="gone"
-            android:layout_height="15dp"
+            android:layout_height="20dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/price"
             android:layout_margin="10dp"
             android:background="@drawable/ic_tag"
             android:gravity="center"
             android:text=""
             android:textColor="#fff"
-            android:textSize="11sp"
-            android:textStyle="bold" />
+            android:layout_above="@id/relativeLayout"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-
-            android:layout_marginTop="40dp"
-            android:ellipsize="end"
-            android:hint=""
-            android:lines="1"
-            android:text=">"
-            android:textColor="#d1d1d1"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_arrow_view" />
 
         <TextView
             android:id="@+id/title"
@@ -71,7 +65,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
-            android:layout_marginLeft="10dp"
+            android:padding="5dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="1dp"
             android:layout_toRightOf="@id/image"
             android:hint=""
@@ -107,6 +102,7 @@
             android:layout_below="@id/price"
             android:layout_toRightOf="@id/image"
             app:icon_size="15dp"
+            android:layout_marginLeft="2dp"
             app:icon_type="heart"
             app:is_enabled="true"
             app:like_drawable="@drawable/heart_on"
@@ -116,12 +112,12 @@
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_alignParentBottom="true"
-
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="10dp"
+
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
 
             android:layout_toRightOf="@id/image"
             android:background="@drawable/add_to_cart_bg_colored">
@@ -133,7 +129,8 @@
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Add to cart" />
+                android:text="Add to cart"
+                android:textColor="#fff" />
 
             <ImageView
                 android:id="@+id/decrease"

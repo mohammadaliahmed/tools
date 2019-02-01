@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
+
     tools:context="com.appsinventiv.toolsbazzar.Activities.Cart">
 
     <RelativeLayout
@@ -18,19 +19,19 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/ic_p1" />
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/checkout"
-            android:layout_alignStart="@+id/checkout"
             android:layout_below="@+id/img"
-            android:layout_marginLeft="9dp"
+            android:layout_alignStart="@+id/checkout"
+            android:layout_alignLeft="@+id/checkout"
             android:layout_marginStart="9dp"
+            android:layout_marginLeft="9dp"
             android:text="1. Your bill"
             android:textColor="@color/main_green_color"
             android:textSize="11sp" />
@@ -48,8 +49,8 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_below="@+id/img"
+            android:layout_alignParentRight="true"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:text="3. Completed"
@@ -59,8 +60,8 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="80dp"
-            android:layout_marginTop="80dp">
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="80dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,8 +72,8 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true">
 
                     <RelativeLayout
@@ -94,8 +95,8 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="20dp"
                     app:cardCornerRadius="1dp"
@@ -138,8 +139,8 @@
                             android:id="@+id/deliveryCharges"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
                             android:layout_below="@id/subtotal"
+                            android:layout_alignParentRight="true"
                             android:layout_margin="15dp"
                             android:text="" />
 
@@ -162,8 +163,8 @@
                             android:id="@+id/shippingCharges"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
                             android:layout_below="@id/deliveryCharges"
+                            android:layout_alignParentRight="true"
                             android:layout_margin="15dp"
                             android:text="" />
 
@@ -186,8 +187,8 @@
                             android:id="@+id/totalAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
                             android:layout_below="@id/shippingCharges"
+                            android:layout_alignParentRight="true"
                             android:layout_margin="15dp"
                             android:text=""
                             android:textColor="#000" />
@@ -212,9 +213,9 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="20dp"
             android:background="@color/colorPrimary"
-            android:clickable="true"
-            android:elevation="3dp"
 
+            android:elevation="3dp"
+            android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground">
 
             <TextView
@@ -235,8 +236,8 @@
                 android:layout_alignBottom="@+id/textView"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_toLeftOf="@+id/view"
                 android:layout_toStartOf="@+id/view"
+                android:layout_toLeftOf="@+id/view"
                 android:text=""
                 android:textColor="#fff"
                 android:textSize="15sp" />
@@ -248,8 +249,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="9dp"
                 android:layout_marginRight="9dp"
-                android:layout_toLeftOf="@+id/imageView"
                 android:layout_toStartOf="@+id/imageView"
+                android:layout_toLeftOf="@+id/imageView"
                 android:background="@color/colorWhite"></View>
 
             <ImageView
@@ -275,29 +276,44 @@
         android:visibility="visible">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/cart_img"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_centerHorizontal="true"
-            android:padding="20dp"
-            android:layout_above="@id/cartText"
+            android:layout_marginTop="100dp"
+            android:scaleType="fitStart"
             android:src="@drawable/my_cart" />
 
         <TextView
             android:id="@+id/cartText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cart_img"
+            android:gravity="center"
+            android:text="Start Shopping"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/loll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/startShopping"
+            android:layout_below="@id/cartText"
             android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
             android:gravity="center"
-            android:text="Please feel free to add your favorite \nproducts in to your cart &amp; explore the world" />
+            android:text="Please feel free to add your favorite \nproducts in to your cart &amp; explore the world"
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/startShopping"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/loll"
+            android:layout_centerHorizontal="true"
             android:layout_margin="20dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/btn_bg"
             android:inputType="textCapSentences"
             android:text="Start Shopping"
             android:textColor="#fff" />

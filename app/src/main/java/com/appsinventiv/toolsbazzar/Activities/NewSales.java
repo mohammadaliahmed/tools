@@ -3,6 +3,7 @@ package com.appsinventiv.toolsbazzar.Activities;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -249,9 +250,46 @@ public class NewSales extends AppCompatActivity {
         Button confirm = customView.findViewById(R.id.confirm);
         LinearLayout sizes = customView.findViewById(R.id.sizes);
         LinearLayout colors = customView.findViewById(R.id.colors);
+        TextView percentageOff = customView.findViewById(R.id.percentageOff);
+        TextView oldPrice = customView.findViewById(R.id.oldPrice);
+        TextView quantityText = customView.findViewById(R.id.quantityText);
+        ImageView whichArrow = customView.findViewById(R.id.whichArrow);
+        if (product.getQuantityAvailable() == 0) {
+            quantityText.setText("Sorry item is currently out of stock");
+            whichArrow.setImageResource(R.drawable.ic_arrow_red);
+        }
+        else if (product.getQuantityAvailable() > 0 && product.getQuantityAvailable() <= 5) {
+            quantityText.setText("Only " + product.getQuantityAvailable() + " left in stock, Hurry up & grab yours");
+        } else {
+            quantityText.setText("Available quantity in stock " + product.getQuantityAvailable());
+        }
 
+        if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+            if (product.getOldWholeSalePrice() != 0) {
+                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+                String percent = "" + String.format("%.0f", ((product.getWholeSalePrice() - product.getWholeSalePrice()) / product.getWholeSalePrice()) * 100);
+                percentageOff.setVisibility(View.VISIBLE);
+                percentageOff.setText(percent + "% Off");
+            } else {
+                oldPrice.setText("");
+                percentageOff.setVisibility(View.GONE);
+
+            }
+        } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+            price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+            if (product.getOldRetailPrice() != 0) {
+                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+                String percent = "" + String.format("%.0f", ((product.getOldRetailPrice() - product.getRetailPrice()) / product.getOldRetailPrice()) * 100);
+                percentageOff.setVisibility(View.VISIBLE);
+                percentageOff.setText(percent + "% Off");
+            } else {
+                oldPrice.setText("");
+                percentageOff.setVisibility(View.GONE);
+
+            }
+        }
+        oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         title.setText(product.getTitle());
-        price.setText("Rs: " + product.getRetailPrice());
         Glide.with(NewSales.this).load(product.getThumbnailUrl()).into(image);
 
         close.setOnClickListener(new View.OnClickListener() {
@@ -316,6 +354,45 @@ public class NewSales extends AppCompatActivity {
         ImageView close = customView.findViewById(R.id.close);
         final Button confirm = customView.findViewById(R.id.confirm);
         LinearLayout sizes = customView.findViewById(R.id.sizes);
+        TextView percentageOff = customView.findViewById(R.id.percentageOff);
+        TextView oldPrice = customView.findViewById(R.id.oldPrice);
+        TextView quantityText = customView.findViewById(R.id.quantityText);
+        ImageView whichArrow = customView.findViewById(R.id.whichArrow);
+        if (product.getQuantityAvailable() == 0) {
+            quantityText.setText("Sorry item is currently out of stock");
+            whichArrow.setImageResource(R.drawable.ic_arrow_red);
+        }
+        else if (product.getQuantityAvailable() > 0 && product.getQuantityAvailable() <= 5) {
+            quantityText.setText("Only " + product.getQuantityAvailable() + " left in stock, Hurry up & grab yours");
+        } else {
+            quantityText.setText("Available quantity in stock " + product.getQuantityAvailable());
+        }
+
+        if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+            if (product.getOldWholeSalePrice() != 0) {
+                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+                String percent = "" + String.format("%.0f", ((product.getWholeSalePrice() - product.getWholeSalePrice()) / product.getWholeSalePrice()) * 100);
+                percentageOff.setVisibility(View.VISIBLE);
+                percentageOff.setText(percent + "% Off");
+            } else {
+                oldPrice.setText("");
+                percentageOff.setVisibility(View.GONE);
+
+            }
+        } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+            price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+            if (product.getOldRetailPrice() != 0) {
+                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+                String percent = "" + String.format("%.0f", ((product.getOldRetailPrice() - product.getRetailPrice()) / product.getOldRetailPrice()) * 100);
+                percentageOff.setVisibility(View.VISIBLE);
+                percentageOff.setText(percent + "% Off");
+            } else {
+                oldPrice.setText("");
+                percentageOff.setVisibility(View.GONE);
+
+            }
+        }
+        oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
 
         TextView sizeChart = customView.findViewById(R.id.sizeChart);
@@ -383,16 +460,18 @@ public class NewSales extends AppCompatActivity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.height = 120;
         params.width = 130;
-        params.setMargins(10, 1, 10, 1);
+        params.setMargins(5, 1, 5, 1);
+        final ArrayList<Button> btnList = new ArrayList<>();
 
         for (int i = 0; i < product.getSizeList().size(); i++) {
-            Button btn = new Button(NewSales.this);
+            final Button btn = new Button(NewSales.this);
             btn.setLayoutParams(params);
             btn.setBackgroundResource(R.drawable.size_button_layout);
             btn.setText("" + product.getSizeList().get(i));
             sizes.addView(btn);
-            btn.setTextSize(8);
+            btn.setTextSize(9);
             btn.setId(i);
+            btnList.add(btn);
 
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -404,8 +483,16 @@ public class NewSales extends AppCompatActivity {
                         sizes.getChildAt(selected).setBackgroundResource(R.drawable.size_button_layout);
                         selected = view.getId();
                     }
+
+                    for (Button j : btnList) {
+
+                        j.setTextColor(getResources().getColor(R.color.default_grey_text));
+
+                    }
                     sizes.getChildAt(view.getId()).setBackgroundResource(R.drawable.size_button_selected);
                     sizeSelected = product.getSizeList().get(selected);
+                    btn.setTextColor(getResources().getColor(R.color.colorPrimary));
+
                 }
             });
         }
@@ -417,17 +504,20 @@ public class NewSales extends AppCompatActivity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.height = 120;
         params.width = 170;
-        params.setMargins(10, 1, 10, 1);
+        params.setMargins(5, 1, 5, 1);
+        final ArrayList<Button> btnList = new ArrayList<>();
+
         if (product.getColorList() != null) {
             for (int i = 0; i < product.getColorList().size(); i++) {
-                Button btn = new Button(NewSales.this);
+                final Button btn = new Button(NewSales.this);
                 btn.setLayoutParams(params);
                 btn.setBackgroundResource(R.drawable.size_button_layout);
                 btn.setText("" + product.getColorList().get(i));
-                btn.setTextSize(8);
+                btn.setTextSize(9);
                 colors.addView(btn);
                 btn.setId(i);
 
+                btnList.add(btn);
 
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -439,8 +529,15 @@ public class NewSales extends AppCompatActivity {
                             colors.getChildAt(selectedColor).setBackgroundResource(R.drawable.size_button_layout);
                             selectedColor = view.getId();
                         }
+                        for (Button j : btnList) {
+
+                            j.setTextColor(getResources().getColor(R.color.default_grey_text));
+
+                        }
                         colors.getChildAt(view.getId()).setBackgroundResource(R.drawable.size_button_selected);
                         colorSelected = product.getColorList().get(selectedColor);
+                        btn.setTextColor(getResources().getColor(R.color.colorPrimary));
+
                     }
                 });
             }
@@ -466,9 +563,46 @@ public class NewSales extends AppCompatActivity {
         LinearLayout sizes = customView.findViewById(R.id.sizes);
         LinearLayout colors = customView.findViewById(R.id.colors);
         TextView sizeChart = customView.findViewById(R.id.sizeChart);
+        TextView percentageOff = customView.findViewById(R.id.percentageOff);
+        TextView oldPrice = customView.findViewById(R.id.oldPrice);
+        TextView quantityText = customView.findViewById(R.id.quantityText);
+        ImageView whichArrow = customView.findViewById(R.id.whichArrow);
+        if (product.getQuantityAvailable() == 0) {
+            quantityText.setText("Sorry item is currently out of stock");
+            whichArrow.setImageResource(R.drawable.ic_arrow_red);
+        }
+        else if (product.getQuantityAvailable() > 0 && product.getQuantityAvailable() <= 5) {
+            quantityText.setText("Only " + product.getQuantityAvailable() + " left in stock, Hurry up & grab yours");
+        } else {
+            quantityText.setText("Available quantity in stock " + product.getQuantityAvailable());
+        }
 
+        if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+            if (product.getOldWholeSalePrice() != 0) {
+                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+                String percent = "" + String.format("%.0f", ((product.getWholeSalePrice() - product.getWholeSalePrice()) / product.getWholeSalePrice()) * 100);
+                percentageOff.setVisibility(View.VISIBLE);
+                percentageOff.setText(percent + "% Off");
+            } else {
+                oldPrice.setText("");
+                percentageOff.setVisibility(View.GONE);
+
+            }
+        } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+            price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+            if (product.getOldRetailPrice() != 0) {
+                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
+                String percent = "" + String.format("%.0f", ((product.getOldRetailPrice() - product.getRetailPrice()) / product.getOldRetailPrice()) * 100);
+                percentageOff.setVisibility(View.VISIBLE);
+                percentageOff.setText(percent + "% Off");
+            } else {
+                oldPrice.setText("");
+                percentageOff.setVisibility(View.GONE);
+
+            }
+        }
+        oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         title.setText(product.getTitle());
-        price.setText("Rs: " + product.getRetailPrice());
         Glide.with(NewSales.this).load(product.getThumbnailUrl()).into(image);
 
         sizeChart.setOnClickListener(new View.OnClickListener() {
@@ -651,7 +785,10 @@ public class NewSales extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        if (item.getItemId() == android.R.id.home) {
 
+            finish();
+        }
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
             Intent i = new Intent(NewSales.this, Search.class);
@@ -713,4 +850,5 @@ public class NewSales extends AppCompatActivity {
 
         super.onResume();
     }
+
 }

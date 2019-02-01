@@ -56,16 +56,16 @@ public class ChooseCategory extends AppCompatActivity {
             this.setTitle("Choose category");
             getDataFromDB();
         } else {
-            this.setTitle("Category: " + parentCategory);
-            getCategoryDataFromDB();
+            this.setTitle("" + parentCategory);
+            getCategoryDataFromDB(parentCategory);
         }
 
 
     }
 
-    private void getCategoryDataFromDB() {
+    private void getCategoryDataFromDB(String cat) {
         progress.setVisibility(View.VISIBLE);
-        mDatabase.child("Settings").child("Categories").child(parentCategory).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Settings").child("Categories").child(cat).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -113,12 +113,13 @@ public class ChooseCategory extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (item.getItemId() == android.R.id.home) {
+            super.onBackPressed();
 
-            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -129,11 +130,8 @@ public class ChooseCategory extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
-
     @Override
     public void onBackPressed() {
-
-        finish();
+        super.onBackPressed();
     }
 }

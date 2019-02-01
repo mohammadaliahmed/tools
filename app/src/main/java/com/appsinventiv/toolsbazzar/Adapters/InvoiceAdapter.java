@@ -58,7 +58,7 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.ViewHold
         ProductCountModel model = list1.get(position);
         holder.position.setText("" + (position + 1) + ". ");
         holder.title.setText(model.getProduct().getTitle());
-        holder.subtitle.setText("Description: " + model.getProduct().getMeasurement() + "\nQuantity: " + model.getQuantity());
+        holder.subtitle.setText("Description: " + model.getProduct().getSubtitle() + "\nQuantity: " + model.getQuantity());
         if (model.getSize() != null) {
             holder.size.setText("Size: " + model.getSize());
         } else {

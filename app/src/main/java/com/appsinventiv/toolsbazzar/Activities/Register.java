@@ -128,7 +128,7 @@ public class Register extends AppCompatActivity {
         chooseLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Register.this, ChooseLocation.class);
+                Intent i = new Intent(Register.this, ChooseAddress.class);
                 startActivityForResult(i, 1);
             }
         });

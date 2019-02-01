@@ -43,7 +43,7 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final GroceryListModel model=itemList.get(position);
         holder.title.setText(model.getTitle());
-        Glide.with(context).load(model.getImageId()).into(holder.image);
+        Glide.with(context).load(model.getImageId()).placeholder(R.drawable.placeholder).into(holder.image);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

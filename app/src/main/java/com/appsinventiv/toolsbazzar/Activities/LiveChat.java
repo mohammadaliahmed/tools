@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.appsinventiv.toolsbazzar.Adapters.ChatAdapter;
 import com.appsinventiv.toolsbazzar.Interface.NotificationObserver;
@@ -32,7 +33,7 @@ public class LiveChat extends AppCompatActivity implements NotificationObserver 
 
     DatabaseReference mDatabase;
     EditText message;
-    FloatingActionButton send;
+    ImageView send;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     ChatAdapter adapter;

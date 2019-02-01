@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     ViewPager banner;
     int currentPic = 0;
     int pos;
+    LinearLayout ic_settings, ic_chat, ic_mycart, ic_orders, ic_wishlist;
 
 
     ScrollView scrollView;
@@ -81,8 +82,48 @@ public class MainActivity extends AppCompatActivity
         this.setTitle("Tools Bazzar");
         mDatabase = FirebaseDatabase.getInstance().getReference();
         dots_indicator = findViewById(R.id.dots_indicator);
+        ic_settings = findViewById(R.id.ic_settings);
+        ic_chat = findViewById(R.id.ic_chat);
+        ic_mycart = findViewById(R.id.ic_mycart);
+        ic_orders = findViewById(R.id.ic_orders);
+        ic_wishlist = findViewById(R.id.ic_wishlist);
 
 
+        ic_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, LiveChat.class);
+                startActivity(i);
+            }
+        });
+        ic_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, MyProfile.class);
+                startActivity(i);
+            }
+        });
+        ic_mycart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, Cart.class);
+                startActivity(i);
+            }
+        });
+        ic_orders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, MyOrders.class);
+                startActivity(i);
+            }
+        });
+        ic_wishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, Whishlist.class);
+                startActivity(i);
+            }
+        });
 
 
         if (SharedPrefs.getIsLoggedIn().equals("yes")) {
@@ -384,10 +425,10 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
 
         } else if (id == R.id.categoryListing) {
-            Intent i = new Intent(MainActivity.this, ChooseCategory.class);
+            Intent i = new Intent(MainActivity.this, ChooseMainCategory.class);
             startActivity(i);
 
-        }  else if (id == R.id.newListing) {
+        } else if (id == R.id.newListing) {
             Intent i = new Intent(MainActivity.this, NewSales.class);
             startActivity(i);
 

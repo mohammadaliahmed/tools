@@ -68,7 +68,7 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
             holder.price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
             if (model.getOldRetailPrice() != 0) {
                 holder.oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-            }else{
+            } else {
                 holder.oldPrice.setText("");
             }
         } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
@@ -76,15 +76,15 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
 
             if (model.getOldWholeSalePrice() != 0) {
                 holder.oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", model.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-            }else {
+            } else {
                 holder.oldPrice.setText("");
             }
         }
         holder.oldPrice.setPaintFlags(holder.oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
 
-        holder.subtitle.setText(model.getMeasurement());
-        Glide.with(context).load(model.getThumbnailUrl()).into(holder.image);
+        holder.subtitle.setText(model.getSubtitle());
+        Glide.with(context).load(model.getThumbnailUrl()).placeholder(R.drawable.placeholder).into(holder.image);
 
         final int[] count = {1};
         ProductCountModel productCountModel = null;
@@ -154,17 +154,33 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
                 if (count[0] > 1) {
 
                 } else {
-                    holder.relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
-                    holder.count.setTextColor(context.getResources().getColor(R.color.default_grey_text));
 
-                    holder.count.setText("" + count[0]);
-                    holder.increase.setVisibility(View.VISIBLE);
-                    holder.decrease.setVisibility(View.VISIBLE);
                     if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
-                        CommonUtils.showToast("Minimum order qty: " + model.getMinOrderQuantity());
-                        addToCartInterface.addedToCart(model, model.getMinOrderQuantity(), position);
+                        if (model.getQuantityAvailable() < model.getMinOrderQuantity()) {
+                            CommonUtils.showToast("Out of stock");
+
+                        } else {
+                            CommonUtils.showToast("Minimum order qty: " + model.getMinOrderQuantity());
+                            holder.relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
+                            holder.count.setTextColor(context.getResources().getColor(R.color.default_grey_text));
+
+                            holder.count.setText("" + count[0]);
+                            holder.increase.setVisibility(View.VISIBLE);
+                            holder.decrease.setVisibility(View.VISIBLE);
+                            addToCartInterface.addedToCart(model, model.getMinOrderQuantity(), position);
+                        }
                     } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
-                        addToCartInterface.addedToCart(model, count[0], position);
+                        if (model.getQuantityAvailable() == 0) {
+                            CommonUtils.showToast("Not available in stock");
+                        } else {
+                            holder.relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
+                            holder.count.setTextColor(context.getResources().getColor(R.color.default_grey_text));
+
+                            holder.count.setText("" + count[0]);
+                            holder.increase.setVisibility(View.VISIBLE);
+                            holder.decrease.setVisibility(View.VISIBLE);
+                            addToCartInterface.addedToCart(model, count[0], position);
+                        }
                     }
 
                 }
@@ -173,12 +189,15 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
         holder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                count[0] += 1;
-                holder.count.setText("" + count[0]);
-                holder.decrease.setImageResource(R.drawable.ic_decrease_btn);
-                if (model != null)
-                    addToCartInterface.quantityUpdate(model, count[0], position);
-
+                if (count[0] >= model.getQuantityAvailable()) {
+                    CommonUtils.showToast("Only " + model.getQuantityAvailable() + " available");
+                } else {
+                    count[0] += 1;
+                    holder.count.setText("" + count[0]);
+                    holder.decrease.setImageResource(R.drawable.ic_decrease_btn);
+                    if (model != null)
+                        addToCartInterface.quantityUpdate(model, count[0], position);
+                }
             }
         });
         holder.decrease.setOnClickListener(new View.OnClickListener() {

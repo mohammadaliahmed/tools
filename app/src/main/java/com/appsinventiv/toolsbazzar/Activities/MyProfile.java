@@ -31,7 +31,7 @@ public class MyProfile extends AppCompatActivity {
     TextView chooseLocation, createAccountText;
     String city = "", country = "", locationId = "";
     int locationPosition;
-    TextView nameof;
+    TextView nameof, customertype;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +51,14 @@ public class MyProfile extends AppCompatActivity {
         e_password = findViewById(R.id.password);
         e_username = findViewById(R.id.username);
         chooseLocation = findViewById(R.id.chooseLocation);
+        customertype = findViewById(R.id.customertype);
         nameof = findViewById(R.id.nameof);
 
 
         chooseLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MyProfile.this, ChooseLocation.class);
+                Intent i = new Intent(MyProfile.this, ChooseAddress.class);
                 startActivityForResult(i, 1);
             }
         });
@@ -72,7 +73,7 @@ public class MyProfile extends AppCompatActivity {
                 if (!city.equalsIgnoreCase("")) {
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("city").setValue(city);
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("country").setValue(country);
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("locationId").setValue(chargesModel.getId());
+//                    mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("locationId").setValue(chargesModel.getId());
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("currencySymbol").setValue(chargesModel.getCurrency());
                     SharedPrefs.setExchangeRate("" + chargesModel.getCurrencyRate());
                     SharedPrefs.setLocationId("" + locationId);
@@ -97,9 +98,10 @@ public class MyProfile extends AppCompatActivity {
                         e_name.setText(customer.getName());
                         e_address.setText(customer.getAddress());
                         e_phone.setText(customer.getPhone());
+                        customertype.setText(customer.getCustomerType());
                         e_username.setText(customer.getUsername());
                         e_password.setText(customer.getPassword());
-                        nameof.setText(customer.getName() + "\n" + customer.getCustomerType());
+                        nameof.setText(customer.getName());
                         chooseLocation.setText(customer.getCountry() + " > " + customer.getCity());
 
                     }

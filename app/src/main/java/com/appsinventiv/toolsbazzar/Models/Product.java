@@ -24,6 +24,9 @@ public class Product {
     float oldWholeSalePrice, oldRetailPrice;
     float rating;
     ArrayList<String> category;
+    int quantityAvailable;
+    String brandName,productContents,warrantyType,productWeight;
+    String dimen;
 
 
     @Override
@@ -43,6 +46,46 @@ public class Product {
 
         }
 //        return id != null ? !id.equals(product.id) : product.id != null;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public String getProductContents() {
+        return productContents;
+    }
+
+    public void setProductContents(String productContents) {
+        this.productContents = productContents;
+    }
+
+    public String getWarrantyType() {
+        return warrantyType;
+    }
+
+    public void setWarrantyType(String warrantyType) {
+        this.warrantyType = warrantyType;
+    }
+
+    public String getProductWeight() {
+        return productWeight;
+    }
+
+    public void setProductWeight(String productWeight) {
+        this.productWeight = productWeight;
+    }
+
+    public String getDimen() {
+        return dimen;
+    }
+
+    public void setDimen(String dimen) {
+        this.dimen = dimen;
     }
 
     @Override
@@ -74,6 +117,14 @@ public class Product {
     }
 
     public Product() {
+    }
+
+    public int getQuantityAvailable() {
+        return quantityAvailable;
+    }
+
+    public void setQuantityAvailable(int quantityAvailable) {
+        this.quantityAvailable = quantityAvailable;
     }
 
     public ArrayList<String> getCategory() {

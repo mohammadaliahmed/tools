@@ -63,7 +63,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with "http://recipe-app.com/recipe" -->
                 <data
-                    android:host="toolsbazar.com"
+                    android:host="fortcity.com"
                     android:pathPrefix="/product"
                     android:scheme="http" />
             </intent-filter>
@@ -112,8 +112,11 @@
         <activity android:name=".Activities.No_Internet" />
         <activity android:name=".Activities.NewSales" />
         <activity android:name=".Activities.ChooseCategory" />
-        <activity android:name=".Activities.ViewInvoice"
-            android:theme="@style/AppTheme.NoActionBar" ></activity>
+        <activity
+            android:name=".Activities.ViewInvoice"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.ChooseMainCategory" />
+        <activity android:name=".Activities.ChooseAddress"></activity>
     </application>
 
 </manifest>

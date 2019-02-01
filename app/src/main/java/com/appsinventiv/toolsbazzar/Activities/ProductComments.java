@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -38,13 +39,13 @@ public class ProductComments extends AppCompatActivity {
     CommentsAdapter adapter;
     RecyclerView recyclerView;
     EditText comment;
-    FloatingActionButton send;
+    ImageView send;
     DatabaseReference mDatabase;
     String productId;
     ArrayList<CommentsModel> itemList = new ArrayList<>();
     ImageView productImage;
     TextView title, price;
-    RelativeLayout productLayout;
+    CardView productLayout;
 
 
     @Override

@@ -5,56 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+
+    android:paddingRight="5dp"
     android:paddingBottom="10dp"
     tools:context="com.appsinventiv.toolsbazzar.Activities.LiveChat">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chats"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/aaaa">
+        android:layout_above="@id/aaaa"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="20dp">
 
     </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
         android:id="@+id/aaaa"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginRight="90dp">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/message"
-            android:inputType="textCapSentences|textMultiLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Message"
+            android:inputType="textCapSentences|textMultiLine"
             android:maxHeight="100dp" />
     </android.support.design.widget.TextInputLayout>
 
 
-    <android.support.design.widget.FloatingActionButton
+    <ImageView
         android:id="@+id/send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="9dp"
-
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="11dp"
         android:layout_marginRight="11dp"
-        android:backgroundTint="@color/colorPrimary"
-        app:backgroundTint="@color/colorPrimaryDark"
-        app:fabSize="normal"
-        app:srcCompat="@android:drawable/ic_menu_send" />
-
+        android:layout_marginBottom="9dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_message_send" />
 
 
 </RelativeLayout>

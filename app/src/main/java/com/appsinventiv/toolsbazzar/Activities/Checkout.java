@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.appsinventiv.toolsbazzar.Interface.NotificationObserver;
 import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.OrderModel;
+import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.NotificationAsync;
@@ -26,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class Checkout extends AppCompatActivity implements NotificationObserver {
     Float grandTotal;
@@ -112,6 +115,7 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
                                 )).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
+                                updateProductQuantityInDB(Cart.userCartProductList);
                                 mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("Orders").child("" + orderNumber).setValue("" + orderNumber);
 
                                 mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -146,6 +150,13 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
             }
         });
 
+    }
+
+    private void updateProductQuantityInDB(ArrayList<ProductCountModel> userCartProductList) {
+        for (ProductCountModel model : userCartProductList) {
+            int qun = model.getProduct().getQuantityAvailable() - model.getQuantity();
+            mDatabase.child("Products").child(model.getProduct().getId()).child("quantityAvailable").setValue(qun);
+        }
     }
 
     private void getOrdersCountFromDb() {

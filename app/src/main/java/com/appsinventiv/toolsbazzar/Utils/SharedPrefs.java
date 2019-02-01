@@ -48,6 +48,22 @@ public class SharedPrefs {
         preferenceSetter("ExchangeRate", username);
     }
 
+    public static String getOneKgRate() {
+        return preferenceGetter("oneKg");
+    }
+
+    public static void setOneKgRate(String username) {
+        preferenceSetter("oneKg", username);
+    }
+
+    public static String getHalfKgRate() {
+        return preferenceGetter("halfKg");
+    }
+
+    public static void setHalfKgRate(String username) {
+        preferenceSetter("halfKg", username);
+    }
+
 
     public static String getCurrencySymbol() {
         return preferenceGetter("CurrencySymbol");

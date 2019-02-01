@@ -49,9 +49,9 @@ public class OrderedProductsLayout extends RecyclerView.Adapter<OrderedProductsL
         } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
             holder.price.setText("Rs. " + model.getProduct().getWholeSalePrice());
         }
-        holder.subtitle.setText(model.getProduct().getMeasurement());
+        holder.subtitle.setText(model.getProduct().getSubtitle());
         holder.quantity.setText("Quantity: " + model.getQuantity());
-        Glide.with(context).load(model.getProduct().getThumbnailUrl()).into(holder.image);
+        Glide.with(context).load(model.getProduct().getThumbnailUrl()).placeholder(R.drawable.placeholder).into(holder.image);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

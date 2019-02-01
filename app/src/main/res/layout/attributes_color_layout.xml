@@ -12,9 +12,9 @@
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:padding="10dp"
             android:src="@drawable/placeholder" />
 
         <ImageView
@@ -22,17 +22,32 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
+
             android:padding="5dp"
             android:src="@drawable/ic_cancel" />
+
+        <TextView
+            android:id="@+id/percentageOff"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/oldPrice"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_tag"
+
+            android:gravity="center"
+            android:text=""
+            android:textColor="#fff"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_toRightOf="@id/image"
             android:text="sdfsdfsdfs"
             android:textColor="#000"
@@ -49,12 +64,54 @@
             android:text="sdfsdfsdfs"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/oldPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price"
+            android:layout_marginLeft="5dp"
+
+            android:layout_toRightOf="@id/image"
+            android:text=""
+            android:textSize="12sp" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_cart_box" />
+
+        <ImageView
+            android:id="@+id/whichArrow"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/ic_arrow_green" />
+
+        <TextView
+            android:id="@+id/quantityText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="Available in quanity"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:visibility="gone"
         android:layout_below="@id/image"
         android:layout_marginTop="10dp"
         android:background="@color/default_grey" />

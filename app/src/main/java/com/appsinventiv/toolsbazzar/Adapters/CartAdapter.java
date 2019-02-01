@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.bumptech.glide.Glide;
 
@@ -64,8 +65,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         }
 
 
-        holder.subtitle.setText(model.getProduct().getMeasurement());
-        Glide.with(context).load(model.getProduct().getThumbnailUrl()).into(holder.image);
+        holder.subtitle.setText(model.getProduct().getSubtitle());
+        Glide.with(context).load(model.getProduct().getThumbnailUrl()).placeholder(R.drawable.placeholder).into(holder.image);
 
         holder.viewProduct.setVisibility(View.GONE);
 
@@ -90,16 +91,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.count.setTextColor(context.getResources().getColor(R.color.default_grey_text));
 
 
+
         holder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                count[0] += 1;
-                holder.count.setText("" + count[0]);
-                holder.decrease.setImageResource(R.drawable.ic_decrease_btn);
-                addToCartInterface.quantityUpdate(model.getProduct(), count[0], position);
-
+                if (count[0] >= model.getProduct().getQuantityAvailable()) {
+                    CommonUtils.showToast("Only " + model.getProduct().getQuantityAvailable() + " available");
+                } else {
+                    count[0] += 1;
+                    holder.count.setText("" + count[0]);
+                    holder.decrease.setImageResource(R.drawable.ic_decrease_btn);
+                    if (model != null)
+                        addToCartInterface.quantityUpdate(model.getProduct(), count[0], position);
+                }
             }
         });
+
         holder.decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

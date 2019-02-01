@@ -18,11 +18,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
         android:layout_centerHorizontal="true"
-        android:textColor="#fff"
+        android:layout_margin="20dp"
         android:fontFamily="@font/cosmic_fonts"
         android:gravity="center"
-        android:text="Product by \nTools Hardware &amp; Electrical"
+        android:text="Product by \nFort City"
+        android:textColor="#fff"
         android:textStyle="bold" />
 </RelativeLayout>
