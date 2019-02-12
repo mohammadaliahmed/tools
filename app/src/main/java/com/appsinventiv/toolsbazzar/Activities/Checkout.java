@@ -110,8 +110,9 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
                                         "23rd june",
                                         "33",
                                         "Pending",
-                                        Cart.locationAndChargesModel.getDeliveryCharges(),
-                                        Cart.locationAndChargesModel.getShippingCharges()
+                                        Float.parseFloat("" + Cart.shippingCharge),
+                                        Float.parseFloat("" + Cart.deliveryCharge)
+
                                 )).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {

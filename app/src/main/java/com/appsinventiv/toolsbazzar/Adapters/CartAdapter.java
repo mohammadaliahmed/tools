@@ -1,6 +1,7 @@
 package com.appsinventiv.toolsbazzar.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsinventiv.toolsbazzar.Activities.ViewProduct;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
@@ -63,6 +65,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         } else {
             holder.color.setVisibility(View.GONE);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(context,ViewProduct.class);
+                i.putExtra("productId",model.getProduct().getId());
+                context.startActivity(i);
+            }
+        });
 
 
         holder.subtitle.setText(model.getProduct().getSubtitle());

@@ -11,15 +11,18 @@ public class Customer {
     String storeName,businessRegistrationNumber;
     String locationId;
     String currencySymbol;
-
+    Float currencyRate;
+    String province;
 
     public Customer() {
     }
 
+
     public Customer(String id, String name, String username,
                     String email, String password, String phone, String telNumber,
                     String address, String city, String country, String fcmKey,
-                    long time, String customerType, String storeName, String businessRegistrationNumber, String locationId, String currencySymbol) {
+                    long time, String customerType, String storeName, String businessRegistrationNumber,
+                    String locationId, String currencySymbol,Float currencyRate,String province) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -37,6 +40,24 @@ public class Customer {
         this.businessRegistrationNumber = businessRegistrationNumber;
         this.locationId = locationId;
         this.currencySymbol = currencySymbol;
+        this.currencyRate = currencyRate;
+        this.province = province;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public Float getCurrencyRate() {
+        return currencyRate;
+    }
+
+    public void setCurrencyRate(Float currencyRate) {
+        this.currencyRate = currencyRate;
     }
 
     public String getCurrencySymbol() {

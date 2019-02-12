@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appsinventiv.toolsbazzar.Models.ChatModel;
+import com.appsinventiv.toolsbazzar.Models.CountryModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.LocationAndChargesModel;
 import com.appsinventiv.toolsbazzar.R;
@@ -47,7 +48,8 @@ public class Register extends AppCompatActivity {
     String city = "", country = "", locationId = "";
     int locationPosition;
     RelativeLayout abc1, abc2;
-    LocationAndChargesModel chargesModel;
+    CountryModel chargesModel;
+    private String province="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,8 +207,10 @@ public class Register extends AppCompatActivity {
                                         storeName,
                                         "" + businessNumber,
                                         locationId,
-                                        chargesModel.getCurrency()
-
+                                        chargesModel.getCurrencySymbol()
+                                        ,
+                                        chargesModel.getCurrencyRate(),
+                                        province
                                 ))
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -214,10 +218,11 @@ public class Register extends AppCompatActivity {
                                         Toast.makeText(Register.this, "Thankyou for registering", Toast.LENGTH_SHORT).show();
                                         SharedPrefs.setUsername(username);
                                         SharedPrefs.setName(fullname);
+                                        SharedPrefs.setCountry(country);
                                         SharedPrefs.setCity(city);
                                         SharedPrefs.setIsLoggedIn("yes");
                                         startChatWithAdmin(username);
-                                        SharedPrefs.setCurrencySymbol(chargesModel.getCurrency());
+                                        SharedPrefs.setCurrencySymbol(chargesModel.getCurrencySymbol());
                                         SharedPrefs.setExchangeRate("" + chargesModel.getCurrencyRate());
                                         SharedPrefs.setLocationId(locationId);
                                         launchHomeScreen();
@@ -238,25 +243,6 @@ public class Register extends AppCompatActivity {
 
     }
 
-    private void getListOfCountriesFromDb(String id) {
-        mDatabase.child("Settings").child("DeliveryCharges").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-
-                    chargesModel = dataSnapshot.getValue(LocationAndChargesModel.class);
-//                    CommonUtils.showToast(chargesModel.getCurrency());
-
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -268,14 +254,31 @@ public class Register extends AppCompatActivity {
                 if (extras.getString("city") != null) {
                     city = extras.getString("city");
                     country = extras.getString("country");
+                    province = extras.getString("province");
                     locationId = extras.getString("locationId");
                     locationPosition = extras.getInt("locationPosition");
                     chooseLocation.setText("Location: " + extras.getString("country") + " > " + extras.get("city"));
-                    getListOfCountriesFromDb(locationId);
+                    getShippingDetailsFromDB(extras.getString("country"));
 
                 }
             }
         }
+    }
+
+    private void getShippingDetailsFromDB(String country) {
+        mDatabase.child("Settings").child("Locations").child("Countries").child(country).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    chargesModel = dataSnapshot.getValue(CountryModel.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void launchHomeScreen() {

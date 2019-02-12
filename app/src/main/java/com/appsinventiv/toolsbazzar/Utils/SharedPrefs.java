@@ -111,6 +111,15 @@ public class SharedPrefs {
         return preferenceGetter("city");
     }
 
+    public static void setCountry(String value) {
+
+        preferenceSetter("country", value);
+    }
+
+    public static String getCountry() {
+        return preferenceGetter("country");
+    }
+
 
     public static void setIsLoggedIn(String value) {
 
