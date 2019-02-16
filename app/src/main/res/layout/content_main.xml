@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/body_grey"
-    android:orientation="vertical"
-    android:focusableInTouchMode="true"
     android:descendantFocusability="blocksDescendants"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.appsinventiv.toolsbazzar.Activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
@@ -56,10 +56,41 @@
 
             <include layout="@layout/home_sub_menu"></include>
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff">
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:text="Trending"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerGrid1"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerGrid2"
+                    android:layout_marginTop="5dp"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
             <android.support.design.widget.TabLayout
                 android:id="@+id/sliding_tabs1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:background="#ffffff"
                 app:tabMode="scrollable"
                 app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />

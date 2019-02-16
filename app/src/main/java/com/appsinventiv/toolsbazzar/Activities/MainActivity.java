@@ -6,13 +6,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -26,13 +25,14 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.appsinventiv.toolsbazzar.Adapters.DealsFragmentAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.FragmentAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.MainSliderAdapter;
+import com.appsinventiv.toolsbazzar.Adapters.WithoutPic2ProductAdapter;
+import com.appsinventiv.toolsbazzar.Adapters.WithoutPic3ProductAdapter;
+import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.R;
-import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.google.firebase.database.DataSnapshot;
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity
     DotsIndicator dots_indicator;
     TextView chat;
 
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         scrollView = findViewById(R.id.scrollView);
         setSupportActionBar(toolbar);
-        this.setTitle("Tools Bazzar");
+        this.setTitle("Fort City");
         mDatabase = FirebaseDatabase.getInstance().getReference();
         dots_indicator = findViewById(R.id.dots_indicator);
         ic_settings = findViewById(R.id.ic_settings);
@@ -133,9 +134,63 @@ public class MainActivity extends AppCompatActivity
 
         getBannerImagesFromDb();
         initViewPager();
+        initFirstGrid();
         initDealView();
         initCategoryView();
+
         initDrawer();
+    }
+
+    private void initFirstGrid() {
+        final ArrayList<Product> itemList = new ArrayList<>();
+
+        mDatabase.child("Products").limitToFirst(5).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Product product = snapshot.getValue(Product.class);
+                        if (product != null) {
+                            itemList.add(product);
+
+                        }
+                    }
+                    ArrayList<Product> abc=new ArrayList<>();
+                    for(int i=0;i<3;i++){
+                        abc.add(itemList.get(i));
+                    }
+                    final RecyclerView recyclerGrid = findViewById(R.id.recyclerGrid1);
+                    final WithoutPic3ProductAdapter adapter = new WithoutPic3ProductAdapter(MainActivity.this, abc);
+                    recyclerGrid.setLayoutManager(new GridLayoutManager(MainActivity.this, 3));//
+                    recyclerGrid.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+
+                    ArrayList<Product> def=new ArrayList<>();
+                    for(int i=3;i<5;i++){
+                        def.add(itemList.get(i));
+                    }
+                    final RecyclerView recyclerGrid2 = findViewById(R.id.recyclerGrid2);
+                    final WithoutPic2ProductAdapter adapter2 = new WithoutPic2ProductAdapter(MainActivity.this, def);
+                    recyclerGrid2.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));//
+                    recyclerGrid2.setAdapter(adapter2);
+                    adapter2.notifyDataSetChanged();
+
+
+                } else {
+
+                    itemList.clear();
+//                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
 
