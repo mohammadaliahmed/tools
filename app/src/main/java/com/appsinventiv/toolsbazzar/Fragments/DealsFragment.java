@@ -696,7 +696,7 @@ public class DealsFragment extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
-                            if (product.getIsActive().equals("true")) {
+                            if (product.getIsActive().equals("true")&& product.getSellerProductStatus().equalsIgnoreCase("approved")) {
                                 if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
 
                                     if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
@@ -709,21 +709,22 @@ public class DealsFragment extends Fragment {
                                         }
                                     }
                                 }
-                                Collections.sort(productArrayList, new Comparator<Product>() {
-                                    @Override
-                                    public int compare(Product listData, Product t1) {
-                                        Long ob1 = listData.getTime();
-                                        Long ob2 = t1.getTime();
 
-                                        return ob2.compareTo(ob1);
-
-                                    }
-                                });
 
                             }
 
                         }
                     }
+                    Collections.sort(productArrayList, new Comparator<Product>() {
+                        @Override
+                        public int compare(Product listData, Product t1) {
+                            Long ob1 = listData.getTime();
+                            Long ob2 = t1.getTime();
+
+                            return ob2.compareTo(ob1);
+
+                        }
+                    });
                     mDatabase.removeEventListener(this);
                     adapter.notifyDataSetChanged();
                 }

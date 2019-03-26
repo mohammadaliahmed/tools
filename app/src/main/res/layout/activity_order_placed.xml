@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#fff"
     android:layout_height="match_parent"
     tools:context="com.appsinventiv.toolsbazzar.Activities.OrderPlaced">
 
@@ -92,7 +93,7 @@
 
         android:layout_below="@+id/textView4"
         android:layout_marginTop="102dp"
-        android:background="@drawable/btn_bg"
+        android:background="@drawable/btn_bg_yellow"
         android:inputType="textCapSentences"
         android:text="Home"
         android:textColor="#fff" />
@@ -104,7 +105,7 @@
         android:layout_below="@+id/home"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@drawable/btn_bg"
+        android:background="@drawable/btn_bg_yellow"
 
         android:inputType="textCapSentences"
         android:text="My Orders"

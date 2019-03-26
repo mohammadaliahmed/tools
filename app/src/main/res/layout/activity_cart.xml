@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="#fff"
 
     tools:context="com.appsinventiv.toolsbazzar.Activities.Cart">
 
@@ -79,14 +79,16 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/default_grey"
                         android:padding="1dp">
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recycler"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="#fff"></android.support.v7.widget.RecyclerView>
+                            android:background="#c2c2c2"
+                            android:nestedScrollingEnabled="false">
+
+                        </android.support.v7.widget.RecyclerView>
 
                     </RelativeLayout>
 
@@ -214,8 +216,8 @@
             android:layout_margin="20dp"
             android:background="@color/colorPrimary"
 
-            android:elevation="3dp"
             android:clickable="true"
+            android:elevation="3dp"
             android:foreground="?android:attr/selectableItemBackground">
 
             <TextView
@@ -313,7 +315,7 @@
             android:layout_below="@id/loll"
             android:layout_centerHorizontal="true"
             android:layout_margin="20dp"
-            android:background="@drawable/btn_bg"
+            android:background="@drawable/btn_bg_yellow"
             android:inputType="textCapSentences"
             android:text="Start Shopping"
             android:textColor="#fff" />

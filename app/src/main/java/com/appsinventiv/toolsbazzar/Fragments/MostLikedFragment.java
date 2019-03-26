@@ -700,24 +700,25 @@ public class MostLikedFragment extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
-                            if (product.getIsActive().equals("true")) {
+                            if (product.getIsActive().equals("true")&& product.getSellerProductStatus().equalsIgnoreCase("approved")) {
                                 productArrayList.add(product);
-                                Collections.sort(productArrayList, new Comparator<Product>() {
-                                    @Override
-                                    public int compare(Product listData, Product t1) {
-                                        Integer ob1 = listData.getLikesCount();
-                                        Integer ob2 = t1.getLikesCount();
 
-                                        return ob2.compareTo(ob1);
-
-                                    }
-                                });
-                                mDatabase.removeEventListener(this);
-                                adapter.notifyDataSetChanged();
                             }
 
                         }
                     }
+                    Collections.sort(productArrayList, new Comparator<Product>() {
+                        @Override
+                        public int compare(Product listData, Product t1) {
+                            Integer ob1 = listData.getLikesCount();
+                            Integer ob2 = t1.getLikesCount();
+
+                            return ob2.compareTo(ob1);
+
+                        }
+                    });
+                    mDatabase.removeEventListener(this);
+                    adapter.notifyDataSetChanged();
                 }
             }
 

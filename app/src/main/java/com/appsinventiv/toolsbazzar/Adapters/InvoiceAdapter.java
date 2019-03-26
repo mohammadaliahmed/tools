@@ -13,6 +13,7 @@ import com.appsinventiv.toolsbazzar.Models.LocationAndChargesModel;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 
 import java.util.ArrayList;
 
@@ -77,29 +78,29 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.ViewHold
                     if (list2.contains(model)) {
                         holder.outOfStockText.setVisibility(View.GONE);
                         holder.totalItemPrice.setTextColor(context.getResources().getColor(R.color.colorBlack));
-                        holder.totalItemPrice.setText(locationAndChargesModel.getCurrency() + (CommonUtils.getFormattedPrice(model.getProduct().getWholeSalePrice() * model.getQuantity() * locationAndChargesModel.getCurrencyRate())));
+                        holder.totalItemPrice.setText(SharedPrefs.getCurrencySymbol() + (CommonUtils.getFormattedPrice(model.getProduct().getWholeSalePrice() * model.getQuantity() )));
 
                     } else {
                         holder.outOfStockText.setVisibility(View.VISIBLE);
                         holder.totalItemPrice.setTextColor(context.getResources().getColor(R.color.colorRed));
-                        holder.totalItemPrice.setText("-" + locationAndChargesModel.getCurrency() + CommonUtils.getFormattedPrice(model.getProduct().getWholeSalePrice() * model.getQuantity() * locationAndChargesModel.getCurrencyRate()));
+                        holder.totalItemPrice.setText("-" + SharedPrefs.getCurrencySymbol() + CommonUtils.getFormattedPrice(model.getProduct().getWholeSalePrice() * model.getQuantity() ));
                     }
                 }
 
 
             } else if (customerType.equalsIgnoreCase("retail")) {
-                holder.price.setText("Unit price: " + locationAndChargesModel.getCurrency() + CommonUtils.getFormattedPrice(model.getProduct().getRetailPrice() * locationAndChargesModel.getCurrencyRate()));
+                holder.price.setText("Unit price: " + SharedPrefs.getCurrencySymbol() + CommonUtils.getFormattedPrice(model.getProduct().getRetailPrice() ));
 
                 if (list2 != null) {
                     if (list2.contains(model)) {
                         holder.outOfStockText.setVisibility(View.GONE);
-                        holder.totalItemPrice.setText(locationAndChargesModel.getCurrency() + CommonUtils.getFormattedPrice(model.getProduct().getRetailPrice() * model.getQuantity() * locationAndChargesModel.getCurrencyRate()));
+                        holder.totalItemPrice.setText(SharedPrefs.getCurrencySymbol() + CommonUtils.getFormattedPrice(model.getProduct().getRetailPrice() * model.getQuantity() ));
 
                     } else {
                         holder.outOfStockText.setVisibility(View.VISIBLE);
                         holder.totalItemPrice.setTextColor(context.getResources().getColor(R.color.colorRed));
 
-                        holder.totalItemPrice.setText("-" + locationAndChargesModel.getCurrency() + CommonUtils.getFormattedPrice(model.getProduct().getRetailPrice() * model.getQuantity() * locationAndChargesModel.getCurrencyRate()));
+                        holder.totalItemPrice.setText("-" + SharedPrefs.getCurrencySymbol() + CommonUtils.getFormattedPrice(model.getProduct().getRetailPrice() * model.getQuantity() ));
                     }
                 }
             }

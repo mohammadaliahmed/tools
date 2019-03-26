@@ -69,6 +69,7 @@ public class ListOfProducts extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
 
         category = getIntent().getStringExtra("parentCategory");
@@ -640,17 +641,18 @@ public class ListOfProducts extends AppCompatActivity {
                         ProductCountModel product = snapshot.getValue(ProductCountModel.class);
                         if (product != null) {
                             userCartProductList.add(product);
-                            Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
-                                @Override
-                                public int compare(ProductCountModel listData, ProductCountModel t1) {
-                                    Long ob1 = listData.getTime();
-                                    Long ob2 = t1.getTime();
-                                    return ob2.compareTo(ob1);
 
-                                }
-                            });
                         }
                     }
+                    Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
+                        @Override
+                        public int compare(ProductCountModel listData, ProductCountModel t1) {
+                            Long ob1 = listData.getTime();
+                            Long ob2 = t1.getTime();
+                            return ob2.compareTo(ob1);
+
+                        }
+                    });
                     adapter.notifyDataSetChanged();
 
                 } else {
@@ -675,7 +677,7 @@ public class ListOfProducts extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
-                            if (product.getIsActive().equals("true")) {
+                            if (product.getIsActive().equals("true")&& product.getSellerProductStatus().equalsIgnoreCase("approved")) {
                                 if (product.getCategory() != null) {
                                     if (product.getCategory().contains(category)) {
 //                                        productArrayList.add(product);
@@ -689,16 +691,7 @@ public class ListOfProducts extends AppCompatActivity {
 
                                             }
                                         }
-                                        Collections.sort(productArrayList, new Comparator<Product>() {
-                                            @Override
-                                            public int compare(Product listData, Product t1) {
-                                                String ob1 = listData.getTitle();
-                                                String ob2 = t1.getTitle();
 
-                                                return ob1.compareTo(ob2);
-
-                                            }
-                                        });
 //
                                     } else {
                                     }
@@ -709,6 +702,16 @@ public class ListOfProducts extends AppCompatActivity {
 
                     }
 //                    adapter.updatelist(productArrayList);
+                    Collections.sort(productArrayList, new Comparator<Product>() {
+                        @Override
+                        public int compare(Product listData, Product t1) {
+                            String ob1 = listData.getTitle();
+                            String ob2 = t1.getTitle();
+
+                            return ob1.compareTo(ob2);
+
+                        }
+                    });
                     adapter.notifyDataSetChanged();
 
                 }
@@ -737,7 +740,7 @@ public class ListOfProducts extends AppCompatActivity {
 //            if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
 //                CommonUtils.showToast("Your Cart is empty");
 //            } else {
-            Intent i = new Intent(ListOfProducts.this, Cart.class);
+            Intent i = new Intent(ListOfProducts.this, NewCart.class);
             startActivity(i);
 //            }
 

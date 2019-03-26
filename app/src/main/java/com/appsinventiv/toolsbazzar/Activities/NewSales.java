@@ -73,6 +73,7 @@ public class NewSales extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerView = findViewById(R.id.recycler);
@@ -703,17 +704,18 @@ public class NewSales extends AppCompatActivity {
                         ProductCountModel product = snapshot.getValue(ProductCountModel.class);
                         if (product != null) {
                             userCartProductList.add(product);
-                            Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
-                                @Override
-                                public int compare(ProductCountModel listData, ProductCountModel t1) {
-                                    Long ob1 = listData.getTime();
-                                    Long ob2 = t1.getTime();
-                                    return ob2.compareTo(ob1);
 
-                                }
-                            });
                         }
                     }
+                    Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
+                        @Override
+                        public int compare(ProductCountModel listData, ProductCountModel t1) {
+                            Long ob1 = listData.getTime();
+                            Long ob2 = t1.getTime();
+                            return ob2.compareTo(ob1);
+
+                        }
+                    });
                     adapter.notifyDataSetChanged();
 
                 } else {
@@ -739,7 +741,7 @@ public class NewSales extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         product = snapshot.getValue(Product.class);
                         if (product != null) {
-                            if (product.getIsActive().equals("true")) {
+                            if (product.getIsActive().equals("true")&& product.getSellerProductStatus().equalsIgnoreCase("approved")) {
                                 if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
 
                                     if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
@@ -752,22 +754,23 @@ public class NewSales extends AppCompatActivity {
                                         }
                                     }
                                 }
-                                Collections.sort(productArrayList, new Comparator<Product>() {
-                                    @Override
-                                    public int compare(Product listData, Product t1) {
-                                        String ob1 = listData.getTitle();
-                                        String ob2 = t1.getTitle();
 
-                                        return ob1.compareTo(ob2);
-
-                                    }
-                                });
 
                             }
                         }
 
 
                     }
+                    Collections.sort(productArrayList, new Comparator<Product>() {
+                        @Override
+                        public int compare(Product listData, Product t1) {
+                            String ob1 = listData.getTitle();
+                            String ob2 = t1.getTitle();
+
+                            return ob1.compareTo(ob2);
+
+                        }
+                    });
                     adapter.updatelist(productArrayList);
                     adapter.notifyDataSetChanged();
 
@@ -797,7 +800,7 @@ public class NewSales extends AppCompatActivity {
 //            if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
 //                CommonUtils.showToast("Your Cart is empty");
 //            } else {
-            Intent i = new Intent(NewSales.this, Cart.class);
+            Intent i = new Intent(NewSales.this, NewCart.class);
             startActivity(i);
 //            }
 

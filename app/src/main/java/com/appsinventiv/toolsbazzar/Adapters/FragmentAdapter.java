@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.appsinventiv.toolsbazzar.Fragments.ProductListFragment;
+import com.appsinventiv.toolsbazzar.Fragments.SellerProductsFragment;
 
 import java.util.ArrayList;
 

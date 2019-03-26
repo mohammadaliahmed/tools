@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+   >
+
+    <ImageView
+        android:id="@+id/abc"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/product_uploaded" />
+
+    <TextView
+        android:id="@+id/aaaaaaa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/abc"
+        android:layout_centerHorizontal="true"
+        android:text="Keep up the good work"
+        android:textColor="#000"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/aasdsadas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/aaaaaaa"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Your product is successfully uploaded.Please keep on \nincreasing your products to achieve more sales"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/done"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/aasdsadas"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_bg_yellow"
+        android:inputType="text"
+
+        android:text="Done"
+        android:textColor="#fff" />
+</RelativeLayout>

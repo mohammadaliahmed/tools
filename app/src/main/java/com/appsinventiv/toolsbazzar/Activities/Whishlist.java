@@ -76,6 +76,7 @@ public class Whishlist extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -712,20 +713,21 @@ public class Whishlist extends AppCompatActivity {
                         if (product != null) {
                             if (!userCartProductList.contains(product)) {
                                 userCartProductList.add(product);
-                                Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
-                                    @Override
-                                    public int compare(ProductCountModel listData, ProductCountModel t1) {
-                                        Long ob1 = listData.getTime();
-                                        Long ob2 = t1.getTime();
 
-                                        return ob2.compareTo(ob1);
-
-                                    }
-                                });
-                                adapter.notifyDataSetChanged();
                             }
                         }
                     }
+                    Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
+                        @Override
+                        public int compare(ProductCountModel listData, ProductCountModel t1) {
+                            Long ob1 = listData.getTime();
+                            Long ob2 = t1.getTime();
+
+                            return ob2.compareTo(ob1);
+
+                        }
+                    });
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -745,21 +747,22 @@ public class Whishlist extends AppCompatActivity {
                     if (product != null) {
                         if (product.getIsActive().equals("true")) {
                             productArrayList.add(product);
-                            Collections.sort(productArrayList, new Comparator<Product>() {
-                                @Override
-                                public int compare(Product listData, Product t1) {
-                                    String ob1 = listData.getTitle();
-                                    String ob2 = t1.getTitle();
 
-                                    return ob1.compareTo(ob2);
-
-                                }
-                            });
 
                         }
 
 
                     }
+                    Collections.sort(productArrayList, new Comparator<Product>() {
+                        @Override
+                        public int compare(Product listData, Product t1) {
+                            String ob1 = listData.getTitle();
+                            String ob2 = t1.getTitle();
+
+                            return ob1.compareTo(ob2);
+
+                        }
+                    });
                     adapter.notifyDataSetChanged();
 
                 }
@@ -829,7 +832,7 @@ public class Whishlist extends AppCompatActivity {
 //            if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
 //                CommonUtils.showToast("Your Cart is empty");
 //            } else {
-            Intent i = new Intent(Whishlist.this, Cart.class);
+            Intent i = new Intent(Whishlist.this, NewCart.class);
             startActivity(i);
 //            }
 

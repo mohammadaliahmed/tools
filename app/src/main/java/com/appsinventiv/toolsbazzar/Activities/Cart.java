@@ -56,6 +56,7 @@ public class Cart extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
 
         subtotal = findViewById(R.id.subtotal);
@@ -163,24 +164,6 @@ public class Cart extends AppCompatActivity {
 
     }
 
-//    private void getLocationChargesFromDb() {
-//        mDatabase.child("Settings").child("DeliveryCharges").child(SharedPrefs.getLocationId()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.getValue() != null) {
-////                    locationAndChargesModel = dataSnapshot.getValue(LocationAndChargesModel.class);
-////                    if (locationAndChargesModel != null) {
-////                        calculateTotal();
-////                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
 
 
     public void calculateTotal() {
@@ -254,19 +237,20 @@ public class Cart extends AppCompatActivity {
                         ProductCountModel product = snapshot.getValue(ProductCountModel.class);
                         if (product != null) {
                             userCartProductList.add(product);
-                            Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
-                                @Override
-                                public int compare(ProductCountModel listData, ProductCountModel t1) {
-                                    Long ob1 = listData.getTime();
-                                    Long ob2 = t1.getTime();
 
-                                    return ob2.compareTo(ob1);
-
-                                }
-                            });
-                            adapter.notifyDataSetChanged();
                         }
                     }
+                    Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
+                        @Override
+                        public int compare(ProductCountModel listData, ProductCountModel t1) {
+                            Long ob1 = listData.getTime();
+                            Long ob2 = t1.getTime();
+
+                            return ob2.compareTo(ob1);
+
+                        }
+                    });
+                    adapter.notifyDataSetChanged();
                 }
             }
 

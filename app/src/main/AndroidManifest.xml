@@ -53,6 +53,9 @@
             android:name=".Activities.OrderPlaced"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Activities.WholesaleLiveChat"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Activities.ViewProduct"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -70,9 +73,8 @@
         </activity>
         <activity
             android:name=".Activities.MainActivity"
-            android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppThemeMain.NoActionBar" />
         <activity
             android:name=".Activities.Search"
             android:screenOrientation="portrait"
@@ -116,7 +118,62 @@
             android:name=".Activities.ViewInvoice"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.ChooseMainCategory" />
-        <activity android:name=".Activities.ChooseAddress"></activity>
+        <activity android:name=".Activities.ChooseAddress" />
+        <activity
+            android:name=".Seller.SellerTermsAndConditions"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Seller.SellerLogin"
+            android:theme="@style/AppTheme.NoActionBar1" />
+        <activity
+            android:name=".Seller.SellerRegister"
+            android:theme="@style/AppTheme.NoActionBar1" />
+        <activity
+            android:name=".Seller.SellerMainActivity"
+            android:label="@string/title_activity_seller_main"
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".Seller.SellerAddProduct"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".Seller.AddProductWeight"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".Seller.ProductUploaded"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".Seller.SellerListOfProducts"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".Seller.EditProduct"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".Seller.SellerOrders.Orders"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".Seller.SellerOrders.ViewUnderProcessOrder"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".Seller.SellerOrders.OrdersCourier"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".Seller.SellerOrders.ViewDeliveryShippedOrder"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".Seller.SellerOrders.ViewOrder"
+            android:theme="@style/AppThemeGreen" />
+        <activity android:name=".Activities.NewCart" />
+        <activity
+            android:name=".Seller.SellerViewProduct"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeGreen.NoActionBar" />
+        <activity
+            android:name=".Seller.Sales.SellerSales"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".Seller.SellerChat.SellerChats"
+            android:theme="@style/AppThemeGreen" />
+        <activity android:name=".Activities.ViewOrderStatus"></activity>
     </application>
 
 </manifest>

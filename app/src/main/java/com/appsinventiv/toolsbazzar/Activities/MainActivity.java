@@ -1,12 +1,14 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -22,6 +24,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -31,8 +35,11 @@ import com.appsinventiv.toolsbazzar.Adapters.FragmentAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.MainSliderAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.WithoutPic2ProductAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.WithoutPic3ProductAdapter;
+import com.appsinventiv.toolsbazzar.Models.Customer;
+import com.appsinventiv.toolsbazzar.Models.MainCategoryModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.google.firebase.database.DataSnapshot;
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity
     ScrollView scrollView;
     DotsIndicator dots_indicator;
     TextView chat;
+    private AppBarLayout mAppBarLayout;
 
 
     @Override
@@ -77,9 +85,38 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        getUserAccountStatusFromDB();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+
         scrollView = findViewById(R.id.scrollView);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setElevation(0);
+        }
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
+
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+//        mAppBarLayout.setElevation(0);
+
+//        getSupportActionBar().setElevation(0);
+//        getSupportActionBar().setElevation(0);
+//        toolbar.getBackground().setAlpha(0);
         this.setTitle("Fort City");
         mDatabase = FirebaseDatabase.getInstance().getReference();
         dots_indicator = findViewById(R.id.dots_indicator);
@@ -93,8 +130,14 @@ public class MainActivity extends AppCompatActivity
         ic_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, LiveChat.class);
-                startActivity(i);
+                if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+                    Intent i = new Intent(MainActivity.this, WholesaleLiveChat.class);
+                    startActivity(i);
+                } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+                    Intent i = new Intent(MainActivity.this, LiveChat.class);
+                    startActivity(i);
+                }
+
             }
         });
         ic_settings.setOnClickListener(new View.OnClickListener() {
@@ -107,14 +150,14 @@ public class MainActivity extends AppCompatActivity
         ic_mycart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, Cart.class);
+                Intent i = new Intent(MainActivity.this, NewCart.class);
                 startActivity(i);
             }
         });
         ic_orders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, MyOrders.class);
+                Intent i = new Intent(MainActivity.this, ChooseMainCategory.class);
                 startActivity(i);
             }
         });
@@ -134,11 +177,63 @@ public class MainActivity extends AppCompatActivity
 
         getBannerImagesFromDb();
         initViewPager();
-        initFirstGrid();
+//        initFirstGrid();
         initDealView();
         initCategoryView();
 
         initDrawer();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+//                    if (i1 > 1200) {
+//                        setStatusBarColor(false);
+//                    } else {
+//                        setStatusBarColor(true);
+//                    }
+                }
+            });
+        }
+    }
+
+    private void setStatusBarColor(boolean abc) {
+        if (abc) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(Color.TRANSPARENT);
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+            }
+        }
+    }
+    private void getUserAccountStatusFromDB() {
+        mDatabase.child("Customers").child(SharedPrefs.getUsername()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    Customer customer = dataSnapshot.getValue(Customer.class);
+                    if (customer != null) {
+                        if (!customer.isActive()) {
+                            SharedPrefs.setAccountStatus("false");
+                            CommonUtils.showToast("Your account is disabled");
+                            System.exit(0);
+                        } else {
+                            SharedPrefs.setAccountStatus("true");
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void initFirstGrid() {
@@ -156,8 +251,8 @@ public class MainActivity extends AppCompatActivity
 
                         }
                     }
-                    ArrayList<Product> abc=new ArrayList<>();
-                    for(int i=0;i<3;i++){
+                    ArrayList<Product> abc = new ArrayList<>();
+                    for (int i = 0; i < 3; i++) {
                         abc.add(itemList.get(i));
                     }
                     final RecyclerView recyclerGrid = findViewById(R.id.recyclerGrid1);
@@ -166,8 +261,8 @@ public class MainActivity extends AppCompatActivity
                     recyclerGrid.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
 
-                    ArrayList<Product> def=new ArrayList<>();
-                    for(int i=3;i<5;i++){
+                    ArrayList<Product> def = new ArrayList<>();
+                    for (int i = 3; i < 5; i++) {
                         def.add(itemList.get(i));
                     }
                     final RecyclerView recyclerGrid2 = findViewById(R.id.recyclerGrid2);
@@ -202,9 +297,10 @@ public class MainActivity extends AppCompatActivity
                 if (dataSnapshot.getValue() != null) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         String url = snapshot.child("url").getValue(String.class);
-                        imgList.add(url);
+                        pics.add(url);
                     }
-                    SharedPrefs.saveArrayList(imgList, "banners");
+                    mViewPagerAdapter.notifyDataSetChanged();
+//                    SharedPrefs.saveArrayList(imgList, "banners");
 
                 }
             }
@@ -245,14 +341,14 @@ public class MainActivity extends AppCompatActivity
 
         tabLayout.setupWithViewPager(viewPager);
 
-        mDatabase.child("Settings").child("Categories").child("MainCategory").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Settings").child("Categories").child("MainCategories").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     categoryList.add("All");
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String categoryTitle = snapshot.getValue(String.class);
-                        categoryList.add(categoryTitle);
+                        MainCategoryModel categoryTitle = snapshot.getValue(MainCategoryModel.class);
+                        categoryList.add(categoryTitle.getMainCategory());
                     }
                     adapter.notifyDataSetChanged();
                 }
@@ -267,7 +363,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private void initViewPager() {
-        pics = SharedPrefs.getArrayList("banners");
+//        pics = SharedPrefs.getArrayList("banners");
 //        CommonUtils.showToast(""+pics);
 
 //        pics.add("https://static.daraz.pk/cms/2017/W43/lipton/Lipton_06.jpg");
@@ -406,7 +502,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         final MenuItem menuItem = menu.findItem(R.id.action_cart);
 
         View actionView = MenuItemCompat.getActionView(menuItem);
@@ -456,7 +552,7 @@ public class MainActivity extends AppCompatActivity
 //            if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
 //                CommonUtils.showToast("Your Cart is empty");
 //            } else {
-            Intent i = new Intent(MainActivity.this, Cart.class);
+            Intent i = new Intent(MainActivity.this, NewCart.class);
             startActivity(i);
 //            }
 
@@ -489,8 +585,13 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.chat) {
 
-            Intent i = new Intent(MainActivity.this, LiveChat.class);
-            startActivity(i);
+            if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+                Intent i = new Intent(MainActivity.this, WholesaleLiveChat.class);
+                startActivity(i);
+            } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+                Intent i = new Intent(MainActivity.this, LiveChat.class);
+                startActivity(i);
+            }
 
 
         } else if (id == R.id.whishlist) {
@@ -505,7 +606,7 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(MainActivity.this, TermsAndConditions.class);
             startActivity(i);
         } else if (id == R.id.cart) {
-            Intent i = new Intent(MainActivity.this, Cart.class);
+            Intent i = new Intent(MainActivity.this, NewCart.class);
             startActivity(i);
         } else if (id == R.id.aboutUs) {
             Intent i = new Intent(MainActivity.this, AboutUs.class);
@@ -517,7 +618,7 @@ public class MainActivity extends AppCompatActivity
             PrefManager prefManager = new PrefManager(this);
             prefManager.setIsFirstTimeLaunchWelcome(true);
             Intent i = new Intent(MainActivity.this, Welcome.class);
-            i.putExtra("flag", 0);
+            i.putExtra("flag", 1);
 
             startActivity(i);
         } else if (id == R.id.signout) {

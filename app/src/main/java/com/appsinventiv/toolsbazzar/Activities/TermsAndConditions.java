@@ -17,7 +17,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class TermsAndConditions extends AppCompatActivity {
     DatabaseReference mDatabase;
-    TextView terms, cookies, license, hyperlink, iframes, contentLiability, reservation, removal, disclaimer, replacement, other;
+    TextView terms, cookies, license, hyperlink, iframes, contentLiability,
+            reservation, removal, disclaimer, replacement, other,address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class TermsAndConditions extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
         this.setTitle("Terms & Conditions");
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -41,6 +43,7 @@ public class TermsAndConditions extends AppCompatActivity {
         disclaimer = findViewById(R.id.disclaimer);
         replacement = findViewById(R.id.replacement);
         other = findViewById(R.id.other);
+        address = findViewById(R.id.address);
 
         mDatabase.child("Settings").child("Terms").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -59,6 +62,24 @@ public class TermsAndConditions extends AppCompatActivity {
                     replacement.setText(model.getReplacement());
                     other.setText(model.getOther());
 
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        getAddressFromDb();
+    }
+
+    private void getAddressFromDb() {
+        mDatabase.child("Settings").child("AboutUs").child("contact").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    String contact = dataSnapshot.getValue(String.class);
+                    address.setText(contact);
                 }
             }
 

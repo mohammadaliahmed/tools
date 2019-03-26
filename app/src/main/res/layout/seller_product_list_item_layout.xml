@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="10dp"
+    android:layout_height="90dp">
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:padding="3dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_cancel" />
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/placeholder" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/image"
+        android:lines="1"
+        android:text="Rosepair Oregano Leaves"
+        android:textColor="#000" />
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="match_parent"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/image"
+        android:text="12 gm" />
+
+    <TextView
+        android:id="@+id/wholesalePrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:textSize="11sp"
+        android:layout_below="@id/subtitle"
+        android:layout_toRightOf="@id/image"
+        android:text="Rs 85"
+        />
+    <TextView
+        android:id="@+id/retailPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:visibility="gone"
+        android:layout_marginLeft="150dp"
+        android:textSize="11sp"
+        android:layout_toRightOf="@id/image"
+        android:text="Rs 85"
+        />
+
+
+    <Switch
+        android:id="@+id/switchh"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentBottom="true"
+        android:text="Inactive/Active " />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#d9d9d9"></View>
+
+</RelativeLayout>

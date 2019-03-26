@@ -5,11 +5,14 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.appsinventiv.toolsbazzar.ApplicationClass;
+import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -23,12 +26,38 @@ public class SharedPrefs {
 
     }
 
+    public static void setVendorModel(VendorModel model) {
+        SharedPreferences pref = ApplicationClass.getInstance().getApplicationContext().getSharedPreferences("user", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(model);
+        editor.putString("vendor", json);
+        editor.apply();
+    }
+
+    public static VendorModel getVendor() {
+        Gson gson = new Gson();
+        SharedPreferences pref = ApplicationClass.getInstance().getApplicationContext().getSharedPreferences("user", MODE_PRIVATE);
+        String json = pref.getString("vendor", "");
+        VendorModel vendorModel = gson.fromJson(json, VendorModel.class);
+        return vendorModel;
+    }
+
+
     public static String getUsername() {
         return preferenceGetter("username");
     }
 
     public static void setUsername(String username) {
         preferenceSetter("username", username);
+    }
+
+    public static String getAccountStatus() {
+        return preferenceGetter("accountStatus");
+    }
+
+    public static void setAccountStatus(String accountStatus) {
+        preferenceSetter("accountStatus", accountStatus);
     }
 
     public static String getLocationId() {
@@ -80,6 +109,14 @@ public class SharedPrefs {
 
     public static void setCustomerType(String username) {
         preferenceSetter("customerType", username);
+    }
+
+    public static String getUserType() {
+        return preferenceGetter("userType");
+    }
+
+    public static void setUserType(String username) {
+        preferenceSetter("userType", username);
     }
 
 
@@ -160,7 +197,7 @@ public class SharedPrefs {
 
 
     public static void preferenceSetter(String key, String value) {
-        SharedPreferences pref = ApplicationClass.getInstance().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences pref = ApplicationClass.getInstance().getApplicationContext().getSharedPreferences("user", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(key, value);
         editor.apply();
@@ -169,7 +206,7 @@ public class SharedPrefs {
     public static String preferenceGetter(String key) {
         SharedPreferences pref;
         String value = "";
-        pref = ApplicationClass.getInstance().getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        pref = ApplicationClass.getInstance().getApplicationContext().getSharedPreferences("user", MODE_PRIVATE);
         value = pref.getString(key, "");
         return value;
     }

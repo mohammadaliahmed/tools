@@ -13,6 +13,8 @@ public class Customer {
     String currencySymbol;
     Float currencyRate;
     String province;
+    boolean status;
+
 
     public Customer() {
     }
@@ -22,7 +24,8 @@ public class Customer {
                     String email, String password, String phone, String telNumber,
                     String address, String city, String country, String fcmKey,
                     long time, String customerType, String storeName, String businessRegistrationNumber,
-                    String locationId, String currencySymbol,Float currencyRate,String province) {
+                    String locationId, String currencySymbol,Float currencyRate,String province,    boolean status
+    ) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -42,6 +45,15 @@ public class Customer {
         this.currencySymbol = currencySymbol;
         this.currencyRate = currencyRate;
         this.province = province;
+        this.status=status;
+    }
+
+    public boolean isActive() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getProvince() {

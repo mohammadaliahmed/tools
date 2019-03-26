@@ -14,8 +14,10 @@ import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Interface.NotificationObserver;
 import com.appsinventiv.toolsbazzar.Models.Customer;
+import com.appsinventiv.toolsbazzar.Models.NewCartModel;
 import com.appsinventiv.toolsbazzar.Models.OrderModel;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
+import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.NotificationAsync;
@@ -40,7 +42,11 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
     Customer customer;
     Long orderNumber = 10001L;
     String adminFcmKey;
-
+    int current = 0;
+    int listSize;
+    ArrayList<String> fcmKeys = new ArrayList<>();
+    ArrayList<String> vendorId = new ArrayList<>();
+    boolean adminHasOrder = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +56,9 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
+        listSize = NewCart.newCart.size();
         Intent i = getIntent();
         grandTotal = i.getFloatExtra("grandTotal", 0);
 
@@ -97,49 +105,51 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
         placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (CommonUtils.isNetworkConnected()) {
                     progress.setVisibility(View.VISIBLE);
                     if (customer != null) {
-                        mDatabase.child("Orders").child("" + orderNumber)
-                                .setValue(new OrderModel("" + orderNumber,
-                                        customer,
-                                        Cart.userCartProductList,
-                                        Cart.grandTotalAmount,
-                                        System.currentTimeMillis(),
-                                        instructions.getText().toString() + " ",
-                                        "23rd june",
-                                        "33",
-                                        "Pending",
-                                        Float.parseFloat("" + Cart.shippingCharge),
-                                        Float.parseFloat("" + Cart.deliveryCharge)
-
-                                )).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                updateProductQuantityInDB(Cart.userCartProductList);
-                                mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("Orders").child("" + orderNumber).setValue("" + orderNumber);
-
-                                mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-
-                                        NotificationAsync notificationAsync = new NotificationAsync(Checkout.this);
-                                        String NotificationTitle = "New order from " + SharedPrefs.getUsername();
-                                        String NotificationMessage = "Click to view ";
-                                        notificationAsync.execute("ali", adminFcmKey, NotificationTitle, NotificationMessage, "Order", "1");
-
-                                        Intent i = new Intent(Checkout.this, OrderPlaced.class);
-                                        startActivity(i);
-                                        finish();
-                                    }
-                                });
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-
-                            }
-                        });
+                        checkoutFromCart(current);
+//                        mDatabase.child("Orders").child("" + orderNumber)
+//                                .setValue(new OrderModel("" + orderNumber,
+//                                        customer,
+//                                        Cart.userCartProductList,
+//                                        Cart.grandTotalAmount,
+//                                        System.currentTimeMillis(),
+//                                        instructions.getText().toString() + " ",
+//                                        "23rd june",
+//                                        "33",
+//                                        "Pending",
+//                                        Float.parseFloat("" + Cart.shippingCharge),
+//                                        Float.parseFloat("" + Cart.deliveryCharge)
+//
+//                                )).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void aVoid) {
+//                                updateProductQuantityInDB(Cart.userCartProductList);
+//                                mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("Orders").child("" + orderNumber).setValue("" + orderNumber);
+//
+//                                mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void aVoid) {
+//
+//                                        NotificationAsync notificationAsync = new NotificationAsync(Checkout.this);
+//                                        String NotificationTitle = "New order from " + SharedPrefs.getUsername();
+//                                        String NotificationMessage = "Click to view ";
+//                                        notificationAsync.execute("ali", adminFcmKey, NotificationTitle, NotificationMessage, "Order", "1");
+//
+//                                        Intent i = new Intent(Checkout.this, OrderPlaced.class);
+//                                        startActivity(i);
+//                                        finish();
+//                                    }
+//                                });
+//                            }
+//                        }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//
+//                            }
+//                        });
                     }
                 } else {
 
@@ -151,6 +161,111 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
             }
         });
 
+    }
+
+    private void checkoutFromCart(int val) {
+        final NewCartModel model = NewCart.newCart.get(val);
+//        for (final NewCartModel model : NewCart.newCart) {
+        orderNumber = orderNumber + 1;
+        OrderModel orderModel = new OrderModel("" + orderNumber,
+                customer,
+                model.getList(),
+                Float.parseFloat("" + model.getTotal()),
+                System.currentTimeMillis(),
+                instructions.getText().toString() + " ",
+                "23rd june",
+                "33",
+                "Pending",
+                Float.parseFloat("" + model.getShippingCharges()),
+                Float.parseFloat("" + model.getDeliveryCharges())
+                , model.getName().equalsIgnoreCase("Fort City") ? "admin" : "seller"
+        );
+        mDatabase.child("Orders").child("" + orderNumber).setValue(orderModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                updateProductQuantityInDB(model.getList());
+                if (model.getName().equalsIgnoreCase("Fort City")) {
+//                    vendorId.add(adminFcmKey);
+                    adminHasOrder = true;
+                } else {
+                    vendorId.add(model.getList().get(0).getProduct().getVendor().getUsername());
+                    setOrderIDs(model.getList(), orderNumber);
+                }
+
+                mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("Orders").child("" + orderNumber).setValue("" + orderNumber).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        current = current + 1;
+                        if (current < listSize) {
+                            checkoutFromCart(current);
+                        } else {
+                            mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").removeValue()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            getVendorsFcmKeys();
+//                                            sendNotificationsAboutOrderToAll();
+                                        }
+                                    });
+
+                        }
+                    }
+                });
+
+            }
+        });
+
+    }
+
+    private void getVendorsFcmKeys() {
+
+        mDatabase.child("Sellers").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        VendorModel model = snapshot.getValue(VendorModel.class);
+                        if (model != null) {
+                            if (vendorId.contains(model.getUsername())) {
+                                fcmKeys.add(model.getFcmKey());
+                            }
+                        }
+                    }
+                    sendNotificationsAboutOrderToAll();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void sendNotificationsAboutOrderToAll() {
+        if (fcmKeys.size() > 0) {
+            for (String key : fcmKeys) {
+                NotificationAsync notificationAsync = new NotificationAsync(Checkout.this);
+                String NotificationTitle = "New order from " + SharedPrefs.getUsername();
+                String NotificationMessage = "Click to view ";
+                notificationAsync.execute("ali", key, NotificationTitle, NotificationMessage, "SellerOrder", "1");
+            }
+            if (adminHasOrder) {
+                NotificationAsync notificationAsync = new NotificationAsync(Checkout.this);
+                String NotificationTitle = "New order from " + SharedPrefs.getUsername();
+                String NotificationMessage = "Click to view ";
+                notificationAsync.execute("ali", adminFcmKey, NotificationTitle, NotificationMessage, "Order", "1");
+            }
+            Intent i = new Intent(Checkout.this, OrderPlaced.class);
+            startActivity(i);
+            finish();
+        }
+    }
+
+    private void setOrderIDs(ArrayList<ProductCountModel> list, Long orderNumber) {
+        mDatabase.child("Sellers").child(list.get(0).getProduct().getVendor().getUsername()).child("Orders").child("" + orderNumber).setValue("" + orderNumber);
     }
 
     private void updateProductQuantityInDB(ArrayList<ProductCountModel> userCartProductList) {

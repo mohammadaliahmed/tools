@@ -44,6 +44,7 @@ public class MyProfile extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
 
         mDatabase = FirebaseDatabase.getInstance().getReference();

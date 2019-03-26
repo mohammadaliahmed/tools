@@ -11,7 +11,7 @@ public class InvoiceModel {
     ArrayList<ProductCountModel> countModelArrayList;
     ArrayList<ProductCountModel> newCountModelArrayList;
     Customer customer;
-    long totalPrice;
+    float totalPrice;
     long time;
     String orderId;
     float deliveryCharges;
@@ -23,6 +23,38 @@ public class InvoiceModel {
     String invoiceStatus;
 
     public InvoiceModel() {
+    }
+    public InvoiceModel(long id,
+                        ArrayList<ProductCountModel> countModelArrayList,
+                        ArrayList<ProductCountModel> newCountModelArrayList,
+                        Customer customer,
+                        float totalPrice,
+                        long time,
+                        String orderId,
+                        float deliveryCharges,
+                        float shippingCharges,
+                        float grandTotal,
+                        String orderStatus,
+                        int orderItems,
+                        String deliveryBy,
+                        int outOfStock,
+                        String invoiceStatus
+    ) {
+        this.id = id;
+        this.countModelArrayList = countModelArrayList;
+        this.newCountModelArrayList = newCountModelArrayList;
+        this.customer = customer;
+        this.totalPrice = totalPrice;
+        this.time = time;
+        this.orderId = orderId;
+        this.deliveryCharges = deliveryCharges;
+        this.shippingCharges = shippingCharges;
+        this.grandTotal = grandTotal;
+        this.orderStatus = orderStatus;
+        this.orderItems = orderItems;
+        this.deliveryBy = deliveryBy;
+        this.outOfStock = outOfStock;
+        this.invoiceStatus=invoiceStatus;
     }
 
 
@@ -99,11 +131,11 @@ public class InvoiceModel {
         this.customer = customer;
     }
 
-    public long getTotalPrice() {
+    public float getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(long totalPrice) {
+    public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
     }
 

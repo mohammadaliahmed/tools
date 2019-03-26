@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.TrackOrder;
 import com.appsinventiv.toolsbazzar.Activities.ViewInvoice;
+import com.appsinventiv.toolsbazzar.Activities.ViewOrderStatus;
 import com.appsinventiv.toolsbazzar.Models.OrderModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.R;
@@ -50,62 +51,61 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull OrdersAdapter.ViewHolder holder, int position) {
         final OrderModel model = itemList.get(position);
-        holder.order.setText("Order Status: " + model.getOrderStatus()
-                + "\nOrder Number: " + model.getOrderId()
+        holder.order.setText("Order Number: " + model.getOrderId()
                 + "\nTotal amount: " + SharedPrefs.getCurrencySymbol() + " "
                 + String.format("%.2f", (model.getTotalPrice() * Float.parseFloat(SharedPrefs.getExchangeRate()))));
-        holder.time.setText("Order Time: " + CommonUtils.getFormattedTime(model.getTime()));
-        holder.date.setText("Date: " + CommonUtils.getFormattedDateOnly(model.getTime()));
+        holder.time.setText("Order Time: " + CommonUtils.getFormattedTime(model.getTime())
+                + "\nOrder Date: " + CommonUtils.getFormattedDateOnly(model.getTime()));
+//        holder.date.setText("Date: " + CommonUtils.getFormattedDateOnly(model.getTime()));
         holder.serial.setText((position + 1) + ")");
 
 
-        if (model.getOrderStatus().equalsIgnoreCase("pending")) {
-            holder.cancelOrder.setVisibility(View.VISIBLE);
-        } else {
-            holder.cancelOrder.setVisibility(View.GONE);
+//        if (model.getOrderStatus().equalsIgnoreCase("pending")) {
+//            holder.cancelOrder.setVisibility(View.VISIBLE);
+//        } else {
+//            holder.cancelOrder.setVisibility(View.GONE);
+//
+//        }
 
-        }
+//        if(model.getInvoicePath()!=null){
+//            holder.viewInvoice.setVisibility(View.VISIBLE);
+//
+//        }else{
+//            holder.viewInvoice.setVisibility(View.GONE);
+//        }
+//        holder.viewInvoice.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i=new Intent(context, ViewInvoice.class);
+//                i.putExtra("path",model.getInvoicePath());
+//                context.startActivity(i);
+//            }
+//        });
 
-        if(model.getInvoicePath()!=null){
-            holder.viewInvoice.setVisibility(View.VISIBLE);
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+//        holder.recycler_order_products.setLayoutManager(layoutManager);
+//        adapter = new OrderedProductsLayout(context, model.getCountModelArrayList());
+//
+//        holder.recycler_order_products.setAdapter(adapter);
+//        adapter.notifyDataSetChanged();
 
-        }else{
-            holder.viewInvoice.setVisibility(View.GONE);
-        }
-        holder.viewInvoice.setOnClickListener(new View.OnClickListener() {
+//        holder.cancelOrder.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                changeOrderStatus.onCancelOrder(model);
+//            }
+//        });
+
+        holder.orderStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(context, ViewInvoice.class);
-                i.putExtra("path",model.getInvoicePath());
-                context.startActivity(i);
-            }
-        });
-
-
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-        holder.recycler_order_products.setLayoutManager(layoutManager);
-        adapter = new OrderedProductsLayout(context, model.getCountModelArrayList());
-
-        holder.recycler_order_products.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-
-        holder.cancelOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeOrderStatus.onCancelOrder(model);
-            }
-        });
-
-        holder.track.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(context, TrackOrder.class);
+                Intent i = new Intent(context, ViewOrderStatus.class);
                 i.putExtra("orderId", model.getOrderId());
-                i.putExtra("orderStatus", model.getOrderStatus());
-                if (model.getOrderStatus().equalsIgnoreCase("delivered")) {
-//                    model.deli
-                }
+//                i.putExtra("orderStatus", model.getOrderStatus());
+//                if (model.getOrderStatus().equalsIgnoreCase("delivered")) {
+////                    model.deli
+//                }
                 context.startActivity(i);
             }
         });
@@ -121,18 +121,18 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         TextView serial, order, time, date, viewInvoice;
         RecyclerView recycler_order_products;
         ImageView cancelOrder;
-        Button track;
+        Button orderStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);
             serial = itemView.findViewById(R.id.serial);
-            recycler_order_products = itemView.findViewById(R.id.recycler_order_products);
+//            recycler_order_products = itemView.findViewById(R.id.recycler_order_products);
             order = itemView.findViewById(R.id.order);
             time = itemView.findViewById(R.id.time);
-            cancelOrder = itemView.findViewById(R.id.cancelOrder);
-            date = itemView.findViewById(R.id.date);
-            track = itemView.findViewById(R.id.track);
-            viewInvoice = itemView.findViewById(R.id.viewInvoice);
+//            cancelOrder = itemView.findViewById(R.id.cancelOrder);
+//            date = itemView.findViewById(R.id.date);
+            orderStatus = itemView.findViewById(R.id.orderStatus);
+//            viewInvoice = itemView.findViewById(R.id.viewInvoice);
         }
     }
 

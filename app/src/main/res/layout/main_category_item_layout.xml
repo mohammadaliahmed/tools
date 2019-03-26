@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_margin="5dp"
-    android:layout_height="60dp">
+    android:layout_height="60dp"
+    android:layout_margin="5dp">
 
     <ImageView
         android:id="@+id/icon"
@@ -15,9 +15,19 @@
         android:id="@+id/maincategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_marginLeft="70dp"
+        android:layout_marginTop="10dp"
+        android:text=""
         android:textColor="#000" />
+
+    <TextView
+        android:id="@+id/subCategories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/maincategory"
+        android:layout_marginLeft="70dp"
+        android:text=""
+        android:textSize="10sp" />
 
     <ImageView
         android:layout_width="20dp"

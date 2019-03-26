@@ -4,8 +4,28 @@
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="AppThemeMain.NoActionBar">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar2">
+        <item name="android:statusBarColor">@color/colorGreenDark</item>
+        <item name="colorAccent">@color/colorGreen</item>
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar1">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/colorBlack</item>
+        <item name="colorAccent">@color/colorGreen</item>
     </style>
 </resources>

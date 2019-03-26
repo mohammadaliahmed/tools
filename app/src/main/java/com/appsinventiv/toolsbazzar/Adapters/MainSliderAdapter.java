@@ -43,7 +43,7 @@ public class MainSliderAdapter extends PagerAdapter {
 //        view.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                Intent i = new Intent(context, ListOfProducts.class);
+//                Intent i = new Intent(context, SellerListOfProducts.class);
 //                if(position==0) {
 //                    i.putExtra("category", "Tea");
 //                    i.putExtra("position", 2);

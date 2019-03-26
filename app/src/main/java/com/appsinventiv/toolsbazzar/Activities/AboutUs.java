@@ -28,6 +28,7 @@ public class AboutUs extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
         about = findViewById(R.id.about);
         vision = findViewById(R.id.vision);

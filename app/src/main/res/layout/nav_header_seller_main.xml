@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:background="@drawable/side_nav_bar_green"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="15dp"
+        app:srcCompat="@drawable/fort_city_without_green" />
+
+    <TextView
+        android:id="@+id/name_drawer"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/imageView"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:textColor="#fff"
+
+        android:text="Android Studio"
+        />
+
+    <TextView
+        android:layout_marginTop="10dp"
+
+        android:id="@+id/customerType"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/imageView"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Type"
+        android:textColor="#fff"
+        android:layout_marginRight="15dp"
+        android:visibility="visible" />
+
+</RelativeLayout>

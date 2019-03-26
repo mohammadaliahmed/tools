@@ -26,7 +26,7 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 app:cardCornerRadius="0dp"
                 app:cardElevation="0dp">
 
@@ -47,7 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="190dp"
+                        android:layout_marginTop="290dp"
                         app:dotsColor="@color/colorPrimary"
                         app:dotsSize="5dp"
                         app:dotsWidthFactor="3" />
@@ -57,31 +57,36 @@
             <include layout="@layout/home_sub_menu"></include>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff">
+                android:background="#fff"
+                android:orientation="vertical">
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:text="Trending"
                     android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:visibility="gone" />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerGrid1"
-                    android:nestedScrollingEnabled="false"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:visibility="gone">
 
                 </android.support.v7.widget.RecyclerView>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerGrid2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:nestedScrollingEnabled="false"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:visibility="gone">
 
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>
@@ -118,4 +123,21 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <!--<android.support.design.widget.AppBarLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:background="@android:color/transparent"-->
+    <!--android:visibility="visible">-->
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/gradient_black_trans"
+        android:paddingTop="20dp" />
+
+    <!--</android.support.design.widget.AppBarLayout>-->
+
 </RelativeLayout>

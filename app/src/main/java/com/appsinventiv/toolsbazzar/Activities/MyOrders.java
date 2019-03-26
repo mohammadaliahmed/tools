@@ -36,6 +36,7 @@ public class MyOrders extends AppCompatActivity {
     ArrayList<OrderModel> orderModelArrayList = new ArrayList<>();
     ProgressBar progress;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +45,7 @@ public class MyOrders extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
         progress = findViewById(R.id.progress);
 
@@ -103,6 +105,7 @@ public class MyOrders extends AppCompatActivity {
 
                         getOrdersFromDb(snapshot.getKey());
                     }
+
                     adapter.notifyDataSetChanged();
                 } else {
                     progress.setVisibility(View.GONE);
@@ -135,9 +138,8 @@ public class MyOrders extends AppCompatActivity {
                     OrderModel model = dataSnapshot.getValue(OrderModel.class);
                     if (model != null) {
                         progress.setVisibility(View.GONE);
-//                        if (!locationAndChargesModel.getOrderStatus().equalsIgnoreCase("cancelled")) {
-                            orderModelArrayList.add(model);
-//                        }
+                        orderModelArrayList.add(model);
+                        adapter.notifyDataSetChanged();
                         Collections.sort(orderModelArrayList, new Comparator<OrderModel>() {
                             @Override
                             public int compare(OrderModel listData, OrderModel t1) {
@@ -148,7 +150,8 @@ public class MyOrders extends AppCompatActivity {
 
                             }
                         });
-                        adapter.notifyDataSetChanged();
+
+
                     }
 
                 }
@@ -179,4 +182,6 @@ public class MyOrders extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
     }
+
 }
+

@@ -5,11 +5,20 @@ package com.appsinventiv.toolsbazzar.Models;
  */
 
 public class MainCategoryModel {
-    String mainCategory,url;
+    String mainCategory,url,subCategories;
 
-    public MainCategoryModel(String mainCategory, String url) {
+    public MainCategoryModel(String mainCategory, String url, String subCategories) {
         this.mainCategory = mainCategory;
         this.url = url;
+        this.subCategories = subCategories;
+    }
+
+    public String getSubCategories() {
+        return subCategories;
+    }
+
+    public void setSubCategories(String subCategories) {
+        this.subCategories = subCategories;
     }
 
     public MainCategoryModel() {

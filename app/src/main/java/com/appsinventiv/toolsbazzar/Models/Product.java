@@ -25,8 +25,12 @@ public class Product {
     float rating;
     ArrayList<String> category;
     int quantityAvailable;
-    String brandName,productContents,warrantyType,productWeight;
+    String brandName, productContents, warrantyType, productWeight;
     String dimen;
+    String sellerProductStatus;
+    ArrayList<String> pictures;
+    String uploadedBy;
+
 
 
     @Override
@@ -46,6 +50,79 @@ public class Product {
 
         }
 //        return id != null ? !id.equals(product.id) : product.id != null;
+    }
+
+
+    public Product(String id, String title, String subtitle, String isActive,
+                   int sku, String thumbnailUrl, String mainCategory, String subCategory,
+                   long time, float costPrice, float wholeSalePrice, float retailPrice,
+                   int minOrderQuantity, String measurement, VendorModel vendor, String sellingTo,
+                   String description,
+
+                   List<String> sizeList,
+                   List<String> colorList,
+                   float oldWholeSalePrice, float oldRetailPrice
+            , float rating,
+                   ArrayList<String> category, int quantityAvailable,
+                   String brandName, String productContents, String warrantyType, String productWeight,
+                   String dimen, String sellerProductStatus,String uploadedBy
+
+    ) {
+        this.id = id;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.isActive = isActive;
+        this.sku = sku;
+        this.thumbnailUrl = thumbnailUrl;
+        this.mainCategory = mainCategory;
+        this.subCategory = subCategory;
+        this.time = time;
+        this.costPrice = costPrice;
+        this.wholeSalePrice = wholeSalePrice;
+        this.retailPrice = retailPrice;
+        this.minOrderQuantity = minOrderQuantity;
+        this.measurement = measurement;
+        this.vendor = vendor;
+        this.sellingTo = sellingTo;
+        this.description = description;
+        this.sizeList = sizeList;
+        this.colorList = colorList;
+        this.oldRetailPrice = oldRetailPrice;
+        this.oldWholeSalePrice = oldWholeSalePrice;
+        this.rating = rating;
+        this.category = category;
+        this.quantityAvailable = quantityAvailable;
+        this.brandName = brandName;
+        this.productContents = productContents;
+        this.warrantyType = warrantyType;
+        this.productWeight = productWeight;
+        this.dimen = dimen;
+        this.sellerProductStatus = sellerProductStatus;
+        this.uploadedBy=uploadedBy;
+    }
+
+    public String getUploadedBy() {
+        return uploadedBy;
+    }
+
+    public void setUploadedBy(String uploadedBy) {
+        this.uploadedBy = uploadedBy;
+    }
+
+    public ArrayList<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(ArrayList<String> pictures) {
+        this.pictures = pictures;
+    }
+
+    public String getSellerProductStatus() {
+        return sellerProductStatus;
+    }
+
+    public void setSellerProductStatus(String sellerProductStatus) {
+        this.sellerProductStatus = sellerProductStatus;
     }
 
     public String getBrandName() {
@@ -93,28 +170,6 @@ public class Product {
         return id != null ? id.hashCode() : 0;
     }
 
-    public Product(String id, String title, String subtitle, String isActive, int sku,
-                   String thumbnailUrl, String mainCategory, String subCategory,
-                   long time, float costPrice, float wholeSalePrice, float retailPrice,
-                   int minOrderQuantity, String measurement, VendorModel vendor, int salesCount, int likesCount) {
-        this.id = id;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.isActive = isActive;
-        this.sku = sku;
-        this.thumbnailUrl = thumbnailUrl;
-        this.mainCategory = mainCategory;
-        this.subCategory = subCategory;
-        this.time = time;
-        this.costPrice = costPrice;
-        this.wholeSalePrice = wholeSalePrice;
-        this.retailPrice = retailPrice;
-        this.minOrderQuantity = minOrderQuantity;
-        this.measurement = measurement;
-        this.vendor = vendor;
-        this.salesCount = salesCount;
-        this.likesCount = likesCount;
-    }
 
     public Product() {
     }

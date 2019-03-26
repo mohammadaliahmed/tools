@@ -29,6 +29,7 @@ public class TrackOrder extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
         back = findViewById(R.id.goBack);
         img = findViewById(R.id.img);

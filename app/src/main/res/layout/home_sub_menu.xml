@@ -22,6 +22,8 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:paddingBottom="7dp"
             android:src="@drawable/ic_wish_list" />
 
         <TextView
@@ -44,8 +46,9 @@
 
         <ImageView
             android:layout_width="60dp"
-
             android:layout_height="60dp"
+
+            android:layout_gravity="center"
             android:paddingBottom="7dp"
             android:src="@drawable/ic_my_orders" />
 
@@ -54,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="My Orders"
+            android:text="Categories"
             android:textSize="11sp" />
     </LinearLayout>
 
@@ -69,7 +72,9 @@
 
         <ImageView
             android:layout_width="60dp"
+
             android:layout_height="60dp"
+            android:layout_gravity="center"
             android:paddingBottom="8dp"
             android:src="@drawable/ic_my_cart" />
 
@@ -93,7 +98,9 @@
 
         <ImageView
             android:layout_width="60dp"
+
             android:layout_height="60dp"
+            android:layout_gravity="center"
             android:paddingBottom="5dp"
             android:src="@drawable/ic_live_chat" />
 
@@ -117,7 +124,9 @@
 
         <ImageView
             android:layout_width="60dp"
+
             android:layout_height="60dp"
+            android:layout_gravity="center"
             android:paddingBottom="8dp"
             android:src="@drawable/ic_settings" />
 

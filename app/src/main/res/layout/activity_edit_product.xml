@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_brick">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:visibility="gone"></android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/pick"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+
+            android:layout_margin="15dp"
+            android:background="@drawable/btn_bg_green"
+            android:text="Select pictures"
+            android:textColor="#fff" />
+        <TextView
+            android:textColor="#fff"
+            android:text="fdgdsfgdfgd"
+            android:layout_margin="15dp"
+            android:id="@+id/productId"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textColorHint="@color/default_grey">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/default_grey"
+                android:hint="Title"
+                android:inputType="textCapWords"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/default_grey" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+
+            android:textColorHint="@color/default_grey">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/default_grey"
+                android:hint="Sub Title"
+                android:inputType="textCapSentences"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/default_grey" />
+        </android.support.design.widget.TextInputLayout>
+
+        <ProgressBar
+            android:id="@+id/prgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+
+            android:textColorHint="@color/default_grey">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/productSku"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/default_grey"
+                android:editable="false"
+                android:focusable="false"
+                android:hint="SKU"
+                android:inputType="numberDecimal"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/default_grey" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+
+            android:textColorHint="@color/default_grey">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/costPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/default_grey"
+                android:hint="Cost Price"
+                android:inputType="numberDecimal"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/default_grey" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+
+                android:textColorHint="@color/default_grey">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/wholeSalePrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/default_grey"
+                    android:hint="Wholesale Price"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/default_grey" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+
+                android:textColorHint="@color/default_grey">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/oldWholeSalePrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/default_grey"
+                    android:hint="Old Wholesale Price"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/default_grey" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+
+                android:textColorHint="@color/default_grey">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/retailPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/default_grey"
+                    android:hint="Retail  Price"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/default_grey" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+
+                android:textColorHint="@color/default_grey">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/oldRetailPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/default_grey"
+                    android:hint="Old Retail  Price"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/default_grey" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+
+            android:textColorHint="@color/default_grey">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/minOrder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/default_grey"
+                android:hint="Min Qty Wholesale"
+                android:inputType="number"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/default_grey" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+
+            android:textColorHint="@color/default_grey">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/measurement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/default_grey"
+                android:hint="Measurement eg. 100m or 1kg"
+                android:inputType="text"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/default_grey" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+
+            android:textColorHint="@color/default_grey">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/quantityAvailable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/default_grey"
+                android:hint="Quantity available in stock"
+                android:inputType="text"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/default_grey" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+
+            android:textColorHint="@color/default_grey">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/default_grey"
+                android:hint="Product Description"
+                android:inputType="textMultiLine|textCapSentences"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/default_grey" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+
+            android:textColorHint="@color/default_grey">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/default_grey"
+                android:hint="Size: e.g 4GB,8Gb,16GB.."
+                android:inputType="text"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/default_grey" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+
+            android:textColorHint="@color/default_grey">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/default_grey"
+                android:hint="Color: Yellow, Green, Blue.."
+                android:inputType="text"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/default_grey" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+
+            android:textColorHint="@color/default_grey">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/brandName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/default_grey"
+                android:hint="Brand Name"
+                android:inputType="textCapWords"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/default_grey" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+
+            android:textColorHint="@color/default_grey">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/productContents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/default_grey"
+                android:hint="Product Contents(Batteries,Cables etc)"
+                android:inputType="textCapWords"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/default_grey" />
+        </android.support.design.widget.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text_background"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/warrantyChosen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Warrenty type"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text=">"
+                android:textColor="#fff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text_background"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/weightChosen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Choose Weight"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text=">"
+                android:textColor="#fff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Choose Vendor"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/sp1"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginTop="10dp"-->
+
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginBottom="20dp"-->
+            <!--android:background="@drawable/bg_spinner"-->
+            <!--android:orientation="horizontal"-->
+
+            <!--android:padding="1dp">-->
+
+            <!--<Spinner-->
+                <!--android:id="@+id/chooseVendor"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_gravity="center"-->
+
+                <!--android:background="@android:color/transparent"-->
+                <!--android:gravity="center"-->
+                <!--android:spinnerMode="dropdown" />-->
+
+
+            <!--<ImageView-->
+
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:background="@color/default_grey"-->
+                <!--android:padding="5dp"-->
+
+                <!--android:src="@drawable/dropdown_arrow_spinner" />-->
+
+        <!--</RelativeLayout>-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text_background"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/categoryChoosen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose Category"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text=">"
+                android:textColor="#fff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+
+            android:text="Selling to"
+            android:textColor="#fff" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/both"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:buttonTint="@color/colorPrimary"
+                android:checked="true"
+                android:text="Both"
+                android:textColor="#fff" />
+
+            <RadioButton
+                android:id="@+id/wholesale"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:buttonTint="@color/colorPrimary"
+                android:text="Wholeale"
+
+                android:textColor="#fff" />
+
+            <RadioButton
+                android:id="@+id/retail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_margin="10dp"
+                android:buttonTint="@color/colorPrimary"
+                android:text="Retail"
+                android:textColor="#fff" />
+
+        </RadioGroup>
+
+
+        <Button
+            android:id="@+id/upload"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="15dp"
+            android:background="@drawable/btn_bg_green"
+            android:text="Update"
+            android:textColor="#fff"
+            android:visibility="visible" />
+    </LinearLayout>
+</ScrollView>

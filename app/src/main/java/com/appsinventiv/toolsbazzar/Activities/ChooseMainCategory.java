@@ -1,5 +1,6 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,15 +25,20 @@ public class ChooseMainCategory extends AppCompatActivity {
     DatabaseReference mDatabase;
     ArrayList<MainCategoryModel> itemList = new ArrayList<>();
     MainCategoryAdapter adapter;
+    public static Activity activity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_main_category);
-        this.setTitle("Choose Categories");
+        this.setTitle("Choose Category");
+        activity=this;
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recycler = findViewById(R.id.recycler);

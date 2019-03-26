@@ -21,6 +21,7 @@ import com.appsinventiv.toolsbazzar.Models.LocationAndChargesModel;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,6 +51,7 @@ public class ViewInvoice extends AppCompatActivity {
     String path;
     float totalPrice = 0;
     String from;
+    String by;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class ViewInvoice extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
         ll_linear = findViewById(R.id.ll_linear);
 
@@ -80,12 +83,17 @@ public class ViewInvoice extends AppCompatActivity {
 
 
         Intent i = getIntent();
+        invoiceNumber = i.getLongExtra("invoiceNumber", 0);
         path = i.getStringExtra("path");
+        by = i.getStringExtra("by");
 
 
         setUpRecycler();
-
-        getInvoiceFromDb();
+        if (by.equalsIgnoreCase("seller")) {
+            getSellerInvoiceFromDB();
+        } else {
+            getInvoiceFromDb();
+        }
 
 
         getAddressFromDb();
@@ -93,6 +101,46 @@ public class ViewInvoice extends AppCompatActivity {
 
     }
 
+    private void getSellerInvoiceFromDB() {
+        mDatabase.child("SellerInvoice").child(SharedPrefs.getVendor().getUsername()).child("" + invoiceNumber).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    model = dataSnapshot.getValue(InvoiceModel.class);
+                    if (model != null) {
+
+                        allProductsInOneOrderList = model.getCountModelArrayList();
+                        availableProductsInOneOrderList = model.getNewCountModelArrayList();
+                        invoiceNumberText.setText("Invoice # " + model.getId());
+                        date.setText("" + CommonUtils.getFormattedDateOnly(model.getTime()));
+                        if (model.getCustomer().getLocationId() != null) {
+                            setUpLayout(model.getCustomer().getLocationId());
+
+                        }
+                        address.setText("Name:  " + model.getCustomer().getName() + "\nPhone: " + model.getCustomer().getPhone() + "\nAddress:  " + model.getCustomer().getAddress()
+                                + ", " + model.getCustomer().getCity()
+                                + "\nCountry: " + model.getCustomer().getCountry());
+                        adapter = new InvoiceAdapter(ViewInvoice.this,
+                                allProductsInOneOrderList,
+                                availableProductsInOneOrderList,
+                                model.getCustomer().getCustomerType(), locationAndChargesModel);
+
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+
+                    }
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
     private void getAddressFromDb() {
@@ -131,7 +179,7 @@ public class ViewInvoice extends AppCompatActivity {
                                 availableProductsInOneOrderList = model.getNewCountModelArrayList();
                                 invoiceNumberText.setText("Invoice # " + model.getId());
                                 date.setText("" + CommonUtils.getFormattedDateOnly(model.getTime()));
-                                if(model.getCustomer().getLocationId()!=null){
+                                if (model.getCustomer().getLocationId() != null) {
                                     setUpLayout(model.getCustomer().getLocationId());
 
                                 }
@@ -173,18 +221,18 @@ public class ViewInvoice extends AppCompatActivity {
                             ));
 
                         }
-                        total.setText(locationAndChargesModel.getCurrency() + " " +
+                        total.setText(SharedPrefs.getCurrencySymbol() + " " +
                                 CommonUtils.getFormattedPrice(totalPrice));
 
 
-                        delivery.setText(locationAndChargesModel.getCurrency() + " " +
+                        delivery.setText(SharedPrefs.getCurrencySymbol() + " " +
                                 CommonUtils.getFormattedPrice(model.getDeliveryCharges()));
 
 
-                        shipping.setText(locationAndChargesModel.getCurrency() + " " +
+                        shipping.setText(SharedPrefs.getCurrencySymbol() + " " +
                                 CommonUtils.getFormattedPrice(model.getShippingCharges()));
 
-                        grandTotal.setText(locationAndChargesModel.getCurrency() + " " +
+                        grandTotal.setText(SharedPrefs.getCurrencySymbol() + " " +
                                 CommonUtils.getFormattedPrice(model.getGrandTotal()));
                         orderNumber.setText("Order number: " + model.getOrderId());
                         wholeLayout.setVisibility(View.GONE);

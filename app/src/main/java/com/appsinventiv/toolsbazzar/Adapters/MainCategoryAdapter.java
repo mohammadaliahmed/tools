@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.appsinventiv.toolsbazzar.Activities.ChooseCategory;
 import com.appsinventiv.toolsbazzar.Models.MainCategoryModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -38,12 +39,15 @@ public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final MainCategoryModel model = itemList.get(position);
+        holder.subCategories.setText(model.getSubCategories() == null ? "" : model.getSubCategories());
+
         holder.maincategory.setText(model.getMainCategory());
         Glide.with(context).load(model.getUrl()).into(holder.icon);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SellerAddProduct.categoryList.add(model.getMainCategory());
                 Intent i = new Intent(context, ChooseCategory.class);
                 i.putExtra("parentCategory", model.getMainCategory());
                 context.startActivity(i);
@@ -58,13 +62,14 @@ public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView maincategory;
+        TextView maincategory, subCategories;
         ImageView icon;
 
         public ViewHolder(View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.icon);
             maincategory = itemView.findViewById(R.id.maincategory);
+            subCategories = itemView.findViewById(R.id.subCategories);
         }
     }
 }

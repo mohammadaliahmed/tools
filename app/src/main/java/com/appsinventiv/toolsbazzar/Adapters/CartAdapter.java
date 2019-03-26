@@ -39,7 +39,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.product_item_layout, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.cart_product_item_layout, parent, false);
         CartAdapter.ViewHolder viewHolder = new CartAdapter.ViewHolder(view);
         return viewHolder;
     }
@@ -79,6 +79,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         Glide.with(context).load(model.getProduct().getThumbnailUrl()).placeholder(R.drawable.placeholder).into(holder.image);
 
         holder.viewProduct.setVisibility(View.GONE);
+        holder.productWeight.setText("Weight: "+(model.getProduct().getProductWeight()==null?"Not available":model.getProduct().getProductWeight()+" Kg"));
 
         final int[] count = {model.getQuantity()};
         holder.increase.setVisibility(View.VISIBLE);
@@ -188,7 +189,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title, subtitle, price, count, size, color;
+        TextView title, subtitle, price, count, size, color,productWeight;
         ImageView image, increase, decrease, viewProduct;
         RelativeLayout relativeLayout;
 
@@ -205,6 +206,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             size = itemView.findViewById(R.id.size);
             color = itemView.findViewById(R.id.color);
             relativeLayout = itemView.findViewById(R.id.relativeLayout);
+            productWeight = itemView.findViewById(R.id.productWeight);
 
 
         }

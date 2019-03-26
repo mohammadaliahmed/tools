@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_brick"
+    tools:context="com.appsinventiv.toolsbazzar.Activities.AboutUs">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:src="@drawable/fort_city_green" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Terms and conditions"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:hint=""
+            android:textColor="#fff"
+            android:textSize="12sp"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="Selling"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/selling"
+            android:layout_width="wrap_content"
+
+            android:layout_marginLeft="5dp"
+            android:text="Many of our Services are accessible to international &amp; Local sellers and buyers. We may offer certain programs, tools, and site experiences of particular interest to international &amp; Local sellers and buyers, such as estimated local currency conversion and international &amp; Local shipping calculation tools. Sellers and buyers are responsible for complying with all laws and regulations applicable to the international &amp; Local sale, purchase, and shipment of items. If you sell an item on FortCity other than Fortcity.lk, you are subject to the User Agreement of that other Fort City site with respect to that particular sale.
+
+You may list your items directly on one or more of FrtCity Apps. Additionally, you may direct us to display your listing on FortCity other than the original fortcity listing site, including where you choose to list an item with an international shipping option (such as worldwide shipping or the Global Shipping Program); the appearance of your listings on these sites is not guaranteed. When you sell your items internationally or Locally, you agree to be subject to that other site's User Agreement, policies, and our Fort City Money Back Guarantee. You may adjust your account settings within My Fort City to indicate your preferences on international shipping by excluding international shipping and applying an exclusion list to the applicable countries.
+You authorize us to use automated tools to translate your Fort City content and member-to-member communications, in whole or in part, into local languages where such translation solutions are available. We may provide you with tools which will enable you to translate content at your request. The accuracy and availability of any translation are not guaranteed.
+"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="Cookies"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/cookies"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:hint="ABOUT US"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="License"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/license"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:hint="ABOUT US"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="Hyperlinking to our content"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/hyperlink"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:hint="ABOUT US"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="iFrames"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/iframes"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:hint="ABOUT US"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="Content Liability"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/contentLiability"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:hint="ABOUT US"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="Reservation of rights"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/reservation"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:hint="ABOUT US"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="Removal of links from our application"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/removal"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:hint="ABOUT US"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="Disclaimer"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/disclaimer"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:hint="ABOUT US"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="Replacement"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/replacement"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="50dp"
+            android:hint="ABOUT US"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:text="Other"
+            android:textColor="@color/colorGreen"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/other"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="50dp"
+            android:hint="ABOUT US"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:text="ABOUT US"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+
+    </LinearLayout>
+</ScrollView>

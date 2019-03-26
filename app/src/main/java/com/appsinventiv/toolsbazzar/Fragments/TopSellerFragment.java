@@ -697,7 +697,7 @@ public class TopSellerFragment extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
-                            if (product.getIsActive().equals("true")) {
+                            if (product.getIsActive().equals("true")&& product.getSellerProductStatus().equalsIgnoreCase("approved")) {
 //                                if (product.getSellingTo() != null) {
 //                                    if (product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
                                 productArrayList.add(product);
@@ -705,22 +705,23 @@ public class TopSellerFragment extends Fragment {
 //                                        productArrayList.add(product);
 //                                    }
 //                                }
-                                Collections.sort(productArrayList, new Comparator<Product>() {
-                                    @Override
-                                    public int compare(Product listData, Product t1) {
-                                        Integer ob1 = listData.getSalesCount();
-                                        Integer ob2 = t1.getSalesCount();
 
-                                        return ob2.compareTo(ob1);
-
-                                    }
-                                });
-                                mDatabase.removeEventListener(this);
-                                adapter.notifyDataSetChanged();
                             }
 
                         }
                     }
+                    Collections.sort(productArrayList, new Comparator<Product>() {
+                        @Override
+                        public int compare(Product listData, Product t1) {
+                            Integer ob1 = listData.getSalesCount();
+                            Integer ob2 = t1.getSalesCount();
+
+                            return ob2.compareTo(ob1);
+
+                        }
+                    });
+                    mDatabase.removeEventListener(this);
+                    adapter.notifyDataSetChanged();
                 }
             }
 

@@ -13,7 +13,10 @@ import android.util.Log;
 import com.appsinventiv.toolsbazzar.Activities.LiveChat;
 import com.appsinventiv.toolsbazzar.Activities.MainActivity;
 import com.appsinventiv.toolsbazzar.Activities.MyOrders;
+import com.appsinventiv.toolsbazzar.Activities.WholesaleLiveChat;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerChat.SellerChats;
+import com.appsinventiv.toolsbazzar.Seller.SellerOrders.Orders;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -66,13 +69,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         int num = (int) System.currentTimeMillis();
         /**Creates an explicit intent for an Activity in your app**/
-        Intent resultIntent=null;
-        if(type.equalsIgnoreCase("chat")){
+        Intent resultIntent = null;
+        if (type.equalsIgnoreCase("RetailChat")) {
             resultIntent = new Intent(this, LiveChat.class);
-        }else if(type.equalsIgnoreCase("marketing")){
+//            resultIntent.putExtra("username", username);
+        } else if (type.equalsIgnoreCase("WholesaleChat")) {
+            resultIntent = new Intent(this, WholesaleLiveChat.class);
+//            resultIntent.putExtra("username", username);
+        } else if (type.equalsIgnoreCase("SellerChat")) {
+            resultIntent = new Intent(this, SellerChats.class);
+//            resultIntent.putExtra("username", username);
+        } else if (type.equalsIgnoreCase("marketing")) {
             resultIntent = new Intent(this, MainActivity.class);
-        }else if(type.equalsIgnoreCase("order")){
+        } else if (type.equalsIgnoreCase("order")) {
             resultIntent = new Intent(this, MyOrders.class);
+        } else if (type.equals("SellerOrder")) {
+            resultIntent = new Intent(this, Orders.class);
         }
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this,

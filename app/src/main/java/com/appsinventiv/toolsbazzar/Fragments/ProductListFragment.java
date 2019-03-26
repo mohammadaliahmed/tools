@@ -737,17 +737,18 @@ public class ProductListFragment extends Fragment {
                         ProductCountModel product = snapshot.getValue(ProductCountModel.class);
                         if (product != null) {
                             userCartProductList.add(product);
-                            Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
-                                @Override
-                                public int compare(ProductCountModel listData, ProductCountModel t1) {
-                                    Long ob1 = listData.getTime();
-                                    Long ob2 = t1.getTime();
-                                    return ob2.compareTo(ob1);
 
-                                }
-                            });
                         }
                     }
+                    Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
+                        @Override
+                        public int compare(ProductCountModel listData, ProductCountModel t1) {
+                            Long ob1 = listData.getTime();
+                            Long ob2 = t1.getTime();
+                            return ob2.compareTo(ob1);
+
+                        }
+                    });
                     adapter.notifyDataSetChanged();
 
                 } else {
@@ -765,7 +766,7 @@ public class ProductListFragment extends Fragment {
 
     private void getProductsFromDB() {
 
-        mDatabase.child("Products").limitToLast(30).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Products").limitToLast(100).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -788,20 +789,21 @@ public class ProductListFragment extends Fragment {
 //                                    }
                                 }
 
-                                Collections.sort(productArrayList, new Comparator<Product>() {
-                                    @Override
-                                    public int compare(Product listData, Product t1) {
-                                        Long ob1 = listData.getTime();
-                                        Long ob2 = t1.getTime();
 
-                                        return ob2.compareTo(ob1);
-
-                                    }
-                                });
                             }
 
                         }
                     }
+                    Collections.sort(productArrayList, new Comparator<Product>() {
+                        @Override
+                        public int compare(Product listData, Product t1) {
+                            Long ob1 = listData.getTime();
+                            Long ob2 = t1.getTime();
+
+                            return ob2.compareTo(ob1);
+
+                        }
+                    });
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -834,20 +836,21 @@ public class ProductListFragment extends Fragment {
                                     }
                                 }
 
-                                Collections.sort(productArrayList, new Comparator<Product>() {
-                                    @Override
-                                    public int compare(Product listData, Product t1) {
-                                        Long ob1 = listData.getTime();
-                                        Long ob2 = t1.getTime();
 
-                                        return ob2.compareTo(ob1);
-
-                                    }
-                                });
                             }
 
                         }
                     }
+                    Collections.sort(productArrayList, new Comparator<Product>() {
+                        @Override
+                        public int compare(Product listData, Product t1) {
+                            Long ob1 = listData.getTime();
+                            Long ob2 = t1.getTime();
+
+                            return ob2.compareTo(ob1);
+
+                        }
+                    });
                     adapter.notifyDataSetChanged();
                 }
             }

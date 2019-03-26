@@ -2,6 +2,7 @@ package com.appsinventiv.toolsbazzar.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -50,18 +51,21 @@ public class Register extends AppCompatActivity {
     RelativeLayout abc1, abc2;
     CountryModel chargesModel;
     private String province="";
+    TextView terms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.BLACK);
         }
-
         prefManager = new PrefManager(this);
         if (!prefManager.isFirstTimeLaunch()) {
             launchHomeScreen();
@@ -97,6 +101,16 @@ public class Register extends AppCompatActivity {
             }
         });
 
+        terms = findViewById(R.id.terms);
+        terms.setPaintFlags(terms.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(Register.this,TermsAndConditions.class);
+                startActivity(i);
+            }
+        });
         abc1 = findViewById(R.id.abc1);
         abc2 = findViewById(R.id.abc2);
 
@@ -210,7 +224,8 @@ public class Register extends AppCompatActivity {
                                         chargesModel.getCurrencySymbol()
                                         ,
                                         chargesModel.getCurrencyRate(),
-                                        province
+                                        province,
+                                        true
                                 ))
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override

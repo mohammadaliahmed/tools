@@ -19,6 +19,7 @@ public class PrefManager {
     private static final String PREF_NAME = "androidhive-welcome";
 
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+    private static final String IS_FIRST_TIME_LAUNCH_SELLER = "IsFirstTimeLaunchSeller";
 
     private static final String PREF_NAME_WELCOME = "tools_welcome";
 
@@ -35,8 +36,17 @@ public class PrefManager {
         editor.commit();
     }
 
+    public void setFirstTimeLaunchSeller(boolean isFirstTime) {
+        editor.putBoolean(IS_FIRST_TIME_LAUNCH_SELLER, isFirstTime);
+        editor.commit();
+    }
+
     public boolean isFirstTimeLaunch() {
         return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
+    }
+
+    public boolean isFirstTimeLaunchSeller() {
+        return pref.getBoolean(IS_FIRST_TIME_LAUNCH_SELLER, true);
     }
 
 

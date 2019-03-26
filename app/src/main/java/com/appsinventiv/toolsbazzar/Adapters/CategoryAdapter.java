@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.ChooseCategory;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.EditProduct;
+import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
 
 import java.util.ArrayList;
 
@@ -22,12 +24,13 @@ import java.util.ArrayList;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     Context context;
     ArrayList<String> list;
+    GetNewData getNewData;
 
-    public CategoryAdapter(Context context, ArrayList<String> list) {
+    public CategoryAdapter(Context context, ArrayList<String> list, GetNewData getNewData) {
         this.context = context;
         this.list = list;
+        this.getNewData = getNewData;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,11 +47,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, ChooseCategory.class);
+//                Intent i = new Intent(context, ChooseCategory.class);
+                SellerAddProduct.categoryList.add(title);
+                EditProduct.categoryList.add(title);
+//
+//                i.putExtra("parentCategory", title);
+////                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                context.startActivity(i);
+                getNewData.whichCategory(title);
 
-                i.putExtra("parentCategory", title);
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                context.startActivity(i);
 
             }
         });
@@ -66,6 +73,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             super(itemView);
             title = itemView.findViewById(R.id.title);
         }
+    }
+    public interface GetNewData {
+        public void whichCategory(String title);
     }
 
 }

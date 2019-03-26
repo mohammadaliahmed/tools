@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item android:title="Offers">
+            <menu>
+                <item
+                    android:id="@+id/addProduct"
+                    android:icon="@drawable/cart"
+                    android:title="Add product" />
+                <item
+                    android:id="@+id/myProducts"
+                    android:icon="@drawable/checklist"
+                    android:title="My products" />
+
+            </menu>
+        </item>
+    </group>
+    <item android:title="My Profile">
+        <menu>
+
+            <item
+                android:id="@+id/orders"
+                android:icon="@drawable/checklist"
+                android:title="My Orders" />
+            <item
+                android:id="@+id/shipping"
+                android:icon="@drawable/cart"
+                android:title="Shipping" />
+            <item
+                android:id="@+id/sales"
+                android:icon="@drawable/ic_sales"
+                android:title="My Sales" />
+            <item
+                android:id="@+id/chat"
+                app:actionViewClass="android.widget.TextView"
+
+                android:icon="@drawable/chat"
+                android:title="Live Chat" />
+            <item
+                android:id="@+id/profile"
+                android:icon="@drawable/user"
+                android:title="Account Management" />
+            <item
+                android:id="@+id/clientApp"
+                android:icon="@drawable/checklist"
+                android:title="Open Client App" />
+            <item
+                android:id="@+id/openSlider"
+                android:icon="@drawable/ic_slider"
+                android:title="Open Slider" />
+        </menu>
+    </item>
+    <item android:title="Help &amp; Support">
+        <menu>
+            <item
+                android:id="@+id/contactUs"
+                android:icon="@drawable/phone_call"
+                android:title="Contact Us" />
+            <item
+                android:id="@+id/aboutUs"
+                android:icon="@drawable/ic_about"
+                android:title="About Us" />
+            <item
+                android:id="@+id/rateUs"
+                android:icon="@drawable/ic_star"
+                android:title="Rate Us" />
+            <item
+                android:id="@+id/terms"
+                android:icon="@drawable/ic_terms"
+                android:title="Terms &amp; Condition" />
+            <item
+                android:id="@+id/signout"
+                android:icon="@drawable/power"
+                android:title="Sign Out" />
+        </menu>
+    </item>
+
+
+</menu>

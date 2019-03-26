@@ -108,6 +108,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -229,6 +230,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                     //write your code here
                     collapsing_toolbar.setTitle(product.getTitle());
                     collapsing_toolbar.setBackgroundColor(getResources().getColor(R.color.colorBlack));
+                    collapsing_toolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.default_back));
 
 
                 } else {
@@ -1127,8 +1129,12 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                                         .child("cart").child(product.getId()).child("color").setValue(colorSelected);
 
                             }
+
                         } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
-                            if (quantity > 0) {
+                            if (product.getQuantityAvailable() < 1) {
+                                CommonUtils.showToast("Out of stock");
+
+                            } else if (quantity > 0) {
                             } else {
                                 relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
                                 count.setTextColor(getResources().getColor(R.color.default_grey_text));
@@ -1409,19 +1415,20 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                         ProductCountModel product = snapshot.getValue(ProductCountModel.class);
                         if (product != null) {
                             userCartProductList.add(product);
-                            Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
-                                @Override
-                                public int compare(ProductCountModel listData, ProductCountModel t1) {
-                                    Long ob1 = listData.getTime();
-                                    Long ob2 = t1.getTime();
 
-                                    return ob2.compareTo(ob1);
-
-                                }
-                            });
-                            adapter.notifyDataSetChanged();
                         }
                     }
+                    Collections.sort(userCartProductList, new Comparator<ProductCountModel>() {
+                        @Override
+                        public int compare(ProductCountModel listData, ProductCountModel t1) {
+                            Long ob1 = listData.getTime();
+                            Long ob2 = t1.getTime();
+
+                            return ob2.compareTo(ob1);
+
+                        }
+                    });
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -1446,22 +1453,23 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                                 if (product.getCategory().contains(cat)) {
                                     if (!product.getId().equals(productId)) {
                                         productArrayList.add(product);
-                                        Collections.sort(productArrayList, new Comparator<Product>() {
-                                            @Override
-                                            public int compare(Product listData, Product t1) {
-                                                String ob1 = listData.getTitle();
-                                                String ob2 = t1.getTitle();
 
-                                                return ob1.compareTo(ob2);
-
-                                            }
-                                        });
-                                        adapter.notifyDataSetChanged();
                                     }
                                 }
                             }
                         }
                     }
+                    Collections.sort(productArrayList, new Comparator<Product>() {
+                        @Override
+                        public int compare(Product listData, Product t1) {
+                            String ob1 = listData.getTitle();
+                            String ob2 = t1.getTitle();
+
+                            return ob1.compareTo(ob2);
+
+                        }
+                    });
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -1484,7 +1492,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
                 CommonUtils.showToast("Your Cart is empty");
             } else {
-                Intent i = new Intent(ViewProduct.this, Cart.class);
+                Intent i = new Intent(ViewProduct.this, NewCart.class);
                 startActivity(i);
             }
 

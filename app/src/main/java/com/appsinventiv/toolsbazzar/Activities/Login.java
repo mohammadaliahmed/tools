@@ -18,6 +18,7 @@ import com.appsinventiv.toolsbazzar.Models.CountryModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.LocationAndChargesModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerMainActivity;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
@@ -49,6 +50,9 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -152,7 +156,8 @@ public class Login extends AppCompatActivity {
                                     SharedPrefs.setExchangeRate(user.getCurrencyRate() + "");
                                     SharedPrefs.setLocationId(user.getLocationId());
                                     SharedPrefs.setCountry(user.getCountry());
-                                    setUserData(user.getProvince(), user.getCity());
+                                    setUserData(user.getCountry(),user.getProvince(), user.getCity());
+                                    SharedPrefs.setUserType("buy");
 
 
                                 } else {
@@ -175,13 +180,18 @@ public class Login extends AppCompatActivity {
 
     }
 
-    private void setUserData(String province, String city) {
+    private void setUserData(final String country, final String province, final String city) {
 //        itemList.clear();
-        mDatabase.child("Settings").child("Locations").child("Cities").child(province).child(city).addListenerForSingleValueEvent(new ValueEventListener() {
+//        if(province!=null){
+        mDatabase.child("Settings").child("Locations").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    CityDeliveryChargesModel model = dataSnapshot.getValue(CityDeliveryChargesModel.class);
+                    CountryModel countr=dataSnapshot.child("Countries").child(country).getValue(CountryModel.class);
+                    if(countr!=null){
+                        SharedPrefs.setExchangeRate(""+countr.getCurrencyRate());
+                    }
+                    CityDeliveryChargesModel model = dataSnapshot.child("Cities").child(province).child(city).getValue(CityDeliveryChargesModel.class);
                     if (model != null) {
                         SharedPrefs.setHalfKgRate(model.getHalfKg());
                         SharedPrefs.setOneKgRate(model.getOneKg());
@@ -195,6 +205,8 @@ public class Login extends AppCompatActivity {
 
             }
         });
+//        }
+
 
     }
 
@@ -222,6 +234,8 @@ public class Login extends AppCompatActivity {
     private void launchHomeScreen() {
         prefManager.setFirstTimeLaunch(false);
         startActivity(new Intent(Login.this, MainActivity.class));
+
+
         prefManager.setIsFirstTimeLaunchWelcome(false);
 
 

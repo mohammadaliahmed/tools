@@ -13,6 +13,9 @@ import android.widget.ProgressBar;
 
 import com.appsinventiv.toolsbazzar.Adapters.CategoryAdapter;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.EditProduct;
+import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
+import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +40,7 @@ public class ChooseCategory extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerView = findViewById(R.id.recycler);
@@ -45,7 +49,12 @@ public class ChooseCategory extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        adapter = new CategoryAdapter(this, itemList);
+        adapter = new CategoryAdapter(this, itemList, new CategoryAdapter.GetNewData() {
+            @Override
+            public void whichCategory(String title) {
+                getCategoryDataFromDB(title);
+            }
+        });
 
         recyclerView.setAdapter(adapter);
 
@@ -54,7 +63,7 @@ public class ChooseCategory extends AppCompatActivity {
 
         if (parentCategory == null) {
             this.setTitle("Choose category");
-            getDataFromDB();
+//            getDataFromDB();
         } else {
             this.setTitle("" + parentCategory);
             getCategoryDataFromDB(parentCategory);
@@ -69,6 +78,7 @@ public class ChooseCategory extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
+                    itemList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         String value = snapshot.getValue(String.class);
                         itemList.add(value);
@@ -77,10 +87,17 @@ public class ChooseCategory extends AppCompatActivity {
 
                     adapter.notifyDataSetChanged();
                 } else {
-                    Intent i = new Intent(ChooseCategory.this, ListOfProducts.class);
-                    i.putExtra("parentCategory", parentCategory);
-                    startActivity(i);
-                    finish();
+                    if (SellerAddProduct.fromWhere == 1) {
+//                        CommonUtils.showToast("sdfsdf");
+                        ChooseMainCategory.activity.finish();
+                        finish();
+                    }else{
+                        Intent i = new Intent(ChooseCategory.this, ListOfProducts.class);
+                        i.putExtra("parentCategory", parentCategory);
+                        startActivity(i);
+                        finish();
+//                        CommonUtils.showToast("jgjhgj");
+                    }
                 }
             }
 
@@ -104,6 +121,10 @@ public class ChooseCategory extends AppCompatActivity {
                     }
                     progress.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
+                } else {
+
+                    ChooseMainCategory.activity.finish();
+                    finish();
                 }
             }
 
@@ -114,15 +135,27 @@ public class ChooseCategory extends AppCompatActivity {
         });
     }
 
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (item.getItemId() == android.R.id.home) {
-            super.onBackPressed();
+    public void onBackPressed() {
+//        super.onBackPressed();
+        try {
+            if (SellerAddProduct.categoryList.size() > 0 || EditProduct.categoryList.size() > 0) {
+                SellerAddProduct.categoryList.remove(SellerAddProduct.categoryList.size() - 1);
+                EditProduct.categoryList.remove(EditProduct.categoryList.size() - 1);
+                if (SellerAddProduct.fromWhere == 1) {
 
+                    getCategoryDataFromDB(SellerAddProduct.categoryList.get(SellerAddProduct.categoryList.size() - 1));
+                } else if (EditProduct.fromWhere == 1) {
+                    getCategoryDataFromDB(EditProduct.categoryList.get(EditProduct.categoryList.size() - 1));
+                }
+
+            } else {
+                finish();
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            finish();
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -131,7 +164,30 @@ public class ChooseCategory extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            try {
+
+
+                if (SellerAddProduct.categoryList.size() > 0 || EditProduct.categoryList.size() > 0) {
+                    SellerAddProduct.categoryList.remove(SellerAddProduct.categoryList.size() - 1);
+                    EditProduct.categoryList.remove(EditProduct.categoryList.size() - 1);
+                    if (SellerAddProduct.fromWhere == 1) {
+                        getCategoryDataFromDB(SellerAddProduct.categoryList.get(SellerAddProduct.categoryList.size() - 1));
+                    } else if (EditProduct.fromWhere == 1) {
+                        getCategoryDataFromDB(EditProduct.categoryList.get(EditProduct.categoryList.size() - 1));
+                    }
+
+                } else {
+                    finish();
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                finish();
+            }
+//            super.onBackPressed();
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

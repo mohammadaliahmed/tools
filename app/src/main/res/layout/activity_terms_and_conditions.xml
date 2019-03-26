@@ -30,12 +30,12 @@
 
         <TextView
             android:id="@+id/terms"
-            android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,13 +48,13 @@
 
         <TextView
             android:id="@+id/cookies"
-            android:textSize="12sp"
-
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,13 +68,13 @@
 
         <TextView
             android:id="@+id/license"
-            android:textSize="12sp"
-
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -88,13 +88,13 @@
 
         <TextView
             android:id="@+id/hyperlink"
-            android:textSize="12sp"
-
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -108,13 +108,14 @@
 
         <TextView
             android:id="@+id/iframes"
-            android:textSize="12sp"
-
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
         <TextView
             android:layout_width="wrap_content"
 
@@ -127,13 +128,14 @@
 
         <TextView
             android:id="@+id/contentLiability"
-            android:textSize="12sp"
-
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
         <TextView
             android:layout_width="wrap_content"
 
@@ -146,13 +148,14 @@
 
         <TextView
             android:id="@+id/reservation"
-            android:textSize="12sp"
-
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
         <TextView
             android:layout_width="wrap_content"
 
@@ -165,13 +168,14 @@
 
         <TextView
             android:id="@+id/removal"
-            android:textSize="12sp"
-
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
         <TextView
             android:layout_width="wrap_content"
 
@@ -184,13 +188,14 @@
 
         <TextView
             android:id="@+id/disclaimer"
-            android:textSize="12sp"
-
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
         <TextView
             android:layout_width="wrap_content"
 
@@ -203,14 +208,15 @@
 
         <TextView
             android:id="@+id/replacement"
-            android:textSize="12sp"
-
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:hint="ABOUT US"
             android:layout_marginBottom="50dp"
-            android:textColor="#fff" />
+            android:hint="ABOUT US"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
         <TextView
             android:layout_width="wrap_content"
 
@@ -223,14 +229,25 @@
 
         <TextView
             android:id="@+id/other"
-            android:textSize="12sp"
-
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:hint="ABOUT US"
             android:layout_marginBottom="50dp"
-            android:textColor="#fff" />
+            android:hint="ABOUT US"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:text="ABOUT US"
+            android:textColor="#fff"
+            android:textSize="12sp" />
 
     </LinearLayout>
 </ScrollView>
