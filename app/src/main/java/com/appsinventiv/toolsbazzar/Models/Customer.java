@@ -14,6 +14,7 @@ public class Customer {
     Float currencyRate;
     String province;
     boolean status;
+    boolean isOnline=false;
 
 
     public Customer() {
@@ -46,6 +47,18 @@ public class Customer {
         this.currencyRate = currencyRate;
         this.province = province;
         this.status=status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean isOnline) {
+        isOnline = isOnline;
     }
 
     public boolean isActive() {

@@ -13,6 +13,7 @@ import android.util.Log;
 import com.appsinventiv.toolsbazzar.Activities.LiveChat;
 import com.appsinventiv.toolsbazzar.Activities.MainActivity;
 import com.appsinventiv.toolsbazzar.Activities.MyOrders;
+import com.appsinventiv.toolsbazzar.Activities.ProductComments;
 import com.appsinventiv.toolsbazzar.Activities.WholesaleLiveChat;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.SellerChat.SellerChats;
@@ -32,6 +33,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
     private NotificationManager mNotificationManager;
     private NotificationCompat.Builder mBuilder;
+    private String username;
+    private String Id;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -48,6 +51,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             message = map.get("Message");
             title = map.get("Title");
             type = map.get("Type");
+//            username = map.get("Username");
+            Id = map.get("Id");
             handleNow(title, message, type);
             if (/* Check if data needs to be processed by long running job */ true) {
                 // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
@@ -71,12 +76,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         /**Creates an explicit intent for an Activity in your app**/
         Intent resultIntent = null;
         if (type.equalsIgnoreCase("RetailChat")) {
+            SharedPrefs.setNewMsg("1");
             resultIntent = new Intent(this, LiveChat.class);
-//            resultIntent.putExtra("username", username);
+            resultIntent.putExtra("username", Id);
         } else if (type.equalsIgnoreCase("WholesaleChat")) {
+            SharedPrefs.setNewMsg("1");
+
             resultIntent = new Intent(this, WholesaleLiveChat.class);
-//            resultIntent.putExtra("username", username);
+            resultIntent.putExtra("username", username);
         } else if (type.equalsIgnoreCase("SellerChat")) {
+            SharedPrefs.setNewMsg("1");
+
             resultIntent = new Intent(this, SellerChats.class);
 //            resultIntent.putExtra("username", username);
         } else if (type.equalsIgnoreCase("marketing")) {
@@ -85,6 +95,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             resultIntent = new Intent(this, MyOrders.class);
         } else if (type.equals("SellerOrder")) {
             resultIntent = new Intent(this, Orders.class);
+        } else if (type.equals("NewComment")) {
+            resultIntent = new Intent(this, ProductComments.class);
+            resultIntent.putExtra("productId", Id);
         }
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this,

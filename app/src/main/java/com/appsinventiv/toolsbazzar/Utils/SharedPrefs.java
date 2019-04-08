@@ -43,6 +43,22 @@ public class SharedPrefs {
         return vendorModel;
     }
 
+    public static void setAdminFcmKey(String username) {
+        preferenceSetter("getAdminFcmKey", username);
+    }
+
+    public static String getAdminFcmKey() {
+        return preferenceGetter("getAdminFcmKey");
+    }
+
+    public static String getNewMsg() {
+        return preferenceGetter("getNewMsg");
+    }
+
+
+    public static void setNewMsg(String username) {
+        preferenceSetter("getNewMsg", username);
+    }
 
     public static String getUsername() {
         return preferenceGetter("username");
@@ -59,6 +75,7 @@ public class SharedPrefs {
     public static void setAccountStatus(String accountStatus) {
         preferenceSetter("accountStatus", accountStatus);
     }
+
 
     public static String getLocationId() {
         return preferenceGetter("LocationId");

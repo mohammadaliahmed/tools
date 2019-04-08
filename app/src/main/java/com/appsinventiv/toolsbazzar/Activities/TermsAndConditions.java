@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.appsinventiv.toolsbazzar.Models.CompanyDetailsModel;
 import com.appsinventiv.toolsbazzar.Models.TermsModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.google.firebase.database.DataSnapshot;
@@ -74,12 +75,12 @@ public class TermsAndConditions extends AppCompatActivity {
     }
 
     private void getAddressFromDb() {
-        mDatabase.child("Settings").child("AboutUs").child("contact").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Settings").child("CompanyDetails").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    String contact = dataSnapshot.getValue(String.class);
-                    address.setText(contact);
+                    CompanyDetailsModel model=dataSnapshot.getValue(CompanyDetailsModel.class);
+                    address.setText(model.getAddress()+" "+model.getPhone()+" "+model.getEmail());
                 }
             }
 

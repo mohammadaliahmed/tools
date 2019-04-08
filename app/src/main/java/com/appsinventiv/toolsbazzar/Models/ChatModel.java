@@ -5,22 +5,31 @@ package com.appsinventiv.toolsbazzar.Models;
  */
 
 public class ChatModel {
-    String id,text,username;
+    String id,text,username,nameToShow;
     long time;
     String status,initiator;
 
 
-    public ChatModel(String id, String text, String username, long time, String status, String initiator) {
+    public ChatModel(String id, String text, String username, long time, String status, String initiator,String nameToShow) {
         this.id = id;
         this.text = text;
         this.username = username;
         this.time = time;
         this.status = status;
+        this.nameToShow = nameToShow;
         this.initiator = initiator;
     }
 
 
     public ChatModel() {
+    }
+
+    public String getNameToShow() {
+        return nameToShow;
+    }
+
+    public void setNameToShow(String nameToShow) {
+        this.nameToShow = nameToShow;
     }
 
     public String getInitiator() {

@@ -108,10 +108,13 @@
             android:name=".Activities.ViewPictures"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".Activities.Whishlist" />
-        <activity android:name=".Activities.TrackOrder" />
+        <activity
+            android:name=".Activities.TrackOrder"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.ProductComments" />
         <activity android:name=".Activities.SizeChart" />
         <activity android:name=".Activities.No_Internet" />
+        <activity android:name=".Activities.AccountIsDisabled" />
         <activity android:name=".Activities.NewSales" />
         <activity android:name=".Activities.ChooseCategory" />
         <activity
@@ -171,9 +174,15 @@
             android:name=".Seller.Sales.SellerSales"
             android:theme="@style/AppThemeGreen" />
         <activity
+            android:name=".Seller.SellerProfile"
+            android:theme="@style/AppThemeGreen" />
+        <activity
             android:name=".Seller.SellerChat.SellerChats"
             android:theme="@style/AppThemeGreen" />
-        <activity android:name=".Activities.ViewOrderStatus"></activity>
+        <activity android:name=".Activities.ViewOrderStatus" />
+        <activity
+            android:name=".Activities.SellerStoreView"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

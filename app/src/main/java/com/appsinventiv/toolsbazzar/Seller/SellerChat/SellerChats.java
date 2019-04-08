@@ -77,7 +77,7 @@ public class SellerChats extends AppCompatActivity implements NotificationObserv
     }
 
     private void getAdminDetails() {
-        mDatabase.child("Admin").child("admin1").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Admin").child("admin").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -109,6 +109,8 @@ public class SellerChats extends AppCompatActivity implements NotificationObserv
                             }
                         }
                     }
+                    SharedPrefs.setNewMsg("0");
+
                 }
             }
 
@@ -173,26 +175,28 @@ public class SellerChats extends AppCompatActivity implements NotificationObserv
                     final String key = mDatabase.push().getKey();
                     mDatabase.child("Chats/SellerChats").child(SharedPrefs.getUsername()).child(key)
                             .setValue(new ChatModel(key, msg, SharedPrefs.getUsername()
-                                    , System.currentTimeMillis(), "sending", SharedPrefs.getUsername()))
+                                    , System.currentTimeMillis(), "sending", SharedPrefs.getUsername(),
+
+                                    SharedPrefs.getVendor().getStoreName()))
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
+                                @Override
+                                public void onSuccess(Void aVoid) {
 
 
-                            sp.play(soundId, 1, 1, 0, 0, 1);
-                            adapter.notifyDataSetChanged();
-                            recyclerView.scrollToPosition(chatModelArrayList.size() - 1);
+                                    sp.play(soundId, 1, 1, 0, 0, 1);
+                                    adapter.notifyDataSetChanged();
+                                    recyclerView.scrollToPosition(chatModelArrayList.size() - 1);
 
-                            mDatabase.child("Chats/SellerChats").child(SharedPrefs.getUsername()).child(key).child("status").setValue("sent");
+                                    mDatabase.child("Chats/SellerChats").child(SharedPrefs.getUsername()).child(key).child("status").setValue("sent");
 
 
-                            NotificationAsync notificationAsync = new NotificationAsync(SellerChats.this);
-                            String NotificationTitle = "New message from " + SharedPrefs.getUsername();
-                            String NotificationMessage = "Message: " + msg;
-                            notificationAsync.execute("ali", adminFcmKey, NotificationTitle, NotificationMessage, "SellerChat", key);
+                                    NotificationAsync notificationAsync = new NotificationAsync(SellerChats.this);
+                                    String NotificationTitle = "New message from " + SharedPrefs.getUsername();
+                                    String NotificationMessage = "Message: " + msg;
+                                    notificationAsync.execute("ali", adminFcmKey, NotificationTitle, NotificationMessage, "SellerChat", key);
 
-                        }
-                    });
+                                }
+                            });
                 }
             }
         });

@@ -10,6 +10,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -27,11 +28,13 @@ import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.Cart;
 import com.appsinventiv.toolsbazzar.Activities.ProductComments;
+import com.appsinventiv.toolsbazzar.Activities.SellerStoreView;
 import com.appsinventiv.toolsbazzar.Activities.SizeChart;
 import com.appsinventiv.toolsbazzar.Activities.ViewProduct;
 import com.appsinventiv.toolsbazzar.Adapters.RelatedProductsAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.SliderAdapter;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
+import com.appsinventiv.toolsbazzar.Models.ChatModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
@@ -67,7 +70,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
     ImageView image, increase, decrease;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
-    RelatedProductsAdapter adapter;
+    SellerRelatedProductsAdapter adapter;
     ArrayList<Product> productArrayList = new ArrayList<>();
     ArrayList<ProductCountModel> userCartProductList = new ArrayList<>();
     long cartItemCountFromDb;
@@ -99,6 +102,10 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
     TextView quantityText;
     ImageView whichArrow;
     TextView productDetails;
+    RelativeLayout relativeLayout1;
+    CardView gotoStore;
+    private TextView storeName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +132,10 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
             getDataFromServer(productId);
         }
 
+        gotoStore = findViewById(R.id.gotoStore);
+        storeName = findViewById(R.id.storeName);
 
+        relativeLayout1 = findViewById(R.id.relativeLayout1);
         productDetails = findViewById(R.id.productDetails);
         heart_button = findViewById(R.id.heart_button);
         colorSection = findViewById(R.id.colorSection);
@@ -154,6 +164,24 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         sizes = findViewById(R.id.sizes);
         colors = findViewById(R.id.colors);
         app_bar_layout = findViewById(R.id.app_bar_layout);
+
+
+        gotoStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SellerViewProduct.this, SellerStoreView.class);
+                i.putExtra("sellerId", product.getVendor().getUsername());
+                startActivity(i);
+            }
+        });
+        relativeLayout1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SellerViewProduct.this, EditProduct.class);
+                i.putExtra("productId", product.getId());
+                startActivity(i);
+            }
+        });
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -231,6 +259,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
                     //write your code here
                     collapsing_toolbar.setTitle(product.getTitle());
                     collapsing_toolbar.setBackgroundColor(getResources().getColor(R.color.colorBlack));
+                    collapsing_toolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.default_back));
 
 
                 } else {
@@ -245,102 +274,8 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
 //        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 //        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        adapter = new RelatedProductsAdapter(SellerViewProduct.this, productArrayList, userCartProductList, userWishList, new AddToCartInterface() {
-            @Override
-            public void addedToCart(final Product product, final int quantity, int position) {
+        adapter = new SellerRelatedProductsAdapter(SellerViewProduct.this, productArrayList);
 
-                size = "";
-                color = "";
-                if (product.getSizeList() != null && product.getColorList() != null) {
-                    showSizeAndColorBottomDialog(product, quantity);
-                } else if (product.getSizeList() != null && product.getColorList() == null) {
-                    showSizeBottomDialog(product, quantity);
-                } else if (product.getColorList() != null && product.getSizeList() == null) {
-                    showColorBottomDialog(product, quantity);
-                } else if (product.getColorList() == null && product.getSizeList() == null) {
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("product").setValue(product);
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("quantity").setValue(quantity);
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
-                }
-
-            }
-
-            @Override
-            public void deletedFromCart(final Product product, int position) {
-                mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                        .child("cart").child(product.getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        getUserCartProductsFromDB();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void quantityUpdate(Product product, final int quantity, int position) {
-                mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                        .child("cart").child(product.getId()).child("quantity").setValue(quantity).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void isProductLiked(Product product, boolean isLiked, int position) {
-                if (isLiked) {
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("WishList").child(product.getId()).setValue(product.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            CommonUtils.showToast("Added to Wishlist");
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            CommonUtils.showToast("Error");
-
-                        }
-                    });
-                    int likesCount = product.getLikesCount();
-                    likesCount += 1;
-                    mDatabase.child("Products").child(product.getId()).child("likesCount").setValue(likesCount);
-                } else {
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("WishList").child(product.getId()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-
-                            CommonUtils.showToast("Removed from Wishlist");
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            CommonUtils.showToast("Error");
-
-                        }
-                    });
-                    int likesCount = product.getLikesCount();
-                    likesCount -= 1;
-                    mDatabase.child("Products").child(product.getId()).child("likesCount").setValue(likesCount);
-                }
-            }
-        });
         recyclerView.setAdapter(adapter);
         mViewPager = findViewById(R.id.viewpager);
         sliderAdapter = new SliderAdapter(SellerViewProduct.this, picUrls, 1);
@@ -834,6 +769,12 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
                         productDetails.setText(
                                 newtext
                         );
+                        if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
+                            gotoStore.setVisibility(View.VISIBLE);
+                            storeName.setText("Goto: " + product.getVendor().getStoreName());
+                        } else {
+                            gotoStore.setVisibility(View.GONE);
+                        }
 
 
                         if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
@@ -1491,7 +1432,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         if (id == R.id.action_edit) {
 
             Intent i = new Intent(SellerViewProduct.this, EditProduct.class);
-            i.putExtra("productId",product.getId());
+            i.putExtra("productId", product.getId());
             startActivity(i);
 
 

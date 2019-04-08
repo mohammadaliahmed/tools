@@ -30,12 +30,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.ChooseMainCategory;
+import com.appsinventiv.toolsbazzar.Activities.LiveChat;
+import com.appsinventiv.toolsbazzar.Interface.NotificationObserver;
 import com.appsinventiv.toolsbazzar.Interfaces.ProductObserver;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerChat.SellerChats;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.CompressImage;
+import com.appsinventiv.toolsbazzar.Utils.NotificationAsync;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,13 +60,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SellerAddProduct extends AppCompatActivity implements ProductObserver {
+public class SellerAddProduct extends AppCompatActivity implements ProductObserver, NotificationObserver {
     TextView categoryChoosen;
     StorageReference mStorageRef;
     DatabaseReference mDatabase;
     Button pick, upload;
     private static final int REQUEST_CODE_CHOOSE = 23;
-    List<Uri> mSelected=new ArrayList<>();
+    List<Uri> mSelected = new ArrayList<>();
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     SelectedImagesAdapter adapter;
@@ -227,6 +231,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
             @Override
             public void onClick(View view) {
 
+
                 if (categoryList.size() == 0) {
                     CommonUtils.showToast("Please select category");
                 } else if (e_title.getText().length() == 0) {
@@ -304,6 +309,10 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                         @Override
                         public void onSuccess(Void aVoid) {
                             int count = 0;
+                            NotificationAsync notificationAsync = new NotificationAsync(SellerAddProduct.this);
+                            String NotificationTitle = "New product uploaded by " + SharedPrefs.getUsername();
+                            String NotificationMessage = "Product: " + e_title.getText().toString();
+                            notificationAsync.execute("ali", SharedPrefs.getAdminFcmKey(), NotificationTitle, NotificationMessage, "NewSellerProduct", "");
                             for (String img : imageUrl) {
 
                                 putPictures(img, "" + productId, count);
@@ -320,7 +329,6 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                         }
                     });
                 }
-
 
             }
         });
@@ -528,5 +536,15 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
         if (count == 0) {
             mDatabase.child("Products").child(productId).child("thumbnailUrl").setValue(url);
         }
+    }
+
+    @Override
+    public void onSuccess(String chatId) {
+
+    }
+
+    @Override
+    public void onFailure() {
+
     }
 }

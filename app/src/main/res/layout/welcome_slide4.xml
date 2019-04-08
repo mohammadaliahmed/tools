@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/buy_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,6 +17,17 @@
             android:layout_marginTop="100dp"
             android:src="@drawable/tools" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:text="Mall in your fingertips"
+            android:textColor="@android:color/white"
+            />
+
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,7 +36,7 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="60dp"
             android:fontFamily="@font/cosmic_fonts"
-            android:text="Looking For"
+            android:text="Your login is ahead"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 

@@ -35,10 +35,13 @@ import com.appsinventiv.toolsbazzar.Adapters.FragmentAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.MainSliderAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.WithoutPic2ProductAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.WithoutPic3ProductAdapter;
+import com.appsinventiv.toolsbazzar.ApplicationClass;
+import com.appsinventiv.toolsbazzar.Models.AdminModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.MainCategoryModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerMainActivity;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        getUserAccountStatusFromDB();
+//        getUserAccountStatusFromDB();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
 
@@ -182,6 +185,8 @@ public class MainActivity extends AppCompatActivity
         initCategoryView();
 
         initDrawer();
+        getAdminDetails();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
                 @Override
@@ -195,6 +200,28 @@ public class MainActivity extends AppCompatActivity
             });
         }
     }
+
+    private void getAdminDetails() {
+        mDatabase.child("Admin").child("admin").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    AdminModel model = dataSnapshot.getValue(AdminModel.class);
+                    if (model != null) {
+//                        LiveChat.this.setTitle(model.getId());
+                        String adminFcmKey = model.getFcmKey();
+                        SharedPrefs.setAdminFcmKey(adminFcmKey);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     private void setStatusBarColor(boolean abc) {
         if (abc) {
@@ -211,6 +238,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
+
     private void getUserAccountStatusFromDB() {
         mDatabase.child("Customers").child(SharedPrefs.getUsername()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -219,11 +247,12 @@ public class MainActivity extends AppCompatActivity
                     Customer customer = dataSnapshot.getValue(Customer.class);
                     if (customer != null) {
                         if (!customer.isActive()) {
-                            SharedPrefs.setAccountStatus("false");
+//                            SharedPrefs.setAccountStatus("false");
                             CommonUtils.showToast("Your account is disabled");
-                            System.exit(0);
+                            Intent i = new Intent(MainActivity.this, AccountIsDisabled.class);
+                            startActivity(i);
                         } else {
-                            SharedPrefs.setAccountStatus("true");
+//                            SharedPrefs.setAccountStatus("true");
                         }
                     }
                 }
@@ -406,9 +435,9 @@ public class MainActivity extends AppCompatActivity
                         currentPic++;
                     }
                 }
-                new Handler().postDelayed(this, 3000);
+                new Handler().postDelayed(this, 4000);
             }
-        }, 3000); // Millisecond 1000 = 1 sec
+        }, 4000); // Millisecond 1000 = 1 sec
 
     }
 
@@ -430,9 +459,9 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                             finish();
-                            moveTaskToBack(true);
-                            android.os.Process.killProcess(android.os.Process.myPid());
-                            System.exit(1);
+//                            moveTaskToBack(true);
+//                            android.os.Process.killProcess(android.os.Process.myPid());
+//                            System.exit(1);
 
                         }
                     })
@@ -473,7 +502,13 @@ public class MainActivity extends AppCompatActivity
                 findItem(R.id.chat));
 
         chat.setTextColor(getResources().getColor(R.color.colorAccent));
-        chat.setText("(New msg)");
+        if (SharedPrefs.getNewMsg().equalsIgnoreCase("1")) {
+            chat.setText("(New msg)");
+
+        } else {
+            chat.setText("");
+
+        }
         chat.setGravity(Gravity.CENTER_VERTICAL);
         chat.setTypeface(null, Typeface.BOLD);
         if (SharedPrefs.getUsername().equalsIgnoreCase("")) {
@@ -647,5 +682,11 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onPause() {
+
+        super.onPause();
     }
 }

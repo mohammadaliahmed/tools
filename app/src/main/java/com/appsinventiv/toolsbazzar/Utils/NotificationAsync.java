@@ -19,6 +19,7 @@ import java.net.URL;
  */
 
 public class NotificationAsync extends AsyncTask<String, String, String> {
+
     String output = "";
 
     public static String status = "";
@@ -30,8 +31,9 @@ public class NotificationAsync extends AsyncTask<String, String, String> {
     public final static String API_URL_FCM = "https://fcm.googleapis.com/fcm/send";
 
     public NotificationAsync(Context context) {
-        observer=(NotificationObserver) context;
         this.context = context;
+        observer=(NotificationObserver) context;
+
     }
 
     @Override
@@ -70,6 +72,7 @@ public class NotificationAsync extends AsyncTask<String, String, String> {
             jsonObject.put("Message", Message);
             jsonObject.put("Type", Type);
             jsonObject.put("Username",SharedPrefs.getUsername());
+            jsonObject.put("Id",Id);
 
 
             json.put("data", jsonObject);

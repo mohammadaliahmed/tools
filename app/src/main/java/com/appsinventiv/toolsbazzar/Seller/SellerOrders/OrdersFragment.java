@@ -3,12 +3,14 @@ package com.appsinventiv.toolsbazzar.Seller.SellerOrders;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,8 @@ import com.appsinventiv.toolsbazzar.Models.OrderModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.appsinventiv.toolsbazzar.Utils.SwipeControllerActions;
+import com.appsinventiv.toolsbazzar.Utils.SwipeToDeleteCallback;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -42,6 +46,7 @@ public class OrdersFragment extends Fragment {
     ProgressBar progress;
     DatabaseReference mDatabase;
     String by;
+    private SwipeToDeleteCallback swipeController;
 
 
     public OrdersFragment() {
@@ -93,6 +98,29 @@ public class OrdersFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(adapter);
+        if (orderStatus.equalsIgnoreCase("Pending") || orderStatus.equalsIgnoreCase("Cancelled")) {
+            swipeController = new SwipeToDeleteCallback(new SwipeControllerActions() {
+                @Override
+                public void onRightClicked(final int position) {
+
+                    markOrderAsDeleted(arrayList.get(position).getOrderId());
+
+                }
+            });
+
+
+            ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+            itemTouchhelper.attachToRecyclerView(recyclerView);
+
+            recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+                @Override
+                public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                    swipeController.onDraw(c);
+                }
+            });
+
+        }
+
 
 
         return rootView;

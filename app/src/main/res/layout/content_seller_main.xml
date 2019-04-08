@@ -44,11 +44,14 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="290dp"
-                        app:dotsColor="@color/colorPrimary"
+                        app:dotsColor="@color/colorGreenDark"
                         app:dotsSize="5dp"
                         app:dotsWidthFactor="3" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
+
+            <include layout="@layout/home_sub_menu_seller"></include>
+
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/sliding_tabs1"

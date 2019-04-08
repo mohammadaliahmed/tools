@@ -92,7 +92,7 @@ public class Welcome extends AppCompatActivity {
         myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
         dotsIndicator.setViewPager(viewPager);
-//        viewPager.setOffscreenPageLimit(0);
+        viewPager.setOffscreenPageLimit(10);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
         btnBack.setOnClickListener(new View.OnClickListener() {

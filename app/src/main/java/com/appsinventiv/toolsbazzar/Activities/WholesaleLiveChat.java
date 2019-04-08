@@ -73,7 +73,7 @@ public class WholesaleLiveChat extends AppCompatActivity implements Notification
     }
 
     private void getAdminDetails() {
-        mDatabase.child("Admin").child("admin1").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Admin").child("admin").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -105,6 +105,8 @@ public class WholesaleLiveChat extends AppCompatActivity implements Notification
                             }
                         }
                     }
+                    SharedPrefs.setNewMsg("0");
+
                 }
             }
 
@@ -168,7 +170,9 @@ public class WholesaleLiveChat extends AppCompatActivity implements Notification
                     final String key = mDatabase.push().getKey();
                     mDatabase.child("Chats/WholesaleChats").child(SharedPrefs.getUsername()).child(key)
                             .setValue(new ChatModel(key, msg, SharedPrefs.getUsername()
-                                    , System.currentTimeMillis(), "sending",SharedPrefs.getUsername())).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    , System.currentTimeMillis(), "sending",SharedPrefs.getUsername(),
+
+                                    SharedPrefs.getName())).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
 

@@ -25,9 +25,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.AboutUs;
+import com.appsinventiv.toolsbazzar.Activities.AccountIsDisabled;
 import com.appsinventiv.toolsbazzar.Activities.Cart;
 import com.appsinventiv.toolsbazzar.Activities.ChooseMainCategory;
 import com.appsinventiv.toolsbazzar.Activities.LiveChat;
@@ -42,10 +44,12 @@ import com.appsinventiv.toolsbazzar.Activities.Splash;
 import com.appsinventiv.toolsbazzar.Activities.TermsAndConditions;
 import com.appsinventiv.toolsbazzar.Activities.Welcome;
 import com.appsinventiv.toolsbazzar.Activities.Whishlist;
+import com.appsinventiv.toolsbazzar.Activities.WholesaleLiveChat;
 import com.appsinventiv.toolsbazzar.Adapters.DealsFragmentAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.FragmentAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.MainSliderAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.SellerFragmentAdapter;
+import com.appsinventiv.toolsbazzar.Models.AdminModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
@@ -79,15 +83,26 @@ public class SellerMainActivity extends AppCompatActivity
     DotsIndicator dots_indicator;
     private TextView chat;
 
+    FloatingActionButton fab;
+    LinearLayout ic_settings, ic_chat, ic_orders, ic_wishlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        fab = findViewById(R.id.fab);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SellerMainActivity.this, SellerAddProduct.class);
+                startActivity(i);
+            }
+        });
 
         setSupportActionBar(toolbar);
+        setupSubmenu();
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
@@ -109,11 +124,77 @@ public class SellerMainActivity extends AppCompatActivity
             mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("fcmKey").setValue(SharedPrefs.getFcmKey());
         }
         this.setTitle("My Store View");
-        getUserAccountStatusFromDB();
+//        getUserAccountStatusFromDB();
         initTabsView();
         getBannerImagesFromDb();
         initViewPager();
         initDrawer();
+        getAdminDetails();
+    }
+
+    private void setupSubmenu() {
+        ic_settings = findViewById(R.id.ic_settings);
+        ic_chat = findViewById(R.id.ic_chat);
+        ic_orders = findViewById(R.id.ic_orders);
+        ic_wishlist = findViewById(R.id.ic_wishlist);
+
+        ic_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(SellerMainActivity.this, SellerChats.class);
+                startActivity(i);
+                
+
+            }
+        });
+        ic_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SellerMainActivity.this, SellerProfile.class);
+                startActivity(i);
+            }
+        });
+
+        ic_orders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SellerMainActivity.this, ChooseMainCategory.class);
+                startActivity(i);
+            }
+        });
+        ic_wishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SellerMainActivity.this, Whishlist.class);
+                startActivity(i);
+            }
+        });
+
+
+
+
+    }
+
+    private void getAdminDetails() {
+        mDatabase.child("Admin").child("admin").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    AdminModel model = dataSnapshot.getValue(AdminModel.class);
+                    if (model != null) {
+//                        LiveChat.this.setTitle(model.getId());
+                        String adminFcmKey = model.getFcmKey();
+                        SharedPrefs.setAdminFcmKey(adminFcmKey);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void getUserAccountStatusFromDB() {
@@ -124,11 +205,13 @@ public class SellerMainActivity extends AppCompatActivity
                     VendorModel customer = dataSnapshot.getValue(VendorModel.class);
                     if (customer != null) {
                         if (!customer.isActive()) {
-                            SharedPrefs.setAccountStatus("false");
+//                            SharedPrefs.setAccountStatus("false");
                             CommonUtils.showToast("Your account is disabled");
-                            System.exit(0);
+                            Intent i = new Intent(SellerMainActivity.this, AccountIsDisabled.class);
+                            startActivity(i);
+//                            System.exit(0);
                         } else {
-                            SharedPrefs.setAccountStatus("true");
+//                            SharedPrefs.setAccountStatus("true");
                         }
                     }
                 }
@@ -207,9 +290,9 @@ public class SellerMainActivity extends AppCompatActivity
                         currentPic++;
                     }
                 }
-                new Handler().postDelayed(this, 3000);
+                new Handler().postDelayed(this, 4000);
             }
-        }, 3000); // Millisecond 1000 = 1 sec
+        }, 4000); // Millisecond 1000 = 1 sec
 
     }
 
@@ -263,8 +346,14 @@ public class SellerMainActivity extends AppCompatActivity
         chat = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.chat));
 
-        chat.setTextColor(getResources().getColor(R.color.colorAccent));
-        chat.setText("(New msg)");
+        chat.setTextColor(getResources().getColor(R.color.colorGreen));
+        if (SharedPrefs.getNewMsg().equalsIgnoreCase("1")) {
+            chat.setText("(New msg)");
+
+        } else {
+            chat.setText("");
+
+        }
         chat.setGravity(Gravity.CENTER_VERTICAL);
         chat.setTypeface(null, Typeface.BOLD);
         if (SharedPrefs.getUsername().equalsIgnoreCase("")) {
@@ -281,7 +370,7 @@ public class SellerMainActivity extends AppCompatActivity
         } else {
             navSubtitle.setText(SharedPrefs.getCity());
 
-            navUsername.setText(SharedPrefs.getName());
+            navUsername.setText(SharedPrefs.getVendor().getStoreName());
             navSubtitle.setText("Vendor");
 //            if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
 //                navSubtitle.setText("Wholesale");
@@ -422,6 +511,12 @@ public class SellerMainActivity extends AppCompatActivity
         } else if (id == R.id.chat) {
 
             Intent i = new Intent(SellerMainActivity.this, SellerChats.class);
+            startActivity(i);
+
+
+        } else if (id == R.id.profile) {
+
+            Intent i = new Intent(SellerMainActivity.this, SellerProfile.class);
             startActivity(i);
 
 

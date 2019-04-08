@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +34,7 @@ import com.appsinventiv.toolsbazzar.Adapters.SliderAdapter;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
+import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
@@ -98,6 +100,8 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     TextView quantityText;
     ImageView whichArrow;
     TextView productDetails;
+    CardView gotoStore;
+    private TextView storeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +129,8 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         }
 
 
+        storeName = findViewById(R.id.storeName);
+        gotoStore = findViewById(R.id.gotoStore);
         productDetails = findViewById(R.id.productDetails);
         heart_button = findViewById(R.id.heart_button);
         colorSection = findViewById(R.id.colorSection);
@@ -157,6 +163,15 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onClick(View view) {
                 shareProduct();
+            }
+        });
+
+        gotoStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ViewProduct.this, SellerStoreView.class);
+                i.putExtra("sellerId", product.getVendor().getUsername());
+                startActivity(i);
             }
         });
         getLikeFromDB();
@@ -824,6 +839,12 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 
 
                         }
+                        if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
+                            gotoStore.setVisibility(View.VISIBLE);
+                            storeName.setText("Goto: " + product.getVendor().getStoreName());
+                        } else {
+                            gotoStore.setVisibility(View.GONE);
+                        }
 
                         String text1 = product.getBrandName() == null ? "Not available\n\n" : product.getBrandName() + "\n\n";
                         String text2 = product.getWarrantyType() == null ? "No Warranty\n\n" : product.getWarrantyType() + "\n\n";
@@ -877,7 +898,9 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                         getProductsFromDB(product.getCategory().get(0));
 
                         getUserCartProductsFromDB();
-
+                        if (product.getUploadedBy()!=null && product.getUploadedBy().equalsIgnoreCase("seller")) {
+                            getVendorDetailsFromDB();
+                        }
                         setUpAddToCartButton();
                         picUrls.clear();
                         for (DataSnapshot childSnapshot : dataSnapshot.child("pictures").getChildren()) {
@@ -907,6 +930,26 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             }
         });
 
+    }
+
+    private void getVendorDetailsFromDB() {
+        mDatabase.child("Sellers").child(product.getVendor().getVendorId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    VendorModel model = dataSnapshot.getValue(VendorModel.class);
+                    if (model != null) {
+                        SharedPrefs.setVendorModel(model);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void shareProduct() {
@@ -1583,5 +1626,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             productId = productIdFromLink;
         }
     }
-
 }
+
+
+

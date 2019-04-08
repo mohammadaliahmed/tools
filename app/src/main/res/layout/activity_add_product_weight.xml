@@ -71,7 +71,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:background="@drawable/btn_bg_yellow"
+            android:background="@drawable/btn_bg_green"
             android:inputType="text"
             android:text="Calculate"
             android:textColor="#fff" />
@@ -109,7 +109,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:background="@drawable/btn_bg_yellow"
+            android:background="@drawable/btn_bg_green"
             android:inputType="text"
             android:text="Update"
             android:textColor="#fff" />

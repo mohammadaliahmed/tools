@@ -10,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.appsinventiv.toolsbazzar.Adapters.OrdersAdapter;
 import com.appsinventiv.toolsbazzar.Models.OrderModel;
@@ -35,7 +37,8 @@ public class MyOrders extends AppCompatActivity {
     OrdersAdapter adapter;
     ArrayList<OrderModel> orderModelArrayList = new ArrayList<>();
     ProgressBar progress;
-
+    Button shopping;
+    RelativeLayout wholeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,15 @@ public class MyOrders extends AppCompatActivity {
             getSupportActionBar().setElevation(0);
         }
         progress = findViewById(R.id.progress);
+        shopping = findViewById(R.id.shopping);
+        wholeLayout = findViewById(R.id.wholeLayout);
+        shopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent i=new Intent(MyOrders.this)
+                finish();
+            }
+        });
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerView = findViewById(R.id.recycler);
@@ -137,6 +149,7 @@ public class MyOrders extends AppCompatActivity {
                 if (dataSnapshot.getValue() != null) {
                     OrderModel model = dataSnapshot.getValue(OrderModel.class);
                     if (model != null) {
+                        wholeLayout.setVisibility(View.GONE);
                         progress.setVisibility(View.GONE);
                         orderModelArrayList.add(model);
                         adapter.notifyDataSetChanged();
@@ -153,6 +166,9 @@ public class MyOrders extends AppCompatActivity {
 
 
                     }
+
+                } else {
+                    wholeLayout.setVisibility(View.VISIBLE);
 
                 }
             }

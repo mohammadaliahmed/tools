@@ -54,7 +54,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="drawerArrowStyle">@style/DrawerIcon</item>
-s
+
     </style>
 
     <style name="TransparentText" parent="@android:style/TextAppearance">

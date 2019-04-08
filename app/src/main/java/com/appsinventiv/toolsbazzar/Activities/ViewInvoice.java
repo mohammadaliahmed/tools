@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Adapters.InvoiceAdapter;
+import com.appsinventiv.toolsbazzar.Models.CompanyDetailsModel;
 import com.appsinventiv.toolsbazzar.Models.InvoiceModel;
 import com.appsinventiv.toolsbazzar.Models.LocationAndChargesModel;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
@@ -144,12 +145,12 @@ public class ViewInvoice extends AppCompatActivity {
 
 
     private void getAddressFromDb() {
-        mDatabase.child("Settings").child("AboutUs").child("contact").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Settings").child("CompanyDetails").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    String contact = dataSnapshot.getValue(String.class);
-                    storeAddress.setText(contact);
+                    CompanyDetailsModel model=dataSnapshot.getValue(CompanyDetailsModel.class);
+                    storeAddress.setText(model.getAddress()+" "+model.getPhone()+" "+model.getEmail());
                 }
             }
 

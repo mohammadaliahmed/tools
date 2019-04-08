@@ -1,6 +1,7 @@
 package com.appsinventiv.toolsbazzar.Utils;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -13,9 +14,13 @@ import android.net.ConnectivityManager;
 
 
 import com.appsinventiv.toolsbazzar.ApplicationClass;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by AliAh on 14/05/2018.
@@ -28,6 +33,21 @@ public class CommonUtils {
         // This utility class is not publicly instantiable
     }
 
+    public static void sendCustomerStatus(final boolean b) {
+        if (SharedPrefs.getIsLoggedIn().equalsIgnoreCase("yes")) {
+            if (SharedPrefs.getUsername() != null || !SharedPrefs.getUsername().equalsIgnoreCase("")) {
+                DatabaseReference mDatabase;
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+                mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("isOnline").setValue(b).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+//                        CommonUtils.showToast("" + b);
+                    }
+                });
+            }
+        }
+    }
+
     public static void showToast(final String msg) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @SuppressLint("WrongConstant")
@@ -36,6 +56,7 @@ public class CommonUtils {
             }
         });
     }
+
     public static String getFormattedPrice(Object price) {
         DecimalFormat formatter = new DecimalFormat("##,##,###");
         String formattedPrice = formatter.format(price);
@@ -85,6 +106,7 @@ public class CommonUtils {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
+
     public static double screenSize() {
 
         double size = 0;
@@ -94,7 +116,7 @@ public class CommonUtils {
 
             DisplayMetrics dm = ApplicationClass.getInstance().getApplicationContext().getResources().getDisplayMetrics();
 
-            float screenWidth  = dm.widthPixels / dm.xdpi;
+            float screenWidth = dm.widthPixels / dm.xdpi;
 
             float screenHeight = dm.heightPixels / dm.ydpi;
 
@@ -102,7 +124,7 @@ public class CommonUtils {
 
                     Math.pow(screenHeight, 2));
 
-        } catch(Throwable t) {
+        } catch (Throwable t) {
 
         }
 

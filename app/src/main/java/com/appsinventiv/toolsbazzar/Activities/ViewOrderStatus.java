@@ -126,7 +126,7 @@ public class ViewOrderStatus extends AppCompatActivity {
                         orderTime.setText("Order Time: " + CommonUtils.getFormattedTime(model.getTime()));
                         orderDate.setText("Order Date: " + CommonUtils.getFormattedDate(model.getTime()));
                         orderStatus.setText("Order Status: " + model.getOrderStatus());
-                        if(model.getOrderStatus().equalsIgnoreCase("Under Process")){
+                        if(model.getOrderStatus().equalsIgnoreCase("Pending")){
                             delete.setVisibility(View.VISIBLE);
                         }else{
                             delete.setVisibility(View.GONE);

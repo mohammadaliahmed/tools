@@ -36,7 +36,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="340dp"
-                app:dotsColor="@color/colorPrimary"
+                app:dotsColor="@color/colorPrimaryDark"
                 app:dotsSize="5dp"
                 app:dotsWidthFactor="3" />
 
@@ -512,6 +512,36 @@
                     app:cardElevation="1dp">
 
                     <include layout="@layout/product_details_layout" />
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:id="@+id/gotoStore"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardElevation="1dp">
+                    <RelativeLayout
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@drawable/ic_store"
+                        android:id="@+id/gotoSstore"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp" />
+                        <TextView
+                            android:layout_toRightOf="@id/gotoSstore"
+                            android:text="Goto: "
+                            android:layout_margin="10dp"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:layout_centerVertical="true"
+                            android:id="@+id/storeName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
 
                 </android.support.v7.widget.CardView>
 

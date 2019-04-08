@@ -766,7 +766,7 @@ public class ProductListFragment extends Fragment {
 
     private void getProductsFromDB() {
 
-        mDatabase.child("Products").limitToLast(100).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Products").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -775,23 +775,17 @@ public class ProductListFragment extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
-                            if (product.getIsActive().equals("true")) {
+
+                            if (product.getIsActive().equals("true") && (product.getUploadedBy() == null || product.getUploadedBy().equalsIgnoreCase("admin"))) {
                                 if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
-
-//                                    if (category == null || category.equalsIgnoreCase("All")) {
                                     productArrayList.add(product);
-
-//                                    } else if (product.getCategory() != null) {
-//                                        if (product.getCategory().contains(category)) {
-//                                            productArrayList.add(product);
-//
-//                                        }
-//                                    }
                                 }
-
-
+                            } else if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")
+                                    && product.getSellerProductStatus().equalsIgnoreCase("Approved")) {
+                                if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
+                                    productArrayList.add(product);
+                                }
                             }
-
                         }
                     }
                     Collections.sort(productArrayList, new Comparator<Product>() {
@@ -825,20 +819,20 @@ public class ProductListFragment extends Fragment {
                     productArrayList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Product product = snapshot.getValue(Product.class);
-                        if (product != null) {
-                            if (product.getIsActive().equals("true")) {
-                                if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
-
-
-                                    if (product.getCategory().contains(category)) {
+                        if (product.getCategory().contains(category)) {
+                            if (product != null) {
+                                if (product.getIsActive().equals("true") && (product.getUploadedBy() == null || product.getUploadedBy().equalsIgnoreCase("admin"))) {
+                                    if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
                                         productArrayList.add(product);
-
+                                    }
+                                } else if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")
+                                        && product.getSellerProductStatus().equalsIgnoreCase("Approved")) {
+                                    if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
+                                        productArrayList.add(product);
                                     }
                                 }
 
-
                             }
-
                         }
                     }
                     Collections.sort(productArrayList, new Comparator<Product>() {

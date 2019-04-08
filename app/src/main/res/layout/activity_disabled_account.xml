@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_height="match_parent"
+    tools:context="com.appsinventiv.toolsbazzar.Activities.No_Internet">
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/no_internet" />
+
+
+    <TextView
+        android:id="@+id/whishlistText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Account is disabled"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/internetText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/whishlistText"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:text="Please contact admin" />
+
+    <Button
+        android:id="@+id/retry"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/internetText"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_bg_yellow"
+        android:inputType="text"
+        android:text="Ok"
+        android:textColor="@color/colorWhite" />
+</RelativeLayout>

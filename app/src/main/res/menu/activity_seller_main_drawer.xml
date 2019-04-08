@@ -9,7 +9,7 @@
             <menu>
                 <item
                     android:id="@+id/addProduct"
-                    android:icon="@drawable/cart"
+                    android:icon="@drawable/cart_menu"
                     android:title="Add product" />
                 <item
                     android:id="@+id/myProducts"
@@ -28,7 +28,7 @@
                 android:title="My Orders" />
             <item
                 android:id="@+id/shipping"
-                android:icon="@drawable/cart"
+                android:icon="@drawable/cart_menu"
                 android:title="Shipping" />
             <item
                 android:id="@+id/sales"

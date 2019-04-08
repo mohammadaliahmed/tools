@@ -16,10 +16,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Adapters.CommentsAdapter;
+import com.appsinventiv.toolsbazzar.Interface.NotificationObserver;
 import com.appsinventiv.toolsbazzar.Models.CommentsModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.appsinventiv.toolsbazzar.Utils.NotificationAsync;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class ProductComments extends AppCompatActivity {
+public class ProductComments extends AppCompatActivity implements NotificationObserver {
     CommentsAdapter adapter;
     RecyclerView recyclerView;
     EditText comment;
@@ -46,6 +49,7 @@ public class ProductComments extends AppCompatActivity {
     ImageView productImage;
     TextView title, price;
     CardView productLayout;
+    private Product product;
 
 
     @Override
@@ -103,8 +107,9 @@ public class ProductComments extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    Product product = dataSnapshot.getValue(Product.class);
+                    product = dataSnapshot.getValue(Product.class);
                     if (product != null) {
+
                         Glide.with(ProductComments.this).load(product.getThumbnailUrl()).placeholder(R.drawable.placeholder).into(productImage);
                         title.setText(product.getTitle());
                         if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
@@ -141,18 +146,22 @@ public class ProductComments extends AppCompatActivity {
                         if (model != null) {
                             itemList.add(model);
 
-                            Collections.sort(itemList, new Comparator<CommentsModel>() {
-                                @Override
-                                public int compare(CommentsModel listData, CommentsModel t1) {
-                                    Long ob1 = listData.getTime();
-                                    Long ob2 = t1.getTime();
-
-                                    return ob1.compareTo(ob2);
-
-                                }
-                            });
                         }
                     }
+                    if (product != null) {
+                        adapter.setProduct(product);
+                    }
+
+                    Collections.sort(itemList, new Comparator<CommentsModel>() {
+                        @Override
+                        public int compare(CommentsModel listData, CommentsModel t1) {
+                            Long ob1 = listData.getTime();
+                            Long ob2 = t1.getTime();
+
+                            return ob1.compareTo(ob2);
+
+                        }
+                    });
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -177,6 +186,16 @@ public class ProductComments extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+
+                        NotificationAsync notificationAsync = new NotificationAsync(ProductComments.this);
+                        String NotificationTitle = "New comment on " + product.getTitle() + " by " + SharedPrefs.getUsername();
+                        String NotificationMessage = "Comment: " + comment.getText().toString();
+                        if (product.getUploadedBy().equalsIgnoreCase("seller")) {
+                            notificationAsync.execute("ali", SharedPrefs.getVendor().getFcmKey(), NotificationTitle, NotificationMessage, "NewComment", productId);
+
+                        } else {
+                            notificationAsync.execute("ali", SharedPrefs.getAdminFcmKey(), NotificationTitle, NotificationMessage, "NewComment", productId);
+                        }
                         comment.setText("");
                     }
                 });
@@ -196,5 +215,15 @@ public class ProductComments extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onSuccess(String chatId) {
+
+    }
+
+    @Override
+    public void onFailure() {
+
     }
 }

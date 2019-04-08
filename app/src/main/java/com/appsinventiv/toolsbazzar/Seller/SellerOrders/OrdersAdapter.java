@@ -51,22 +51,22 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
         if (model.getOrderStatus().equalsIgnoreCase("Cancelled")
                 || model.getOrderStatus().equalsIgnoreCase("Pending")) {
-            holder.cancel.setVisibility(View.VISIBLE);
+
         } else {
-            holder.cancel.setVisibility(View.GONE);
+
         }
 
 
-        holder.cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (model.getOrderStatus().equalsIgnoreCase("Cancelled")) {
-                    updateOrderStatus.markAsDeleted(model.getOrderId());
-                } else if (model.getOrderStatus().equalsIgnoreCase("Pending")) {
-                    updateOrderStatus.markAsCancelled(model.getOrderId());
-                }
-            }
-        });
+//        holder.cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (model.getOrderStatus().equalsIgnoreCase("Cancelled")) {
+//                    updateOrderStatus.markAsDeleted(model.getOrderId());
+//                } else if (model.getOrderStatus().equalsIgnoreCase("Pending")) {
+//                    updateOrderStatus.markAsCancelled(model.getOrderId());
+//                }
+//            }
+//        });
         if (model.getOrderStatus().equalsIgnoreCase("Pending")) {
 
             holder.checkbox.setVisibility(View.VISIBLE);
@@ -76,20 +76,16 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         }
 
         if (model != null) {
-            holder.orderDetails.setText(
-                    "Order No: " + model.getOrderId()
-                            + "\n\nOrder Time: " + CommonUtils.getFormattedDate(model.getTime())
-                            + "\n\nOrder Status: " + model.getOrderStatus()
-                            + "\n\nOrder Items: " + model.getCountModelArrayList().size()
-                            + "\n\nOrder Amount: Rs." + CommonUtils.getFormattedPrice(model.getTotalPrice())
-            );
-            holder.userDetails.setText("Name: " + model.getCustomer().getName()
-                    + "\n\nPhone: " + model.getCustomer().getPhone()
-                    + "\n\nAddress: " + model.getCustomer().getAddress() + ", " + model.getCustomer().getCity() + ", " + model.getCustomer().getCountry()
-                    + "\n\nType: " + model.getCustomer().getCustomerType()
+            holder.orderNumber.setText(model.getOrderId());
+            holder.orderItems.setText("" + model.getCountModelArrayList().size());
+            holder.orderAmount.setText(CommonUtils.getFormattedPrice(model.getTotalPrice()));
+            holder.orderStatus.setText(model.getOrderStatus());
+            holder.orderTime.setText(CommonUtils.getFormattedDate(model.getTime()));
+            holder.customerName.setText(model.getCustomer().getName());
+            holder.paymentMethod.setText("Not Available");
+            holder.customerType.setText("Customer type: " + model.getCustomer().getCustomerType());
+//            holder.address.setText(model.getCustomer().getAddress() + ", " + model.getCustomer().getCity() + ", " + model.getCustomer().getCountry());
 
-
-            );
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -130,16 +126,17 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         });
         if (!model.getOrderStatus().equalsIgnoreCase("refused")) {
             if (model.getCarrier() != null) {
-                holder.shippingInfo.setVisibility(View.VISIBLE);
-                holder.shippingInfo.setText("Carrier: " + model.getCarrier() + "\nTracking: " + model.getTrackingNumber());
+                holder.orderTracking.setVisibility(View.VISIBLE);
+                holder.orderTracking.setText("Carrier: " + model.getCarrier() + "\nTracking: " + model.getTrackingNumber());
             } else if (model.getDeliveryBy() != null) {
-                holder.shippingInfo.setVisibility(View.VISIBLE);
-                holder.shippingInfo.setText("Delivery by: " + model.getDeliveryBy());
+                holder.orderTracking.setVisibility(View.VISIBLE);
+                holder.orderTracking.setText("Delivery by: " + model.getDeliveryBy());
             } else {
-                holder.shippingInfo.setVisibility(View.GONE);
+                holder.orderTracking.setText("No Record");
             }
         }
     }
+
 
     @Override
     public int getItemCount() {
@@ -147,20 +144,28 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView userDetails, orderDetails, shippingInfo;
-        ImageView phone_dial, cancel;
+        TextView orderTime, customerName, address, orderNumber, orderItems, orderAmount, paymentMethod, orderStatus, orderTracking, customerType;
+        ImageView phone_dial;
         CheckBox checkbox;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            userDetails = itemView.findViewById(R.id.userDetails);
-            orderDetails = itemView.findViewById(R.id.orderDetails);
+            customerName = itemView.findViewById(R.id.customerName);
+            address = itemView.findViewById(R.id.address);
+            orderNumber = itemView.findViewById(R.id.orderNumber);
+            orderItems = itemView.findViewById(R.id.orderItems);
+            orderAmount = itemView.findViewById(R.id.orderAmount);
+            paymentMethod = itemView.findViewById(R.id.paymentMethod);
+            orderStatus = itemView.findViewById(R.id.orderStatus);
+            orderTracking = itemView.findViewById(R.id.orderTracking);
+            customerType = itemView.findViewById(R.id.customerType);
+            orderTime = itemView.findViewById(R.id.orderTime);
             phone_dial = itemView.findViewById(R.id.phone_dial);
             checkbox = itemView.findViewById(R.id.checkbox);
-            cancel = itemView.findViewById(R.id.cancel);
-            shippingInfo = itemView.findViewById(R.id.shippingInfo);
+
         }
     }
+
 
     public interface UpdateOrderStatus {
         public void markAsProcessing(String orderId);
