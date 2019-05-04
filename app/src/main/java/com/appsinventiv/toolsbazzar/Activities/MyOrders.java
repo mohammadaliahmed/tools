@@ -122,7 +122,7 @@ public class MyOrders extends AppCompatActivity {
                 } else {
                     progress.setVisibility(View.GONE);
                     orderModelArrayList.clear();
-                    CommonUtils.showToast("No orders");
+                    wholeLayout.setVisibility(View.VISIBLE);
                 }
             }
 

@@ -17,7 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appsinventiv.toolsbazzar.Activities.ChooseAddress;
+import com.appsinventiv.toolsbazzar.Activities.ChooseCountry;
 import com.appsinventiv.toolsbazzar.Activities.ChooseLocation;
+import com.appsinventiv.toolsbazzar.Activities.CustomerVerficiation;
 import com.appsinventiv.toolsbazzar.Activities.Login;
 import com.appsinventiv.toolsbazzar.Activities.MainActivity;
 import com.appsinventiv.toolsbazzar.Activities.Register;
@@ -50,12 +52,22 @@ public class SellerRegister extends AppCompatActivity {
     String fullname, username, email, password, phone, address, businessNumber, storeName, telPhone = "";
     long time;
     TextView chooseLocation, createAccountText;
-    String city = "", country = "", locationId = "";
     int locationPosition;
     RelativeLayout abc1, abc2;
     CountryModel chargesModel;
-    private String province = "";
     TextView terms;
+    public static String province = "", district = "", city = "", country = "", locationId = "";
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (country.equalsIgnoreCase("")) {
+            chooseLocation.setText("Choose address");
+        } else {
+            chooseLocation.setText("Location: " + country + " > " + province + " > " + district + " > " + city);
+            getShippingDetailsFromDB(country);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +79,7 @@ public class SellerRegister extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.BLACK);
+            window.setStatusBarColor(Color.TRANSPARENT);
         }
         prefManager = new PrefManager(this);
         if (!prefManager.isFirstTimeLaunchSeller()) {
@@ -130,6 +142,8 @@ public class SellerRegister extends AppCompatActivity {
         e_businessNumber = findViewById(R.id.businessRegNumber);
         e_telPhone = findViewById(R.id.telPhone);
         chooseLocation = findViewById(R.id.chooseLocation);
+        e_phone.setText(SharedPrefs.getCountryModel().getMobileCode());
+        e_telPhone.setText(SharedPrefs.getCountryModel().getMobileCode());
 
 
         createAccountText.setText("Create Vendor Account");
@@ -138,7 +152,7 @@ public class SellerRegister extends AppCompatActivity {
         chooseLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SellerRegister.this, ChooseAddress.class);
+                Intent i = new Intent(SellerRegister.this, ChooseCountry.class);
                 startActivityForResult(i, 1);
             }
         });
@@ -189,7 +203,7 @@ public class SellerRegister extends AppCompatActivity {
                     if (userslist.contains("" + username)) {
                         Toast.makeText(SellerRegister.this, "Username is already taken\nPlease choose another", Toast.LENGTH_SHORT).show();
                     } else {
-//                        int randomPIN = (int) (Math.random() * 900000) + 100000;
+                        int randomPIN = (int) (Math.random() * 900000) + 100000;
                         time = System.currentTimeMillis();
                         final String userId = "" + time;
                         ArrayList<String> ratedProducts = new ArrayList<>();
@@ -215,7 +229,9 @@ public class SellerRegister extends AppCompatActivity {
                                 ,
                                 chargesModel.getCurrencyRate(),
                                 province,
-                                true
+                                district,
+                                true,
+                                randomPIN, false
 
                         );
                         mDatabase.child("Sellers")
@@ -236,6 +252,8 @@ public class SellerRegister extends AppCompatActivity {
                                         SharedPrefs.setExchangeRate("" + chargesModel.getCurrencyRate());
                                         SharedPrefs.setLocationId(locationId);
                                         launchHomeScreen();
+//                                        startActivity(new Intent(SellerRegister.this, SellerVerficiation.class));
+
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -304,7 +322,7 @@ public class SellerRegister extends AppCompatActivity {
         final String key = mDatabase.push().getKey();
         mDatabase.child("Chats").child(user).child(key)
                 .setValue(new ChatModel(key, "I just registered on your app", user
-                        , System.currentTimeMillis(), "sent", user,SharedPrefs.getVendor().getStoreName()));
+                        , System.currentTimeMillis(), "sent", user, SharedPrefs.getVendor().getStoreName()));
     }
 
 }

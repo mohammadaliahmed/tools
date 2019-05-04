@@ -38,12 +38,21 @@ public class CommonUtils {
             if (SharedPrefs.getUsername() != null || !SharedPrefs.getUsername().equalsIgnoreCase("")) {
                 DatabaseReference mDatabase;
                 mDatabase = FirebaseDatabase.getInstance().getReference();
-                mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("isOnline").setValue(b).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
+                if (SharedPrefs.getUserType().equalsIgnoreCase("buy")) {
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("isOnline").setValue(b).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
 //                        CommonUtils.showToast("" + b);
-                    }
-                });
+                        }
+                    });
+                } else if (SharedPrefs.getUserType().equalsIgnoreCase("sell")) {
+                    mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("isOnline").setValue(b).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+//                        CommonUtils.showToast("" + b);
+                        }
+                    });
+                }
             }
         }
     }

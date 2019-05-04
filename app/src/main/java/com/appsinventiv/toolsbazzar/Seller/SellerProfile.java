@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.ChooseAddress;
+import com.appsinventiv.toolsbazzar.Activities.ChooseCountry;
 import com.appsinventiv.toolsbazzar.Models.CountryModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
@@ -30,11 +31,21 @@ public class SellerProfile extends AppCompatActivity {
     DatabaseReference mDatabase;
     //    LocationAndChargesModel chargesModel;
     TextView chooseLocation, createAccountText;
-    String city = "", country = "", locationId = "";
     int locationPosition;
     TextView nameof, customertype;
     CountryModel chargesModel;
-    private String province = "";
+    public static String province = "", district = "", city = "", country = "", locationId = "";
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (country.equalsIgnoreCase("")) {
+            chooseLocation.setText("Choose address");
+        } else {
+            chooseLocation.setText("Location: " + country + " > " + province + " > " + district + " > " + city);
+            getShippingDetailsFromDB(country);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +73,7 @@ public class SellerProfile extends AppCompatActivity {
         chooseLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SellerProfile.this, ChooseAddress.class);
+                Intent i = new Intent(SellerProfile.this, ChooseCountry.class);
                 startActivityForResult(i, 1);
             }
         });
@@ -82,6 +93,8 @@ public class SellerProfile extends AppCompatActivity {
                     mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("city").setValue(city);
                     mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("country").setValue(country);
                     mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("province").setValue(province);
+                    mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("district").setValue(district);
+
 //                    mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("locationId").setValue(chargesModel.getId());
                     mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("currencySymbol").setValue(chargesModel.getCurrencySymbol());
                     mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("currencyRate").setValue(chargesModel.getCurrencyRate());
@@ -109,7 +122,7 @@ public class SellerProfile extends AppCompatActivity {
 //                        customertype.setText(customer.getCustomerType());
                         e_username.setText(customer.getUsername());
                         e_password.setText(customer.getPassword());
-                        chooseLocation.setText(customer.getCountry() + " > " + customer.getCity());
+                        chooseLocation.setText("Location: " + customer.getCountry() + " > " + customer.getProvince() + " > " + customer.getDistrict() + " > " + customer.getCity());
 
                     }
 

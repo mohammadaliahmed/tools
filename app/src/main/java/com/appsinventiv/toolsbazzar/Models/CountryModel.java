@@ -4,15 +4,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CountryModel {
-    String countryName,currencySymbol;
+    String countryName, currencySymbol;
     float currencyRate;
+    String mobileCode, imageUrl;
     List<String> provinces;
+
+    boolean isShippingCountry;
+
 
     public CountryModel(String countryName, String currencySymbol, float currencyRate, List<String> provinces) {
         this.countryName = countryName;
         this.currencySymbol = currencySymbol;
         this.currencyRate = currencyRate;
         this.provinces = provinces;
+    }
+
+    public String getMobileCode() {
+        return mobileCode;
+    }
+
+    public void setMobileCode(String mobileCode) {
+        this.mobileCode = mobileCode;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public boolean isShippingCountry() {
+        return isShippingCountry;
+    }
+
+    public void setShippingCountry(boolean shippingCountry) {
+        isShippingCountry = shippingCountry;
     }
 
     public CountryModel() {

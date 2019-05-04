@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.appsinventiv.toolsbazzar.ApplicationClass;
+import com.appsinventiv.toolsbazzar.Models.CountryModel;
+import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,12 +37,39 @@ public class SharedPrefs {
         editor.apply();
     }
 
+
     public static VendorModel getVendor() {
         Gson gson = new Gson();
         SharedPreferences pref = ApplicationClass.getInstance().getApplicationContext().getSharedPreferences("user", MODE_PRIVATE);
         String json = pref.getString("vendor", "");
         VendorModel vendorModel = gson.fromJson(json, VendorModel.class);
         return vendorModel;
+    }
+
+    public static void setCustomerModel(Customer model) {
+
+        Gson gson = new Gson();
+        String json = gson.toJson(model);
+        preferenceSetter("customerModel", json);
+    }
+
+    public static Customer getCustomerModel() {
+        Gson gson = new Gson();
+        Customer customer = gson.fromJson(preferenceGetter("customerModel"), Customer.class);
+        return customer;
+    }
+
+    public static void setCountryModel(CountryModel model) {
+
+        Gson gson = new Gson();
+        String json = gson.toJson(model);
+        preferenceSetter("country", json);
+    }
+
+    public static CountryModel getCountryModel() {
+        Gson gson = new Gson();
+        CountryModel countryModel = gson.fromJson(preferenceGetter("country"), CountryModel.class);
+        return countryModel;
     }
 
     public static void setAdminFcmKey(String username) {

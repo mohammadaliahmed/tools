@@ -46,12 +46,24 @@ public class Register extends AppCompatActivity {
     String fullname, username, email, password, phone, address, businessNumber, storeName, telPhone = "";
     long time;
     TextView chooseLocation, createAccountText;
-    String city = "", country = "", locationId = "";
+
     int locationPosition;
     RelativeLayout abc1, abc2;
     CountryModel chargesModel;
-    private String province="";
+    public static String province = "", district = "", city = "", country = "", locationId = "";
     TextView terms;
+    Customer customer;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (country.equalsIgnoreCase("")) {
+            chooseLocation.setText("Choose address");
+        } else {
+            chooseLocation.setText("Location: " + country + " > " + province + " > " + district + " > " + city);
+            getShippingDetailsFromDB(country);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +76,7 @@ public class Register extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.BLACK);
+            window.setStatusBarColor(Color.TRANSPARENT);
         }
         prefManager = new PrefManager(this);
         if (!prefManager.isFirstTimeLaunch()) {
@@ -107,7 +119,7 @@ public class Register extends AppCompatActivity {
         terms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(Register.this,TermsAndConditions.class);
+                Intent i = new Intent(Register.this, TermsAndConditions.class);
                 startActivity(i);
             }
         });
@@ -127,6 +139,8 @@ public class Register extends AppCompatActivity {
         e_telPhone = findViewById(R.id.telPhone);
         chooseLocation = findViewById(R.id.chooseLocation);
 
+        e_phone.setText(SharedPrefs.getCountryModel().getMobileCode());
+        e_telPhone.setText(SharedPrefs.getCountryModel().getMobileCode());
 
         if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
             createAccountText.setText("Create Retail Account");
@@ -144,8 +158,8 @@ public class Register extends AppCompatActivity {
         chooseLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Register.this, ChooseAddress.class);
-                startActivityForResult(i, 1);
+                Intent i = new Intent(Register.this, ChooseCountry.class);
+                startActivity(i);
             }
         });
 
@@ -196,41 +210,43 @@ public class Register extends AppCompatActivity {
                     if (userslist.contains("" + username)) {
                         Toast.makeText(Register.this, "Username is already taken\nPlease choose another", Toast.LENGTH_SHORT).show();
                     } else {
-//                        int randomPIN = (int) (Math.random() * 900000) + 100000;
+                        int randomPIN = (int) (Math.random() * 900000) + 100000;
                         time = System.currentTimeMillis();
                         final String userId = "" + time;
                         ArrayList<String> ratedProducts = new ArrayList<>();
                         ArrayList<String> wishList = new ArrayList<>();
                         ArrayList<String> recentlyViewed = new ArrayList<>();
+                        customer = new Customer(username,
+                                fullname,
+                                username,
+                                email,
+                                password,
+                                "" + phone,
+                                "" + telPhone,
+                                address,
+                                city,
+                                country,
+                                SharedPrefs.getFcmKey(),
+                                time,
+                                SharedPrefs.getCustomerType(),
+                                storeName,
+                                "" + businessNumber,
+                                locationId,
+                                chargesModel.getCurrencySymbol(),
+                                chargesModel.getCurrencyRate(),
+                                province,
+                                district,
+                                true,
+                                randomPIN,
+                                false);
                         mDatabase.child("Customers")
                                 .child(username)
-                                .setValue(new Customer(
-                                        username,
-                                        fullname,
-                                        username,
-                                        email,
-                                        password,
-                                        "" + phone,
-                                        "" + telPhone,
-                                        address,
-                                        city,
-                                        country,
-                                        SharedPrefs.getFcmKey(),
-                                        time,
-                                        SharedPrefs.getCustomerType(),
-                                        storeName,
-                                        "" + businessNumber,
-                                        locationId,
-                                        chargesModel.getCurrencySymbol()
-                                        ,
-                                        chargesModel.getCurrencyRate(),
-                                        province,
-                                        true
-                                ))
+                                .setValue(customer)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(Register.this, "Thankyou for registering", Toast.LENGTH_SHORT).show();
+                                        SharedPrefs.setCustomerModel(customer);
                                         SharedPrefs.setUsername(username);
                                         SharedPrefs.setName(fullname);
                                         SharedPrefs.setCountry(country);
@@ -240,6 +256,8 @@ public class Register extends AppCompatActivity {
                                         SharedPrefs.setCurrencySymbol(chargesModel.getCurrencySymbol());
                                         SharedPrefs.setExchangeRate("" + chargesModel.getCurrencyRate());
                                         SharedPrefs.setLocationId(locationId);
+//                                        startActivity(new Intent(Register.this, CustomerVerficiation.class));
+
                                         launchHomeScreen();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
@@ -259,26 +277,26 @@ public class Register extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data != null) {
-            if (requestCode == 1) {
-                Bundle extras;
-                extras = data.getExtras();
-                if (extras.getString("city") != null) {
-                    city = extras.getString("city");
-                    country = extras.getString("country");
-                    province = extras.getString("province");
-                    locationId = extras.getString("locationId");
-                    locationPosition = extras.getInt("locationPosition");
-                    chooseLocation.setText("Location: " + extras.getString("country") + " > " + extras.get("city"));
-                    getShippingDetailsFromDB(extras.getString("country"));
-
-                }
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (data != null) {
+//            if (requestCode == 1) {
+//                Bundle extras;
+//                extras = data.getExtras();
+//                if (extras.getString("city") != null) {
+//                    city = extras.getString("city");
+//                    country = extras.getString("country");
+//                    province = extras.getString("province");
+//                    locationId = extras.getString("locationId");
+//                    locationPosition = extras.getInt("locationPosition");
+//                    chooseLocation.setText("Location: " + extras.getString("country") + " > " + extras.get("city"));
+//                    getShippingDetailsFromDB(extras.getString("country"));
+//
+//                }
+//            }
+//        }
+//    }
 
     private void getShippingDetailsFromDB(String country) {
         mDatabase.child("Settings").child("Locations").child("Countries").child(country).addListenerForSingleValueEvent(new ValueEventListener() {

@@ -16,13 +16,25 @@
 
     <TextView
         android:layout_width="wrap_content"
+        android:layout_below="@id/logo"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
         android:fontFamily="@font/cosmic_fonts"
         android:gravity="center"
-        android:text="Product by \nFort City"
+        android:text="Product by Fort City"
+        android:textColor="#fff"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:fontFamily="@font/cosmic_fonts"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:text="© 2018 FortCity.com. All rights reserved"
         android:textColor="#fff"
         android:textStyle="bold" />
 </RelativeLayout>

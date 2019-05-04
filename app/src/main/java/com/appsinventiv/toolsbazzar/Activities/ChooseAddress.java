@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import com.appsinventiv.toolsbazzar.Adapters.AddressChooseAdapter;
 import com.appsinventiv.toolsbazzar.Models.CityDeliveryChargesModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerProfile;
+import com.appsinventiv.toolsbazzar.Seller.SellerRegister;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +35,9 @@ public class ChooseAddress extends AppCompatActivity {
     AddressChooseAdapter adapter;
     String key = "country";
     ProgressBar progress;
-    int count = 0;
+    int count = 1;
+    boolean countryType;
+    String abc;
 
 
     @Override
@@ -46,7 +50,8 @@ public class ChooseAddress extends AppCompatActivity {
             getSupportActionBar().setElevation(0);
         }
 
-
+        country = getIntent().getStringExtra("country");
+        countryType = getIntent().getBooleanExtra("countryType", false);
         progress = findViewById(R.id.progress);
         recyclerview = findViewById(R.id.recyclerview);
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -58,10 +63,8 @@ public class ChooseAddress extends AppCompatActivity {
                 count++;
                 progress.setVisibility(View.VISIBLE);
                 ChooseAddress.this.setTitle(value);
-                if (count == 1) {
-                    country = value;
-                    getProvincesFromDb(value);
-                } else if (count == 2) {
+                if (count == 2) {
+                    abc = value;
                     getDistrictsFromDB(value);
                 } else if (count == 3) {
                     province = value;
@@ -74,7 +77,7 @@ public class ChooseAddress extends AppCompatActivity {
         });
         recyclerview.setAdapter(adapter);
 
-        getCountriesFromDb();
+        getProvincesFromDb(country);
 
 
     }
@@ -89,15 +92,8 @@ public class ChooseAddress extends AppCompatActivity {
                     if (model != null) {
                         SharedPrefs.setHalfKgRate(model.getHalfKg());
                         SharedPrefs.setOneKgRate(model.getOneKg());
-                        Intent returnIntent = new Intent();
-                        returnIntent.putExtra("country", country);
-                        returnIntent.putExtra("city", city);
-                        returnIntent.putExtra("province", province);
-                        returnIntent.putExtra("locationId", "sdfsfsd");
-                        returnIntent.putExtra("locationPosition", "dsf");
+                        setData();
 
-                        setResult(Activity.RESULT_OK, returnIntent);
-                        finish();
                     }
                 }
             }
@@ -108,6 +104,32 @@ public class ChooseAddress extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setData() {
+        Register.country = country;
+        Register.province = abc;
+        Register.city = city;
+        Register.district = province;
+
+        MyProfile.country = country;
+        MyProfile.province = abc;
+        MyProfile.city = city;
+        MyProfile.district = province;
+
+
+        SellerRegister.country = country;
+        SellerRegister.province = abc;
+        SellerRegister.city = city;
+        SellerRegister.district = province;
+
+        SellerProfile.country = country;
+        SellerProfile.province = abc;
+        SellerProfile.city = city;
+        SellerProfile.district = province;
+
+        ChooseCountry.activity.finish();
+        finish();
     }
 
     private void getCitiesFromDB(String value) {
@@ -147,6 +169,8 @@ public class ChooseAddress extends AppCompatActivity {
                     }
                     progress.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
+                }else{
+                    setData();
                 }
             }
 
@@ -158,7 +182,8 @@ public class ChooseAddress extends AppCompatActivity {
     }
 
     private void getProvincesFromDb(String value) {
-        mDatabase.child("Settings").child("Locations").child("Countries").child(value).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Settings").child("Locations").child("Countries").child( "international")
+                .child(value).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -182,28 +207,28 @@ public class ChooseAddress extends AppCompatActivity {
     }
 
 
-    private void getCountriesFromDb() {
-        mDatabase.child("Settings").child("Locations").child("Countries").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    itemList.clear();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String key = snapshot.getKey();
-                        itemList.add(key);
-                    }
-                    key = "province";
-                    progress.setVisibility(View.GONE);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
+//    private void getCountriesFromDb() {
+//        mDatabase.child("Settings").child("Locations").child("Countries").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.getValue() != null) {
+//                    itemList.clear();
+//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                        String key = snapshot.getKey();
+//                        itemList.add(key);
+//                    }
+//                    key = "province";
+//                    progress.setVisibility(View.GONE);
+//                    adapter.notifyDataSetChanged();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -214,8 +239,19 @@ public class ChooseAddress extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
 
+            count--;
+            if (count > 0) {
+                if (count == 2) {
+                    getDistrictsFromDB(abc);
+                    ChooseAddress.this.setTitle(abc);
+                } else if (count == 1) {
+                    getProvincesFromDb(country);
+                    ChooseAddress.this.setTitle(country);
 
-            finish();
+                }
+            } else {
+                finish();
+            }
         }
 
         return super.onOptionsItemSelected(item);

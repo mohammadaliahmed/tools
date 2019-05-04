@@ -5,27 +5,38 @@ package com.appsinventiv.toolsbazzar.Models;
  */
 
 public class Customer {
-    String id,name, username, email, password, phone,telNumber,address, city,country,fcmKey;
+    String id, name, username, email, password, phone, telNumber, address, city, country, fcmKey;
     long time;
     String customerType;
-    String storeName,businessRegistrationNumber;
+    String storeName, businessRegistrationNumber;
     String locationId;
     String currencySymbol;
     Float currencyRate;
-    String province;
+    String province, district;
     boolean status;
-    boolean isOnline=false;
-
+    boolean isOnline = false;
+    int code;
+    boolean codeVerified;
+    String secondAddress;
 
     public Customer() {
     }
 
 
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
     public Customer(String id, String name, String username,
                     String email, String password, String phone, String telNumber,
                     String address, String city, String country, String fcmKey,
                     long time, String customerType, String storeName, String businessRegistrationNumber,
-                    String locationId, String currencySymbol,Float currencyRate,String province,    boolean status
+                    String locationId, String currencySymbol, Float currencyRate, String province, String district,
+                    boolean status, int code, boolean codeVerified
     ) {
         this.id = id;
         this.name = name;
@@ -46,7 +57,34 @@ public class Customer {
         this.currencySymbol = currencySymbol;
         this.currencyRate = currencyRate;
         this.province = province;
-        this.status=status;
+        this.status = status;
+        this.district = district;
+        this.code = code;
+        this.codeVerified = codeVerified;
+    }
+
+    public String getSecondAddress() {
+        return secondAddress;
+    }
+
+    public void setSecondAddress(String secondAddress) {
+        this.secondAddress = secondAddress;
+    }
+
+    public boolean isCodeVerified() {
+        return codeVerified;
+    }
+
+    public void setCodeVerified(boolean codeVerified) {
+        this.codeVerified = codeVerified;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public boolean isStatus() {
@@ -58,7 +96,7 @@ public class Customer {
     }
 
     public void setOnline(boolean isOnline) {
-        isOnline = isOnline;
+        this.isOnline = isOnline;
     }
 
     public boolean isActive() {

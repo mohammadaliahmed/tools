@@ -25,16 +25,26 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MyProfile extends AppCompatActivity {
 
-    EditText e_name, e_phone, e_address, e_username, e_password;
+    EditText e_name, e_phone, e_address, e_username, e_password, secondAddress;
     Button update;
     DatabaseReference mDatabase;
     //    LocationAndChargesModel chargesModel;
     TextView chooseLocation, createAccountText;
-    String city = "", country = "", locationId = "";
     int locationPosition;
     TextView nameof, customertype;
     CountryModel chargesModel;
-    private String province = "";
+    public static String province = "", district = "", city = "", country = "", locationId = "";
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (country.equalsIgnoreCase("")) {
+            chooseLocation.setText("Choose address");
+        } else {
+            chooseLocation.setText("Location: " + country + " > " + province + " > " + district + " > " + city);
+            getShippingDetailsFromDB(country);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +58,7 @@ public class MyProfile extends AppCompatActivity {
         }
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        secondAddress = findViewById(R.id.secondAddress);
         e_name = findViewById(R.id.name);
         e_phone = findViewById(R.id.phone);
         e_address = findViewById(R.id.address);
@@ -62,7 +73,7 @@ public class MyProfile extends AppCompatActivity {
         chooseLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MyProfile.this, ChooseAddress.class);
+                Intent i = new Intent(MyProfile.this, ChooseCountry.class);
                 startActivityForResult(i, 1);
             }
         });
@@ -78,11 +89,12 @@ public class MyProfile extends AppCompatActivity {
                 mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("phone").setValue(e_phone.getText().toString());
                 mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("name").setValue(e_name.getText().toString());
                 mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("password").setValue(e_password.getText().toString());
+                mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("secondAddress").setValue(secondAddress.getText().toString());
                 if (!city.equalsIgnoreCase("")) {
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("city").setValue(city);
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("country").setValue(country);
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("province").setValue(province);
-//                    mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("locationId").setValue(chargesModel.getId());
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("district").setValue(district);
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("currencySymbol").setValue(chargesModel.getCurrencySymbol());
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("currencyRate").setValue(chargesModel.getCurrencyRate());
 
@@ -109,8 +121,9 @@ public class MyProfile extends AppCompatActivity {
                         customertype.setText(customer.getCustomerType());
                         e_username.setText(customer.getUsername());
                         e_password.setText(customer.getPassword());
+                        secondAddress.setText(customer.getSecondAddress());
                         nameof.setText(customer.getName());
-                        chooseLocation.setText(customer.getCountry() + " > " + customer.getCity());
+                        chooseLocation.setText("Location: " + customer.getCountry() + " > " + customer.getProvince() + " > " + customer.getDistrict() + " > " + customer.getCity());
 
                     }
 
@@ -126,27 +139,27 @@ public class MyProfile extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data != null) {
-            if (requestCode == 1) {
-                Bundle extras;
-                extras = data.getExtras();
-                if (extras.getString("city") != null) {
-                    city = extras.getString("city");
-                    province = extras.getString("province");
-                    country = extras.getString("country");
-                    locationId = extras.getString("locationId");
-                    locationPosition = extras.getInt("locationPosition");
-                    chooseLocation.setText("Location: " + extras.getString("country") + " > " + extras.get("city"));
-                    getShippingDetailsFromDB(extras.getString("country"));
-//                    getListOfCountriesFromDb(locationId);
-
-                }
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (data != null) {
+//            if (requestCode == 1) {
+//                Bundle extras;
+//                extras = data.getExtras();
+//                if (extras.getString("city") != null) {
+//                    city = extras.getString("city");
+//                    province = extras.getString("province");
+//                    country = extras.getString("country");
+//                    locationId = extras.getString("locationId");
+//                    locationPosition = extras.getInt("locationPosition");
+//                    chooseLocation.setText("Location: " + extras.getString("country") + " > " + extras.get("city"));
+//                    getShippingDetailsFromDB(extras.getString("country"));
+////                    getListOfCountriesFromDb(locationId);
+//
+//                }
+//            }
+//        }
+//    }
 
     private void getShippingDetailsFromDB(String country) {
         mDatabase.child("Settings").child("Locations").child("Countries").child(country).addListenerForSingleValueEvent(new ValueEventListener() {

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.appsinventiv.toolsbazzar.Activities.CustomerVerficiation;
 import com.appsinventiv.toolsbazzar.Activities.Login;
 import com.appsinventiv.toolsbazzar.Activities.MainActivity;
 import com.appsinventiv.toolsbazzar.Activities.Register;
@@ -54,7 +55,7 @@ public class SellerLogin extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.BLACK);
+            window.setStatusBarColor(Color.TRANSPARENT);
         }
 
         register = findViewById(R.id.register);
@@ -157,6 +158,16 @@ public class SellerLogin extends AppCompatActivity {
                                     SharedPrefs.setCountry(user.getCountry());
                                     setUserData(user.getProvince(), user.getCity());
                                     SharedPrefs.setUserType("sell");
+                                    launchHomeScreen();
+//                                    if (user.isCodeVerified()) {
+//
+//
+//                                        launchHomeScreen();
+//
+//                                    } else {
+//                                        startActivity(new Intent(SellerLogin.this, SellerVerficiation.class));
+//
+//                                    }
 
 
                                 } else {
@@ -189,7 +200,7 @@ public class SellerLogin extends AppCompatActivity {
                     if (model != null) {
                         SharedPrefs.setHalfKgRate(model.getHalfKg());
                         SharedPrefs.setOneKgRate(model.getOneKg());
-                        launchHomeScreen();
+//                        launchHomeScreen();
                     }
                 }
             }
@@ -202,26 +213,6 @@ public class SellerLogin extends AppCompatActivity {
 
     }
 
-//    private void getLocationObjectFromDb(String id) {
-//        mDatabase.child("Settings").child("DeliveryCharges").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.getValue() != null) {
-//                    LocationAndChargesModel model = dataSnapshot.getValue(LocationAndChargesModel.class);
-//                    if (model != null) {
-//                        SharedPrefs.setExchangeRate(model.getCurrencyRate() + "");
-//                        launchHomeScreen();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//    }
 
     private void launchHomeScreen() {
         prefManager.setIsFirstTimeLaunchWelcome(false);

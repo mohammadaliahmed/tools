@@ -191,7 +191,7 @@ public class SellerChats extends AppCompatActivity implements NotificationObserv
 
 
                                     NotificationAsync notificationAsync = new NotificationAsync(SellerChats.this);
-                                    String NotificationTitle = "New message from " + SharedPrefs.getUsername();
+                                    String NotificationTitle = "New message from " + SharedPrefs.getVendor().getStoreName();
                                     String NotificationMessage = "Message: " + msg;
                                     notificationAsync.execute("ali", adminFcmKey, NotificationTitle, NotificationMessage, "SellerChat", key);
 

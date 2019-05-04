@@ -56,7 +56,7 @@ public class Login extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.BLACK);
+            window.setStatusBarColor(Color.TRANSPARENT);
         }
 
         register = findViewById(R.id.register);
@@ -147,6 +147,7 @@ public class Login extends AppCompatActivity {
                             Customer user = dataSnapshot.child("" + username).getValue(Customer.class);
                             if (user != null) {
                                 if (user.getPassword().equals(password)) {
+                                    SharedPrefs.setCustomerModel(user);
                                     SharedPrefs.setUsername(user.getUsername());
                                     SharedPrefs.setName(user.getName());
                                     SharedPrefs.setCity(user.getCity());
@@ -156,9 +157,18 @@ public class Login extends AppCompatActivity {
                                     SharedPrefs.setExchangeRate(user.getCurrencyRate() + "");
                                     SharedPrefs.setLocationId(user.getLocationId());
                                     SharedPrefs.setCountry(user.getCountry());
-                                    setUserData(user.getCountry(),user.getProvince(), user.getCity());
+                                    setUserData(user.getCountry(), user.getProvince(), user.getCity());
                                     SharedPrefs.setUserType("buy");
-
+                                    launchHomeScreen();
+//                                    if (user.isCodeVerified()) {
+//
+//
+//                                        launchHomeScreen();
+//
+//                                    } else {
+//                                        startActivity(new Intent(Login.this, CustomerVerficiation.class));
+//
+//                                    }
 
                                 } else {
                                     CommonUtils.showToast("Wrong password\nPlease try again");
@@ -187,15 +197,15 @@ public class Login extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    CountryModel countr=dataSnapshot.child("Countries").child(country).getValue(CountryModel.class);
-                    if(countr!=null){
-                        SharedPrefs.setExchangeRate(""+countr.getCurrencyRate());
+                    CountryModel countr = dataSnapshot.child("Countries").child(country).getValue(CountryModel.class);
+                    if (countr != null) {
+                        SharedPrefs.setExchangeRate("" + countr.getCurrencyRate());
                     }
                     CityDeliveryChargesModel model = dataSnapshot.child("Cities").child(province).child(city).getValue(CityDeliveryChargesModel.class);
                     if (model != null) {
                         SharedPrefs.setHalfKgRate(model.getHalfKg());
                         SharedPrefs.setOneKgRate(model.getOneKg());
-                        launchHomeScreen();
+//                        launchHomeScreen();
                     }
                 }
             }

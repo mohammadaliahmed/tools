@@ -1,6 +1,7 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -17,13 +19,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.ApplicationClass;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
 import com.appsinventiv.toolsbazzar.Seller.SellerLogin;
 import com.appsinventiv.toolsbazzar.Seller.SellerMainActivity;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
@@ -44,8 +50,20 @@ public class Welcome extends AppCompatActivity {
     String userType = "";
     private PrefManager prefManager;
     int flag;
+    public static String country, language;
 
+    LinearLayout selectCountry;
+    public TextView countryChosen;
     int pageNumber = 0;
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (countryChosen != null)
+            countryChosen.setText(country == null ? "Select your country and language" : country);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -64,7 +82,7 @@ public class Welcome extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.BLACK);
+            window.setStatusBarColor(Color.TRANSPARENT);
         }
         Intent i = getIntent();
         flag = i.getIntExtra("flag", 0);
@@ -85,6 +103,7 @@ public class Welcome extends AppCompatActivity {
                     R.layout.welcome_slide1,
                     R.layout.welcome_slide2,
                     R.layout.welcome_slide3,
+                    R.layout.welcome_slide_country,
                     R.layout.welcome_buy_sell,
                     R.layout.welcome_slide4
             };
@@ -98,13 +117,17 @@ public class Welcome extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                launchHomeScreen();
-                int current = getItem(-1);
+                int current;
+                if (country.contains("Lanka")) {
+                    current = getItem(-1);
+                } else {
+                    current = getItem(-2);
+                }
                 if (current < layouts.length) {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-//                    launchHomeScreen();
+
                 }
             }
         });
@@ -124,6 +147,31 @@ public class Welcome extends AppCompatActivity {
                     }
                 } else {
                     if (pageNumber == 3) {
+                        if (country == null && language == null) {
+                            CommonUtils.showToast("Select country and language");
+
+                        } else if (country != null && language == null) {
+                            CommonUtils.showToast("Select language");
+
+                        } else if (country == null && language != null) {
+                            CommonUtils.showToast("Select country");
+
+                        } else {
+                            int current;
+                            if (country.contains("Lanka")) {
+                                current = getItem(+1);
+
+                            } else {
+                                userType = "buy";
+                                current = getItem(+2);
+                            }
+                            if (current < layouts.length) {
+                                // move to next screen
+                                viewPager.setCurrentItem(current);
+                            }
+
+                        }
+                    } else if (pageNumber == 4) {
                         if (userType.equalsIgnoreCase("")) {
                             CommonUtils.showToast("Please select your type");
                         } else {
@@ -133,7 +181,7 @@ public class Welcome extends AppCompatActivity {
                                 viewPager.setCurrentItem(current);
                             }
                         }
-                    } else if (pageNumber == 4) {
+                    } else if (pageNumber == 5) {
                         if (userType.equalsIgnoreCase("sell")) {
                             launchSellerHomeScreen();
                         } else if (userType.equalsIgnoreCase("buy")) {
@@ -188,11 +236,11 @@ public class Welcome extends AppCompatActivity {
             pageNumber = position;
             // changing the next button text 'NEXT' / 'GOT IT'
             pageNumber = position;
-            if (position == 3) {
+            if (position == 4) {
 
                 // last page. make button text to GOT IT
                 btnNext.setText("GOT IT");
-            } else if (position == 4) {
+            } else if (position == 5) {
                 // still pages are left
                 if (userType.equalsIgnoreCase("buy")) {
                     if (buy_layout != null) {
@@ -232,6 +280,35 @@ public class Welcome extends AppCompatActivity {
         @Override
         public void onPageScrollStateChanged(int pos) {
             if (pageNumber == 3) {
+
+                if (country == null && language == null) {
+                    CommonUtils.showToast("Select country and language");
+                    viewPager.setOnTouchListener(new View.OnTouchListener() {
+
+                        public boolean onTouch(View arg0, MotionEvent arg1) {
+                            return true;
+                        }
+                    });
+                } else if (country != null && language == null) {
+                    CommonUtils.showToast("Select language");
+                    viewPager.setOnTouchListener(new View.OnTouchListener() {
+
+                        public boolean onTouch(View arg0, MotionEvent arg1) {
+                            return true;
+                        }
+                    });
+                } else if (country == null && language != null) {
+                    CommonUtils.showToast("Select country");
+                    viewPager.setOnTouchListener(new View.OnTouchListener() {
+
+                        public boolean onTouch(View arg0, MotionEvent arg1) {
+                            return true;
+                        }
+                    });
+                } else {
+//                    viewPager.setOnTouchListener(null);
+                }
+            } else if (pageNumber == 4) {
                 if (userType.equalsIgnoreCase("")) {
                     CommonUtils.showToast("Please select your type");
                     viewPager.setOnTouchListener(new View.OnTouchListener() {
@@ -241,7 +318,7 @@ public class Welcome extends AppCompatActivity {
                         }
                     });
                 } else {
-                    viewPager.setOnTouchListener(null);
+//                    viewPager.setOnTouchListener(null);
                 }
             } else {
             }
@@ -262,7 +339,18 @@ public class Welcome extends AppCompatActivity {
             container.addView(view);
             buy_layout = view.findViewById(R.id.buy_layout);
             sell_layout = view.findViewById(R.id.sell_layout);
+            selectCountry = view.findViewById(R.id.selectCountry);
+            countryChosen = view.findViewById(R.id.countryChosen);
             if (position == 3) {
+                selectCountry.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+//                        CommonUtils.showToast("clicked");
+                        showAlert();
+                    }
+                });
+            }
+            if (position == 4) {
                 buy_layout = view.findViewById(R.id.buy_layout);
                 sell_layout = view.findViewById(R.id.sell_layout);
                 sw_buy = view.findViewById(R.id.buy);
@@ -299,42 +387,42 @@ public class Welcome extends AppCompatActivity {
                         }
                     }
                 });
-            } else if (position == 4) {
+            } else if (position == 5) {
                 buy_layout = view.findViewById(R.id.buy_layout);
                 sell_layout = view.findViewById(R.id.sell_layout);
 //                if (userType.equalsIgnoreCase("buy")) {
 
 
-                    sw_retail = view.findViewById(R.id.retail);
-                    sw_retail.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                            if (b) {
-                                sw_wholesale.setChecked(false);
-                                customerType = "retail";
-                                SharedPrefs.setCustomerType(customerType);
-                            } else {
-                                sw_wholesale.setChecked(true);
+                sw_retail = view.findViewById(R.id.retail);
+                sw_retail.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (b) {
+                            sw_wholesale.setChecked(false);
+                            customerType = "retail";
+                            SharedPrefs.setCustomerType(customerType);
+                        } else {
+                            sw_wholesale.setChecked(true);
 
-                            }
                         }
-                    });
-                    sw_wholesale = view.findViewById(R.id.wholesale);
-                    sw_wholesale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                            if (b) {
-                                sw_retail.setChecked(false);
-                                customerType = "wholesale";
-                                SharedPrefs.setCustomerType(customerType);
-                            } else {
-                                sw_retail.setChecked(true);
-                            }
+                    }
+                });
+                sw_wholesale = view.findViewById(R.id.wholesale);
+                sw_wholesale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (b) {
+                            sw_retail.setChecked(false);
+                            customerType = "wholesale";
+                            SharedPrefs.setCustomerType(customerType);
+                        } else {
+                            sw_retail.setChecked(true);
                         }
-                    });
-                } else if (userType.equalsIgnoreCase("sell")) {
+                    }
+                });
+            } else if (userType.equalsIgnoreCase("sell")) {
 
-                }
+            }
 //                if (userType.equalsIgnoreCase("buy")) {
 //                    if(buy_layout!=null){
 //                        buy_layout.setVisibility(View.VISIBLE);
@@ -377,5 +465,42 @@ public class Welcome extends AppCompatActivity {
             View view = (View) object;
             container.removeView(view);
         }
+    }
+
+    private void showAlert() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(Welcome.this);
+        builderSingle.setTitle("Select country and language");
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Welcome.this, android.R.layout.simple_list_item_1);
+        arrayAdapter.add("Select country");
+        arrayAdapter.add("Select language");
+
+
+        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    Intent i = new Intent(Welcome.this, ChooseCountry.class);
+                    i.putExtra("from", 1);
+                    startActivity(i);
+
+                } else if (which == 1) {
+
+                    Intent i = new Intent(Welcome.this, ChooseLanguage.class);
+                    startActivity(i);
+                }
+
+            }
+        });
+        builderSingle.show();
+
+
     }
 }

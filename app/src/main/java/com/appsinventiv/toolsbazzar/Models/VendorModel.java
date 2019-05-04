@@ -12,15 +12,18 @@ public class VendorModel {
     String locationId;
     String currencySymbol;
     Float currencyRate;
-    String province;
+    String province,district;
     boolean status;
     String bankAccount;
     String paypalId;
+    int code;
+    boolean codeVerified;
 
     public VendorModel(String vendorId, String vendorName, String username, String email, String password,
                        String phone, String telNumber, String address, String city, String country, String fcmKey,
                        long time, String customerType, String storeName, String businessRegistrationNumber,
-                       String locationId, String currencySymbol, Float currencyRate, String province,boolean status) {
+                       String locationId, String currencySymbol, Float currencyRate, String province,
+                       String district,boolean status,int code,boolean codeVerified) {
         this.vendorId = vendorId;
         this.vendorName = vendorName;
         this.username = username;
@@ -41,6 +44,34 @@ public class VendorModel {
         this.currencyRate = currencyRate;
         this.province = province;
         this.status=status;
+        this.district=district;
+        this.code=code;
+        this.codeVerified=codeVerified;
+
+    }
+
+    public boolean isCodeVerified() {
+        return codeVerified;
+    }
+
+    public void setCodeVerified(boolean codeVerified) {
+        this.codeVerified = codeVerified;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public String getBankAccount() {

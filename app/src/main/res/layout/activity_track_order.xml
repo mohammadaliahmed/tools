@@ -80,9 +80,10 @@
                 <ImageView
                     android:id="@+id/trackImage2"
                     android:layout_width="match_parent"
+                    android:scaleType="fitStart"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp" />
+                     />
             </LinearLayout>
 
 
