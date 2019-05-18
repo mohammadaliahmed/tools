@@ -113,12 +113,14 @@
             android:name=".Activities.ViewPictures"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".Activities.Whishlist" />
+        <activity android:name=".Activities.RecentlyViewed.RecentViewedActivity" />
         <activity
             android:name=".Activities.TrackOrder"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.ProductComments" />
         <activity android:name=".Activities.SizeChart" />
         <activity android:name=".Activities.No_Internet" />
+        <activity android:name=".ListOfStrores.StoresList" />
         <activity android:name=".Activities.ChooseLanguage" />
         <activity android:name=".Activities.AccountIsDisabled" />
         <activity android:name=".Activities.ChooseCountry" />
@@ -141,6 +143,12 @@
         <activity
             android:name=".Seller.SellerRegister"
             android:theme="@style/AppTheme.NoActionBar1" />
+        <activity
+            android:name=".Seller.SellerScreen"
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity
+            android:name=".Customer.CustomerScreen"
+            android:theme="@style/AppTheme.NoActionBar2" />
         <activity
             android:name=".Seller.SellerMainActivity"
             android:label="@string/title_activity_seller_main"

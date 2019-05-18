@@ -146,6 +146,8 @@ public class SellerLogin extends AppCompatActivity {
                             VendorModel user = dataSnapshot.child("" + username).getValue(VendorModel.class);
                             if (user != null) {
                                 if (user.getPassword().equals(password)) {
+                                    SharedPrefs.setOneKgRate("1");
+                                    SharedPrefs.setHalfKgRate("1");
                                     SharedPrefs.setVendorModel(user);
                                     SharedPrefs.setUsername(user.getUsername());
                                     SharedPrefs.setName(user.getVendorName());

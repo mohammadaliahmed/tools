@@ -744,6 +744,7 @@ public class TopSellerFragment extends Fragment {
         getProductsFromDB();
         getUserCartProductsFromDB();
         getUserWishList();
+
     }
 
 

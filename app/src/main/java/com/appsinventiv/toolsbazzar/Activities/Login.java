@@ -147,6 +147,8 @@ public class Login extends AppCompatActivity {
                             Customer user = dataSnapshot.child("" + username).getValue(Customer.class);
                             if (user != null) {
                                 if (user.getPassword().equals(password)) {
+                                    SharedPrefs.setOneKgRate("1");
+                                    SharedPrefs.setHalfKgRate("1");
                                     SharedPrefs.setCustomerModel(user);
                                     SharedPrefs.setUsername(user.getUsername());
                                     SharedPrefs.setName(user.getName());

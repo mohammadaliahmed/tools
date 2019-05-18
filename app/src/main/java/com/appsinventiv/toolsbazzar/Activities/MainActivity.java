@@ -1,6 +1,7 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -36,6 +37,7 @@ import com.appsinventiv.toolsbazzar.Adapters.MainSliderAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.WithoutPic2ProductAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.WithoutPic3ProductAdapter;
 import com.appsinventiv.toolsbazzar.ApplicationClass;
+import com.appsinventiv.toolsbazzar.Customer.CustomerScreen;
 import com.appsinventiv.toolsbazzar.Models.AdminModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.MainCategoryModel;
@@ -53,6 +55,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -87,6 +90,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        String languageToLoad  = "es"; // your language
+//        Locale locale = new Locale(languageToLoad);
+//        Locale.setDefault(locale);
+//        Configuration config = new Configuration();
+//        config.locale = locale;
+//        getBaseContext().getResources().updateConfiguration(config,
+//                getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_main);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -146,7 +156,7 @@ public class MainActivity extends AppCompatActivity
         ic_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, MyProfile.class);
+                Intent i = new Intent(MainActivity.this, CustomerScreen.class);
                 startActivity(i);
             }
         });
@@ -604,7 +614,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.profile) {
-            Intent i = new Intent(MainActivity.this, MyProfile.class);
+            Intent i = new Intent(MainActivity.this, CustomerScreen.class);
             startActivity(i);
         } else if (id == R.id.orders) {
             Intent i = new Intent(MainActivity.this, MyOrders.class);

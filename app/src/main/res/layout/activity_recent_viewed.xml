@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+
+    tools:context="com.appsinventiv.toolsbazzar.Activities.Whishlist">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/wholeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/wish_list" />
+
+        <TextView
+            android:id="@+id/whishlistText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img"
+            android:gravity="center"
+            android:text="Add to Recent List"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/awein"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/whishlistText"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Dear customer now you can add your favorite \nproducts in to your wish list"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/startShopping"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/awein"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/btn_bg_yellow"
+            android:inputType="text"
+            android:text="Start Shopping"
+            android:textColor="#fff" />
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -29,6 +29,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ChooseCountry extends AppCompatActivity {
     ListOfCountriesAdapter adapter;
@@ -87,6 +89,16 @@ public class ChooseCountry extends AppCompatActivity {
                             }
                         }
                     }
+                    Collections.sort(countriesList, new Comparator<CountryModel>() {
+                        @Override
+                        public int compare(CountryModel listData, CountryModel t1) {
+                            String ob1 = listData.getCountryName();
+                            String ob2 = t1.getCountryName();
+
+                            return ob1.compareTo(ob2);
+
+                        }
+                    });
                     adapter.updateList(countriesList);
                     adapter.notifyDataSetChanged();
                 }

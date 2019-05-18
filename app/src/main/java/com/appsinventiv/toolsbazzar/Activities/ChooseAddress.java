@@ -38,7 +38,7 @@ public class ChooseAddress extends AppCompatActivity {
     int count = 1;
     boolean countryType;
     String abc;
-
+    CityDeliveryChargesModel perKgCharges;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +88,10 @@ public class ChooseAddress extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    CityDeliveryChargesModel model = dataSnapshot.getValue(CityDeliveryChargesModel.class);
-                    if (model != null) {
-                        SharedPrefs.setHalfKgRate(model.getHalfKg());
-                        SharedPrefs.setOneKgRate(model.getOneKg());
+                    perKgCharges = dataSnapshot.getValue(CityDeliveryChargesModel.class);
+                    if (perKgCharges != null) {
+                        SharedPrefs.setHalfKgRate(perKgCharges.getHalfKg());
+                        SharedPrefs.setOneKgRate(perKgCharges.getOneKg());
                         setData();
 
                     }
@@ -107,12 +107,18 @@ public class ChooseAddress extends AppCompatActivity {
     }
 
     private void setData() {
+        if (perKgCharges == null) {
+            SharedPrefs.setOneKgRate("1");
+            SharedPrefs.setHalfKgRate("1");
+        }
+
         Register.country = country;
         Register.province = abc;
         Register.city = city;
         Register.district = province;
 
         MyProfile.country = country;
+        MyProfile.countryType = countryType;
         MyProfile.province = abc;
         MyProfile.city = city;
         MyProfile.district = province;
@@ -127,6 +133,7 @@ public class ChooseAddress extends AppCompatActivity {
         SellerProfile.province = abc;
         SellerProfile.city = city;
         SellerProfile.district = province;
+
 
         ChooseCountry.activity.finish();
         finish();
@@ -169,7 +176,7 @@ public class ChooseAddress extends AppCompatActivity {
                     }
                     progress.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
-                }else{
+                } else {
                     setData();
                 }
             }
@@ -182,7 +189,7 @@ public class ChooseAddress extends AppCompatActivity {
     }
 
     private void getProvincesFromDb(String value) {
-        mDatabase.child("Settings").child("Locations").child("Countries").child( "international")
+        mDatabase.child("Settings").child("Locations").child("Countries").child(countryType ? "international" : "local")
                 .child(value).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

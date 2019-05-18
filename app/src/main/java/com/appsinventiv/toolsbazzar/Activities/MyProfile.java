@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.appsinventiv.toolsbazzar.Models.CityDeliveryChargesModel;
 import com.appsinventiv.toolsbazzar.Models.CountryModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.LocationAndChargesModel;
@@ -34,6 +35,8 @@ public class MyProfile extends AppCompatActivity {
     TextView nameof, customertype;
     CountryModel chargesModel;
     public static String province = "", district = "", city = "", country = "", locationId = "";
+    public static boolean countryType;
+    CityDeliveryChargesModel perKgRates;
 
     @Override
     protected void onResume() {
@@ -95,6 +98,8 @@ public class MyProfile extends AppCompatActivity {
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("country").setValue(country);
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("province").setValue(province);
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("district").setValue(district);
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("oneKg").setValue((perKgRates.getOneKg() == null ? 1 : perKgRates.getOneKg()));
+                    mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("halfKg").setValue((perKgRates.getHalfKg() == null ? 1 : perKgRates.getHalfKg()));
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("currencySymbol").setValue(chargesModel.getCurrencySymbol());
                     mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("currencyRate").setValue(chargesModel.getCurrencyRate());
 
@@ -162,11 +167,33 @@ public class MyProfile extends AppCompatActivity {
 //    }
 
     private void getShippingDetailsFromDB(String country) {
-        mDatabase.child("Settings").child("Locations").child("Countries").child(country).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Settings").child("Locations").child("Countries").child(countryType ? "international" : "local")
+                .child(country).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     chargesModel = dataSnapshot.getValue(CountryModel.class);
+                    getPerKgRatesFrom();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getPerKgRatesFrom() {
+        mDatabase.child("Settings").child("Locations").child("Cities").child(district).child(city).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    perKgRates = dataSnapshot.getValue(CityDeliveryChargesModel.class);
+                    if (perKgRates != null) {
+                        SharedPrefs.setOneKgRate(perKgRates.getOneKg());
+                        SharedPrefs.setHalfKgRate(perKgRates.getHalfKg());
+                    }
                 }
             }
 

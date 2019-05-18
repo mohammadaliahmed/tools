@@ -1,5 +1,8 @@
 package com.appsinventiv.toolsbazzar.Models;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Created by AliAh on 23/08/2018.
  */
@@ -18,6 +21,28 @@ public class VendorModel {
     String paypalId;
     int code;
     boolean codeVerified;
+    HashMap<String,String> products;
+
+    String picUrl;
+    int followersCount;
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
+    }
+
+    public ArrayList<String> getProductsimages() {
+        return productsimages;
+    }
+
+    public void setProductsimages(ArrayList<String> productsimages) {
+        this.productsimages = productsimages;
+    }
+
+    ArrayList<String> productsimages;
 
     public VendorModel(String vendorId, String vendorName, String username, String email, String password,
                        String phone, String telNumber, String address, String city, String country, String fcmKey,
@@ -48,6 +73,22 @@ public class VendorModel {
         this.code=code;
         this.codeVerified=codeVerified;
 
+    }
+
+    public int getFollowersCount() {
+        return followersCount;
+    }
+
+    public void setFollowersCount(int followersCount) {
+        this.followersCount = followersCount;
+    }
+
+    public HashMap<String, String> getProducts() {
+        return products;
+    }
+
+    public void setProducts(HashMap<String, String> products) {
+        this.products = products;
     }
 
     public boolean isCodeVerified() {

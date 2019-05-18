@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.ChooseAddress;
 import com.appsinventiv.toolsbazzar.Activities.ChooseCountry;
+import com.appsinventiv.toolsbazzar.Activities.MyProfile;
 import com.appsinventiv.toolsbazzar.Models.CountryModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.R;

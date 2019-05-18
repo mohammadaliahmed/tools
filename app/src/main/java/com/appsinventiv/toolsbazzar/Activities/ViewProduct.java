@@ -1,7 +1,6 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
@@ -9,11 +8,9 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -29,6 +26,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsinventiv.toolsbazzar.Activities.RecentlyViewed.RecentlyViewedModel;
 import com.appsinventiv.toolsbazzar.Adapters.RelatedProductsAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.SliderAdapter;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
@@ -361,7 +359,12 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         sliderAdapter = new SliderAdapter(ViewProduct.this, picUrls, 1);
         mViewPager.setAdapter(sliderAdapter);
         dotsIndicator.setViewPager(mViewPager);
+        addToRecentlyViewed(productId);
 
+    }
+
+    private void addToRecentlyViewed(String productId) {
+        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("recentlyViewed").child(productId).setValue(new RecentlyViewedModel(productId, System.currentTimeMillis()));
     }
 
     private void showColorBottomDialog(final Product product, final int quantity) {
@@ -898,7 +901,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                         getProductsFromDB(product.getCategory().get(0));
 
                         getUserCartProductsFromDB();
-                        if (product.getUploadedBy()!=null && product.getUploadedBy().equalsIgnoreCase("seller")) {
+                        if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
                             getVendorDetailsFromDB();
                         }
                         setUpAddToCartButton();

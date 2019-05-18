@@ -308,6 +308,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                     )).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("products").child(productId).setValue(productId);
                             int count = 0;
                             NotificationAsync notificationAsync = new NotificationAsync(SellerAddProduct.this);
                             String NotificationTitle = "New product uploaded by " + SharedPrefs.getUsername();

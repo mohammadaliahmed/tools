@@ -39,6 +39,7 @@ public class MyOrders extends AppCompatActivity {
     ProgressBar progress;
     Button shopping;
     RelativeLayout wholeLayout;
+    String orderStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,9 @@ public class MyOrders extends AppCompatActivity {
                 finish();
             }
         });
+
+        orderStatus = getIntent().getStringExtra("orderStatus");
+        this.setTitle((orderStatus!=null?orderStatus+" Orders":"My Orders"));
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerView = findViewById(R.id.recycler);
@@ -136,9 +140,7 @@ public class MyOrders extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(MyOrders.this, MainActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
+
         finish();
     }
 
@@ -151,7 +153,11 @@ public class MyOrders extends AppCompatActivity {
                     if (model != null) {
                         wholeLayout.setVisibility(View.GONE);
                         progress.setVisibility(View.GONE);
-                        orderModelArrayList.add(model);
+                        if (orderStatus == null) {
+                            orderModelArrayList.add(model);
+                        } else if (model.getOrderStatus().contains(orderStatus)) {
+                            orderModelArrayList.add(model);
+                        }
                         adapter.notifyDataSetChanged();
                         Collections.sort(orderModelArrayList, new Comparator<OrderModel>() {
                             @Override
@@ -184,10 +190,6 @@ public class MyOrders extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (item.getItemId() == android.R.id.home) {
-
-            Intent i = new Intent(MyOrders.this, MainActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(i);
             finish();
         }
 
