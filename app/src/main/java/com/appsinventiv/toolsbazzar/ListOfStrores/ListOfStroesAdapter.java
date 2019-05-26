@@ -71,8 +71,10 @@ public class ListOfStroesAdapter extends RecyclerView.Adapter<ListOfStroesAdapte
         StorePicsAdapter adapter = new StorePicsAdapter(context, model.getPictures(), model.getSeller().getUsername());
         holder.recyler.setLayoutManager(new GridLayoutManager(context, 3));
         holder.recyler.setAdapter(adapter);
-        Glide.with(context).load(model.getSeller().getPicUrl()).into(holder.storeImg);
+        if (model.getSeller().getPicUrl() != null) {
+            Glide.with(context).load(model.getSeller().getPicUrl()).into(holder.storeImg);
 
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

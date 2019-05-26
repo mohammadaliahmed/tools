@@ -37,6 +37,7 @@ import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.ChatModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
+import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
@@ -56,6 +57,8 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SellerViewProduct extends AppCompatActivity implements View.OnClickListener {
     String text;
@@ -105,7 +108,8 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
     RelativeLayout relativeLayout1;
     CardView gotoStore;
     private TextView storeName;
-
+    CircleImageView gotoSstore;
+    private VendorModel vendorModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +136,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
             getDataFromServer(productId);
         }
 
+        gotoSstore = findViewById(R.id.gotoSstore);
         gotoStore = findViewById(R.id.gotoStore);
         storeName = findViewById(R.id.storeName);
 
@@ -386,6 +391,28 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         initializeColorButtons(product, colors);
 
         bottomDialog.show();
+    }
+    private void getVendorDetailsFromDB() {
+        mDatabase.child("Sellers").child(product.getVendor().getVendorId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    vendorModel = dataSnapshot.getValue(VendorModel.class);
+                    if (vendorModel != null) {
+                        if(vendorModel.getPicUrl()!=null) {
+                            Glide.with(SellerViewProduct.this).load(vendorModel.getPicUrl()).into(gotoSstore);
+                        }
+                        SharedPrefs.setVendorModel(vendorModel);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void showSizeBottomDialog(final Product product, final int quantity) {
@@ -808,7 +835,14 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
                         }
 
 //                        if(product.getqua)
+                        if (product.getVendor().getUsername().equalsIgnoreCase(SharedPrefs.getVendor().getUsername())) {
+                            relativeLayout1.setVisibility(View.GONE);
+                        }
 
+
+                        if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
+                            getVendorDetailsFromDB();
+                        }
 
                         rating.setRating(product.getRating());
                         oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -1430,10 +1464,15 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         }
 
         if (id == R.id.action_edit) {
+            if (product.getVendor().getUsername().equalsIgnoreCase(SharedPrefs.getVendor().getUsername())) {
+//                relativeLayout1.setVisibility(View.GONE);
+                CommonUtils.showToast("Not your product");
 
-            Intent i = new Intent(SellerViewProduct.this, EditProduct.class);
-            i.putExtra("productId", product.getId());
-            startActivity(i);
+            } else {
+                Intent i = new Intent(SellerViewProduct.this, EditProduct.class);
+                i.putExtra("productId", product.getId());
+                startActivity(i);
+            }
 
 
             return true;
@@ -1445,36 +1484,6 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_seller_view_product, menu);
 
-//        menuItem = menu.findItem(R.id.action_cart);
-
-//        View actionView = MenuItemCompat.getActionView(menuItem);
-//        textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
-//
-//
-//        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                cartItemCountFromDb = dataSnapshot.getChildrenCount();
-//                textCartItemCount.setText("" + cartItemCountFromDb);
-//                SharedPrefs.setCartCount("" + cartItemCountFromDb);
-//                if (dataSnapshot.getChildrenCount() == 0) {
-//                    SharedPrefs.setCartCount("0");
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//        actionView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onOptionsItemSelected(menuItem);
-//            }
-//        });
 
 
         return true;

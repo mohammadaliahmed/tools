@@ -19,6 +19,7 @@ import com.appsinventiv.toolsbazzar.Adapters.CommentsAdapter;
 import com.appsinventiv.toolsbazzar.Interface.NotificationObserver;
 import com.appsinventiv.toolsbazzar.Models.CommentsModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
+import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
@@ -121,7 +122,29 @@ public class ProductComments extends AppCompatActivity implements NotificationOb
 
 
                         }
+                        if(product.getUploadedBy()!=null && product.getUploadedBy().equalsIgnoreCase("seller")) {
+                            getVendorDetailsFromDB(product.getVendor().getUsername());
+                        }
 
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getVendorDetailsFromDB(String username) {
+        mDatabase.child("Sellers").child(username).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    VendorModel model = dataSnapshot.getValue(VendorModel.class);
+                    if (model != null) {
+                        adapter.setVendor(model);
                     }
                 }
             }

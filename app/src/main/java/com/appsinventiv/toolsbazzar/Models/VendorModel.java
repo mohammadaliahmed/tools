@@ -24,7 +24,19 @@ public class VendorModel {
     HashMap<String,String> products;
 
     String picUrl;
+    String storeCover;
     int followersCount;
+
+    boolean online;
+
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
 
     public String getPicUrl() {
         return picUrl;
@@ -73,6 +85,14 @@ public class VendorModel {
         this.code=code;
         this.codeVerified=codeVerified;
 
+    }
+
+    public String getStoreCover() {
+        return storeCover;
+    }
+
+    public void setStoreCover(String storeCover) {
+        this.storeCover = storeCover;
     }
 
     public int getFollowersCount() {

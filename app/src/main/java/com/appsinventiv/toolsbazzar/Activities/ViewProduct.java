@@ -53,6 +53,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ViewProduct extends AppCompatActivity implements View.OnClickListener {
     String text;
     String productId;
@@ -100,6 +102,8 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     TextView productDetails;
     CardView gotoStore;
     private TextView storeName;
+    CircleImageView gotoSstore;
+    private VendorModel vendorModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +132,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 
 
         storeName = findViewById(R.id.storeName);
+        gotoSstore = findViewById(R.id.gotoSstore);
         gotoStore = findViewById(R.id.gotoStore);
         productDetails = findViewById(R.id.productDetails);
         heart_button = findViewById(R.id.heart_button);
@@ -845,6 +850,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                         if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
                             gotoStore.setVisibility(View.VISIBLE);
                             storeName.setText("Goto: " + product.getVendor().getStoreName());
+
                         } else {
                             gotoStore.setVisibility(View.GONE);
                         }
@@ -940,9 +946,12 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    VendorModel model = dataSnapshot.getValue(VendorModel.class);
-                    if (model != null) {
-                        SharedPrefs.setVendorModel(model);
+                     vendorModel = dataSnapshot.getValue(VendorModel.class);
+                    if (vendorModel != null) {
+                        if(vendorModel.getPicUrl()!=null) {
+                            Glide.with(ViewProduct.this).load(vendorModel.getPicUrl()).into(gotoSstore);
+                        }
+                        SharedPrefs.setVendorModel(vendorModel);
                     }
 
                 }

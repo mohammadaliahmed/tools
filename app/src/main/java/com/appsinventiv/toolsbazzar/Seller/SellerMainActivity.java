@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -60,6 +61,7 @@ import com.appsinventiv.toolsbazzar.Seller.SellerOrders.OrdersCourier;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -70,6 +72,7 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SellerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -151,7 +154,7 @@ public class SellerMainActivity extends AppCompatActivity
         ic_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SellerMainActivity.this, SellerProfile.class);
+                Intent i = new Intent(SellerMainActivity.this, SellerScreen.class);
                 startActivity(i);
             }
         });
@@ -341,7 +344,11 @@ public class SellerMainActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = (TextView) headerView.findViewById(R.id.name_drawer);
         TextView navSubtitle = (TextView) headerView.findViewById(R.id.customerType);
+        CircleImageView imageView = headerView.findViewById(R.id.profileimageView);
+        if(SharedPrefs.getVendor().getPicUrl()!=null) {
+            Glide.with(this).load(SharedPrefs.getVendor().getPicUrl()).into(imageView);
 
+        }
 
         chat = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.chat));
@@ -378,8 +385,31 @@ public class SellerMainActivity extends AppCompatActivity
 //                navSubtitle.setText("Retail");
 //            }
         }
+        getVendorDetailsFromDB();
 
 
+    }
+
+    private void getVendorDetailsFromDB() {
+        mDatabase.child("Sellers").child(SharedPrefs.getVendor().getUsername()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()!=null){
+                    VendorModel model=dataSnapshot.getValue(VendorModel.class);
+                    if(model!=null){
+                        SharedPrefs.setVendorModel(model);
+                        if(model.getPicUrl()!=null){
+
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
@@ -516,7 +546,7 @@ public class SellerMainActivity extends AppCompatActivity
 
         } else if (id == R.id.profile) {
 
-            Intent i = new Intent(SellerMainActivity.this, SellerProfile.class);
+            Intent i = new Intent(SellerMainActivity.this, SellerScreen.class);
             startActivity(i);
 
 

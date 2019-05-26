@@ -50,8 +50,8 @@ public class CompressImage {
 
 //      max Height and width values of the compressed image is taken as 816x612
 
-        float maxHeight = 1500.0f;
-        float maxWidth = 1300.0f;
+        float maxHeight = 1000.0f;
+        float maxWidth = 800.0f;
         float imgRatio = actualWidth / actualHeight;
         float maxRatio = maxWidth / maxHeight;
 
@@ -142,7 +142,7 @@ public class CompressImage {
             out = new FileOutputStream(filename);
 
 //          write the compressed bitmap at the destination specified by filename.
-            scaledBitmap.compress(Bitmap.CompressFormat.PNG, 80, out);
+            scaledBitmap.compress(Bitmap.CompressFormat.PNG, 60, out);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

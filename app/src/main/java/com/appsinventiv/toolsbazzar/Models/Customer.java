@@ -14,11 +14,11 @@ public class Customer {
     Float currencyRate;
     String province, district;
     boolean status;
-    boolean isOnline = false;
     int code;
     boolean codeVerified;
     String secondAddress;
 
+    boolean online;
     public Customer() {
     }
 
@@ -63,6 +63,14 @@ public class Customer {
         this.codeVerified = codeVerified;
     }
 
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
     public String getSecondAddress() {
         return secondAddress;
     }
@@ -91,13 +99,6 @@ public class Customer {
         return status;
     }
 
-    public boolean isOnline() {
-        return isOnline;
-    }
-
-    public void setOnline(boolean isOnline) {
-        this.isOnline = isOnline;
-    }
 
     public boolean isActive() {
         return status;

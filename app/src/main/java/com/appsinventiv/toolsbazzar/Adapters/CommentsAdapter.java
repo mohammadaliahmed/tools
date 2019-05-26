@@ -11,11 +11,15 @@ import android.widget.TextView;
 import com.appsinventiv.toolsbazzar.Models.ChatModel;
 import com.appsinventiv.toolsbazzar.Models.CommentsModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
+import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by AliAh on 06/11/2018.
@@ -27,6 +31,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     ArrayList<CommentsModel> arrayList;
     public int RIGHT_CHAT = 1;
     public int LEFT_CHAT = 0;
+
+    VendorModel vendor;
+
+    public void setVendor(VendorModel vendor) {
+        this.vendor = vendor;
+        notifyDataSetChanged();
+    }
 
     public CommentsAdapter(Context context, ArrayList<CommentsModel> arrayList) {
         this.context = context;
@@ -70,11 +81,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         CommentsModel model = arrayList.get(position);
         if (getItemViewType(position) == RIGHT_CHAT) {
             holder.name.setText(product.getVendor().getStoreName());
+            if (vendor != null && vendor.getPicUrl() != null) {
+                Glide.with(context).load(vendor.getPicUrl()).into(holder.pic);
+            }
         } else {
             holder.name.setText(model.getName());
         }
         holder.time.setText(CommonUtils.getFormattedDate(model.getTime()));
         holder.comment.setText(model.getCommentText());
+
     }
 
     @Override
@@ -84,12 +99,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, time, comment;
+        CircleImageView pic;
 
         public ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
             time = itemView.findViewById(R.id.time);
             comment = itemView.findViewById(R.id.comment);
+            pic = itemView.findViewById(R.id.pic);
         }
     }
 }

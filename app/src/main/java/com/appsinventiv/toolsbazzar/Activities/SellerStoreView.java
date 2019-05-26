@@ -24,8 +24,13 @@ import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.SellerListOfProducts;
+import com.appsinventiv.toolsbazzar.Seller.SellerScreen;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -39,12 +44,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class SellerStoreView extends AppCompatActivity {
     RecyclerView recyclerview;
     Button follow;
     TextView name;
     LinearLayout storeCover;
-    ImageView profilePic, back;
+    CircleImageView profilePic;
+    ImageView back;
     DatabaseReference mDatabase;
     SellerStoreProductsAdapter adapter;
     private ArrayList<Product> productArrayList = new ArrayList<>();
@@ -157,7 +165,26 @@ public class SellerStoreView extends AppCompatActivity {
                 if (dataSnapshot.getValue() != null) {
                     model = dataSnapshot.getValue(VendorModel.class);
                     if (model != null) {
+                        if (model.getUsername().equalsIgnoreCase(SharedPrefs.getVendor().getUsername())) {
+                            follow.setVisibility(View.GONE);
+                        } else {
+                            follow.setVisibility(View.VISIBLE);
+                        }
                         name.setText(model.getStoreName());
+                        if (model.getPicUrl() != null) {
+                            Glide.with(SellerStoreView.this).load(model.getPicUrl()).into(profilePic);
+
+                        }
+                        if (model.getStoreCover() != null) {
+                            Glide.with(SellerStoreView.this).load(model.getStoreCover()).into(new SimpleTarget<GlideDrawable>() {
+                                @Override
+                                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                        storeCover.setBackground(resource);
+                                    }
+                                }
+                            });
+                        }
                     }
                 }
             }

@@ -6,8 +6,8 @@
     android:background="@drawable/side_nav_bar_green"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileimageView"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="35dp"
@@ -17,7 +17,7 @@
     <TextView
         android:id="@+id/name_drawer"
         android:layout_width="wrap_content"
-        android:layout_below="@id/imageView"
+        android:layout_below="@id/profileimageView"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
@@ -31,7 +31,7 @@
 
         android:id="@+id/customerType"
         android:layout_width="wrap_content"
-        android:layout_below="@id/imageView"
+        android:layout_below="@id/profileimageView"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:text="Type"
