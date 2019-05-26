@@ -17,41 +17,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="97b9ab71-a53a-4bb0-94a6-64668fef1d0a" name="Default" comment="Better">
-      <change beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/jarAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskJars.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskJars.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/fileSnapshots.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/fileSnapshots.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ProductComments.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ProductComments.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/SellerStoreView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/SellerStoreView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ViewProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/ViewProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CommentsAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Adapters/CommentsAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/ListOfStrores/ListOfStroesAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/ListOfStrores/ListOfStroesAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/VendorModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Models/VendorModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Seller/SellerMainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Seller/SellerMainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Seller/SellerScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Seller/SellerScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Seller/SellerViewProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Seller/SellerViewProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Utils/CompressImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Utils/CompressImage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_seller_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_seller_screen.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_seller_store_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_seller_store_view.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_seller_view_product.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_seller_view_product.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_view_product.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_view_product.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/left_comments_item_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/left_comments_item_layout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/nav_header_seller_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/nav_header_seller_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/right_comments_item_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/right_comments_item_layout.xml" afterDir="false" />
-    </list>
+    <list default="true" id="97b9ab71-a53a-4bb0-94a6-64668fef1d0a" name="Default" comment="Better" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -73,11 +39,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SellerScreen.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SellerScreen.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Seller/SellerScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="90" column="13" selection-start-line="90" selection-start-column="13" selection-end-line="90" selection-end-column="13" />
+            <state relative-caret-position="391">
+              <caret line="104" column="38" lean-forward="true" selection-start-line="104" selection-start-column="38" selection-end-line="104" selection-end-column="38" />
               <folding>
                 <element signature="e#5059#5406#0" expanded="true" />
                 <element signature="e#5405#5406#0" expanded="true" />
@@ -86,6 +52,18 @@
                 <element signature="e#6269#6570#0" expanded="true" />
                 <element signature="e#6569#6570#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_seller_terms_and_conditions.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_seller_terms_and_conditions.xml">
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="92">
+              <caret line="81" selection-start-line="81" selection-end-line="81" />
             </state>
           </provider>
         </entry>
@@ -2016,7 +1994,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Seller/SellerLogin.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Customer/RecentlyViewedModel.java" />
@@ -2067,6 +2044,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Seller/SellerMainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_seller_screen.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Seller/SellerScreen.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_seller_terms_and_conditions.xml" />
       </list>
     </option>
   </component>
@@ -2320,7 +2298,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="7" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -2329,10 +2306,10 @@
       <window_info id="Build Variants" order="2" sideWeight="0.5027174" side_tool="true" weight="0.20574887" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.32843137" />
-      <window_info anchor="right" id="Preview" order="3" weight="0.32980332" />
+      <window_info anchor="right" id="Preview" order="3" visible="true" weight="0.32980332" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32843137" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32843137" />
       <window_info anchor="bottom" id="Logcat" order="7" weight="0.64215684" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
@@ -2526,13 +2503,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Activities/NewCart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-130">
-          <caret line="294" column="29" selection-start-line="294" selection-start-column="29" selection-end-line="294" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/firebase-database-11.0.4.aar/f41cb187da3ac7c153d968a77f2a08bc/jars/classes.jar!/com/google/firebase/database/zzp.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -2936,8 +2906,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/appsinventiv/toolsbazzar/Seller/SellerScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="90" column="13" selection-start-line="90" selection-start-column="13" selection-end-line="90" selection-end-column="13" />
+        <state relative-caret-position="391">
+          <caret line="104" column="38" lean-forward="true" selection-start-line="104" selection-start-column="38" selection-end-line="104" selection-end-column="38" />
           <folding>
             <element signature="e#5059#5406#0" expanded="true" />
             <element signature="e#5405#5406#0" expanded="true" />
@@ -2946,6 +2916,16 @@
             <element signature="e#6269#6570#0" expanded="true" />
             <element signature="e#6569#6570#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_seller_terms_and_conditions.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="81" selection-start-line="81" selection-end-line="81" />
         </state>
       </provider>
     </entry>
