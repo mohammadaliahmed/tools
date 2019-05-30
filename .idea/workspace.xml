@@ -2351,7 +2351,7 @@
       <window_info anchor="right" id="Preview" order="3" weight="0.32980332" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32843137" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32843137" />
       <window_info anchor="bottom" id="Logcat" order="7" sideWeight="0.49924356" weight="0.64215684" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
