@@ -4,78 +4,62 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="1dp">
+
     <TextView
-        android:layout_margin="10dp"
-        android:textStyle="bold"
-        android:text="Fort City Features"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Fort City Features"
+        android:textStyle="bold" />
 
-
-    <ImageView
-        android:layout_marginTop="35dp"
-        android:layout_marginBottom="10dp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_offering" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:weightSum="5">
 
-    <!--<ImageView-->
-    <!--android:layout_width="30dp"-->
-    <!--android:layout_marginTop="10dp"-->
-    <!--android:layout_marginLeft="10dp"-->
-    <!--android:src="@drawable/ic_return"-->
-    <!--android:layout_height="30dp" />-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:text="Return/Exchange"-->
-    <!--android:layout_marginTop="15dp"-->
-    <!--android:layout_marginLeft="50dp"-->
-    <!--android:layout_height="wrap_content" />-->
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:id="@+id/fPromo"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_promo_small" />
 
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:id="@+id/fEasy"
+            android:src="@drawable/ic_easy_small" />
 
-    <!--<ImageView-->
-    <!--android:layout_width="30dp"-->
-    <!--android:layout_marginTop="40dp"-->
-    <!--android:layout_marginLeft="10dp"-->
-    <!--android:src="@drawable/ic_cash_ond"-->
-    <!--android:layout_height="30dp" />-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:text="Cash On Delivery "-->
-    <!--android:layout_marginTop="45dp"-->
-    <!--android:layout_marginLeft="50dp"-->
-    <!--android:layout_height="wrap_content" />-->
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:id="@+id/fCash"
+            android:layout_weight="1"
+            android:src="@drawable/ic_cash_small" />
 
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:id="@+id/fOnline"
+            android:layout_weight="1"
+            android:src="@drawable/ic_online_small" />
 
-    <!--<ImageView-->
-    <!--android:layout_width="30dp"-->
-    <!--android:layout_marginTop="70dp"-->
-    <!--android:layout_marginLeft="10dp"-->
-    <!--android:src="@drawable/ic_onlie_pay"-->
-    <!--android:layout_height="30dp" />-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:text="Online Payments, Visa/ Debit/ Credit Cards"-->
-    <!--android:layout_marginTop="75dp"-->
-    <!--android:layout_marginBottom="10dp"-->
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:id="@+id/fPaypal"
+            android:src="@drawable/ic_paypal_small" />
 
-    <!--android:layout_marginLeft="50dp"-->
-    <!--android:layout_height="wrap_content" />-->
-
-    <!--<ImageView-->
-    <!--android:layout_width="30dp"-->
-    <!--android:layout_marginTop="100dp"-->
-    <!--android:layout_marginLeft="10dp"-->
-    <!--android:src="@drawable/ic_promo_code"-->
-    <!--android:layout_height="30dp" />-->
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:text="Promo Code Applicable"-->
-    <!--android:layout_marginTop="105dp"-->
-    <!--android:layout_marginBottom="10dp"-->
-
-    <!--android:layout_marginLeft="50dp"-->
-    <!--android:layout_height="wrap_content" />-->
+    </LinearLayout>
 
 
 </RelativeLayout>

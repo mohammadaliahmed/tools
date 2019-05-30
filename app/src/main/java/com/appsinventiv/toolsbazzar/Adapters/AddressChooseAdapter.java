@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.ChooseCategory;
+import com.appsinventiv.toolsbazzar.Models.CountryModel;
 import com.appsinventiv.toolsbazzar.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by AliAh on 27/11/2018.
@@ -23,12 +25,41 @@ public class AddressChooseAdapter extends RecyclerView.Adapter<AddressChooseAdap
     ArrayList<String> list;
     String key;
     WhichOption whichOption;
+    private ArrayList<String> arrayList;
 
-    public AddressChooseAdapter(Context context, ArrayList<String> list,String key, WhichOption whichOption) {
+
+    public AddressChooseAdapter(Context context, ArrayList<String> list, String key, WhichOption whichOption) {
         this.context = context;
         this.list = list;
-        this.key=key;
-        this.whichOption=whichOption;
+        this.key = key;
+        this.whichOption = whichOption;
+        this.arrayList = new ArrayList<>(list);
+
+    }
+
+    public void updateList(ArrayList<String> list) {
+        this.list = list;
+        arrayList.clear();
+        arrayList.addAll(list);
+    }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        list.clear();
+        if (charText.length() == 0) {
+            list.addAll(arrayList);
+        } else {
+            for (String text : arrayList) {
+                if (text.toLowerCase().contains(charText)
+                        ) {
+                    list.add(text);
+                }
+            }
+
+
+        }
+        notifyDataSetChanged();
+
     }
 
     @NonNull
@@ -47,7 +78,7 @@ public class AddressChooseAdapter extends RecyclerView.Adapter<AddressChooseAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               whichOption.option(key,title);
+                whichOption.option(key, title);
 
             }
         });
@@ -66,8 +97,9 @@ public class AddressChooseAdapter extends RecyclerView.Adapter<AddressChooseAdap
             title = itemView.findViewById(R.id.title);
         }
     }
-    public interface  WhichOption{
-        public void option(String key,String value);
+
+    public interface WhichOption {
+        public void option(String key, String value);
     }
 
 }

@@ -4,21 +4,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.appsinventiv.toolsbazzar.Activities.SellerStoreView;
-import com.appsinventiv.toolsbazzar.Activities.ViewProduct;
+import com.appsinventiv.toolsbazzar.Seller.SellerStore.SellerStoreView;
 import com.appsinventiv.toolsbazzar.R;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ListOfStroesAdapter extends RecyclerView.Adapter<ListOfStroesAdapter.ViewHolder> {
     Context context;
@@ -26,12 +26,14 @@ public class ListOfStroesAdapter extends RecyclerView.Adapter<ListOfStroesAdapte
     StoreCallbacks callbacks;
     ArrayList<String> userStores;
     boolean flag;
+    int[] colorList={R.color.lightPink,R.color.lightPurple,R.color.lightYellow,R.color.lightBlue,R.color.lightGreen};
 
     public ListOfStroesAdapter(Context context, ArrayList<StoreListModel> itemList, ArrayList<String> userStores, boolean flag) {
         this.context = context;
         this.itemList = itemList;
         this.userStores = userStores;
         this.flag = flag;
+
     }
 
     public void setCallbacks(StoreCallbacks callbacks) {
@@ -50,7 +52,9 @@ public class ListOfStroesAdapter extends RecyclerView.Adapter<ListOfStroesAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final StoreListModel model = itemList.get(position);
-
+        Random r=new Random();
+        int randomNumber=r.nextInt(colorList.length);
+        holder.linear.setBackgroundColor(context.getResources().getColor(colorList[randomNumber]));
 
         if (flag) {
             holder.unFollow.setVisibility(View.VISIBLE);
@@ -118,6 +122,7 @@ public class ListOfStroesAdapter extends RecyclerView.Adapter<ListOfStroesAdapte
         ImageView storeImg;
         Button follow, unFollow;
         RecyclerView recyler;
+        LinearLayout linear;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -127,6 +132,7 @@ public class ListOfStroesAdapter extends RecyclerView.Adapter<ListOfStroesAdapte
             storeImg = itemView.findViewById(R.id.storeImg);
             recyler = itemView.findViewById(R.id.recyler);
             unFollow = itemView.findViewById(R.id.unFollow);
+            linear = itemView.findViewById(R.id.linear);
         }
     }
 

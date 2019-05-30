@@ -15,13 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Adapters.ListOfCountriesAdapter;
+import com.appsinventiv.toolsbazzar.CountryCountry;
 import com.appsinventiv.toolsbazzar.Models.AboutUsModel;
 import com.appsinventiv.toolsbazzar.Models.CountryModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerChat.SellerChats;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +43,7 @@ public class ChooseCountry extends AppCompatActivity {
     ArrayList<CountryModel> countriesList = new ArrayList<>();
     public static Activity activity;
     int from;
+    Button cliclk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +58,25 @@ public class ChooseCountry extends AppCompatActivity {
             getSupportActionBar().setElevation(0);
         }
         recyclerView = findViewById(R.id.recyclerView);
+        cliclk = findViewById(R.id.cliclk);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+//        cliclk.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ArrayList<CountryCountry> item=new ArrayList<>();
+//                for(CountryModel model:countriesList){
+//                    item.add(new CountryCountry(model.getCountryName(),model.getImageUrl()));
+//                }
+//                mDatabase.child("newCountry").setValue(item).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//
+//                    }
+//                });
+//            }
+//        });
 
         adapter = new ListOfCountriesAdapter(this, countriesList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -64,6 +86,7 @@ public class ChooseCountry extends AppCompatActivity {
                 @Override
                 public void countryObject(CountryModel model) {
                     Welcome.country = model.getCountryName();
+                    SellerChats.country = model.getCountryName();
                     SharedPrefs.setCountryModel(model);
                     finish();
                 }
@@ -146,5 +169,6 @@ public class ChooseCountry extends AppCompatActivity {
         });
         return true;
     }
+
 
 }

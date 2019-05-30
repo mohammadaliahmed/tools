@@ -9,15 +9,15 @@
 
     <ImageView
         android:layout_width="30dp"
+        android:layout_margin="2dp"
         android:layout_height="30dp"
-        android:padding="5dp"
         android:src="@drawable/logo_small" />
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginRight="100dp"
         android:layout_marginBottom="5dp"
         android:background="@drawable/left_chat_bg"
@@ -32,7 +32,7 @@
             android:maxWidth="200dp"
             android:text=""
             android:textColor="#000"
-            android:textSize="12sp" />
+            />
 
         <TextView
             android:id="@+id/time"

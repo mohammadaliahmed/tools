@@ -294,7 +294,7 @@ public class SellerRegister extends AppCompatActivity {
     }
 
     private void getShippingDetailsFromDB(String country) {
-        mDatabase.child("Settings").child("Locations").child("Countries").child(country).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Settings").child("Locations").child("Countries").child("local").child(country).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {

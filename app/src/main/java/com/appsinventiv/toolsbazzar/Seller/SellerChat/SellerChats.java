@@ -34,6 +34,7 @@ import java.util.ArrayList;
 
 public class SellerChats extends AppCompatActivity implements NotificationObserver {
 
+    public static String country;
     DatabaseReference mDatabase;
     EditText message;
     ImageView send;

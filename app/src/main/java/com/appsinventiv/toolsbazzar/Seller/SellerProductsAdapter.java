@@ -34,7 +34,7 @@ public class SellerProductsAdapter extends RecyclerView.Adapter<SellerProductsAd
     Context context;
     ArrayList<Product> productList;
     private ArrayList<Product> arrayList = new ArrayList<>();
-
+    SellerProductsAdapterCallbacks callbacks;
 
     public SellerProductsAdapter(Context context,
                                  ArrayList<Product> productList
@@ -42,6 +42,10 @@ public class SellerProductsAdapter extends RecyclerView.Adapter<SellerProductsAd
         this.context = context;
         this.productList = productList;
 
+    }
+
+    public void setCallbacks(SellerProductsAdapterCallbacks callbacks) {
+        this.callbacks = callbacks;
     }
 
     @NonNull
@@ -96,6 +100,13 @@ public class SellerProductsAdapter extends RecyclerView.Adapter<SellerProductsAd
             }
         });
 
+        holder.count.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callbacks.onOptionClicked(model);
+            }
+        });
+
     }
 
     @Override
@@ -123,5 +134,8 @@ public class SellerProductsAdapter extends RecyclerView.Adapter<SellerProductsAd
             oldPrice = itemView.findViewById(R.id.oldPrice);
 
         }
+    }
+    public interface SellerProductsAdapterCallbacks{
+        public void onOptionClicked(Product product);
     }
 }

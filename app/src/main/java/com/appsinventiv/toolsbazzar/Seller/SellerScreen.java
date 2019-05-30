@@ -32,13 +32,18 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.AboutUs;
 import com.appsinventiv.toolsbazzar.Activities.AccountIsDisabled;
+import com.appsinventiv.toolsbazzar.Activities.ChooseCountry;
+import com.appsinventiv.toolsbazzar.Activities.ChooseLanguage;
 import com.appsinventiv.toolsbazzar.Activities.ChooseMainCategory;
+import com.appsinventiv.toolsbazzar.Activities.ListOfProducts;
 import com.appsinventiv.toolsbazzar.Activities.Login;
+import com.appsinventiv.toolsbazzar.Activities.MyOrders;
 import com.appsinventiv.toolsbazzar.Activities.NewCart;
 import com.appsinventiv.toolsbazzar.Activities.Search;
 import com.appsinventiv.toolsbazzar.Activities.Splash;
@@ -47,8 +52,10 @@ import com.appsinventiv.toolsbazzar.Activities.Whishlist;
 import com.appsinventiv.toolsbazzar.Adapters.MainSliderAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.SellerFragmentAdapter;
 import com.appsinventiv.toolsbazzar.Models.AdminModel;
+import com.appsinventiv.toolsbazzar.Models.CompanyDetailsModel;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.Reviews.SellerProductReviews;
 import com.appsinventiv.toolsbazzar.Seller.Sales.SellerSales;
 import com.appsinventiv.toolsbazzar.Seller.SellerChat.SellerChats;
 import com.appsinventiv.toolsbazzar.Seller.SellerOrders.Orders;
@@ -86,6 +93,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SellerScreen extends AppCompatActivity {
     private static final int REQUEST_CODE_CHOOSE = 24;
     private static final int REQUEST_CODE_CHOOSE_COVER = 25;
+    public static String language;
     Toolbar toolbar;
     ImageView back;
     ImageView storeCover;
@@ -98,11 +106,14 @@ public class SellerScreen extends AppCompatActivity {
 
     ArrayList<String> imageUrl1 = new ArrayList<>();
     ArrayList<String> imageUrl2 = new ArrayList<>();
-    Button update;
     TextView name;
 
     DatabaseReference mDatabase;
-    RelativeLayout wholeLayout,orders;
+    RelativeLayout myOrders;
+    ProgressBar coverProgress, picProgress;
+    LinearLayout addProducts, myProducts, mySales;
+    RelativeLayout accountSettings, bankAccount, selectCountry, selectLanguage, myReviews, otherStores, contactUs, aboutUs, termsConditions;
+    TextView address;
 
 
     @Override
@@ -110,33 +121,155 @@ public class SellerScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_screen);
 
+        accountSettings = findViewById(R.id.accountSettings);
+        bankAccount = findViewById(R.id.bankAccount);
+        selectCountry = findViewById(R.id.selectCountry);
+        selectLanguage = findViewById(R.id.selectLanguage);
+        myReviews = findViewById(R.id.myReviews);
+        otherStores = findViewById(R.id.otherStores);
+        contactUs = findViewById(R.id.contactUs);
+        aboutUs = findViewById(R.id.aboutUs);
+        termsConditions = findViewById(R.id.termsConditions);
+        address = findViewById(R.id.address);
+
+        mySales = findViewById(R.id.mySales);
+        myProducts = findViewById(R.id.myProducts);
+        addProducts = findViewById(R.id.addProducts);
         back = findViewById(R.id.back);
         changeCover = findViewById(R.id.changeCover);
         pickProfilePic = findViewById(R.id.pickProfilePic);
         profilePic = findViewById(R.id.profilePic);
         storeCover = findViewById(R.id.storeCover);
-        wholeLayout = findViewById(R.id.wholeLayout);
+        coverProgress = findViewById(R.id.coverProgress);
+        picProgress = findViewById(R.id.picProgress);
         name = findViewById(R.id.name);
-        orders = findViewById(R.id.orders);
-        update = findViewById(R.id.update);
+        myOrders = findViewById(R.id.myOrders);
         transparentToolbar();
         getPermissions();
-        update.setOnClickListener(new View.OnClickListener() {
+
+        accountSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (imageUrl1.size() > 0) {
-                    putProfilePic(imageUrl1.get(0));
-                }
-                if (imageUrl2.size() > 0) {
-                    putCoverPic(imageUrl2.get(0));
-                }
+
+                startActivity(new Intent(SellerScreen.this, SellerProfile.class));
+
+            }
+        });
+        bankAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(SellerScreen.this, SellerAddBankAccount.class));
+
+            }
+        });
+        selectCountry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SellerScreen.this, ChooseCountry.class);
+                i.putExtra("from", 1);
+                startActivity(i);
+
+            }
+        });
+        selectLanguage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(SellerScreen.this, ChooseLanguage.class);
+                startActivity(i);
+
+            }
+        });
+        otherStores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
             }
         });
 
-        orders.setOnClickListener(new View.OnClickListener() {
+
+        myReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SellerScreen.this,Orders.class));
+               startActivity(new Intent(SellerScreen.this, SellerProductReviews.class));
+
+            }
+        });
+        otherStores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(SellerScreen.this, ListOfOtherStores.class));
+            }
+        });
+
+
+        contactUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "+94 775292313"));
+                startActivity(i);
+
+            }
+        });
+
+
+        aboutUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(SellerScreen.this, AboutUs.class));
+
+
+            }
+        });
+
+
+        termsConditions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SellerScreen.this, SellerTermsAndConditions.class));
+
+            }
+        });
+        address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+            }
+        });
+
+
+        mySales.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SellerScreen.this, SellerSales.class));
+
+            }
+        });
+        myProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SellerScreen.this, SellerListOfProducts.class));
+
+            }
+        });
+        addProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SellerScreen.this, SellerAddProduct.class));
+
+            }
+        });
+
+
+        myOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SellerScreen.this, Orders.class));
             }
         });
 
@@ -172,7 +305,7 @@ public class SellerScreen extends AppCompatActivity {
         });
 
         getVendorDataFromDB();
-
+        getAddressFromDb();
     }
 
     private void getVendorDataFromDB() {
@@ -180,23 +313,44 @@ public class SellerScreen extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    wholeLayout.setVisibility(View.GONE);
                     VendorModel model = dataSnapshot.getValue(VendorModel.class);
                     if (model != null) {
+                        coverProgress.setVisibility(View.GONE);
+                        picProgress.setVisibility(View.GONE);
+
                         name.setText(model.getStoreName());
                         if (model.getPicUrl() != null) {
-                            Glide.with(SellerScreen.this).load(model.getPicUrl()).into(profilePic);
+                            try {
+                                Glide.with(SellerScreen.this).load(model.getPicUrl()).into(profilePic);
+                                picProgress.setVisibility(View.GONE);
+                            } catch (IllegalArgumentException e) {
+                                e.printStackTrace();
+                            } finally {
+                                picProgress.setVisibility(View.GONE);
+                            }
 
                         }
                         if (model.getStoreCover() != null) {
-                            Glide.with(SellerScreen.this).load(model.getStoreCover()).into(new SimpleTarget<GlideDrawable>() {
-                                @Override
-                                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                        storeCover.setBackground(resource);
+                            try {
+                                Glide.with(SellerScreen.this).load(model.getPicUrl()).into(profilePic);
+                                picProgress.setVisibility(View.GONE);
+
+
+                                Glide.with(SellerScreen.this).load(model.getStoreCover()).into(new SimpleTarget<GlideDrawable>() {
+                                    @Override
+                                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                            storeCover.setBackground(resource);
+                                            coverProgress.setVisibility(View.GONE);
+
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            } catch (IllegalArgumentException e) {
+                                e.printStackTrace();
+                            } finally {
+                                picProgress.setVisibility(View.GONE);
+                            }
                         }
                     }
                 }
@@ -239,29 +393,30 @@ public class SellerScreen extends AppCompatActivity {
         if (data != null) {
             if (requestCode == REQUEST_CODE_CHOOSE) {
                 mSelected1 = Matisse.obtainResult(data);
-                Glide.with(SellerScreen.this).load(mSelected1.get(0)).into(profilePic);
+//                Glide.with(SellerScreen.this).load(mSelected1.get(0)).into(profilePic);
                 for (Uri img : mSelected1) {
                     CompressImage compressImage = new CompressImage(SellerScreen.this);
                     imageUrl1.add(compressImage.compressImage("" + img));
                 }
+                putProfilePic(imageUrl1.get(0));
 
             }
             if (requestCode == REQUEST_CODE_CHOOSE_COVER) {
-                mSelected2 = Matisse.obtainResult(data);
 
-                Glide.with(SellerScreen.this).load(mSelected2.get(0)).into(new SimpleTarget<GlideDrawable>() {
-                    @Override
-                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                            storeCover.setBackground(resource);
-                        }
-                    }
-                });
+//                Glide.with(SellerScreen.this).load(mSelected2.get(0)).into(new SimpleTarget<GlideDrawable>() {
+//                    @Override
+//                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//                            storeCover.setBackground(resource);
+//                        }
+//                    }
+//                });
                 mSelected2 = Matisse.obtainResult(data);
                 for (Uri img : mSelected2) {
                     CompressImage compressImage = new CompressImage(SellerScreen.this);
                     imageUrl2.add(compressImage.compressImage("" + img));
                 }
+                putCoverPic(imageUrl2.get(0));
 
             }
         }
@@ -270,7 +425,7 @@ public class SellerScreen extends AppCompatActivity {
     }
 
     public void putProfilePic(String path) {
-        wholeLayout.setVisibility(View.VISIBLE);
+        profilePic.setVisibility(View.VISIBLE);
         String imgName = Long.toHexString(Double.doubleToLongBits(Math.random()));
 
         Uri file = Uri.fromFile(new File(path));
@@ -291,7 +446,7 @@ public class SellerScreen extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 CommonUtils.showToast("Profile pic changed successfully");
-                                wholeLayout.setVisibility(View.GONE);
+                                profilePic.setVisibility(View.GONE);
                             }
                         });
 
@@ -313,7 +468,7 @@ public class SellerScreen extends AppCompatActivity {
 
 
     public void putCoverPic(String path) {
-        wholeLayout.setVisibility(View.VISIBLE);
+        storeCover.setVisibility(View.VISIBLE);
         String imgName = Long.toHexString(Double.doubleToLongBits(Math.random()));
 
         Uri file = Uri.fromFile(new File(path));
@@ -334,7 +489,7 @@ public class SellerScreen extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 CommonUtils.showToast("Cover changed successfully");
-                                wholeLayout.setVisibility(View.GONE);
+                                storeCover.setVisibility(View.GONE);
                             }
                         });
 
@@ -413,6 +568,23 @@ public class SellerScreen extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    private void getAddressFromDb() {
+        mDatabase.child("Settings").child("CompanyDetails").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    CompanyDetailsModel model = dataSnapshot.getValue(CompanyDetailsModel.class);
+                    address.setText(model.getAddress() + " " + model.getPhone() + " " + model.getEmail());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

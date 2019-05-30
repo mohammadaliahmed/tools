@@ -7,6 +7,7 @@
     <color name="colorWhite">#fff</color>
     <color name="colorGreen">#00CC00</color>
     <color name="colorGreenDark">#018c01</color>
+    <color name="colorBlue">#00B0F0</color>
     <color name="colorRed">#ff0000</color>
 
     <color name="default_grey">#dadada</color>
@@ -17,10 +18,21 @@
     <color name="abc">#FD8C8E</color>
 
 
+
     <color name="default_back">#000000</color>
     <color name="default_grey_text">#2d2d2d</color>
 
     <color name="black_overlay">#66000000</color>
+
+
+
+
+    <color name="lightPink">#ffeded</color>
+    <color name="lightPurple">#fff9eb</color>
+    <color name="lightYellow">#fffad6</color>
+    <color name="lightBlue">#eef0ff</color>
+    <color name="lightGreen">#edffed</color>
+
 
 
 

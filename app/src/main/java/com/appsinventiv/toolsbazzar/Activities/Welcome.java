@@ -52,17 +52,18 @@ public class Welcome extends AppCompatActivity {
     int flag;
     public static String country, language;
 
-    LinearLayout selectCountry;
-    public TextView countryChosen;
+    RelativeLayout selectCountry, selectLanguage;
+    public TextView countryChosen,languageChosen;
     int pageNumber = 0;
 
 
     @Override
     protected void onResume() {
         super.onResume();
+        if(countryChosen!=null){
+            countryChosen.setText(country==null?"Select country":country);
+        }
 
-        if (countryChosen != null)
-            countryChosen.setText(country == null ? "Select your country and language" : country);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -113,6 +114,8 @@ public class Welcome extends AppCompatActivity {
         dotsIndicator.setViewPager(viewPager);
         viewPager.setOffscreenPageLimit(10);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
+        viewPager.setSaveFromParentEnabled(false);
+
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -340,13 +343,25 @@ public class Welcome extends AppCompatActivity {
             buy_layout = view.findViewById(R.id.buy_layout);
             sell_layout = view.findViewById(R.id.sell_layout);
             selectCountry = view.findViewById(R.id.selectCountry);
+            selectLanguage = view.findViewById(R.id.selectLanguage);
             countryChosen = view.findViewById(R.id.countryChosen);
+            languageChosen = view.findViewById(R.id.languageChosen);
             if (position == 3) {
                 selectCountry.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        CommonUtils.showToast("clicked");
-                        showAlert();
+
+                        Intent i = new Intent(Welcome.this, ChooseCountry.class);
+                        i.putExtra("from", 1);
+                        startActivity(i);
+                    }
+                });
+                selectLanguage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent i = new Intent(Welcome.this, ChooseLanguage.class);
+                        startActivity(i);
                     }
                 });
             }
@@ -467,40 +482,5 @@ public class Welcome extends AppCompatActivity {
         }
     }
 
-    private void showAlert() {
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(Welcome.this);
-        builderSingle.setTitle("Select country and language");
 
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(Welcome.this, android.R.layout.simple_list_item_1);
-        arrayAdapter.add("Select country");
-        arrayAdapter.add("Select language");
-
-
-        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
-                    Intent i = new Intent(Welcome.this, ChooseCountry.class);
-                    i.putExtra("from", 1);
-                    startActivity(i);
-
-                } else if (which == 1) {
-
-                    Intent i = new Intent(Welcome.this, ChooseLanguage.class);
-                    startActivity(i);
-                }
-
-            }
-        });
-        builderSingle.show();
-
-
-    }
 }

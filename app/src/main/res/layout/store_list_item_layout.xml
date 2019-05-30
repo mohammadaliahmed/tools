@@ -8,8 +8,8 @@
     app:cardElevation="0dp">
 
     <LinearLayout
+        android:id="@+id/linear"
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -35,47 +35,48 @@
                 android:textColor="#000" />
 
             <TextView
+                android:id="@+id/followerCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/storeName"
-                android:id="@+id/followerCount"
                 android:layout_marginLeft="90dp"
                 android:text="12.6k"
                 android:textSize="12sp" />
 
             <Button
+                android:id="@+id/follow"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:visibility="visible"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
-                android:id="@+id/follow"
                 android:background="@color/colorPrimary"
                 android:inputType="text"
                 android:text="Follow"
-                android:textColor="#fff" />
+                android:textColor="#fff"
+                android:visibility="visible" />
+
             <Button
+                android:id="@+id/unFollow"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
-                android:id="@+id/unFollow"
                 android:background="#ff0000"
-                android:visibility="gone"
                 android:inputType="text"
                 android:text="Unfollow"
-                android:textColor="#fff" />
+                android:textColor="#fff"
+                android:visibility="gone" />
 
         </RelativeLayout>
+
         <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
             android:id="@+id/recyler"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         </android.support.v7.widget.RecyclerView>
-
 
 
     </LinearLayout>

@@ -36,7 +36,7 @@
             android:name=".Activities.Register"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activities.Splash"
             android:screenOrientation="portrait"
@@ -142,7 +142,8 @@
             android:theme="@style/AppTheme.NoActionBar1" />
         <activity
             android:name=".Seller.SellerRegister"
-            android:theme="@style/AppTheme.NoActionBar1" />
+            android:theme="@style/AppTheme.NoActionBar1"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".Seller.SellerScreen"
             android:theme="@style/AppTheme.NoActionBar2" />
@@ -192,14 +193,26 @@
             android:name=".Seller.Sales.SellerSales"
             android:theme="@style/AppThemeGreen" />
         <activity
+            android:name=".Seller.SellerAddBankAccount"
+            android:theme="@style/AppThemeGreen"
+            android:windowSoftInputMode="stateHidden"/> <activity
+            android:name=".Seller.Reviews.SellerProductReviews"
+            android:theme="@style/AppThemeGreen"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".Seller.ListOfOtherStores"
+            android:theme="@style/AppThemeGreen"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
             android:name=".Seller.SellerProfile"
-            android:theme="@style/AppThemeGreen" />
+            android:theme="@style/AppThemeGreen"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".Seller.SellerChat.SellerChats"
             android:theme="@style/AppThemeGreen" />
         <activity android:name=".Activities.ViewOrderStatus" />
         <activity
-            android:name=".Activities.SellerStoreView"
+            android:name=".Seller.SellerStore.SellerStoreView"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

@@ -13,8 +13,11 @@ import com.appsinventiv.toolsbazzar.Models.ChatModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by AliAh on 24/06/2018.
@@ -51,6 +54,15 @@ public class SellerChatAdapter extends RecyclerView.Adapter<SellerChatAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChatModel model = chatList.get(position);
         holder.msgtext.setText(model.getText());
+
+        if (SharedPrefs.getVendor().getPicUrl() != null) {
+            try {
+                Glide.with(context).load(SharedPrefs.getVendor().getPicUrl()).placeholder(R.drawable.ic_profile).into(holder.profilePic);
+            }catch (IllegalArgumentException e){
+                e.printStackTrace();
+            }
+        }
+
         holder.time.setText("" + CommonUtils.getFormattedDate(model.getTime()));
         if (model.getStatus().equals("sent")) {
             holder.status.setImageResource(R.drawable.ic_sent);
@@ -83,12 +95,14 @@ public class SellerChatAdapter extends RecyclerView.Adapter<SellerChatAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView msgtext, time;
         ImageView status;
+        CircleImageView profilePic;
 
         public ViewHolder(View itemView) {
             super(itemView);
             msgtext = itemView.findViewById(R.id.msgtext);
             time = itemView.findViewById(R.id.time);
             status = itemView.findViewById(R.id.status);
+            profilePic = itemView.findViewById(R.id.profilePic);
         }
     }
 }

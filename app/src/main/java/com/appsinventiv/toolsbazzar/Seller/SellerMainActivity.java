@@ -96,6 +96,8 @@ public class SellerMainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         fab = findViewById(R.id.fab);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,17 +124,17 @@ public class SellerMainActivity extends AppCompatActivity
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
         dots_indicator = findViewById(R.id.dots_indicator);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        if (SharedPrefs.getIsLoggedIn().equals("yes")) {
-            mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("fcmKey").setValue(SharedPrefs.getFcmKey());
+        if (SharedPrefs.getVendor().getUsername()!=null) {
+            mDatabase.child("Sellers").child(SharedPrefs.getVendor().getUsername()).child("fcmKey").setValue(SharedPrefs.getFcmKey());
         }
         this.setTitle("My Store View");
-//        getUserAccountStatusFromDB();
         initTabsView();
         getBannerImagesFromDb();
         initViewPager();
         initDrawer();
         getAdminDetails();
+        getUserAccountStatusFromDB();
+
     }
 
     private void setupSubmenu() {
@@ -147,7 +149,7 @@ public class SellerMainActivity extends AppCompatActivity
 
                 Intent i = new Intent(SellerMainActivity.this, SellerChats.class);
                 startActivity(i);
-                
+
 
             }
         });
@@ -176,7 +178,6 @@ public class SellerMainActivity extends AppCompatActivity
 
 
 
-
     }
 
     private void getAdminDetails() {
@@ -201,21 +202,13 @@ public class SellerMainActivity extends AppCompatActivity
     }
 
     private void getUserAccountStatusFromDB() {
-        mDatabase.child("Sellers").child(SharedPrefs.getVendor().getUsername()).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Sellers").child(SharedPrefs.getVendor().getUsername()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    VendorModel customer = dataSnapshot.getValue(VendorModel.class);
-                    if (customer != null) {
-                        if (!customer.isActive()) {
-//                            SharedPrefs.setAccountStatus("false");
-                            CommonUtils.showToast("Your account is disabled");
-                            Intent i = new Intent(SellerMainActivity.this, AccountIsDisabled.class);
-                            startActivity(i);
-//                            System.exit(0);
-                        } else {
-//                            SharedPrefs.setAccountStatus("true");
-                        }
+                    VendorModel vendor = dataSnapshot.getValue(VendorModel.class);
+                    if (vendor != null) {
+                        SharedPrefs.setVendorModel(vendor);
                     }
                 }
             }
@@ -345,7 +338,7 @@ public class SellerMainActivity extends AppCompatActivity
         TextView navUsername = (TextView) headerView.findViewById(R.id.name_drawer);
         TextView navSubtitle = (TextView) headerView.findViewById(R.id.customerType);
         CircleImageView imageView = headerView.findViewById(R.id.profileimageView);
-        if(SharedPrefs.getVendor().getPicUrl()!=null) {
+        if (SharedPrefs.getVendor().getPicUrl() != null) {
             Glide.with(this).load(SharedPrefs.getVendor().getPicUrl()).into(imageView);
 
         }
@@ -394,11 +387,11 @@ public class SellerMainActivity extends AppCompatActivity
         mDatabase.child("Sellers").child(SharedPrefs.getVendor().getUsername()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue()!=null){
-                    VendorModel model=dataSnapshot.getValue(VendorModel.class);
-                    if(model!=null){
+                if (dataSnapshot.getValue() != null) {
+                    VendorModel model = dataSnapshot.getValue(VendorModel.class);
+                    if (model != null) {
                         SharedPrefs.setVendorModel(model);
-                        if(model.getPicUrl()!=null){
+                        if (model.getPicUrl() != null) {
 
                         }
                     }

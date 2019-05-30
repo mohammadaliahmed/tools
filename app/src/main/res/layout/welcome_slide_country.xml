@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
->
+    android:background="#000">
 
 
     <ImageView
@@ -33,13 +33,14 @@
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 
-    <LinearLayout
+
+    <RelativeLayout
         android:id="@+id/selectCountry"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="120dp"
         android:background="@drawable/btn_bg_white"
         android:orientation="horizontal">
 
@@ -50,19 +51,58 @@
             android:src="@drawable/ic_world" />
 
         <TextView
+            android:id="@+id/countryChosen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:id="@+id/countryChosen"
-            android:text="Select your country and language" />
+            android:layout_centerInParent="true"
+            android:text="Select your country " />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@drawable/ic_arrow_view" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/selectLanguage"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/btn_bg_white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_lang" />
+
+        <TextView
+            android:id="@+id/languageChosen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="Select yourlanguage" />
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
             android:padding="5dp"
+            android:layout_alignParentRight="true"
             android:src="@drawable/ic_arrow_view" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

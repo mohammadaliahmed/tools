@@ -30,11 +30,14 @@ import com.appsinventiv.toolsbazzar.Activities.RecentlyViewed.RecentlyViewedMode
 import com.appsinventiv.toolsbazzar.Adapters.RelatedProductsAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.SliderAdapter;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
+import com.appsinventiv.toolsbazzar.Models.FortcityFeaturesModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerStore.SellerStoreView;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.appsinventiv.toolsbazzar.Utils.CustomBottomDialog;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.bumptech.glide.Glide;
 import com.github.javiersantos.bottomdialogs.BottomDialog;
@@ -104,6 +107,8 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     private TextView storeName;
     CircleImageView gotoSstore;
     private VendorModel vendorModel;
+    ImageView fPromo, fEasy, fCash, fOnline, fPaypal;
+    private FortcityFeaturesModel forCityFeatures;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +136,11 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         }
 
 
+        fPromo = findViewById(R.id.fPromo);
+        fCash = findViewById(R.id.fCash);
+        fOnline = findViewById(R.id.fOnline);
+        fEasy = findViewById(R.id.fEasy);
+        fPaypal = findViewById(R.id.fPaypal);
         storeName = findViewById(R.id.storeName);
         gotoSstore = findViewById(R.id.gotoSstore);
         gotoStore = findViewById(R.id.gotoStore);
@@ -169,6 +179,39 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             }
         });
 
+
+        fPromo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getPromoCode(), 1);
+            }
+        });
+        fEasy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getEasyCheckout(), 2);
+            }
+        });
+        fCash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getCashOnDelivery(), 3);
+            }
+        });
+        fOnline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getOnlinePayments(), 4);
+            }
+        });
+
+
+        fPaypal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getPaypalOptions(), 5);
+            }
+        });
         gotoStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -366,6 +409,25 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         dotsIndicator.setViewPager(mViewPager);
         addToRecentlyViewed(productId);
 
+
+        getForCitFeaturesFrom();
+
+    }
+
+    private void getForCitFeaturesFrom() {
+        mDatabase.child("Settings").child("FortCityFeatures").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    forCityFeatures = dataSnapshot.getValue(FortcityFeaturesModel.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void addToRecentlyViewed(String productId) {
@@ -847,14 +909,18 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 
 
                         }
-                        if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
-                            gotoStore.setVisibility(View.VISIBLE);
-                            storeName.setText("Goto: " + product.getVendor().getStoreName());
+                        if (product.getVendor() != null) {
 
+                            if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
+                                gotoStore.setVisibility(View.VISIBLE);
+                                storeName.setText("Goto: " + product.getVendor().getStoreName());
+
+                            } else {
+                                gotoStore.setVisibility(View.GONE);
+                            }
                         } else {
                             gotoStore.setVisibility(View.GONE);
                         }
-
                         String text1 = product.getBrandName() == null ? "Not available\n\n" : product.getBrandName() + "\n\n";
                         String text2 = product.getWarrantyType() == null ? "No Warranty\n\n" : product.getWarrantyType() + "\n\n";
                         String text3 = product.getDimen() == null ? "Not available\n\n" : product.getDimen() + "\n\n";
@@ -946,12 +1012,12 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                     vendorModel = dataSnapshot.getValue(VendorModel.class);
+                    vendorModel = dataSnapshot.getValue(VendorModel.class);
                     if (vendorModel != null) {
-                        if(vendorModel.getPicUrl()!=null) {
+                        if (vendorModel.getPicUrl() != null) {
                             Glide.with(ViewProduct.this).load(vendorModel.getPicUrl()).into(gotoSstore);
                         }
-                        SharedPrefs.setVendorModel(vendorModel);
+//                        SharedPrefs.setVendorModel(vendorModel);
                     }
 
                 }

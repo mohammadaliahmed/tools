@@ -19,6 +19,7 @@ import com.appsinventiv.toolsbazzar.Adapters.OrdersAdapter;
 import com.appsinventiv.toolsbazzar.Models.LanguageModel;
 import com.appsinventiv.toolsbazzar.Models.OrderModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerScreen;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -63,6 +64,7 @@ public class ChooseLanguage extends AppCompatActivity {
             @Override
             public void countryChosen(LanguageModel model) {
                 Welcome.language = model.getLanguageName();
+                SellerScreen.language = model.getLanguageName();
                 finish();
             }
         });

@@ -22,6 +22,7 @@ import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
+import com.appsinventiv.toolsbazzar.Seller.SellerViewProduct;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.NotificationAsync;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
@@ -51,6 +52,7 @@ public class ProductComments extends AppCompatActivity implements NotificationOb
     TextView title, price;
     CardView productLayout;
     private Product product;
+    String commentText=" ";
 
 
     @Override
@@ -76,10 +78,17 @@ public class ProductComments extends AppCompatActivity implements NotificationOb
         productLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProductComments.this, ViewProduct.class);
-                intent.putExtra("productId", productId);
-                startActivity(intent);
-                finish();
+                if(SharedPrefs.getVendor()!=null){
+                    Intent intent = new Intent(ProductComments.this, SellerViewProduct.class);
+                    intent.putExtra("productId", productId);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    Intent intent = new Intent(ProductComments.this, ViewProduct.class);
+                    intent.putExtra("productId", productId);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
         getProductFromDB();
@@ -122,8 +131,9 @@ public class ProductComments extends AppCompatActivity implements NotificationOb
 
 
                         }
-                        if(product.getUploadedBy()!=null && product.getUploadedBy().equalsIgnoreCase("seller")) {
-                            getVendorDetailsFromDB(product.getVendor().getUsername());
+                        if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
+                            if(product.getVendor()!=null)
+                                getVendorDetailsFromDB(product.getVendor().getUsername());
                         }
 
                     }
@@ -209,17 +219,21 @@ public class ProductComments extends AppCompatActivity implements NotificationOb
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        commentText=comment.getText().toString();
+                        comment.setText("");
 
                         NotificationAsync notificationAsync = new NotificationAsync(ProductComments.this);
                         String NotificationTitle = "New comment on " + product.getTitle() + " by " + SharedPrefs.getUsername();
-                        String NotificationMessage = "Comment: " + comment.getText().toString();
+                        String NotificationMessage = "Comment: " + commentText;
                         if (product.getUploadedBy().equalsIgnoreCase("seller")) {
+//                            if (SharedPrefs.getVendor().getUsername().equalsIgnoreCase(product.getUploadedBy())) {
+//
+//                            } else {
                             notificationAsync.execute("ali", SharedPrefs.getVendor().getFcmKey(), NotificationTitle, NotificationMessage, "NewComment", productId);
-
+//                            }
                         } else {
                             notificationAsync.execute("ali", SharedPrefs.getAdminFcmKey(), NotificationTitle, NotificationMessage, "NewComment", productId);
                         }
-                        comment.setText("");
                     }
                 });
     }
