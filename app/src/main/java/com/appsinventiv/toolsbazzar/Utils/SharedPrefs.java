@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -45,6 +46,22 @@ public class SharedPrefs {
         VendorModel vendorModel = gson.fromJson(json, VendorModel.class);
         return vendorModel;
     }
+
+
+    public static void setCommentsCount(HashMap<String,Double> model) {
+
+        Gson gson = new Gson();
+        String json = gson.toJson(model);
+        preferenceSetter("commentsCount", json);
+    }
+
+    public static HashMap<String,Double> getCommentsCount() {
+        Gson gson = new Gson();
+        HashMap<String,Double> map = gson.fromJson(preferenceGetter("commentsCount"), HashMap.class);
+        return map;
+    }
+
+
 
     public static void setCustomerModel(Customer model) {
 

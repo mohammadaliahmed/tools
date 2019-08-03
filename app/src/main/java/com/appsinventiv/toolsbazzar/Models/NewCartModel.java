@@ -9,13 +9,25 @@ public class NewCartModel {
     double deliveryCharges;
     double total;
     ArrayList<ProductCountModel> list;
+    VendorModel vendorModel;
 
-    public NewCartModel(String name, double shippingCharges, double deliveryCharges, double total, ArrayList<ProductCountModel> list) {
+    public NewCartModel(String name, double shippingCharges, double deliveryCharges, double total,
+                        ArrayList<ProductCountModel> list,
+                        VendorModel vendorModel) {
         this.name = name;
         this.shippingCharges = shippingCharges;
         this.deliveryCharges = deliveryCharges;
         this.total = total;
         this.list = list;
+        this.vendorModel = vendorModel;
+    }
+
+    public VendorModel getVendorModel() {
+        return vendorModel;
+    }
+
+    public void setVendorModel(VendorModel vendorModel) {
+        this.vendorModel = vendorModel;
     }
 
     public double getTotal() {

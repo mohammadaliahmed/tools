@@ -302,11 +302,11 @@ public class ViewOrder extends AppCompatActivity implements NotificationObserver
 //                            amount.setText("Amount: Rs " + CommonUtils.getFormattedPrice(model.getTotalPrice()));
 //                        }
 //
-//                        if (model.getCarrier() != null) {
-//                            courierReceiverName.setText(model.getReceiverName());
-//                            courierName.setText(model.getCarrier());
-//                            trackingNumber.setText(model.getTrackingNumber() + "");
-//                        }
+                        if (model.getCarrier() != null) {
+                            courierReceiverName.setText(model.getReceiverName());
+                            courierName.setText(model.getCarrier());
+                            trackingNumber.setText(model.getTrackingNumber() + "");
+                        }
 
                         customer = model.getCustomer();
                         adapter = new OrderedProductsAdapter(ViewOrder.this, list, model.getCustomer().getCustomerType(), 0, new OrderedProductsAdapter.OnProductSelected() {

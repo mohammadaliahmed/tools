@@ -14,6 +14,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.appsinventiv.toolsbazzar.Models.OrderModel;
@@ -47,6 +48,7 @@ public class OrdersFragment extends Fragment {
     DatabaseReference mDatabase;
     String by;
     private SwipeToDeleteCallback swipeController;
+    ImageView img;
 
 
     public OrdersFragment() {
@@ -66,9 +68,9 @@ public class OrdersFragment extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        if (by.equalsIgnoreCase("courier")) {
-            orderStatus = orderStatus + " by courier";
-        }
+//        if (by.equalsIgnoreCase("courier")) {
+//            orderStatus = orderStatus + " by courier";
+//        }
 
     }
 
@@ -79,6 +81,7 @@ public class OrdersFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_orders, container, false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_orders);
         progress = rootView.findViewById(R.id.progress);
+        img = rootView.findViewById(R.id.img);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new OrdersAdapter(context, arrayList, new OrdersAdapter.UpdateOrderStatus() {
@@ -120,7 +123,6 @@ public class OrdersFragment extends Fragment {
             });
 
         }
-
 
 
         return rootView;
@@ -233,6 +235,8 @@ public class OrdersFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        adapter.setResetCheckBoxes();
+
                     }
                 });
 
@@ -252,6 +256,7 @@ public class OrdersFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
+                    img.setVisibility(View.GONE);
                     arrayList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         getOrdersFromDB(snapshot.getKey());
@@ -260,6 +265,7 @@ public class OrdersFragment extends Fragment {
                 } else {
                     arrayList.clear();
                     progress.setVisibility(View.GONE);
+//                    img.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -320,9 +326,14 @@ public class OrdersFragment extends Fragment {
                 if (dataSnapshot.getValue() != null) {
                     OrderModel model = dataSnapshot.getValue(OrderModel.class);
                     if (model != null) {
-                        if (model.getOrderStatus().equalsIgnoreCase(orderStatus)) {
+                        if (model.getOrderStatus().contains(orderStatus)) {
                             arrayList.add(model);
                         }
+                    }
+                    if (arrayList.size() < 1) {
+                        img.setVisibility(View.VISIBLE);
+                    } else {
+                        img.setVisibility(View.GONE);
                     }
                     adapter.notifyDataSetChanged();
                 }

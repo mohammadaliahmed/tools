@@ -28,8 +28,8 @@
                 android:title="My Orders" />
             <item
                 android:id="@+id/shipping"
-                android:icon="@drawable/cart_menu"
-                android:title="Shipping" />
+                android:icon="@drawable/ic_reviews"
+                android:title="My Reviews" />
             <item
                 android:id="@+id/sales"
                 android:icon="@drawable/ic_sales"

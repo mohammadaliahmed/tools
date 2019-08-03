@@ -87,12 +87,6 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
                 context.startActivity(i);
             }
         });
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                productStatusChanged.onDelete(model);
-            }
-        });
 
 
     }
@@ -143,7 +137,7 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, subtitle, wholesalePrice, retailPrice;
-        ImageView image, delete;
+        ImageView image;
 
         Switch switchh;
 
@@ -155,7 +149,6 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
             retailPrice = itemView.findViewById(R.id.retailPrice);
 
             image = itemView.findViewById(R.id.image);
-            delete = itemView.findViewById(R.id.delete);
 
             switchh = itemView.findViewById(R.id.switchh);
 

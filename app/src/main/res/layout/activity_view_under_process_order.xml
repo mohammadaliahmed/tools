@@ -184,6 +184,7 @@
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/shipping_card"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_margin="10dp"
@@ -412,11 +413,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|end"
-                    android:layout_margin="10dp"
                     android:id="@+id/selectAll"
                     android:layoutDirection="rtl"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="Select All" />
 
+                <TextView
+                    android:layout_gravity="right"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="Uncheck the Box if Item Is Out Of Stock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recylerview"
                     android:nestedScrollingEnabled="false"

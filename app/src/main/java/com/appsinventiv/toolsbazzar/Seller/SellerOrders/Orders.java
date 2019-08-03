@@ -12,6 +12,7 @@ import android.view.Window;
 
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.SellerMainActivity;
+import com.appsinventiv.toolsbazzar.Utils.SimpleFragmentPagerAdapter;
 
 import java.util.ArrayList;
 
@@ -34,14 +35,19 @@ public class Orders extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.viewpager);
         orderStatusList.add("Pending");
         orderStatusList.add("Under Process");
+
+
+        orderStatusList.add("Shipped");
+        orderStatusList.add("Delivered");
         orderStatusList.add("Cancelled");
-        OrdersFragmentAdapter adapter = new OrdersFragmentAdapter(this, orderStatusList, getSupportFragmentManager());
+        orderStatusList.add("Refused");
+        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(this, orderStatusList, getSupportFragmentManager(),"courier");
         viewPager.setAdapter(adapter);
 
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
 
     }

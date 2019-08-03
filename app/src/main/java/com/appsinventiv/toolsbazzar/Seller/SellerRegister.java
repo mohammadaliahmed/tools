@@ -318,11 +318,4 @@ public class SellerRegister extends AppCompatActivity {
         finish();
     }
 
-    private void startChatWithAdmin(String user) {
-        final String key = mDatabase.push().getKey();
-        mDatabase.child("Chats").child(user).child(key)
-                .setValue(new ChatModel(key, "I just registered on your app", user
-                        , System.currentTimeMillis(), "sent", user, SharedPrefs.getVendor().getStoreName()));
-    }
-
 }

@@ -58,6 +58,7 @@ public class SellerChats extends AppCompatActivity implements NotificationObserv
             getSupportActionBar().setElevation(0);
         }
 
+        SellerChats.this.setTitle("Customer Care");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         send = findViewById(R.id.send);
@@ -84,7 +85,6 @@ public class SellerChats extends AppCompatActivity implements NotificationObserv
                 if (dataSnapshot.getValue() != null) {
                     AdminModel model = dataSnapshot.getValue(AdminModel.class);
                     if (model != null) {
-                        SellerChats.this.setTitle(model.getId());
                         adminFcmKey = model.getFcmKey();
                     }
                 }
@@ -178,7 +178,7 @@ public class SellerChats extends AppCompatActivity implements NotificationObserv
                             .setValue(new ChatModel(key, msg, SharedPrefs.getUsername()
                                     , System.currentTimeMillis(), "sending", SharedPrefs.getUsername(),
 
-                                    SharedPrefs.getVendor().getStoreName()))
+                                    SharedPrefs.getVendor().getStoreName(), SharedPrefs.getVendor().getStoreName()))
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

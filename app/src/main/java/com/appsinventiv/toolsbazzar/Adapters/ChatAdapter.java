@@ -61,6 +61,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         } else if (model.getStatus().equals("read")) {
             holder.status.setImageResource(R.drawable.ic_read);
         }
+        if (model.getWhoReplied() != null) {
+            holder.whoReplied.setText(model.getWhoReplied() + ", Im your assistant");
+        } else {
+            holder.whoReplied.setText("");
+        }
 
     }
 
@@ -81,7 +86,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView msgtext, time;
+        TextView msgtext, time,whoReplied;
         ImageView status;
 
         public ViewHolder(View itemView) {
@@ -89,6 +94,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             msgtext = itemView.findViewById(R.id.msgtext);
             time = itemView.findViewById(R.id.time);
             status = itemView.findViewById(R.id.status);
+            whoReplied = itemView.findViewById(R.id.whoReplied);
+
         }
     }
 }

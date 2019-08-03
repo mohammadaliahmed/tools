@@ -110,46 +110,6 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
                     progress.setVisibility(View.VISIBLE);
                     if (customer != null) {
                         checkoutFromCart(current);
-//                        mDatabase.child("Orders").child("" + orderNumber)
-//                                .setValue(new OrderModel("" + orderNumber,
-//                                        customer,
-//                                        Cart.userCartProductList,
-//                                        Cart.grandTotalAmount,
-//                                        System.currentTimeMillis(),
-//                                        instructions.getText().toString() + " ",
-//                                        "23rd june",
-//                                        "33",
-//                                        "Pending",
-//                                        Float.parseFloat("" + Cart.shippingCharge),
-//                                        Float.parseFloat("" + Cart.deliveryCharge)
-//
-//                                )).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void aVoid) {
-//                                updateProductQuantityInDB(Cart.userCartProductList);
-//                                mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("Orders").child("" + orderNumber).setValue("" + orderNumber);
-//
-//                                mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                    @Override
-//                                    public void onSuccess(Void aVoid) {
-//
-//                                        NotificationAsync notificationAsync = new NotificationAsync(Checkout.this);
-//                                        String NotificationTitle = "New order from " + SharedPrefs.getUsername();
-//                                        String NotificationMessage = "Click to view ";
-//                                        notificationAsync.execute("ali", adminFcmKey, NotificationTitle, NotificationMessage, "Order", "1");
-//
-//                                        Intent i = new Intent(Checkout.this, OrderPlaced.class);
-//                                        startActivity(i);
-//                                        finish();
-//                                    }
-//                                });
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//
-//                            }
-//                        });
                     }
                 } else {
 
@@ -178,7 +138,8 @@ public class Checkout extends AppCompatActivity implements NotificationObserver 
                 "Pending",
                 Float.parseFloat("" + model.getShippingCharges()),
                 Float.parseFloat("" + model.getDeliveryCharges())
-                , model.getName().equalsIgnoreCase("Fort City") ? "admin" : "seller"
+                , model.getName().equalsIgnoreCase("Fort City") ? "admin" : "seller",
+                model.getVendorModel()
         );
         mDatabase.child("Orders").child("" + orderNumber).setValue(orderModel).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

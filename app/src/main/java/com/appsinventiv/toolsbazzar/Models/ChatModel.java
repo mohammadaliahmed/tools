@@ -8,9 +8,11 @@ public class ChatModel {
     String id,text,username,nameToShow;
     long time;
     String status,initiator;
+    String whoReplied;
 
 
-    public ChatModel(String id, String text, String username, long time, String status, String initiator,String nameToShow) {
+
+    public ChatModel(String id, String text, String username, long time, String status, String initiator,String nameToShow,String whoReplied) {
         this.id = id;
         this.text = text;
         this.username = username;
@@ -18,10 +20,19 @@ public class ChatModel {
         this.status = status;
         this.nameToShow = nameToShow;
         this.initiator = initiator;
+        this.whoReplied=whoReplied;
     }
 
 
     public ChatModel() {
+    }
+
+    public String getWhoReplied() {
+        return whoReplied;
+    }
+
+    public void setWhoReplied(String whoReplied) {
+        this.whoReplied = whoReplied;
     }
 
     public String getNameToShow() {

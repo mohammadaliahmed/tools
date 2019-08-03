@@ -6,7 +6,6 @@
     android:background="#fff"
     android:orientation="horizontal"
     android:paddingLeft="10dp"
-    android:paddingTop="20dp"
     android:paddingRight="10dp"
     android:weightSum="5">
 
@@ -20,10 +19,9 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
-            android:paddingBottom="7dp"
             android:src="@drawable/ic_wish_list" />
 
         <TextView
@@ -45,11 +43,10 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
 
             android:layout_gravity="center"
-            android:paddingBottom="7dp"
             android:src="@drawable/ic_my_orders" />
 
         <TextView
@@ -71,11 +68,10 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="60dp"
+            android:layout_width="50dp"
 
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
-            android:paddingBottom="8dp"
             android:src="@drawable/ic_my_cart" />
 
         <TextView
@@ -97,11 +93,10 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="60dp"
+            android:layout_width="50dp"
 
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
-            android:paddingBottom="5dp"
             android:src="@drawable/ic_live_chat" />
 
         <TextView
@@ -123,11 +118,10 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="60dp"
+            android:layout_width="50dp"
 
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
-            android:paddingBottom="8dp"
             android:src="@drawable/ic_settings" />
 
         <TextView

@@ -56,9 +56,8 @@ public class SellerStoreProductsFragment extends Fragment {
     String text;
     private SellerStoreProductsAdapter adapter;
     DatabaseReference mDatabase;
-    private ArrayList<Product> productArrayList=new ArrayList<>();
-    private ArrayList<String> userWishList=new ArrayList<>();
-
+    private ArrayList<Product> productArrayList = new ArrayList<>();
+    private ArrayList<String> userWishList = new ArrayList<>();
 
 
     private String sellerId;
@@ -68,16 +67,16 @@ public class SellerStoreProductsFragment extends Fragment {
     }
 
     @SuppressLint("ValidFragment")
-    public SellerStoreProductsFragment(String text,String sellerId) {
-      this.text=text;
-      this.sellerId=sellerId;
+    public SellerStoreProductsFragment(String text, String sellerId) {
+        this.text = text;
+        this.sellerId = sellerId;
 
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDatabase=FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
     }
@@ -151,7 +150,11 @@ public class SellerStoreProductsFragment extends Fragment {
         });
         recyclerview.setAdapter(adapter);
 
-
+        if (sellerId == null) {
+            getFortCityProducts();
+        } else {
+            getSellerProductsFromDB();
+        }
         return rootView;
 
     }
@@ -161,28 +164,27 @@ public class SellerStoreProductsFragment extends Fragment {
     public void onResume() {
         super.onResume();
 //        getSellerFromDB();
-        getSellerProductsFromDB();
+//        getSellerProductsFromDB();
         getUserWishList();
     }
 
 
-    private void getSellerProductsFromDB() {
+    private void getFortCityProducts() {
         mDatabase.child("Products").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     productArrayList.clear();
+//                    context.setTitle(dataSnapshot.getChildrenCount()+" Products");
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
-
-                            if (product.getVendor() != null && product.getVendor().getVendorId() != null) {
-                                if (product.getVendor().getVendorId().equalsIgnoreCase(sellerId)) {
-
+                            if (product.getUploadedBy() != null) {
+                                if (product.getUploadedBy().equalsIgnoreCase("admin")) {
                                     productArrayList.add(product);
-
-
                                 }
+                            } else {
+                                productArrayList.add(product);
                             }
 
 
@@ -198,10 +200,103 @@ public class SellerStoreProductsFragment extends Fragment {
 
                         }
                     });
-//                    adapter.updatelist(productArrayList);
+                    adapter.updatelist(productArrayList);
 
                     adapter.notifyDataSetChanged();
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getSellerProductsFromDB() {
+//        mDatabase.child("Products").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.getValue() != null) {
+//                    productArrayList.clear();
+//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                        Product product = snapshot.getValue(Product.class);
+//                        if (product != null) {
+//
+//                            if (product.getVendor() != null && product.getVendor().getVendorId() != null && product.getVendor().getUsername()!=null) {
+//                                if (product.getVendor().getVendorId().equalsIgnoreCase(sellerId)) {
+//
+//                                    productArrayList.add(product);
+//
+//
+//                                }
+//                            }else{
+//                                productArrayList.add(product);
+//                            }
+//
+//
+//                        }
+//                    }
+//                    Collections.sort(productArrayList, new Comparator<Product>() {
+//                        @Override
+//                        public int compare(Product listData, Product t1) {
+//                            String ob1 = listData.getTitle();
+//                            String ob2 = t1.getTitle();
+//
+//                            return ob1.compareTo(ob2);
+//
+//                        }
+//                    });
+////                    adapter.updatelist(productArrayList);
+//
+//                    adapter.notifyDataSetChanged();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+        mDatabase.child("Products").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    productArrayList.clear();
+//                    context.setTitle(dataSnapshot.getChildrenCount()+" Products");
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Product product = snapshot.getValue(Product.class);
+                        if (product != null) {
+                            if (product.getUploadedBy() != null) {
+                                if (product.getUploadedBy().equalsIgnoreCase("seller")) {
+                                    if (product.getVendor().getUsername().equalsIgnoreCase(sellerId)) {
+                                        productArrayList.add(product);
+                                    }
+
+                                }
+                            }
+
+                        }
+                    }
+
+
+                    Collections.sort(productArrayList, new Comparator<Product>() {
+                        @Override
+                        public int compare(Product listData, Product t1) {
+                            String ob1 = listData.getTitle();
+                            String ob2 = t1.getTitle();
+
+                            return ob1.compareTo(ob2);
+
+                        }
+                    });
+                    adapter.updatelist(productArrayList);
+
+                    adapter.notifyDataSetChanged();
+                } else {
+                    productArrayList.clear();
+                    adapter.notifyDataSetChanged();
                 }
             }
 

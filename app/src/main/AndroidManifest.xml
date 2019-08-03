@@ -75,6 +75,11 @@
                     android:pathPrefix="/product"
                     android:scheme="http" />
             </intent-filter>
+        </activity>    <activity
+            android:name=".Activities.FortcityFeatures"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity
             android:name=".Activities.MainActivity"
@@ -119,13 +124,17 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.ProductComments" />
         <activity android:name=".Activities.SizeChart" />
+        <activity android:name=".Seller.SellerSizeChart" />
         <activity android:name=".Activities.No_Internet" />
         <activity android:name=".ListOfStrores.StoresList" />
         <activity android:name=".Activities.ChooseLanguage" />
         <activity android:name=".Activities.AccountIsDisabled" />
         <activity android:name=".Activities.ChooseCountry" />
         <activity android:name=".Activities.NewSales" />
+        <activity android:name=".Activities.ConnectWithUs" />
         <activity android:name=".Activities.ChooseCategory" />
+        <activity android:name=".Seller.SellerPendingProduct" />
+        <activity android:name=".Seller.SellerRejectedProduct" />
         <activity
             android:name=".Activities.ViewInvoice"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -159,6 +168,9 @@
             android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Seller.AddProductWeight"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".Seller.SellerProductComments"
             android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Seller.ProductUploaded"

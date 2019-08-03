@@ -12,6 +12,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -95,7 +97,7 @@ public class SellerScreen extends AppCompatActivity {
     private static final int REQUEST_CODE_CHOOSE_COVER = 25;
     public static String language;
     Toolbar toolbar;
-    ImageView back;
+//    ImageView back;
     ImageView storeCover;
     CircleImageView profilePic;
     ImageView pickProfilePic;
@@ -110,17 +112,39 @@ public class SellerScreen extends AppCompatActivity {
 
     DatabaseReference mDatabase;
     RelativeLayout myOrders;
-    ProgressBar coverProgress, picProgress;
+//    ProgressBar coverProgress, picProgress;
     LinearLayout addProducts, myProducts, mySales;
     RelativeLayout accountSettings, bankAccount, selectCountry, selectLanguage, myReviews, otherStores, contactUs, aboutUs, termsConditions;
     TextView address;
 
+    CollapsingToolbarLayout collapsing_toolbar;
+
+    AppBarLayout app_bar_layout;
+    private VendorModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_screen);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
+        }
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
+
+        app_bar_layout = findViewById(R.id.app_bar_layout);
+        collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         accountSettings = findViewById(R.id.accountSettings);
         bankAccount = findViewById(R.id.bankAccount);
         selectCountry = findViewById(R.id.selectCountry);
@@ -132,20 +156,42 @@ public class SellerScreen extends AppCompatActivity {
         termsConditions = findViewById(R.id.termsConditions);
         address = findViewById(R.id.address);
 
+
         mySales = findViewById(R.id.mySales);
         myProducts = findViewById(R.id.myProducts);
         addProducts = findViewById(R.id.addProducts);
-        back = findViewById(R.id.back);
+//        back = findViewById(R.id.back);
         changeCover = findViewById(R.id.changeCover);
         pickProfilePic = findViewById(R.id.pickProfilePic);
         profilePic = findViewById(R.id.profilePic);
         storeCover = findViewById(R.id.storeCover);
-        coverProgress = findViewById(R.id.coverProgress);
-        picProgress = findViewById(R.id.picProgress);
+//        coverProgress = findViewById(R.id.coverProgress);
+//        picProgress = findViewById(R.id.picProgress);
         name = findViewById(R.id.name);
         myOrders = findViewById(R.id.myOrders);
-        transparentToolbar();
         getPermissions();
+
+
+
+
+        app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == -collapsing_toolbar.getHeight() + toolbar.getHeight()) {
+                    //toolbar is collapsed here
+                    //write your code here
+                    collapsing_toolbar.setTitle(model.getStoreName());
+                    collapsing_toolbar.setBackgroundColor(getResources().getColor(R.color.colorBlack));
+                    collapsing_toolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.colorBlack));
+
+
+                } else {
+                    collapsing_toolbar.setTitle("");
+                }
+
+            }
+        });
+
 
         accountSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,12 +321,12 @@ public class SellerScreen extends AppCompatActivity {
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//            }
+//        });
         changeCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -313,27 +359,27 @@ public class SellerScreen extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    VendorModel model = dataSnapshot.getValue(VendorModel.class);
+                     model = dataSnapshot.getValue(VendorModel.class);
                     if (model != null) {
-                        coverProgress.setVisibility(View.GONE);
-                        picProgress.setVisibility(View.GONE);
+//                        coverProgress.setVisibility(View.GONE);
+//                        picProgress.setVisibility(View.GONE);
 
                         name.setText(model.getStoreName());
                         if (model.getPicUrl() != null) {
                             try {
                                 Glide.with(SellerScreen.this).load(model.getPicUrl()).into(profilePic);
-                                picProgress.setVisibility(View.GONE);
+//                                picProgress.setVisibility(View.GONE);
                             } catch (IllegalArgumentException e) {
                                 e.printStackTrace();
                             } finally {
-                                picProgress.setVisibility(View.GONE);
+//                                picProgress.setVisibility(View.GONE);
                             }
 
                         }
                         if (model.getStoreCover() != null) {
                             try {
                                 Glide.with(SellerScreen.this).load(model.getPicUrl()).into(profilePic);
-                                picProgress.setVisibility(View.GONE);
+//                                picProgress.setVisibility(View.GONE);
 
 
                                 Glide.with(SellerScreen.this).load(model.getStoreCover()).into(new SimpleTarget<GlideDrawable>() {
@@ -341,7 +387,7 @@ public class SellerScreen extends AppCompatActivity {
                                     public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                                             storeCover.setBackground(resource);
-                                            coverProgress.setVisibility(View.GONE);
+//                                            coverProgress.setVisibility(View.GONE);
 
                                         }
                                     }
@@ -349,7 +395,7 @@ public class SellerScreen extends AppCompatActivity {
                             } catch (IllegalArgumentException e) {
                                 e.printStackTrace();
                             } finally {
-                                picProgress.setVisibility(View.GONE);
+//                                picProgress.setVisibility(View.GONE);
                             }
                         }
                     }
@@ -508,29 +554,7 @@ public class SellerScreen extends AppCompatActivity {
 
     }
 
-    private void transparentToolbar() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setElevation(0);
-        }
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -586,5 +610,6 @@ public class SellerScreen extends AppCompatActivity {
             }
         });
     }
+
 
 }

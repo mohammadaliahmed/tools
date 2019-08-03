@@ -9,7 +9,6 @@
         android:layout_width="60dp"
         android:padding="5dp"
         android:layout_height="60dp"
-        android:layout_centerVertical="true"
         android:src="@drawable/placeholder" />
 
     <TextView

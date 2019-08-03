@@ -17,6 +17,7 @@ import com.appsinventiv.toolsbazzar.Activities.No_Internet;
 import com.appsinventiv.toolsbazzar.Activities.ProductComments;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerProductComments;
 import com.appsinventiv.toolsbazzar.Seller.SellerViewProduct;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
@@ -24,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.like.LikeButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by AliAh on 23/06/2018.
@@ -59,18 +61,37 @@ public class SellerProductsReviewsAdapter extends RecyclerView.Adapter<SellerPro
     public void onBindViewHolder(@NonNull final SellerProductsReviewsAdapter.Viewholder holder, final int position) {
         final Product model = productList.get(position);
 
+        HashMap<String, Double> map = SharedPrefs.getCommentsCount();
+
+        if (map != null && map.size() > 0) {
+
+            if (map.get(model.getId()) != null) {
+                if (map.get(model.getId()) == 0) {
+                    holder.unreadCommentCount.setVisibility(View.GONE);
+                } else {
+                    holder.unreadCommentCount.setVisibility(View.VISIBLE);
+                    holder.unreadCommentCount.setText("" + map.get(model.getId()).toString().replace(".0",""));
+
+                }
+
+            } else {
+                holder.unreadCommentCount.setVisibility(View.GONE);
+            }
+        } else {
+            holder.unreadCommentCount.setVisibility(View.GONE);
+        }
         holder.title.setText(model.getTitle());
 
-        holder.ratingBar.setRating(3.8f);
+        holder.ratingBar.setRating(model.getRating());
         holder.subtitle.setText(model.getSubtitle());
         Glide.with(context).load(model.getThumbnailUrl()).placeholder(R.drawable.placeholder).into(holder.image);
-        holder.quantity.setText("Quantity in stock: "+model.getQuantityAvailable());
+        holder.quantity.setText("Quantity in stock: " + model.getQuantityAvailable());
 
         holder.comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(context,ProductComments.class);
-                i.putExtra("productId",model.getId());
+                Intent i = new Intent(context, SellerProductComments.class);
+                i.putExtra("productId", model.getId());
                 context.startActivity(i);
             }
         });
@@ -101,7 +122,7 @@ public class SellerProductsReviewsAdapter extends RecyclerView.Adapter<SellerPro
     public class Viewholder extends RecyclerView.ViewHolder {
         TextView title, subtitle;
         ImageView image;
-        TextView quantity,unreadCommentCount;
+        TextView quantity, unreadCommentCount;
         RatingBar ratingBar;
         RelativeLayout comments;
 
@@ -116,10 +137,10 @@ public class SellerProductsReviewsAdapter extends RecyclerView.Adapter<SellerPro
             unreadCommentCount = itemView.findViewById(R.id.unreadCommentCount);
 
 
-
         }
     }
-    public interface SellerProductsAdapterCallbacks{
+
+    public interface SellerProductsAdapterCallbacks {
         public void onOptionClicked(Product product);
     }
 }

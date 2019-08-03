@@ -22,29 +22,30 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/imageView6"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginTop="37dp"
         android:text="Sign In"
         android:textColor="#fff"
         android:textSize="20sp"
         android:textStyle="bold" />
+
     <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@+id/textView9"
         android:layout_marginTop="42dp"
-        android:src="@drawable/ic_user"
-        android:layout_width="20dp"
-        android:layout_height="20dp" />
+        android:src="@drawable/ic_user" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout6"
-        android:layout_marginLeft="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/textView9"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
         android:textColorHint="@color/default_grey"
 
@@ -60,23 +61,24 @@
             android:imeOptions="actionNext"
             android:inputType="text|textNoSuggestions"
             android:singleLine="true"
-            android:textColor="@color/default_grey" />
+            android:textColor="@color/colorWhite" />
     </android.support.design.widget.TextInputLayout>
 
     <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@+id/textInputLayout6"
         android:layout_marginTop="52dp"
-        android:src="@drawable/ic_lock"
-        android:layout_width="20dp"
-        android:layout_height="20dp" />
+        android:src="@drawable/ic_lock" />
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textInputLayout6"
 
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textInputLayout6"
+        android:layout_alignParentLeft="true"
         android:layout_marginTop="26dp"
         android:textColorHint="@color/default_grey"
         app:passwordToggleEnabled="true"
@@ -87,17 +89,17 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
             android:backgroundTint="@color/default_grey"
             android:hint="Password"
-            android:layout_marginLeft="30dp"
             android:inputType="textPassword"
 
-            android:textColor="@color/default_grey" />
+            android:textColor="@color/colorWhite" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/login"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textInputLayout8"
         android:layout_centerHorizontal="true"
@@ -111,8 +113,8 @@
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_below="@id/login"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:padding="20dp"
         android:text="Don't have an account?"

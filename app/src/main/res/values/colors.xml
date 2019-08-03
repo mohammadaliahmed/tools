@@ -10,11 +10,11 @@
     <color name="colorBlue">#00B0F0</color>
     <color name="colorRed">#ff0000</color>
 
-    <color name="default_grey">#dadada</color>
+    <color name="default_grey">#898989</color>
     <color name="body_grey">#e6e6e6</color>
     <color name="transparent_grey">#57000000</color>
-    <color name="colorBlack">#57000000</color>
-    <color name="colorGrey">#b3b3b3</color>
+    <color name="colorBlack">#000</color>
+    <color name="colorGrey">#000</color>
     <color name="abc">#FD8C8E</color>
 
 

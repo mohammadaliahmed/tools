@@ -30,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.ChooseMainCategory;
+import com.appsinventiv.toolsbazzar.Interface.NotificationObserver;
 import com.appsinventiv.toolsbazzar.Interfaces.ProductObserver;
 
 import com.appsinventiv.toolsbazzar.Models.Product;
@@ -37,6 +38,8 @@ import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.CompressImage;
+import com.appsinventiv.toolsbazzar.Utils.NotificationAsync;
+import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -56,7 +59,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class EditProduct extends AppCompatActivity implements ProductObserver {
+public class EditProduct extends AppCompatActivity implements ProductObserver ,NotificationObserver {
     TextView categoryChoosen;
     StorageReference mStorageRef;
     DatabaseReference mDatabase;
@@ -73,7 +76,7 @@ public class EditProduct extends AppCompatActivity implements ProductObserver {
             e_oldRetailPrice, e_oldWholesalePrice, quantityAvailable;
     String productId;
     ProgressBar progressBar;
-//    Spinner spinner;
+    //    Spinner spinner;
     ArrayList<VendorModel> vendorModelArrayList = new ArrayList<>();
     VendorModel vendor;
     ProductObserver observer;
@@ -87,7 +90,7 @@ public class EditProduct extends AppCompatActivity implements ProductObserver {
     private String whichWarranty;
     public static String productWeight, dimens;
     TextView productIdd;
-    public static int fromWhere=0;
+    public static int fromWhere = 0;
 
     @Override
     protected void onResume() {
@@ -118,7 +121,7 @@ public class EditProduct extends AppCompatActivity implements ProductObserver {
         categoryChoosen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fromWhere=1;
+                fromWhere = 1;
                 Intent i = new Intent(EditProduct.this, ChooseMainCategory.class);
                 categoryList.clear();
                 startActivityForResult(i, 1);
@@ -282,14 +285,14 @@ public class EditProduct extends AppCompatActivity implements ProductObserver {
                             Float.parseFloat(e_retailPrice.getText().toString()),
                             Integer.parseInt(e_minOrderQty.getText().toString()),
                             e_measurement.getText().toString(),
-                            vendor,
+                            SharedPrefs.getVendor(),
                             selected.getText().toString(),
                             e_description.getText().toString(),
                             container,
                             container1,
                             Float.parseFloat(e_oldWholesalePrice.getText().toString()),
                             Float.parseFloat(e_oldRetailPrice.getText().toString()),
-                            0,
+                            product.getRating(),
                             categoryList,
                             Integer.parseInt(quantityAvailable.getText().toString()),
                             brandName.getText().toString(),
@@ -297,14 +300,19 @@ public class EditProduct extends AppCompatActivity implements ProductObserver {
 
                             whichWarranty,
                             productWeight,
-                            dimens
-                            ,product.getSellerProductStatus(),
-                            product.getUploadedBy()==null?"Admin":product.getUploadedBy()
+                            dimens,
+                            "Pending",
+                            product.getUploadedBy() == null ? "Admin" : product.getUploadedBy(),
+                            product.getLikesCount()
 
                     )).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             int count = 0;
+                            NotificationAsync notificationAsync = new NotificationAsync(EditProduct.this);
+                            String NotificationTitle = "Product was edited " + SharedPrefs.getUsername();
+                            String NotificationMessage = "Click to view";
+                            notificationAsync.execute("ali", SharedPrefs.getAdminFcmKey(), NotificationTitle, NotificationMessage, "NewSellerProduct", "");
 
                             if (imageUrl.size() != 0) {
 
@@ -479,7 +487,6 @@ public class EditProduct extends AppCompatActivity implements ProductObserver {
     }
 
 
-
     public void putPictures(String path, final String key, final int count) {
         String imgName = Long.toHexString(Double.doubleToLongBits(Math.random()));
 
@@ -596,5 +603,15 @@ public class EditProduct extends AppCompatActivity implements ProductObserver {
         if (count == 0) {
             mDatabase.child("Products").child(productId).child("thumbnailUrl").setValue(url);
         }
+    }
+
+    @Override
+    public void onSuccess(String chatId) {
+
+    }
+
+    @Override
+    public void onFailure() {
+
     }
 }

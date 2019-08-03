@@ -23,9 +23,13 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsinventiv.toolsbazzar.Activities.ConnectWithUs;
+import com.appsinventiv.toolsbazzar.Activities.FortcityFeatures;
 import com.appsinventiv.toolsbazzar.Activities.ProductComments;
 import com.appsinventiv.toolsbazzar.Activities.SizeChart;
+import com.appsinventiv.toolsbazzar.Activities.ViewProduct;
 import com.appsinventiv.toolsbazzar.Adapters.SliderAdapter;
+import com.appsinventiv.toolsbazzar.Models.FortcityFeaturesModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
@@ -47,6 +51,7 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -92,6 +97,11 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
     private TextView storeName;
     CircleImageView gotoSstore;
     private VendorModel vendorModel;
+    ImageView fPromo, fEasy, fCash, fOnline, fPaypal;
+
+    private FortcityFeaturesModel forCityFeatures;
+    ImageView social;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +127,14 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         } else {
             getDataFromServer(productId);
         }
+
+        social = findViewById(R.id.social);
+
+        fPromo = findViewById(R.id.fPromo);
+        fCash = findViewById(R.id.fCash);
+        fOnline = findViewById(R.id.fOnline);
+        fEasy = findViewById(R.id.fEasy);
+        fPaypal = findViewById(R.id.fPaypal);
 
         gotoSstore = findViewById(R.id.gotoSstore);
         gotoStore = findViewById(R.id.gotoStore);
@@ -152,7 +170,72 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         colors = findViewById(R.id.colors);
         app_bar_layout = findViewById(R.id.app_bar_layout);
 
+        social.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SellerViewProduct.this,ConnectWithUs.class));
+            }
+        });
 
+
+        HashMap<String, Double> map = SharedPrefs.getCommentsCount();
+        if(map!=null&&map.size()>0) {
+            map.put(productId, 0.0);
+            SharedPrefs.setCommentsCount(map);
+        }
+
+
+        fPromo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SellerViewProduct.this, FortcityFeatures.class);
+                i.putExtra("id", 1);
+                i.putExtra("text", forCityFeatures.getPromoCode());
+                startActivity(i);
+            }
+        });
+        fEasy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getEasyCheckout(), 2);
+                Intent i = new Intent(SellerViewProduct.this, FortcityFeatures.class);
+                i.putExtra("id", 2);
+                i.putExtra("text", forCityFeatures.getEasyCheckout());
+                startActivity(i);
+            }
+        });
+        fCash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getCashOnDelivery(), 3);
+                Intent i = new Intent(SellerViewProduct.this, FortcityFeatures.class);
+                i.putExtra("id", 3);
+                i.putExtra("text", forCityFeatures.getCashOnDelivery());
+                startActivity(i);
+            }
+        });
+        fOnline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getOnlinePayments(), 4);
+                Intent i = new Intent(SellerViewProduct.this, FortcityFeatures.class);
+                i.putExtra("id", 4);
+                i.putExtra("text", forCityFeatures.getOnlinePayments());
+                startActivity(i);
+            }
+        });
+
+
+        fPaypal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getPaypalOptions(), 5);
+                Intent i = new Intent(SellerViewProduct.this, FortcityFeatures.class);
+                i.putExtra("id", 5);
+                i.putExtra("text", forCityFeatures.getPaypalOptions());
+                startActivity(i);
+            }
+        });
         gotoStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,7 +264,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         sizeGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SellerViewProduct.this, SizeChart.class);
+                Intent i = new Intent(SellerViewProduct.this, SellerSizeChart.class);
                 startActivity(i);
             }
         });
@@ -233,7 +316,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         commentsCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SellerViewProduct.this, ProductComments.class);
+                Intent i = new Intent(SellerViewProduct.this, SellerProductComments.class);
                 i.putExtra("productId", productId);
                 startActivity(i);
             }
@@ -268,7 +351,23 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         sliderAdapter = new SliderAdapter(SellerViewProduct.this, picUrls, 1);
         mViewPager.setAdapter(sliderAdapter);
         dotsIndicator.setViewPager(mViewPager);
+        getForCitFeaturesFrom();
+    }
 
+    private void getForCitFeaturesFrom() {
+        mDatabase.child("Settings").child("FortCityFeatures").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    forCityFeatures = dataSnapshot.getValue(FortcityFeaturesModel.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void getVendorDetailsFromDB() {
@@ -281,7 +380,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
                         if (vendorModel.getPicUrl() != null) {
                             Glide.with(SellerViewProduct.this).load(vendorModel.getPicUrl()).into(gotoSstore);
                         }
-                        SharedPrefs.setVendorModel(vendorModel);
+//                        SharedPrefs.setVendorModel(vendorModel);
                     }
 
                 }
@@ -491,7 +590,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
                                 relativeLayout1.setVisibility(View.GONE);
                             }
 
-                        }else{
+                        } else {
                             relativeLayout1.setVisibility(View.GONE);
                         }
                         if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
@@ -692,7 +791,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         }
 
         if (id == R.id.action_edit) {
-            if(product.getVendor().getUsername()!=null) {
+            if (product.getVendor().getUsername() != null) {
                 if (!product.getVendor().getUsername().equalsIgnoreCase(SharedPrefs.getVendor().getUsername())) {
 //                relativeLayout1.setVisibility(View.GONE);
                     CommonUtils.showToast("Not your product");
@@ -702,7 +801,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
                     i.putExtra("productId", product.getId());
                     startActivity(i);
                 }
-            }else{
+            } else {
                 CommonUtils.showToast("Not your product");
 
             }

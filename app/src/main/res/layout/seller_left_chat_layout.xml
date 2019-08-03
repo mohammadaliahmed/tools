@@ -6,6 +6,16 @@
     android:layout_marginTop="20dp"
     android:layout_marginRight="10dp"
     android:maxWidth="200dp">
+    <TextView
+        android:id="@+id/whoReplied"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+
+        android:lines="1"
+        android:text="Ali ahmed, i am ur assistant"
+        android:textColor="@color/colorYellow"
+        android:textSize="11sp" />
 
     <ImageView
         android:layout_width="30dp"
@@ -18,6 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="40dp"
+        android:layout_below="@id/whoReplied"
+
         android:layout_marginRight="100dp"
         android:layout_marginBottom="5dp"
         android:background="@drawable/left_chat_bg"
@@ -40,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/msgtext"
             android:layout_alignParentRight="true"
+            android:textSize="10sp"
             android:layout_alignParentBottom="true"
             android:text="3:04pm"
             android:textColor="#000" />

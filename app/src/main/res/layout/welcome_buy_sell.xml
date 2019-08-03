@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -34,49 +35,81 @@
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/selectCountry"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="150dp"
-        android:fontFamily="@font/cosmic_fonts"
-        android:text="I am a customer, I wanna buy.."
-        android:textColor="#fff" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="120dp"
+        android:background="@drawable/btn_bg_white"
+        android:orientation="horizontal">
 
-    <Switch
-        android:id="@+id/buy"
-        android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+
+            android:src="@drawable/user_black_bg" />
+
+        <TextView
+            android:id="@+id/countryChosen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:text="I am a customer, I wanna buy" />
+
+        <Switch
+            android:id="@+id/buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+
+            android:trackTint="@color/colorWhite" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/selectLanguage"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="150dp"
-        android:checked="false"
-        android:trackTint="@color/colorWhite" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/btn_bg_white"
+        android:orientation="horizontal">
 
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/store_black_bg" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/languageChosen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="I am vendor, I wanna sell" />
 
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="100dp"
-        android:fontFamily="@font/cosmic_fonts"
-        android:text="I am vendor, I wanna sell.."
-        android:textColor="#fff" />
+        <Switch
+            android:id="@+id/sell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
 
-    <Switch
-        android:id="@+id/sell"
-        android:layout_width="wrap_content"
+            android:checked="false"
+            android:trackTint="@color/colorWhite" />
+    </RelativeLayout>
 
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="100dp"
-        android:trackTint="@color/colorWhite" />
 
 </RelativeLayout>

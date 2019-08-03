@@ -48,15 +48,24 @@
             android:background="#71ae48"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:padding="20dp"
-                android:text=""
-                android:textColor="#fff"
-                android:textSize="13sp" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:layout_height="200dp">
+
+
+                <TextView
+                    android:id="@+id/textData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginBottom="20dp"
+                    android:padding="20dp"
+                    android:text=""
+                    android:textColor="#fff"
+                    android:textSize="13sp" />
+            </ScrollView>
 
             <Button
                 android:id="@+id/ok"

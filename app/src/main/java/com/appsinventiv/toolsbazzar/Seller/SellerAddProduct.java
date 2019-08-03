@@ -302,7 +302,8 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                             whichWarranty,
                             productWeight,
                             dimens, "Pending",
-                            "seller"
+                            "seller",
+                            0
 
 
                     )).addOnSuccessListener(new OnSuccessListener<Void>() {

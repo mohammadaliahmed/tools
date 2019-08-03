@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/gotoSstore"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_store" />
+
+        <TextView
+            android:id="@+id/storeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/gotoSstore"
+            android:text="Goto: "
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/reviews"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/storeName"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/gotoSstore"
+            android:text="0.0 customer reviews"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/bars"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_bars_yellow" />
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_centerVertical="true"
+            android:layout_height="10dp"
+            android:layout_alignParentRight="true"
+
+            android:src="@drawable/ic_arrow_view" />
+        <TextView
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/bars"
+            android:text="94%"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+
+    </RelativeLayout>
+</RelativeLayout>

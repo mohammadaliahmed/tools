@@ -60,7 +60,7 @@
             android:imeOptions="actionNext"
             android:inputType="text|textNoSuggestions"
             android:singleLine="true"
-            android:textColor="@color/default_grey" />
+            android:textColor="@color/colorWhite" />
     </android.support.design.widget.TextInputLayout>
 
     <ImageView
@@ -92,7 +92,7 @@
             android:layout_marginLeft="30dp"
             android:inputType="textPassword"
 
-            android:textColor="@color/default_grey" />
+            android:textColor="@color/colorWhite" />
     </android.support.design.widget.TextInputLayout>
 
     <Button

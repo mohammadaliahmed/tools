@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -52,6 +53,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
@@ -73,8 +75,9 @@ public class MainActivity extends AppCompatActivity
     int pos;
     LinearLayout ic_settings, ic_chat, ic_mycart, ic_orders, ic_wishlist;
 
+    CollapsingToolbarLayout collapsing_toolbar;
 
-    ScrollView scrollView;
+    //    ScrollView scrollView;
     DotsIndicator dots_indicator;
     TextView chat;
     private AppBarLayout mAppBarLayout;
@@ -104,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
 
-        scrollView = findViewById(R.id.scrollView);
+//        scrollView = findViewById(R.id.scrollView);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0);
@@ -119,12 +122,32 @@ public class MainActivity extends AppCompatActivity
         }
 
         mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
+        collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
+
+
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == -collapsing_toolbar.getHeight() + toolbar.getHeight()) {
+                    //toolbar is collapsed here
+                    //write your code here
+                    collapsing_toolbar.setTitle("Fort City");
+                    collapsing_toolbar.setBackgroundColor(getResources().getColor(R.color.colorBlack));
+                    collapsing_toolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.default_back));
+
+
+                } else {
+                    collapsing_toolbar.setTitle("");
+                }
+
+            }
+        });
 //        mAppBarLayout.setElevation(0);
 
 //        getSupportActionBar().setElevation(0);
@@ -184,7 +207,7 @@ public class MainActivity extends AppCompatActivity
 
 
         if (SharedPrefs.getIsLoggedIn().equals("yes")) {
-            mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("fcmKey").setValue(SharedPrefs.getFcmKey());
+            mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("fcmKey").setValue(FirebaseInstanceId.getInstance().getToken());
         }
 
 
@@ -197,18 +220,19 @@ public class MainActivity extends AppCompatActivity
         initDrawer();
         getAdminDetails();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-//                    if (i1 > 1200) {
-//                        setStatusBarColor(false);
-//                    } else {
-//                        setStatusBarColor(true);
-//                    }
-                }
-            });
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+//                @Override
+//                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+////                    if (i1 > 1200) {
+////                        setStatusBarColor(false);
+////                    } else {
+////                        setStatusBarColor(true);
+////                    }
+//                }
+//            });
+//        }
+
     }
 
     private void getAdminDetails() {
@@ -469,9 +493,6 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                             finish();
-//                            moveTaskToBack(true);
-//                            android.os.Process.killProcess(android.os.Process.myPid());
-//                            System.exit(1);
 
                         }
                     })
@@ -482,14 +503,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     })
                     .show();
-//            if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
-//                super.onBackPressed();
-//                return;
-//            } else {
-//                Toast.makeText(getBaseContext(), "Tap back button in order to exit", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            mBackPressed = System.currentTimeMillis();
+
         }
 
     }

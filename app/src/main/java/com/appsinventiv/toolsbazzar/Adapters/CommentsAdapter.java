@@ -68,8 +68,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     @Override
     public int getItemViewType(int position) {
         CommentsModel model = arrayList.get(position);
-        if (model.getName().equalsIgnoreCase(product.getVendor().getVendorName())) {
-            return RIGHT_CHAT;
+        if (product != null) {
+            if (model.getName().equalsIgnoreCase(product.getVendor().getVendorName())) {
+                return RIGHT_CHAT;
+            } else {
+                return LEFT_CHAT;
+            }
         } else {
             return LEFT_CHAT;
         }
@@ -86,6 +90,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
             }
         } else {
             holder.name.setText(model.getName());
+            Glide.with(context).load(model.getPicUrl()).into(holder.pic);
         }
         holder.time.setText(CommonUtils.getFormattedDate(model.getTime()));
         holder.comment.setText(model.getCommentText());

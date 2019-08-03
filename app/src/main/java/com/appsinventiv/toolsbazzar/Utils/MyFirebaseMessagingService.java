@@ -17,10 +17,12 @@ import com.appsinventiv.toolsbazzar.Activities.ProductComments;
 import com.appsinventiv.toolsbazzar.Activities.WholesaleLiveChat;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.SellerChat.SellerChats;
+import com.appsinventiv.toolsbazzar.Seller.SellerMainActivity;
 import com.appsinventiv.toolsbazzar.Seller.SellerOrders.Orders;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -91,6 +93,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //            resultIntent.putExtra("username", username);
         } else if (type.equalsIgnoreCase("marketing")) {
             resultIntent = new Intent(this, MainActivity.class);
+        } else if (type.equalsIgnoreCase("productRejected")) {
+            resultIntent = new Intent(this, SellerMainActivity.class);
         } else if (type.equalsIgnoreCase("order")) {
             resultIntent = new Intent(this, MyOrders.class);
         } else if (type.equals("SellerOrder")) {
@@ -98,6 +102,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         } else if (type.equals("NewComment")) {
             resultIntent = new Intent(this, ProductComments.class);
             resultIntent.putExtra("productId", Id);
+            HashMap<String, Double> map = SharedPrefs.getCommentsCount();
+            if (map != null && map.size() > 0) {
+                if (map.get(Id) == null || map.get(Id) == 0.0) {
+                    map.put(Id, 1.0);
+                    SharedPrefs.setCommentsCount(map);
+
+                } else {
+                    map.put(Id, map.get(Id) + 1.0);
+                    SharedPrefs.setCommentsCount(map);
+                }
+            } else {
+                map = new HashMap<>();
+                map.put(Id, 1.0);
+                SharedPrefs.setCommentsCount(map);
+
+            }
         }
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this,

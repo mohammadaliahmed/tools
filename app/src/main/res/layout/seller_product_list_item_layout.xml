@@ -2,14 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_margin="10dp"
+    android:background="#fff"
     android:layout_height="90dp">
-    <ImageView
-        android:id="@+id/delete"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:padding="3dp"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_cancel" />
+
     <ImageView
         android:id="@+id/image"
         android:layout_width="80dp"

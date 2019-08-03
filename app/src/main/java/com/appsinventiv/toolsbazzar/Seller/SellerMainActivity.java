@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -54,6 +55,7 @@ import com.appsinventiv.toolsbazzar.Models.AdminModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.Reviews.SellerProductReviews;
 import com.appsinventiv.toolsbazzar.Seller.Sales.SellerSales;
 import com.appsinventiv.toolsbazzar.Seller.SellerChat.SellerChats;
 import com.appsinventiv.toolsbazzar.Seller.SellerOrders.Orders;
@@ -67,6 +69,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
@@ -87,7 +90,10 @@ public class SellerMainActivity extends AppCompatActivity
     private TextView chat;
 
     FloatingActionButton fab;
-    LinearLayout ic_settings, ic_chat, ic_orders, ic_wishlist;
+    private AppBarLayout mAppBarLayout;
+    CollapsingToolbarLayout collapsing_toolbar;
+
+    LinearLayout ic_settings, ic_chat, reviews, myProducts, myOrders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +103,11 @@ public class SellerMainActivity extends AppCompatActivity
         fab = findViewById(R.id.fab);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
+        collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
 
+
+        this.setTitle("My Store View");
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,14 +128,31 @@ public class SellerMainActivity extends AppCompatActivity
         }
 
 
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == -collapsing_toolbar.getHeight() + toolbar.getHeight()) {
+                    //toolbar is collapsed here
+                    //write your code here
+                    collapsing_toolbar.setTitle("My Store View");
+                    collapsing_toolbar.setBackgroundColor(getResources().getColor(R.color.colorBlack));
+                    collapsing_toolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.default_back));
+
+
+                } else {
+                    collapsing_toolbar.setTitle("");
+                }
+
+            }
+        });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
         dots_indicator = findViewById(R.id.dots_indicator);
-        if (SharedPrefs.getVendor().getUsername()!=null) {
-            mDatabase.child("Sellers").child(SharedPrefs.getVendor().getUsername()).child("fcmKey").setValue(SharedPrefs.getFcmKey());
+        if (SharedPrefs.getVendor().getUsername() != null) {
+            mDatabase.child("Sellers").child(SharedPrefs.getVendor().getUsername()).child("fcmKey").setValue(FirebaseInstanceId.getInstance().getToken());
         }
         this.setTitle("My Store View");
         initTabsView();
@@ -140,8 +167,9 @@ public class SellerMainActivity extends AppCompatActivity
     private void setupSubmenu() {
         ic_settings = findViewById(R.id.ic_settings);
         ic_chat = findViewById(R.id.ic_chat);
-        ic_orders = findViewById(R.id.ic_orders);
-        ic_wishlist = findViewById(R.id.ic_wishlist);
+        myOrders = findViewById(R.id.myOrders);
+        reviews = findViewById(R.id.reviews);
+        myProducts = findViewById(R.id.myProducts);
 
         ic_chat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,21 +189,27 @@ public class SellerMainActivity extends AppCompatActivity
             }
         });
 
-        ic_orders.setOnClickListener(new View.OnClickListener() {
+        myProducts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SellerMainActivity.this, ChooseMainCategory.class);
+                Intent i = new Intent(SellerMainActivity.this, SellerListOfProducts.class);
                 startActivity(i);
             }
         });
-        ic_wishlist.setOnClickListener(new View.OnClickListener() {
+        myOrders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SellerMainActivity.this, Whishlist.class);
+                Intent i = new Intent(SellerMainActivity.this, Orders.class);
                 startActivity(i);
             }
         });
-
+        reviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SellerMainActivity.this, SellerProductReviews.class);
+                startActivity(i);
+            }
+        });
 
 
     }
@@ -293,7 +327,7 @@ public class SellerMainActivity extends AppCompatActivity
     }
 
     private void getBannerImagesFromDb() {
-        mDatabase.child("Settings").child("Banners").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Settings").child("SellerBanners").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> imgList = new ArrayList<>();
@@ -524,7 +558,7 @@ public class SellerMainActivity extends AppCompatActivity
             startActivity(i);
 
         } else if (id == R.id.shipping) {
-            Intent i = new Intent(SellerMainActivity.this, OrdersCourier.class);
+            Intent i = new Intent(SellerMainActivity.this, SellerProductReviews.class);
             startActivity(i);
 
         } else if (id == R.id.sales) {

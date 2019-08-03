@@ -27,7 +27,7 @@ import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 public class CustomerScreen extends AppCompatActivity {
     ImageView back, settings;
     RelativeLayout recentViewed, faq, phone, reviews, address, wallet, stores, myOrders;
-    TextView name;
+    TextView name,userPhone;
     LinearLayout pending, processing, completed, shipped;
 
     @Override
@@ -44,7 +44,9 @@ public class CustomerScreen extends AppCompatActivity {
         recentViewed = findViewById(R.id.recentViewed);
         settings = findViewById(R.id.settings);
         name = findViewById(R.id.name);
+        userPhone = findViewById(R.id.userPhone);
         name.setText(SharedPrefs.getName());
+        userPhone.setText(SharedPrefs.getCustomerModel().getPhone());
         myOrders = findViewById(R.id.myOrders);
         back = findViewById(R.id.back);
         pending = findViewById(R.id.pending);

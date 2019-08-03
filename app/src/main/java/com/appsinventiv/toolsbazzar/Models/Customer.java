@@ -18,6 +18,7 @@ public class Customer {
     boolean codeVerified;
     String secondAddress;
 
+    String picUrl;
     boolean online;
     public Customer() {
     }
@@ -61,6 +62,14 @@ public class Customer {
         this.district = district;
         this.code = code;
         this.codeVerified = codeVerified;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 
     public boolean isOnline() {

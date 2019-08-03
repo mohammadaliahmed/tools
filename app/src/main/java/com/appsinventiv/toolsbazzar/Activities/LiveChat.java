@@ -50,7 +50,7 @@ public class LiveChat extends AppCompatActivity implements NotificationObserver 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setElevation(0);
-        }
+        }   LiveChat.this.setTitle("Customer Care");
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -78,7 +78,7 @@ public class LiveChat extends AppCompatActivity implements NotificationObserver 
                 if (dataSnapshot.getValue() != null) {
                     AdminModel model = dataSnapshot.getValue(AdminModel.class);
                     if (model != null) {
-                        LiveChat.this.setTitle(model.getId());
+
                         adminFcmKey = model.getFcmKey();
                     }
                 }
@@ -170,7 +170,7 @@ public class LiveChat extends AppCompatActivity implements NotificationObserver 
                             .setValue(new ChatModel(key, msg, SharedPrefs.getUsername()
                                     , System.currentTimeMillis(), "sending", SharedPrefs.getUsername(),
 
-                                    SharedPrefs.getName())
+                                    SharedPrefs.getName(),SharedPrefs.getCustomerModel().getName())
                             ).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {

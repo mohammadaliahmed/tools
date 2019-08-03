@@ -5,8 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
+
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -35,7 +34,10 @@ import com.appsinventiv.toolsbazzar.Seller.SellerMainActivity;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
+
+import org.w3c.dom.Text;
 
 public class Welcome extends AppCompatActivity {
     private Button btnBack, btnNext;
@@ -53,20 +55,24 @@ public class Welcome extends AppCompatActivity {
     public static String country, language;
 
     RelativeLayout selectCountry, selectLanguage;
-    public TextView countryChosen,languageChosen;
+    public TextView countryChosen, languageChosen;
     int pageNumber = 0;
+    private TextView countr, langu;
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(countryChosen!=null){
-            countryChosen.setText(country==null?"Select country":country);
+
+        if (countr != null) {
+            countr.setText(country == null ? "Select your country" : country);
+        }
+        if (langu != null) {
+            langu.setText(language == null ? "Select your language" : language);
         }
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,16 +127,36 @@ public class Welcome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int current;
-                if (country.contains("Lanka")) {
-                    current = getItem(-1);
-                } else {
-                    current = getItem(-2);
-                }
-                if (current < layouts.length) {
-                    // move to next screen
-                    viewPager.setCurrentItem(current);
-                } else {
+                if (country != null) {
+                    if (country.contains("Lanka")) {
+                        current = getItem(-1);
+                    } else {
+                        current = getItem(-2);
+                    }
+                    if (current < layouts.length) {
+                        // move to next screen
+                        viewPager.setCurrentItem(current);
+                    } else {
+                        btnBack.setVisibility(View.GONE);
 
+                    }
+                } else {
+                    current = getItem(-1);
+                    if (current < layouts.length) {
+                        // move to next screen
+                        if(current==0){
+                            viewPager.setCurrentItem(current);
+
+                            btnBack.setVisibility(View.GONE);
+                        }else{
+                            btnBack.setVisibility(View.VISIBLE);
+                            viewPager.setCurrentItem(current);
+                        }
+
+
+                    } else {
+
+                    }
                 }
             }
         });
@@ -139,6 +165,8 @@ public class Welcome extends AppCompatActivity {
             public void onClick(View v) {
                 // checking for last page
                 // if last page home screen will be launched
+                btnBack.setVisibility(View.VISIBLE);
+
                 if (flag == 1) {
                     int current = getItem(+1);
                     viewPager.setCurrentItem(current);
@@ -286,40 +314,40 @@ public class Welcome extends AppCompatActivity {
 
                 if (country == null && language == null) {
                     CommonUtils.showToast("Select country and language");
-                    viewPager.setOnTouchListener(new View.OnTouchListener() {
-
-                        public boolean onTouch(View arg0, MotionEvent arg1) {
-                            return true;
-                        }
-                    });
+//                    viewPager.setOnTouchListener(new View.OnTouchListener() {
+//
+//                        public boolean onTouch(View arg0, MotionEvent arg1) {
+//                            return true;
+//                        }
+//                    });
                 } else if (country != null && language == null) {
                     CommonUtils.showToast("Select language");
-                    viewPager.setOnTouchListener(new View.OnTouchListener() {
-
-                        public boolean onTouch(View arg0, MotionEvent arg1) {
-                            return true;
-                        }
-                    });
+//                    viewPager.setOnTouchListener(new View.OnTouchListener() {
+//
+//                        public boolean onTouch(View arg0, MotionEvent arg1) {
+//                            return true;
+//                        }
+//                    });
                 } else if (country == null && language != null) {
                     CommonUtils.showToast("Select country");
-                    viewPager.setOnTouchListener(new View.OnTouchListener() {
-
-                        public boolean onTouch(View arg0, MotionEvent arg1) {
-                            return true;
-                        }
-                    });
+//                    viewPager.setOnTouchListener(new View.OnTouchListener() {
+//
+//                        public boolean onTouch(View arg0, MotionEvent arg1) {
+//                            return true;
+//                        }
+//                    });
                 } else {
 //                    viewPager.setOnTouchListener(null);
                 }
             } else if (pageNumber == 4) {
                 if (userType.equalsIgnoreCase("")) {
                     CommonUtils.showToast("Please select your type");
-                    viewPager.setOnTouchListener(new View.OnTouchListener() {
-
-                        public boolean onTouch(View arg0, MotionEvent arg1) {
-                            return true;
-                        }
-                    });
+//                    viewPager.setOnTouchListener(new View.OnTouchListener() {
+//
+//                        public boolean onTouch(View arg0, MotionEvent arg1) {
+//                            return true;
+//                        }
+//                    });
                 } else {
 //                    viewPager.setOnTouchListener(null);
                 }
@@ -345,12 +373,14 @@ public class Welcome extends AppCompatActivity {
             selectCountry = view.findViewById(R.id.selectCountry);
             selectLanguage = view.findViewById(R.id.selectLanguage);
             countryChosen = view.findViewById(R.id.countryChosen);
+            countr = findViewById(R.id.countryChosen);
+            langu = findViewById(R.id.languageChosen);
             languageChosen = view.findViewById(R.id.languageChosen);
             if (position == 3) {
                 selectCountry.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+//                        showAlert();
                         Intent i = new Intent(Welcome.this, ChooseCountry.class);
                         i.putExtra("from", 1);
                         startActivity(i);
@@ -372,7 +402,7 @@ public class Welcome extends AppCompatActivity {
                 sw_buy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        viewPager.setOnTouchListener(null);
+//                        viewPager.setOnTouchListener(null);
 
                         if (b) {
 
@@ -481,6 +511,5 @@ public class Welcome extends AppCompatActivity {
             container.removeView(view);
         }
     }
-
 
 }

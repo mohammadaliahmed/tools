@@ -57,6 +57,9 @@ public class NewCart extends AppCompatActivity {
     //    public static LocationAndChargesModel locationAndChargesModel;
     boolean quantityChanged = false;
     private Parcelable recyclerViewState;
+    HashMap<String, VendorModel> vendorMap = new HashMap<>();
+    private ArrayList<NewCartModel> abc = new ArrayList<>();
+    HashMap<String, ArrayList<ProductCountModel>> map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +105,10 @@ public class NewCart extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler);
 //        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
 
-        getUserCartProductsFromDB();
+//        getUserCartProductsFromDB();
 //        getLocationChargesFromDb();
         calculateTotal();
+        getlistOfSellersFromDB();
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new NewCartAdapter(NewCart.this, newCart, new AddToCartInterface() {
@@ -181,6 +185,46 @@ public class NewCart extends AppCompatActivity {
 
     }
 
+    private void getlistOfSellersFromDB() {
+        mDatabase.child("Sellers").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    long size = dataSnapshot.getChildrenCount();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        VendorModel model = snapshot.getValue(VendorModel.class);
+                        if (model != null) {
+                            vendorMap.put(model.getUsername(), model);
+                        }
+                    }
+                    if (size > 0 && vendorMap.size() == size) {
+                        getUserCartProductsFromDB();
+//                        newCart.clear();
+//                        for (Map.Entry<String, ArrayList<ProductCountModel>> entry : map.entrySet()) {
+//                            String key = entry.getKey();
+//
+//                            newCart.add(new NewCartModel(key,
+//                                            (SharedPrefs.getCountry().equalsIgnoreCase("Sri Lanka") ? 0 : calculateShippingCharges(entry.getValue())),
+//                                            (SharedPrefs.getCountry().equalsIgnoreCase("Sri Lanka") ? calculateDeliveryCharges(entry.getValue()) : 0),
+//                                            calculateSellerTotal(entry.getValue()),
+//                                            entry.getValue(),
+//                                            vendorMap.get(entry.getValue().get(0).getProduct().getVendor().getUsername())
+//                                    )
+//                            );
+//
+//                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     public void calculateTotal() {
         total = 0;
@@ -248,14 +292,6 @@ public class NewCart extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-//                    if (quantityChanged) {
-////                        adapter.notifyItemChanged(position);
-//                        quantityChanged = false;
-////                        recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
-////                        adapter.notifyItemRangeChanged(0, adapter.getItemCount());
-//                        adapter.notifyDataSetChanged();
-//
-//                    } else {
                     userCartProductList.clear();
                     newCart.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -265,7 +301,7 @@ public class NewCart extends AppCompatActivity {
 
                         }
                     }
-                    HashMap<String, ArrayList<ProductCountModel>> map = new HashMap<>();
+                    map = new HashMap<>();
 
                     for (int i = 0; i < userCartProductList.size(); i++) {
                         if (userCartProductList.get(i).getProduct().getUploadedBy() == null || userCartProductList.get(i).getProduct().getUploadedBy().equalsIgnoreCase("admin")) {
@@ -295,31 +331,23 @@ public class NewCart extends AppCompatActivity {
                             }
                         }
 
-
-//                        if (map.containsKey(userCartProductList.get(i).getProduct().getVendor().getVendorName())) {
-//                            ArrayList<ProductCountModel> abc2 = new ArrayList<>();
-//                            abc2 = map.get(userCartProductList.get(i).getProduct().getVendor().getVendorName());
-//                            abc2.add(userCartProductList.get(i));
-//                            map.put(userCartProductList.get(i).getProduct().getVendor().getVendorName(), abc2);
-//
-//                        } else {
-//                            ArrayList<ProductCountModel> abc = new ArrayList<>();
-//                            abc.add(userCartProductList.get(i));
-//                            map.put(userCartProductList.get(i).getProduct().getVendor().getVendorName(), abc);
-//                        }
                     }
 
-
+                    newCart.clear();
                     for (Map.Entry<String, ArrayList<ProductCountModel>> entry : map.entrySet()) {
                         String key = entry.getKey();
 
                         newCart.add(new NewCartModel(key,
-                                (SharedPrefs.getCountry().equalsIgnoreCase("Sri Lanka") ? 0 : calculateShippingCharges(entry.getValue())),
-                                (SharedPrefs.getCountry().equalsIgnoreCase("Sri Lanka") ? calculateDeliveryCharges(entry.getValue()) : 0),
-                                calculateSellerTotal(entry.getValue()),
-                                entry.getValue()));
+                                        (SharedPrefs.getCountry().equalsIgnoreCase("Sri Lanka") ? 0 : calculateShippingCharges(entry.getValue())),
+                                        (SharedPrefs.getCountry().equalsIgnoreCase("Sri Lanka") ? calculateDeliveryCharges(entry.getValue()) : 0),
+                                        calculateSellerTotal(entry.getValue()),
+                                        entry.getValue(),
+                                        vendorMap.get(entry.getValue().get(0).getProduct().getVendor().getUsername())
+                                )
+                        );
 
                     }
+                    abc.addAll(newCart);
                     recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
 
                     adapter.notifyDataSetChanged();

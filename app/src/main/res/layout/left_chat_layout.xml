@@ -8,16 +8,28 @@
     android:maxWidth="200dp">
 
     <ImageView
+        android:id="@+id/profilePic"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:padding="5dp"
-        android:id="@+id/profilePic"
         android:src="@drawable/logo_small" />
+
+    <TextView
+        android:id="@+id/whoReplied"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+
+        android:lines="1"
+        android:text="Ali ahmed, i am ur assistant"
+        android:textColor="@color/colorYellow"
+        android:textSize="11sp" />
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/whoReplied"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="100dp"
         android:layout_marginBottom="5dp"
@@ -32,8 +44,7 @@
             android:layout_marginTop="5dp"
             android:maxWidth="200dp"
             android:text=""
-            android:textColor="#000"
-            />
+            android:textColor="#000" />
 
         <TextView
             android:id="@+id/time"
@@ -42,8 +53,10 @@
             android:layout_below="@id/msgtext"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+
             android:text="3:04pm"
-            android:textColor="#000" />
+            android:textColor="#000"
+            android:textSize="10sp" />
 
         <ImageView
             android:id="@+id/status"

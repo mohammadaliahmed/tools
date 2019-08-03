@@ -52,6 +52,7 @@ public class WholesaleLiveChat extends AppCompatActivity implements Notification
         }
 
 
+        WholesaleLiveChat.this.setTitle("Customer Care");
         mDatabase = FirebaseDatabase.getInstance().getReference();
         send = findViewById(R.id.send);
         message = findViewById(R.id.message);
@@ -79,7 +80,6 @@ public class WholesaleLiveChat extends AppCompatActivity implements Notification
                 if (dataSnapshot.getValue() != null) {
                     AdminModel model = dataSnapshot.getValue(AdminModel.class);
                     if (model != null) {
-                        WholesaleLiveChat.this.setTitle(model.getId());
                         adminFcmKey = model.getFcmKey();
                     }
                 }
@@ -172,7 +172,7 @@ public class WholesaleLiveChat extends AppCompatActivity implements Notification
                             .setValue(new ChatModel(key, msg, SharedPrefs.getUsername()
                                     , System.currentTimeMillis(), "sending",SharedPrefs.getUsername(),
 
-                                    SharedPrefs.getName())).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    SharedPrefs.getName(),SharedPrefs.getCustomerModel().getName())).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
 

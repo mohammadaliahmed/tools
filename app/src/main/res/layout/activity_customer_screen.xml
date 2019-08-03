@@ -16,15 +16,27 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="#63CABA">
+                android:layout_height="250dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_brick" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/fire" />
 
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="100dp"
-                    android:src="@drawable/ic_user_white" />
+                    android:layout_marginTop="80dp"
+                    android:src="@drawable/logo_small" />
 
                 <TextView
 
@@ -32,11 +44,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="80dp"
-                    android:layout_marginTop="110dp"
+                    android:layout_marginTop="80dp"
                     android:text="Ali Ahmed"
 
                     android:textColor="#fff"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
+                <TextView
+
+                    android:id="@+id/userPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="80dp"
+                    android:text="03158000333"
+                    android:textSize="12sp"
+                    android:layout_below="@id/name"
+                    android:textColor="#fff"
+                    />
 
 
             </RelativeLayout>
@@ -45,8 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="#fff"
-                android:padding="10dp">
+                android:background="#fff">
 
                 <TextView
                     android:layout_width="0dp"

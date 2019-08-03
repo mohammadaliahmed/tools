@@ -79,7 +79,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         Glide.with(context).load(model.getProduct().getThumbnailUrl()).placeholder(R.drawable.placeholder).into(holder.image);
 
         holder.viewProduct.setVisibility(View.GONE);
-        holder.productWeight.setText("Weight: "+(model.getProduct().getProductWeight()==null?"Not available":model.getProduct().getProductWeight()+" Kg"));
+        holder.productWeight.setText("Weight: "+(model.getProduct().getProductWeight()==null?"Not available":(model.getQuantity()*Float.parseFloat(model.getProduct().getProductWeight()))+" Kg"));
 
         final int[] count = {model.getQuantity()};
         holder.increase.setVisibility(View.VISIBLE);

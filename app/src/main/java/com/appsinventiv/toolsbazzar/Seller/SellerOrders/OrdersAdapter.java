@@ -30,6 +30,11 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     UpdateOrderStatus updateOrderStatus;
 
 
+    public void setResetCheckBoxes() {
+
+        notifyDataSetChanged();
+    }
+
     public OrdersAdapter(Context context, ArrayList<OrderModel> itemList, UpdateOrderStatus updateOrderStatus) {
         this.context = context;
         this.itemList = itemList;
@@ -47,6 +52,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final OrderModel model = itemList.get(position);
+
+        holder.checkbox.setChecked(false);
+
 
 
         if (model.getOrderStatus().equalsIgnoreCase("Cancelled")
@@ -174,4 +182,5 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
         public void markAsDeleted(String orderId);
     }
+
 }

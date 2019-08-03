@@ -7,6 +7,16 @@
 
     android:maxWidth="200dp">
 
+    <TextView
+        android:id="@+id/whoReplied"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:lines="1"
+        android:textColor="@color/colorYellow"
+        android:textSize="11sp"
+        android:visibility="gone" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profilePic"
         android:layout_width="30dp"
@@ -34,8 +44,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:text=""
-            android:textColor="#fff"
-             />
+            android:textColor="#fff" />
 
         <TextView
             android:id="@+id/time"
@@ -46,7 +55,7 @@
             android:layout_marginRight="25dp"
             android:text="3:04pm"
             android:textColor="#fff"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
         <ImageView
             android:id="@+id/status"

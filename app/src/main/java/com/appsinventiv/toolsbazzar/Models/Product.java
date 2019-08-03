@@ -30,6 +30,9 @@ public class Product {
     String sellerProductStatus;
     ArrayList<String> pictures;
     String uploadedBy;
+    int ratingCount;
+    int positiveCount,neutralCount,negativeCount;
+    String rejectReason;
 
 
 
@@ -52,6 +55,37 @@ public class Product {
 //        return id != null ? !id.equals(product.id) : product.id != null;
     }
 
+    public String getRejectReason() {
+        return rejectReason;
+    }
+
+    public void setRejectReason(String rejectReason) {
+        this.rejectReason = rejectReason;
+    }
+
+    public int getPositiveCount() {
+        return positiveCount;
+    }
+
+    public void setPositiveCount(int positiveCount) {
+        this.positiveCount = positiveCount;
+    }
+
+    public int getNeutralCount() {
+        return neutralCount;
+    }
+
+    public void setNeutralCount(int neutralCount) {
+        this.neutralCount = neutralCount;
+    }
+
+    public int getNegativeCount() {
+        return negativeCount;
+    }
+
+    public void setNegativeCount(int negativeCount) {
+        this.negativeCount = negativeCount;
+    }
 
     public Product(String id, String title, String subtitle, String isActive,
                    int sku, String thumbnailUrl, String mainCategory, String subCategory,
@@ -65,7 +99,8 @@ public class Product {
             , float rating,
                    ArrayList<String> category, int quantityAvailable,
                    String brandName, String productContents, String warrantyType, String productWeight,
-                   String dimen, String sellerProductStatus,String uploadedBy
+                   String dimen, String sellerProductStatus, String uploadedBy
+                   , int likesCount
 
     ) {
         this.id = id;
@@ -98,7 +133,16 @@ public class Product {
         this.productWeight = productWeight;
         this.dimen = dimen;
         this.sellerProductStatus = sellerProductStatus;
-        this.uploadedBy=uploadedBy;
+        this.uploadedBy = uploadedBy;
+        this.likesCount=likesCount;
+    }
+
+    public int getRatingCount() {
+        return ratingCount;
+    }
+
+    public void setRatingCount(int ratingCount) {
+        this.ratingCount = ratingCount;
     }
 
     public String getUploadedBy() {

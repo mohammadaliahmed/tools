@@ -5,7 +5,7 @@ package com.appsinventiv.toolsbazzar.Models;
  */
 
 public class CompanyDetailsModel {
-    String name,address,telephone,phone,email;
+    String name,address,telephone,phone,email,coverPicUrl;
 
     public CompanyDetailsModel(String name, String address, String telephone, String phone, String email) {
         this.name = name;
@@ -13,6 +13,14 @@ public class CompanyDetailsModel {
         this.telephone = telephone;
         this.phone = phone;
         this.email = email;
+    }
+
+    public String getCoverPicUrl() {
+        return coverPicUrl;
+    }
+
+    public void setCoverPicUrl(String coverPicUrl) {
+        this.coverPicUrl = coverPicUrl;
     }
 
     public String getEmail() {

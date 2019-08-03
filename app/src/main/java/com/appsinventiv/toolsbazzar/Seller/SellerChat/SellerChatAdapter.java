@@ -58,7 +58,7 @@ public class SellerChatAdapter extends RecyclerView.Adapter<SellerChatAdapter.Vi
         if (SharedPrefs.getVendor().getPicUrl() != null) {
             try {
                 Glide.with(context).load(SharedPrefs.getVendor().getPicUrl()).placeholder(R.drawable.ic_profile).into(holder.profilePic);
-            }catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 e.printStackTrace();
             }
         }
@@ -72,6 +72,11 @@ public class SellerChatAdapter extends RecyclerView.Adapter<SellerChatAdapter.Vi
             holder.status.setImageResource(R.drawable.ic_delivered);
         } else if (model.getStatus().equals("read")) {
             holder.status.setImageResource(R.drawable.ic_read);
+        }
+        if (model.getWhoReplied() != null) {
+            holder.whoReplied.setText(model.getWhoReplied() + ", Im your assistant");
+        } else {
+            holder.whoReplied.setText("");
         }
 
     }
@@ -93,9 +98,10 @@ public class SellerChatAdapter extends RecyclerView.Adapter<SellerChatAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView msgtext, time;
+        TextView msgtext, time, whoReplied;
         ImageView status;
         CircleImageView profilePic;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -103,6 +109,7 @@ public class SellerChatAdapter extends RecyclerView.Adapter<SellerChatAdapter.Vi
             time = itemView.findViewById(R.id.time);
             status = itemView.findViewById(R.id.status);
             profilePic = itemView.findViewById(R.id.profilePic);
+            whoReplied = itemView.findViewById(R.id.whoReplied);
         }
     }
 }

@@ -13,16 +13,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.No_Internet;
-import com.appsinventiv.toolsbazzar.Activities.ViewProduct;
-import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.Product;
-import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.bumptech.glide.Glide;
 import com.like.LikeButton;
-import com.like.OnLikeListener;
 
 import java.util.ArrayList;
 
@@ -103,7 +99,17 @@ public class SellerProductsAdapter extends RecyclerView.Adapter<SellerProductsAd
         holder.count.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callbacks.onOptionClicked(model);
+                if (model.getSellerProductStatus().equalsIgnoreCase("Pending")) {
+                    context.startActivity(new Intent(context, SellerPendingProduct.class));
+
+                } else if (model.getSellerProductStatus().equalsIgnoreCase("Rejected")) {
+                    Intent i=new Intent(context,SellerRejectedProduct.class);
+                    i.putExtra("reason",model.getRejectReason());
+                    context.startActivity(i);
+//                    context.startActivity(new Intent(context, SellerRejectedProduct.class));
+                } else if (model.getSellerProductStatus().equalsIgnoreCase("Approved")) {
+                    callbacks.onOptionClicked(model);
+                }
             }
         });
 
@@ -135,7 +141,8 @@ public class SellerProductsAdapter extends RecyclerView.Adapter<SellerProductsAd
 
         }
     }
-    public interface SellerProductsAdapterCallbacks{
+
+    public interface SellerProductsAdapterCallbacks {
         public void onOptionClicked(Product product);
     }
 }

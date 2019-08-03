@@ -52,14 +52,14 @@ public class ProductComments extends AppCompatActivity implements NotificationOb
     TextView title, price;
     CardView productLayout;
     private Product product;
-    String commentText=" ";
-
+    String commentText = " ";
+    VendorModel vendorModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_comments);
-        this.setTitle("Comments");
+        this.setTitle("Q&A");
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -78,12 +78,12 @@ public class ProductComments extends AppCompatActivity implements NotificationOb
         productLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(SharedPrefs.getVendor()!=null){
+                if (SharedPrefs.getVendor() != null) {
                     Intent intent = new Intent(ProductComments.this, SellerViewProduct.class);
                     intent.putExtra("productId", productId);
                     startActivity(intent);
                     finish();
-                }else {
+                } else {
                     Intent intent = new Intent(ProductComments.this, ViewProduct.class);
                     intent.putExtra("productId", productId);
                     startActivity(intent);
@@ -132,7 +132,7 @@ public class ProductComments extends AppCompatActivity implements NotificationOb
 
                         }
                         if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
-                            if(product.getVendor()!=null)
+                            if (product.getVendor() != null)
                                 getVendorDetailsFromDB(product.getVendor().getUsername());
                         }
 
@@ -152,9 +152,9 @@ public class ProductComments extends AppCompatActivity implements NotificationOb
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    VendorModel model = dataSnapshot.getValue(VendorModel.class);
-                    if (model != null) {
-                        adapter.setVendor(model);
+                    vendorModel = dataSnapshot.getValue(VendorModel.class);
+                    if (vendorModel != null) {
+                        adapter.setVendor(vendorModel);
                     }
                 }
             }
@@ -214,26 +214,47 @@ public class ProductComments extends AppCompatActivity implements NotificationOb
                         SharedPrefs.getUsername(),
                         SharedPrefs.getName()
                         , comment.getText().toString()
-                        , System.currentTimeMillis()
+                        , System.currentTimeMillis(),
+                        SharedPrefs.getCustomerModel().getPicUrl()
                 ))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        commentText=comment.getText().toString();
+                        commentText = comment.getText().toString();
                         comment.setText("");
+                        if (SharedPrefs.getVendor() != null) {
+                            if (!vendorModel.getUsername().equalsIgnoreCase(SharedPrefs.getVendor().getUsername())) {
 
-                        NotificationAsync notificationAsync = new NotificationAsync(ProductComments.this);
-                        String NotificationTitle = "New comment on " + product.getTitle() + " by " + SharedPrefs.getUsername();
-                        String NotificationMessage = "Comment: " + commentText;
-                        if (product.getUploadedBy().equalsIgnoreCase("seller")) {
+
+                                NotificationAsync notificationAsync = new NotificationAsync(ProductComments.this);
+                                String NotificationTitle = "New comment on " + product.getTitle() + " by " + SharedPrefs.getUsername();
+                                String NotificationMessage = "Comment: " + commentText;
+                                if (product.getUploadedBy().equalsIgnoreCase("seller")) {
 //                            if (SharedPrefs.getVendor().getUsername().equalsIgnoreCase(product.getUploadedBy())) {
 //
 //                            } else {
-                            notificationAsync.execute("ali", SharedPrefs.getVendor().getFcmKey(), NotificationTitle, NotificationMessage, "NewComment", productId);
+                                    notificationAsync.execute("ali", vendorModel.getFcmKey(), NotificationTitle, NotificationMessage, "NewComment", productId);
 //                            }
+                                } else {
+                                    notificationAsync.execute("ali", SharedPrefs.getAdminFcmKey(), NotificationTitle, NotificationMessage, "NewComment", productId);
+                                }
+                            }
                         } else {
-                            notificationAsync.execute("ali", SharedPrefs.getAdminFcmKey(), NotificationTitle, NotificationMessage, "NewComment", productId);
+
+                            NotificationAsync notificationAsync = new NotificationAsync(ProductComments.this);
+                            String NotificationTitle = "New comment on " + product.getTitle() + " by " + SharedPrefs.getUsername();
+                            String NotificationMessage = "Comment: " + commentText;
+                            if (product.getUploadedBy().equalsIgnoreCase("seller")) {
+//                            if (SharedPrefs.getVendor().getUsername().equalsIgnoreCase(product.getUploadedBy())) {
+//
+//                            } else {
+                                notificationAsync.execute("ali", vendorModel.getFcmKey(), NotificationTitle, NotificationMessage, "NewComment", productId);
+//                            }
+                            } else {
+                                notificationAsync.execute("ali", SharedPrefs.getAdminFcmKey(), NotificationTitle, NotificationMessage, "NewComment", productId);
+                            }
                         }
+
                     }
                 });
     }

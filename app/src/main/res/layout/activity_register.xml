@@ -83,7 +83,7 @@
                         android:inputType="textCapWords"
 
                         android:maxLines="1"
-                        android:textColor="@color/default_grey" />
+                        android:textColor="@color/colorWhite" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -115,7 +115,7 @@
                         android:hint="Username"
                         android:imeOptions="actionNext"
                         android:inputType="text"
-                        android:textColor="@color/default_grey" />
+                        android:textColor="@color/colorWhite" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -146,7 +146,7 @@
                         android:hint="Email"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:textColor="@color/default_grey" />
+                        android:textColor="@color/colorWhite" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -180,7 +180,7 @@
                         android:inputType="textPassword"
 
                         android:maxLines="1"
-                        android:textColor="@color/default_grey" />
+                        android:textColor="@color/colorWhite" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -210,7 +210,7 @@
                         android:backgroundTint="@color/default_grey"
                         android:hint="Phone number"
                         android:inputType="phone"
-                        android:textColor="@color/default_grey" />
+                        android:textColor="@color/colorWhite" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -240,7 +240,7 @@
                         android:backgroundTint="@color/default_grey"
                         android:hint="Tel number"
                         android:inputType="phone"
-                        android:textColor="@color/default_grey" />
+                        android:textColor="@color/colorWhite" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -271,7 +271,7 @@
                         android:backgroundTint="@color/default_grey"
                         android:hint="Business Store Name"
                         android:inputType="textCapWords"
-                        android:textColor="@color/default_grey" />
+                        android:textColor="@color/colorWhite" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -303,7 +303,7 @@
                         android:backgroundTint="@color/default_grey"
                         android:hint="Business Registration Number"
                         android:inputType="number"
-                        android:textColor="@color/default_grey" />
+                        android:textColor="@color/colorWhite" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
@@ -338,7 +338,7 @@
                         android:inputType="textCapWords"
                         android:lines="1"
                         android:maxLines="1"
-                        android:textColor="@color/default_grey" />
+                        android:textColor="@color/colorWhite" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 

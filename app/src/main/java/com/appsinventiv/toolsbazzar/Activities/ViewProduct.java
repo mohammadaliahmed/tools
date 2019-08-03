@@ -2,7 +2,9 @@ package com.appsinventiv.toolsbazzar.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -18,6 +20,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -109,7 +113,9 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     private VendorModel vendorModel;
     ImageView fPromo, fEasy, fCash, fOnline, fPaypal;
     private FortcityFeaturesModel forCityFeatures;
-
+    private boolean cannotRate;
+    private boolean forCityProduct;
+    ImageView social;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +126,15 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setElevation(0);
+        }
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
         }
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -136,6 +151,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         }
 
 
+        social = findViewById(R.id.social);
         fPromo = findViewById(R.id.fPromo);
         fCash = findViewById(R.id.fCash);
         fOnline = findViewById(R.id.fOnline);
@@ -180,28 +196,51 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         });
 
 
+
+        social.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ViewProduct.this,ConnectWithUs.class));
+            }
+        });
+
         fPromo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getPromoCode(), 1);
+                Intent i = new Intent(ViewProduct.this, FortcityFeatures.class);
+                i.putExtra("id", 1);
+                i.putExtra("text", forCityFeatures.getPromoCode());
+                startActivity(i);
             }
         });
         fEasy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getEasyCheckout(), 2);
+//                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getEasyCheckout(), 2);
+                Intent i = new Intent(ViewProduct.this, FortcityFeatures.class);
+                i.putExtra("id", 2);
+                i.putExtra("text", forCityFeatures.getEasyCheckout());
+                startActivity(i);
             }
         });
         fCash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getCashOnDelivery(), 3);
+//                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getCashOnDelivery(), 3);
+                Intent i = new Intent(ViewProduct.this, FortcityFeatures.class);
+                i.putExtra("id", 3);
+                i.putExtra("text", forCityFeatures.getCashOnDelivery());
+                startActivity(i);
             }
         });
         fOnline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getOnlinePayments(), 4);
+//                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getOnlinePayments(), 4);
+                Intent i = new Intent(ViewProduct.this, FortcityFeatures.class);
+                i.putExtra("id", 4);
+                i.putExtra("text", forCityFeatures.getOnlinePayments());
+                startActivity(i);
             }
         });
 
@@ -209,7 +248,11 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         fPaypal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getPaypalOptions(), 5);
+//                CustomBottomDialog.showFeatureDialog(ViewProduct.this, forCityFeatures.getPaypalOptions(), 5);
+                Intent i = new Intent(ViewProduct.this, FortcityFeatures.class);
+                i.putExtra("id", 5);
+                i.putExtra("text", forCityFeatures.getPaypalOptions());
+                startActivity(i);
             }
         });
         gotoStore.setOnClickListener(new View.OnClickListener() {
@@ -286,7 +329,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset == -collapsing_toolbar.getHeight() + toolbar.getHeight()) {
+                if (verticalOffset == -collapsing_toolbar.getHeight() +toolbar.getHeight()) {
                     //toolbar is collapsed here
                     //write your code here
                     collapsing_toolbar.setTitle(product.getTitle());
@@ -404,14 +447,43 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         });
         recyclerView.setAdapter(adapter);
         mViewPager = findViewById(R.id.viewpager);
-        sliderAdapter = new SliderAdapter(ViewProduct.this, picUrls, 1);
-        mViewPager.setAdapter(sliderAdapter);
+        try {
+            sliderAdapter = new SliderAdapter(ViewProduct.this, picUrls, 1);
+            mViewPager.setAdapter(sliderAdapter);
+        }catch (Exception e){
+
+        }
+
         dotsIndicator.setViewPager(mViewPager);
         addToRecentlyViewed(productId);
 
 
         getForCitFeaturesFrom();
+        getCustomersRatedProducts();
 
+
+    }
+
+
+    private void getCustomersRatedProducts() {
+        mDatabase.child("Ratings").child(SharedPrefs.getUsername()).child(productId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    rating.setEnabled(false);
+                    cannotRate = true;
+                } else {
+                    rating.setEnabled(true);
+
+                    cannotRate = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void getForCitFeaturesFrom() {
@@ -913,13 +985,20 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 
                             if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
                                 gotoStore.setVisibility(View.VISIBLE);
-                                storeName.setText("Goto: " + product.getVendor().getStoreName());
+                                forCityProduct=false;
+                                storeName.setText("" + product.getVendor().getStoreName());
 
                             } else {
-                                gotoStore.setVisibility(View.GONE);
+//                                gotoStore.setVisibility(View.GONE);
+                                storeName.setText("" + "Fort City");
+                                forCityProduct=true;
+                                Glide.with(ViewProduct.this).load(R.drawable.logo_small).into(gotoSstore);
                             }
                         } else {
-                            gotoStore.setVisibility(View.GONE);
+//                            gotoStore.setVisibility(View.GONE);
+                            storeName.setText("" + "Fort City");
+                            forCityProduct=true;
+                            Glide.with(ViewProduct.this).load(R.drawable.logo_small).into(gotoSstore);
                         }
                         String text1 = product.getBrandName() == null ? "Not available\n\n" : product.getBrandName() + "\n\n";
                         String text2 = product.getWarrantyType() == null ? "No Warranty\n\n" : product.getWarrantyType() + "\n\n";
@@ -962,10 +1041,9 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 
                         }
 
-//                        if(product.getqua)
-
 
                         rating.setRating(product.getRating());
+                        setupRatingBar();
                         oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                         ViewProduct.this.setTitle(product.getTitle());
                         productCategory = product.getMainCategory();
@@ -981,7 +1059,12 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                         for (DataSnapshot childSnapshot : dataSnapshot.child("pictures").getChildren()) {
                             String model = childSnapshot.getValue(String.class);
                             picUrls.add(model);
-                            sliderAdapter.notifyDataSetChanged();
+                            try {
+                                sliderAdapter.notifyDataSetChanged();
+
+                            }catch (Exception e){
+
+                            }
 
                         }
                         if (product.getSizeList() != null) {
@@ -1005,6 +1088,42 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             }
         });
 
+    }
+
+    private void setupRatingBar() {
+        rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float value, boolean b) {
+                float rat = 0;
+                if (product.getRating() == 0) {
+                    rat = value;
+                } else {
+                    rat = (value + product.getRating()) / 2;
+                }
+                final float finalRat = rat;
+                mDatabase.child("Products").child(productId).child("rating").setValue(rat).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        CommonUtils.showToast("Thanks for your rating");
+                        mDatabase.child("Ratings").child(SharedPrefs.getUsername()).child(productId).setValue(productId);
+                        mDatabase.child("Products").child(productId).child("ratingCount").setValue(product.getRatingCount() + 1);
+                        if (finalRat > 3) {
+                            mDatabase.child("Products").child(productId).child("positiveCount").setValue(product.getPositiveCount() + 1);
+
+                        } else if (finalRat >= 2 && finalRat <= 3) {
+                            mDatabase.child("Products").child(productId).child("neutralCount").setValue(product.getNeutralCount() + 1);
+
+                        } else {
+                            mDatabase.child("Products").child(productId).child("negativeCount").setValue(product.getNegativeCount() + 1);
+
+                        }
+
+                    }
+                });
+
+
+            }
+        });
     }
 
     private void getVendorDetailsFromDB() {

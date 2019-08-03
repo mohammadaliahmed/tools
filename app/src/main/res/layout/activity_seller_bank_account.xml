@@ -1,143 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="#ddd"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:src="@drawable/ic_bank_account_pic" />
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-20dp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="0dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="40dp"
+                    android:src="@drawable/ic_bank_account_pic" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="40dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="Accounts" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:text="Receive your COD Payments fast &amp; easy \nby Adding a Bank Account Number" />
+
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="40dp"
-            android:gravity="center"
-            android:text="Receive your COD Payments fast &amp; easy \nby Adding a Bank Account Number" />
+            android:layout_margin="10dp"
+            android:text="Add a bank account" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginTop="20dp"
-            android:background="#f7f7f7" />
-
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginBottom="-20dp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="0dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:padding="5dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_man_user" />
-
-                <android.support.design.widget.TextInputLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="20dp">
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp">
 
-                    <android.support.design.widget.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:id="@+id/beneficiaryName"
-                        android:layout_height="wrap_content"
-                        android:hint="Beneficiary name"
-                        android:inputType="textCapWords" />
-                </android.support.design.widget.TextInputLayout>
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_user_black" />
 
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:padding="5dp"
-
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_bank_green" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="20dp">
-
-                    <android.support.design.widget.TextInputEditText
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/bankName"
-                        android:hint="Name of the bank"
-                        android:inputType="textCapWords" />
-                </android.support.design.widget.TextInputLayout>
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="20dp">
 
-            </RelativeLayout>
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/beneficiaryName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Beneficiary name"
+                            android:inputType="textCapWords" />
+                    </android.support.design.widget.TextInputLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp">
+                </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_centerVertical="true"
-                    android:padding="5dp"
-
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_account_number" />
-
-                <android.support.design.widget.TextInputLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="20dp">
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp">
 
-                    <android.support.design.widget.TextInputEditText
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+
+                        android:layout_marginLeft="10dp"
+                        android:padding="5dp"
+                        android:src="@drawable/ic_bank_green" />
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/accountNumber"
-                        android:hint="Bank Account number"
-                        android:inputType="number" />
-                </android.support.design.widget.TextInputLayout>
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="20dp">
 
-            </RelativeLayout>
-            <Button
-                android:layout_margin="20dp"
-                android:text="Update"
-                android:background="@drawable/btn_bg_green"
-                android:id="@+id/update"
-                android:inputType="text"
-                android:textColor="#fff"
-                android:layout_gravity="center"
-                android:layout_width="200dp"
-                android:layout_height="40dp" />
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/bankName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Name of the bank"
+                            android:inputType="textCapWords" />
+                    </android.support.design.widget.TextInputLayout>
 
-        </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+
+                        android:padding="5dp"
+                        android:src="@drawable/ic_account_number" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="20dp">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/accountNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Bank Account number"
+                            android:inputType="number" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/update"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/btn_bg_green"
+                    android:inputType="text"
+                    android:text="Update"
+                    android:textColor="#fff" />
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 
 

@@ -7,17 +7,28 @@ package com.appsinventiv.toolsbazzar.Models;
 public class CommentsModel {
     String id,productId,userId,name,commentText;
     long time;
+    String picUrl;
 
-    public CommentsModel(String id, String productId, String userId, String name, String commentText, long time) {
+    public CommentsModel(String id, String productId, String userId, String name, String commentText, long time,String picUrl) {
         this.id = id;
         this.productId = productId;
         this.userId = userId;
         this.name = name;
         this.commentText = commentText;
         this.time = time;
+        this.picUrl = picUrl;
     }
 
     public CommentsModel() {
+
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 
     public String getId() {

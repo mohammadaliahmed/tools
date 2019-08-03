@@ -27,6 +27,7 @@ import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.SellerProductsAdapter;
+import com.appsinventiv.toolsbazzar.Seller.SellerSizeChart;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.bumptech.glide.Glide;
@@ -141,7 +142,7 @@ public class SellerProductsFragment extends Fragment {
 
     private void showColorBottomDialog(final Product product, final int quantity) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.attributes_color_layout, null);
+        View customView = inflater.inflate(R.layout.attributes_color_layout_seller, null);
 //
         final BottomDialog bottomDialog = new BottomDialog.Builder(getContext())
                 .setContent(null)
@@ -232,7 +233,7 @@ public class SellerProductsFragment extends Fragment {
 
     private void showSizeBottomDialog(final Product product, final int quantity) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.attributes_size_layout, null);
+        View customView = inflater.inflate(R.layout.attributes_size_layout_seller, null);
 //
         final BottomDialog bottomDialog = new BottomDialog.Builder(getContext())
                 .setContent(null)
@@ -311,7 +312,7 @@ public class SellerProductsFragment extends Fragment {
         sizeChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, SizeChart.class);
+                Intent i = new Intent(context, SellerSizeChart.class);
                 context.startActivity(i);
             }
         });
@@ -345,7 +346,7 @@ public class SellerProductsFragment extends Fragment {
 
     private void showSizeAndColorBottomDialog(final Product product, final int quantity) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.attributes_size_color_layout, null);
+        View customView = inflater.inflate(R.layout.attributes_size_color_layout_seller, null);
 //
         final BottomDialog bottomDialog = new BottomDialog.Builder(getContext())
                 .setContent(null)
@@ -416,7 +417,7 @@ public class SellerProductsFragment extends Fragment {
         sizeChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, SizeChart.class);
+                Intent i = new Intent(context, SellerSizeChart.class);
                 context.startActivity(i);
             }
         });

@@ -2,11 +2,16 @@ package com.appsinventiv.toolsbazzar.Seller.SellerStore;
 
 import android.graphics.Color;
 import android.os.Build;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Adapters.SellerStoreProductsAdapter;
+import com.appsinventiv.toolsbazzar.Models.CompanyDetailsModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
@@ -39,22 +45,30 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SellerStoreView extends AppCompatActivity {
     RecyclerView recyclerview;
     Button follow;
-    TextView name;
+
     ImageView storeCover;
     CircleImageView profilePic;
-    ImageView back;
     DatabaseReference mDatabase;
     SellerStoreProductsAdapter adapter;
     private ArrayList<Product> productArrayList = new ArrayList<>();
     ArrayList<String> userWishList = new ArrayList<>();
-
+    TextView storeName;
     private String sellerId;
     private VendorModel model;
+    CollapsingToolbarLayout collapsing_toolbar;
+
+    AppBarLayout app_bar_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_store_view);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
@@ -65,16 +79,28 @@ public class SellerStoreView extends AppCompatActivity {
         }
 
 //        this.setTitle("");
+        app_bar_layout = findViewById(R.id.app_bar_layout);
+        collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         profilePic = findViewById(R.id.profilePic);
         follow = findViewById(R.id.follow);
-        name = findViewById(R.id.name);
+        storeName = findViewById(R.id.storeName);
         storeCover = findViewById(R.id.storeCover);
-        back = findViewById(R.id.back);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        back.setOnClickListener(new View.OnClickListener() {
+        app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
-            public void onClick(View view) {
-                finish();
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == -collapsing_toolbar.getHeight() + toolbar.getHeight()) {
+                    //toolbar is collapsed here
+                    //write your code here
+                    collapsing_toolbar.setTitle(model==null?"Fort City":model.getStoreName());
+                    collapsing_toolbar.setBackgroundColor(getResources().getColor(R.color.default_back));
+                    collapsing_toolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.default_back));
+
+
+                } else {
+                    collapsing_toolbar.setTitle("");
+                }
+
             }
         });
 
@@ -82,20 +108,19 @@ public class SellerStoreView extends AppCompatActivity {
 
 
         ViewPager viewPager = findViewById(R.id.viewpager1);
-        ArrayList<String> orderStatusList=new ArrayList<>();
+        ArrayList<String> orderStatusList = new ArrayList<>();
         orderStatusList.add("New Arrivals");
         orderStatusList.add("View All");
-        SellerStoreFragmentAdapter adapter = new SellerStoreFragmentAdapter(this, orderStatusList, getSupportFragmentManager(),sellerId);
+        SellerStoreFragmentAdapter adapter = new SellerStoreFragmentAdapter(this, orderStatusList, getSupportFragmentManager(), sellerId);
         viewPager.setAdapter(adapter);
 
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = findViewById(R.id.sliding_tabs1);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        if(SharedPrefs.getVendor()!=null){
+        if (SharedPrefs.getVendor() != null) {
             follow.setVisibility(View.GONE);
         }
-
 
 
 //        recyclerview.setLayoutManager(new GridLayoutManager(this, 2));
@@ -159,10 +184,45 @@ public class SellerStoreView extends AppCompatActivity {
 //            }
 //        });
 //        recyclerview.setAdapter(adapter);
-        getSellerFromDB();
+        if (sellerId == null) {
+            getForCityFromDB();
+        } else {
+            getSellerFromDB();
+        }
 //        getSellerProductsFromDB();
 //        getUserWishList();
 
+    }
+
+    private void getForCityFromDB() {
+        mDatabase.child("Settings").child("CompanyDetails").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    CompanyDetailsModel model = dataSnapshot.getValue(CompanyDetailsModel.class);
+                    if (model != null) {
+//                        if (!model.getUsername().equalsIgnoreCase(SharedPrefs.getVendor().getUsername())) {
+//                            follow.setVisibility(View.GONE);
+//                        } else {
+//                            follow.setVisibility(View.GONE);
+//                        }
+                        storeName.setText("Fort City");
+
+                        Glide.with(SellerStoreView.this).load(R.drawable.logo_small).into(profilePic);
+
+
+                        if (model.getCoverPicUrl() != null) {
+                            Glide.with(SellerStoreView.this).load(model.getCoverPicUrl()).into(storeCover);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void getSellerFromDB() {
@@ -177,7 +237,7 @@ public class SellerStoreView extends AppCompatActivity {
 //                        } else {
 //                            follow.setVisibility(View.GONE);
 //                        }
-                        name.setText(model.getStoreName());
+                        storeName.setText(model.getStoreName());
                         if (model.getPicUrl() != null) {
                             Glide.with(SellerStoreView.this).load(model.getPicUrl()).into(profilePic);
 
@@ -274,6 +334,29 @@ public class SellerStoreView extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (item.getItemId() == android.R.id.home) {
+
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

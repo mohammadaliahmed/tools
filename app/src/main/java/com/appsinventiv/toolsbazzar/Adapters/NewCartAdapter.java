@@ -57,7 +57,7 @@ public class NewCartAdapter extends RecyclerView.Adapter<NewCartAdapter.ViewHold
         holder.recyclerview.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
 
-        holder.vendorName.setText("By: " + model.getName());
+        holder.vendorName.setText("By: " +( (model.getList().get(0).getProduct().getVendor().getStoreName())==null?"Fort City":(model.getList().get(0).getProduct().getVendor().getStoreName())));
         holder.deliveryCharges.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", (model.getDeliveryCharges() * Float.parseFloat(SharedPrefs.getExchangeRate()))));
         holder.shippingCharges.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", (model.getShippingCharges() * Float.parseFloat(SharedPrefs.getExchangeRate()))));
         holder.total.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", (model.getTotal() * Float.parseFloat(SharedPrefs.getExchangeRate()))));

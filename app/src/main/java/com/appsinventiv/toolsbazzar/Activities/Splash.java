@@ -16,10 +16,11 @@ import android.widget.ImageView;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
+import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 
 public class Splash extends AppCompatActivity {
     public static int SPLASH_TIME_OUT = 2000;
-
+    ImageView logo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,9 @@ public class Splash extends AppCompatActivity {
         changeStatusBarColor();
         setContentView(R.layout.activity_splash);
         ImageView myImageView= (ImageView)findViewById(R.id.logo);
+        if(SharedPrefs.getVendor()!=null){
+            myImageView.setImageDrawable(getResources().getDrawable(R.drawable.fort_city_without_green));
+        }
         Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fadein);
         myImageView.startAnimation(myFadeInAnimation);
 

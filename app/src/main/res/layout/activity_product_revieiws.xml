@@ -28,6 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:id="@+id/positiveRatingText"
                     android:text="82%"
                     android:textColor="#000"
                     android:textSize="25sp" />
@@ -45,6 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:id="@+id/totalReviews"
                     android:text="17 customer reviews"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -73,14 +75,17 @@
                         android:layout_height="10dp"
                         android:layout_gravity="center"
                         android:layout_marginLeft="5dp"
-                        android:progress="80"
+                        android:progressTint="@color/colorGreen"
+                        android:id="@+id/positiveBar"
                         android:progressBackgroundTint="#f1f1f1" />
 
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="14"
+                        android:text="0"
+                        android:id="@+id/positiveCount"
                         android:textSize="11sp" />
 
                 </LinearLayout>
@@ -101,6 +106,9 @@
                         style="@android:style/Widget.ProgressBar.Horizontal"
                         android:layout_width="80dp"
                         android:layout_height="10dp"
+                        android:progressTint="@color/colorGreen"
+
+                        android:id="@+id/neutralBar"
                         android:layout_gravity="center"
                         android:layout_marginLeft="5dp"
                         android:progress="0"
@@ -111,6 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="0"
+                        android:id="@+id/neutralCount"
                         android:textSize="11sp" />
 
                 </LinearLayout>
@@ -132,15 +141,18 @@
                         android:layout_width="80dp"
                         android:layout_height="10dp"
                         android:layout_gravity="center"
+                        android:progressTint="@color/colorGreen"
+
+                        android:id="@+id/negativeBar"
                         android:layout_marginLeft="5dp"
-                        android:progress="20"
                         android:progressBackgroundTint="#f1f1f1" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="3"
+                        android:text="0"
+                        android:id="@+id/negativeCount"
                         android:textSize="11sp" />
 
                 </LinearLayout>

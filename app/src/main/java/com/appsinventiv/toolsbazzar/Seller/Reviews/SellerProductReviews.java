@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.MainActivity;
 import com.appsinventiv.toolsbazzar.Models.Product;
@@ -38,6 +39,12 @@ public class SellerProductReviews extends AppCompatActivity {
     SellerProductsReviewsAdapter adapter;
     DatabaseReference mDatabase;
 
+    TextView positiveRatingText, positiveCount, neutralCount, negativeCount;
+    ProgressBar positiveBar, neutralBar, negativeBar;
+
+    float posCount, neutCount, negCount, totalReviewCount, totalPositiveCount;
+    TextView totalReviews;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,16 @@ public class SellerProductReviews extends AppCompatActivity {
             getSupportActionBar().setElevation(0);
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        positiveCount = findViewById(R.id.positiveCount);
+        neutralCount = findViewById(R.id.neutralCount);
+        negativeCount = findViewById(R.id.negativeCount);
+        totalReviews = findViewById(R.id.totalReviews);
+        positiveBar = findViewById(R.id.positiveBar);
+        neutralBar = findViewById(R.id.neutralBar);
+        negativeBar = findViewById(R.id.negativeBar);
+        positiveRatingText = findViewById(R.id.positiveRatingText);
+
         recyclerView = findViewById(R.id.recycler_view_products);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new SellerProductsReviewsAdapter(this, productArrayList);
@@ -75,6 +92,7 @@ public class SellerProductReviews extends AppCompatActivity {
                                     if (product.getVendor().getVendorId().equalsIgnoreCase(SharedPrefs.getVendor().getUsername())) {
 
                                         productArrayList.add(product);
+                                        performCalculations();
 
 
                                     }
@@ -107,6 +125,41 @@ public class SellerProductReviews extends AppCompatActivity {
         });
     }
 
+    private void performCalculations() {
+        totalReviewCount = 0;
+        totalPositiveCount = 0;
+        negCount = 0;
+        posCount = 0;
+        neutCount = 0;
+        int personRated = 0;
+        for (Product product : productArrayList) {
+            totalReviewCount = totalReviewCount + product.getRatingCount();
+            if (product.getRating() >= 3) {
+                posCount = posCount + product.getPositiveCount();
+                totalPositiveCount = totalPositiveCount + 1;
+            } else if (product.getRating() > 2 && product.getRating() < 3) {
+                neutCount = neutCount + product.getNeutralCount();
+            } else {
+                negCount = negCount + product.getNegativeCount();
+            }
+        }
+
+        positiveCount.setText("" + posCount);
+        negativeCount.setText("" + negCount);
+        neutralCount.setText("" + neutCount);
+        posCount = ((float) posCount / (float) totalReviewCount) * 100;
+        neutCount = (neutCount / totalReviewCount) * 100;
+        negCount = (negCount / totalReviewCount) * 100;
+        positiveBar.setProgress((int) posCount);
+        neutralBar.setProgress((int) neutCount);
+        negativeBar.setProgress((int) negCount);
+        float tt = ((float) totalPositiveCount / (float) totalReviewCount) * 100;
+        positiveRatingText.setText(String.format("%.2f", tt) + "%");
+
+        totalReviews.setText("" + totalReviewCount + " Customer reviews");
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return super.onCreateOptionsMenu(menu);
@@ -116,8 +169,7 @@ public class SellerProductReviews extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
 
-            Intent i = new Intent(SellerProductReviews.this, MainActivity.class);
-            startActivity(i);
+
             finish();
         }
 

@@ -126,39 +126,39 @@ public class TrackOrder extends AppCompatActivity {
                         date.setText("Date: " + CommonUtils.getFormattedDate(model.getTime()));
 
                         if (model.getOrderStatus().equalsIgnoreCase("pending")) {
-                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#DAF5C8"));
+//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#DAF5C8"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_pending1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_pending2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("under process")) {
-                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#C0CDE2"));
+//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#C0CDE2"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_under_process1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_under_process2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("shipped")) {
-                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFC8AD"));
+//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFC8AD"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_shipped1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_shipped2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("delivered")) {
-                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFEFC2"));
+//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFEFC2"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_delviered1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_delviered2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("cancelled")) {
-                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFFFC2C3"));
+//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFFFC2C3"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_cancelled).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_cancelled2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("out of stock")) {
-                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FD8C8E"));
+//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FD8C8E"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_out_of_stock1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_out_of_stock2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("delivered by courier")) {
-                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFEFC2"));
+//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFEFC2"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_delviered1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_delviered2).into(trackImage2);
                         }  else if (model.getOrderStatus().equalsIgnoreCase("shipped by courier")) {
-                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFC8AD"));
+//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFC8AD"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_shipped1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_shipped2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("refused by courier")) {
-                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FD8C8E"));
+//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FD8C8E"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_cancelled).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_cancelled2).into(trackImage2);
                         }

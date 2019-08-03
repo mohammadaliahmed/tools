@@ -2,10 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:background="#fff"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
-   >
+    android:background="#fff">
 
 
     <ImageView
@@ -21,10 +20,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:ellipsize="end"
         android:lines="1"
-        android:text="sdsdfsdfsd"
+        android:text=""
         android:textColor="#000" />
 
     <TextView
@@ -34,7 +33,7 @@
         android:layout_below="@id/title"
         android:layout_marginLeft="100dp"
         android:layout_marginTop="1dp"
-        android:hint="sdfdsfs"
+        android:hint=""
         android:textSize="10sp" />
 
     <TextView
@@ -44,16 +43,17 @@
         android:layout_below="@id/subtitle"
         android:layout_marginLeft="100dp"
         android:layout_marginTop="1dp"
-        android:text="sdfsdfsd"
+        android:text=""
         android:textSize="12sp" />
 
     <RatingBar
+        android:id="@+id/ratingBar"
         style="@style/Base.Widget.AppCompat.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:progressTint="@color/colorPrimary"
         android:layout_below="@id/quantity"
         android:layout_marginLeft="100dp"
-        android:id="@+id/ratingBar"
         android:layout_marginTop="8dp"
         android:scaleX="1.1"
         android:scaleY="1.1" />
@@ -93,11 +93,11 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/unreadCommentCount"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignParentRight="true"
         android:layout_marginTop="50dp"
-        android:id="@+id/unreadCommentCount"
         android:layout_marginRight="10dp"
         android:background="@drawable/badge_background_red"
         android:gravity="center"

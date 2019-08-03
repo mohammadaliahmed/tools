@@ -26,6 +26,7 @@ public class OrderModel {
     String trackingNumber;
     String carrier;
     String deliveryBy,receiverName,receiverNameCredit,creditDueDate;
+    VendorModel vendor;
 
 
 
@@ -34,7 +35,7 @@ public class OrderModel {
 
     public OrderModel(String orderId, Customer customer, ArrayList<ProductCountModel> countModelArrayList,
                       float totalPrice, long time, String instructions, String date,
-                      String chosenTime,String orderStatus,Float shippingCharges,Float deliveryCharges,String orderFor) {
+                      String chosenTime,String orderStatus,Float shippingCharges,Float deliveryCharges,String orderFor,VendorModel   vendor) {
         this.orderId = orderId;
         this.time = time;
         this.customer = customer;
@@ -47,6 +48,15 @@ public class OrderModel {
         this.deliveryCharges=deliveryCharges;
         this.shippingCharges=shippingCharges;
         this.orderFor=orderFor;
+        this.vendor=vendor;
+    }
+
+    public VendorModel getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(VendorModel vendor) {
+        this.vendor = vendor;
     }
 
     public boolean isInvoiced() {
