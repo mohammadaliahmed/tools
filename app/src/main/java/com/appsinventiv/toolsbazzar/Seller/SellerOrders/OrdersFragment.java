@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 
 import com.appsinventiv.toolsbazzar.Models.OrderModel;
 
+import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
@@ -218,6 +219,7 @@ public class OrdersFragment extends Fragment {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 CommonUtils.showToast("Order status updated");
+                                getDataFromServer();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -274,53 +276,11 @@ public class OrdersFragment extends Fragment {
 
             }
         });
-//        mDatabase.child("Orders").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                arrayList.clear();
-//                if (dataSnapshot.getValue() != null) {
-//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                        OrderModel model = snapshot.getValue(OrderModel.class);
-//                        if (model != null) {
-//                            if (model.getOrderStatus().equalsIgnoreCase(orderStatus)) {
-//                                if(model.getOrderFor()!=null){
-//                                    if(model.getOrderFor().equalsIgnoreCase("seller")){
-//                                        arrayList.add(model);
-//                                    }
-//                                }
-//
-//
-//                            }
-//                        }
-//                    }
-//                    Collections.sort(arrayList, new Comparator<OrderModel>() {
-//                        @Override
-//                        public int compare(OrderModel listData, OrderModel t1) {
-//                            Long ob1 = listData.getTime();
-//                            Long ob2 = t1.getTime();
-//
-//                            return ob2.compareTo(ob1);
-//
-//                        }
-//                    });
-//                    adapter.notifyDataSetChanged();
-//                    progress.setVisibility(View.GONE);
-//                } else {
-////                    CommonUtils.showToast("Nothing to show");
-//                    progress.setVisibility(View.GONE);
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+
     }
 
     private void getOrdersFromDB(String key) {
-        mDatabase.child("Orders").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Orders").child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
@@ -335,6 +295,15 @@ public class OrdersFragment extends Fragment {
                     } else {
                         img.setVisibility(View.GONE);
                     }
+
+                    Collections.sort(arrayList, new Comparator<OrderModel>() {
+                        @Override
+                        public int compare(OrderModel listData, OrderModel t1) {
+                            String ob1 = listData.getOrderId();
+                            String ob2 = t1.getOrderId();
+                            return ob2.compareTo(ob1);
+                        }
+                    });
                     adapter.notifyDataSetChanged();
                 }
             }

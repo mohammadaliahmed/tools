@@ -23,6 +23,8 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.Random;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.ViewHolder> {
     Context context;
     ArrayList<StoreListModel> itemList = new ArrayList<>();
@@ -81,7 +83,7 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView storeName, followerCount;
-        ImageView storeImg;
+        CircleImageView storeImg;
         RecyclerView recyler;
         LinearLayout linear;
 

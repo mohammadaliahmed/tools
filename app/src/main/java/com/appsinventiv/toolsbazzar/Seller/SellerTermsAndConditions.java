@@ -54,23 +54,25 @@ public class SellerTermsAndConditions extends AppCompatActivity {
         replacement = findViewById(R.id.replacement);
         other = findViewById(R.id.other);
 
-        mDatabase.child("Settings").child("Terms").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Settings").child("SellerTerms").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null) {
                     TermsModel model = dataSnapshot.getValue(TermsModel.class);
-                    terms.setText(model.getTerms());
-                    cookies.setText(model.getCookies());
-                    license.setText(model.getLicense());
-                    hyperlink.setText(model.getHyperlink());
-                    iframes.setText(model.getIframes());
-                    contentLiability.setText(model.getContentLiability());
-                    reservation.setText(model.getReservation());
-                    removal.setText(model.getRemoval());
-                    disclaimer.setText(model.getDisclaimer());
-                    replacement.setText(model.getReplacement());
-                    other.setText(model.getOther());
+                    if(model!=null) {
+                        terms.setText(model.getTerms());
+                        cookies.setText(model.getCookies());
+                        license.setText(model.getLicense());
+                        hyperlink.setText(model.getHyperlink());
+                        iframes.setText(model.getIframes());
+                        contentLiability.setText(model.getContentLiability());
+                        reservation.setText(model.getReservation());
+                        removal.setText(model.getRemoval());
+                        disclaimer.setText(model.getDisclaimer());
+                        replacement.setText(model.getReplacement());
+                        other.setText(model.getOther());
 
+                    }
                 }
             }
 

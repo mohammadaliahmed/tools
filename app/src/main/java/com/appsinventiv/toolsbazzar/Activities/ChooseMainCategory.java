@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -65,6 +66,7 @@ public class ChooseMainCategory extends AppCompatActivity {
                             itemList.add(model);
                         }
                     }
+                    adapter.updateList(itemList);
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -77,7 +79,28 @@ public class ChooseMainCategory extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.only_search_menu, menu);
+        final MenuItem mSearch = menu.findItem(R.id.action_search);
+//        mSearch.expandActionView();
+        SearchView mSearchView = (SearchView) mSearch.getActionView();
+
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                adapter.filter(newText);
+//                    getUserCartProductsFromDB();
+
+                return false;
+            }
+        });
+        return true;
     }
 
     @Override

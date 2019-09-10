@@ -1,6 +1,10 @@
 package com.appsinventiv.toolsbazzar.Seller;
 
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -12,8 +16,11 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -28,12 +35,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.AboutUs;
 import com.appsinventiv.toolsbazzar.Activities.AccountIsDisabled;
 import com.appsinventiv.toolsbazzar.Activities.Cart;
 import com.appsinventiv.toolsbazzar.Activities.ChooseMainCategory;
+import com.appsinventiv.toolsbazzar.Activities.ClientProhibted;
 import com.appsinventiv.toolsbazzar.Activities.LiveChat;
 import com.appsinventiv.toolsbazzar.Activities.Login;
 import com.appsinventiv.toolsbazzar.Activities.MainActivity;
@@ -42,6 +51,7 @@ import com.appsinventiv.toolsbazzar.Activities.MyProfile;
 import com.appsinventiv.toolsbazzar.Activities.NewCart;
 import com.appsinventiv.toolsbazzar.Activities.NewSales;
 import com.appsinventiv.toolsbazzar.Activities.Search;
+import com.appsinventiv.toolsbazzar.Activities.SellerProhibted;
 import com.appsinventiv.toolsbazzar.Activities.Splash;
 import com.appsinventiv.toolsbazzar.Activities.TermsAndConditions;
 import com.appsinventiv.toolsbazzar.Activities.Welcome;
@@ -53,6 +63,7 @@ import com.appsinventiv.toolsbazzar.Adapters.MainSliderAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.SellerFragmentAdapter;
 import com.appsinventiv.toolsbazzar.Models.AdminModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
+import com.appsinventiv.toolsbazzar.Models.MainCategoryModel;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.Reviews.SellerProductReviews;
@@ -94,17 +105,33 @@ public class SellerMainActivity extends AppCompatActivity
     CollapsingToolbarLayout collapsing_toolbar;
 
     LinearLayout ic_settings, ic_chat, reviews, myProducts, myOrders;
+    NestedScrollView nested;
+    ImageView nav;
+    TextView toolbarTitle;
+    private DrawerLayout drawer;
+    LinearLayout rela;
+    private ViewPager viewPager;
+    private ViewPager viewPager2;
+//    NestedScrollView scrollview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("viewPagerHeight"));
+        nested = findViewById(R.id.nested);
         fab = findViewById(R.id.fab);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
         collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
+        nav = findViewById(R.id.nav);
+        toolbarTitle = findViewById(R.id.toolbarTitle);
+        rela = findViewById(R.id.rela);
+//        scrollview = findViewById(R.id.scrollview);
+//        scrollview.setFillViewport (true);
 
 
         this.setTitle("My Store View");
@@ -118,14 +145,35 @@ public class SellerMainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
         setupSubmenu();
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            nested.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                    if (i1 > 1) {
+                        toolbarTitle.setText("My Store View");
+                    } else {
+                        toolbarTitle.setText("");
+                    }
+                }
+            });
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
+
+
+        nav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
 
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -156,6 +204,7 @@ public class SellerMainActivity extends AppCompatActivity
         }
         this.setTitle("My Store View");
         initTabsView();
+        initTabsView2();
         getBannerImagesFromDb();
         initViewPager();
         initDrawer();
@@ -163,6 +212,20 @@ public class SellerMainActivity extends AppCompatActivity
         getUserAccountStatusFromDB();
 
     }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            int count = intent.getIntExtra("count", 0);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rela.getLayoutParams();
+            float abc = 500 * count;
+            params.height = (int) abc;
+            rela.setLayoutParams(params);
+
+
+        }
+    };
 
     private void setupSubmenu() {
         ic_settings = findViewById(R.id.ic_settings);
@@ -255,7 +318,7 @@ public class SellerMainActivity extends AppCompatActivity
     }
 
     private void initTabsView() {
-        ViewPager viewPager = findViewById(R.id.viewpager1);
+        viewPager = findViewById(R.id.viewpager1);
         ArrayList<String> categoryList = new ArrayList<>();
 
         categoryList.add("Approved");
@@ -271,7 +334,61 @@ public class SellerMainActivity extends AppCompatActivity
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         tabLayout.setupWithViewPager(viewPager);
+//        viewPager.getLayoutParams().height=20000;
+
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
+
+    private void initTabsView2() {
+        viewPager2 = findViewById(R.id.viewpager2);
+        final ArrayList<String> categoryList2 = new ArrayList<>();
+        final SellerCategoryFragmentAdapter adapter2 = new SellerCategoryFragmentAdapter(this, getSupportFragmentManager(), categoryList2, "1");
+
+
+        mDatabase.child("Settings").child("Categories").child("MainCategories").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    categoryList2.add("All");
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        MainCategoryModel categoryTitle = snapshot.getValue(MainCategoryModel.class);
+                        categoryList2.add(categoryTitle.getMainCategory());
+                    }
+                    adapter2.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        viewPager2.setAdapter(adapter2);
+
+
+        TabLayout tabLayout2 = findViewById(R.id.sliding_tabs2);
+        tabLayout2.setTabMode(TabLayout.MODE_SCROLLABLE);
+
+        tabLayout2.setupWithViewPager(viewPager2);
+
+    }
+
 
     private void initViewPager() {
 //        pics = SharedPrefs.getArrayList("banners");
@@ -360,11 +477,11 @@ public class SellerMainActivity extends AppCompatActivity
 //        navigationView.setNavigationItemSelectedListener(this);
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -376,6 +493,13 @@ public class SellerMainActivity extends AppCompatActivity
             Glide.with(this).load(SharedPrefs.getVendor().getPicUrl()).into(imageView);
 
         }
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SellerMainActivity.this, SellerProfile.class));
+            }
+        });
 
         chat = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.chat));
@@ -404,7 +528,7 @@ public class SellerMainActivity extends AppCompatActivity
         } else {
             navSubtitle.setText(SharedPrefs.getCity());
 
-            navUsername.setText(SharedPrefs.getVendor().getStoreName());
+            navUsername.setText("Hi, " +SharedPrefs.getVendor().getStoreName());
             navSubtitle.setText("Vendor");
 //            if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
 //                navSubtitle.setText("Wholesale");
@@ -587,6 +711,11 @@ public class SellerMainActivity extends AppCompatActivity
 
         } else if (id == R.id.whishlist) {
             Intent i = new Intent(SellerMainActivity.this, Whishlist.class);
+            startActivity(i);
+
+
+        } else if (id == R.id.prohibted) {
+            Intent i = new Intent(SellerMainActivity.this, SellerProhibted.class);
             startActivity(i);
 
 

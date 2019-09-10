@@ -40,25 +40,75 @@
                 app:dotsSize="5dp"
                 app:dotsWidthFactor="3" />
 
-            <RelativeLayout
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-             >
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="25dp"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin">
 
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_marginTop="20dp"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
-                    app:layout_collapseMode="pin" />
+                    android:layout_height="wrap_content">
 
-            </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/nav"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_menu_bg" />
+
+                    <ImageView
+                        android:id="@+id/search"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@id/cartIcon"
+                        android:src="@drawable/ic_search" />
+
+                    <TextView
+                        android:id="@+id/toolbarTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="50dp"
+                        android:layout_toRightOf="@id/backImage"
+                        android:text=""
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/cartIcon"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:src="@drawable/ic_cart_black" />
+
+                    <TextView
+                        android:id="@+id/cart_count"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="-25dp"
+                        android:layout_toRightOf="@id/cartIcon"
+                        android:background="@drawable/badge_background"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="#fff"
+                        android:textSize="11sp" />
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
+
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/nested"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="-30dp"
@@ -77,7 +127,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="30dp"
+
                 android:background="#fff"
                 android:orientation="vertical">
 
@@ -131,8 +181,8 @@
                     android:id="@+id/viewpager1"
                     android:layout_width="match_parent"
                     android:layout_height="270dp"
-                    android:background="#ededed"
-                    android:layout_below="@id/sliding_tabs" />
+                    android:layout_below="@id/sliding_tabs"
+                    android:background="#ededed" />
 
 
                 <android.support.design.widget.TabLayout
@@ -143,13 +193,20 @@
                     app:tabMode="scrollable"
                     app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewpager"
-                    android:layout_width="match_parent"
-                    android:background="#ededed"
 
-                    android:layout_height="500dp"
-                    android:layout_below="@id/sliding_tabs" />
+                <LinearLayout
+                    android:id="@+id/rela"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:layout_below="@id/sliding_tabs"
+                        android:background="#ededed" />
+                </LinearLayout>
 
             </LinearLayout>
 

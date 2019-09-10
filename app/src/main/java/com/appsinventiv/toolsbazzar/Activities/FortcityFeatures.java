@@ -2,7 +2,9 @@ package com.appsinventiv.toolsbazzar.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -18,6 +20,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -68,26 +72,51 @@ public class FortcityFeatures extends AppCompatActivity {
     AppBarLayout app_bar_layout;
     private DatabaseReference mDatabase;
 
+    TextView cart_count;
+    ImageView cartIcon;
+    ImageView backImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fort_city_features);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setElevation(0);
         }
-        mDatabase=FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         app_bar_layout = findViewById(R.id.app_bar_layout);
         collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
 
 
+        backImage = findViewById(R.id.backImage);
+        cart_count = findViewById(R.id.cart_count);
+        cartIcon = findViewById(R.id.cartIcon);
         image = findViewById(R.id.picture);
         textData = findViewById(R.id.textData);
         ok = findViewById(R.id.ok);
         subtitle = findViewById(R.id.subtitle);
+
+        backImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         id = getIntent().getIntExtra("id", 0);
         text = getIntent().getStringExtra("text");
@@ -149,7 +178,34 @@ public class FortcityFeatures extends AppCompatActivity {
                 finish();
             }
         });
+
+        cartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(FortcityFeatures.this,NewCart.class));
+            }
+        });
+        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                long cartItemCountFromDb = dataSnapshot.getChildrenCount();
+//                textCartItemCount.setText("" + cartItemCountFromDb);
+                cart_count.setText("" + cartItemCountFromDb);
+                SharedPrefs.setCartCount("" + cartItemCountFromDb);
+                if (dataSnapshot.getChildrenCount() == 0) {
+                    SharedPrefs.setCartCount("0");
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

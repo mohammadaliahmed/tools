@@ -19,6 +19,7 @@ import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.SellerChat.SellerChats;
 import com.appsinventiv.toolsbazzar.Seller.SellerMainActivity;
 import com.appsinventiv.toolsbazzar.Seller.SellerOrders.Orders;
+import com.appsinventiv.toolsbazzar.Seller.SellerProductComments;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -82,12 +83,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             resultIntent = new Intent(this, LiveChat.class);
             resultIntent.putExtra("username", Id);
         } else if (type.equalsIgnoreCase("WholesaleChat")) {
-            SharedPrefs.setNewMsg("1");
+            int c = Integer.parseInt(SharedPrefs.getNewMsg().equalsIgnoreCase("") ? "0" : SharedPrefs.getNewMsg());
+            c = c + 1;
+            SharedPrefs.setNewMsg(c + "");
 
             resultIntent = new Intent(this, WholesaleLiveChat.class);
             resultIntent.putExtra("username", username);
         } else if (type.equalsIgnoreCase("SellerChat")) {
-            SharedPrefs.setNewMsg("1");
+            int c = Integer.parseInt(SharedPrefs.getNewMsg().equalsIgnoreCase("") ? "0" : SharedPrefs.getNewMsg());
+            c = c + 1;
+            SharedPrefs.setNewMsg(c + "");
 
             resultIntent = new Intent(this, SellerChats.class);
 //            resultIntent.putExtra("username", username);
@@ -100,7 +105,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         } else if (type.equals("SellerOrder")) {
             resultIntent = new Intent(this, Orders.class);
         } else if (type.equals("NewComment")) {
-            resultIntent = new Intent(this, ProductComments.class);
+            if (SharedPrefs.getVendor() != null) {
+                resultIntent = new Intent(this, SellerProductComments.class);
+            } else if (SharedPrefs.getCustomerModel() != null) {
+                resultIntent = new Intent(this, ProductComments.class);
+            }
             resultIntent.putExtra("productId", Id);
             HashMap<String, Double> map = SharedPrefs.getCommentsCount();
             if (map != null && map.size() > 0) {

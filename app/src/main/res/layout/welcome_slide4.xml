@@ -4,10 +4,10 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:visibility="visible"
         android:id="@+id/buy_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/img"
@@ -16,7 +16,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="100dp"
             android:src="@drawable/fort_city" />
-
 
 
         <TextView
@@ -30,56 +29,88 @@
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
-
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/selectCountry"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="150dp"
-            android:fontFamily="@font/cosmic_fonts"
-            android:text="Whole Sale (Business owner)"
-            android:textColor="#fff" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="120dp"
+            android:background="@drawable/btn_bg_white"
+            android:orientation="horizontal">
 
-        <Switch
-            android:id="@+id/wholesale"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+
+                android:src="@drawable/store_black_bg" />
+
+            <TextView
+                android:id="@+id/countryChosen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:text="Whole Sale (Business owner)" />
+
+            <Switch
+                android:id="@+id/wholesale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+
+                android:trackTint="@color/colorWhite" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/selectLanguage"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="150dp"
-            android:checked="false"
-            android:trackTint="@color/colorWhite" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="60dp"
+            android:background="@drawable/btn_bg_white"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/user_black_bg" />
 
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="100dp"
-            android:fontFamily="@font/cosmic_fonts"
-            android:text="Retail (Retail owner)"
-            android:textColor="#fff" />
+            <TextView
+                android:id="@+id/languageChosen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:text="Retail (For Retails Customers)" />
 
-        <Switch
-            android:id="@+id/retail"
-            android:layout_width="wrap_content"
+            <Switch
+                android:id="@+id/retail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
 
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="100dp"
-            android:trackTint="@color/colorWhite" />
+                android:checked="false"
+                android:trackTint="@color/colorWhite" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/sell_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
 
         <ImageView

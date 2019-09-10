@@ -26,7 +26,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
         android:scaleType="fitStart"
-        android:src="@drawable/no_irders" />
+        android:src="@drawable/no_order_seller" />
 
 
 

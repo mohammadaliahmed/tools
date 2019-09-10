@@ -13,8 +13,11 @@ import com.appsinventiv.toolsbazzar.Models.ChatModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by AliAh on 24/06/2018.
@@ -66,7 +69,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         } else {
             holder.whoReplied.setText("");
         }
+        if (getItemViewType(position) == RIGHT_CHAT) {
+            if (SharedPrefs.getCustomerModel().getPicUrl() != null) {
+                Glide.with(context).load(SharedPrefs.getCustomerModel().getPicUrl()).into(holder.image);
+            } else {
+                Glide.with(context).load(R.drawable.ic_profile).into(holder.image);
 
+            }
+        } else {
+            Glide.with(context).load(R.drawable.logo).into(holder.image);
+
+        }
     }
 
     @Override
@@ -86,8 +99,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView msgtext, time,whoReplied;
+        TextView msgtext, time, whoReplied;
         ImageView status;
+        CircleImageView image;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -95,6 +109,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             time = itemView.findViewById(R.id.time);
             status = itemView.findViewById(R.id.status);
             whoReplied = itemView.findViewById(R.id.whoReplied);
+            image = itemView.findViewById(R.id.image);
 
         }
     }

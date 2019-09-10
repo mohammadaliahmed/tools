@@ -23,18 +23,23 @@ import com.appsinventiv.toolsbazzar.ListOfStrores.StoresList;
 import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.bumptech.glide.Glide;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CustomerScreen extends AppCompatActivity {
     ImageView back, settings;
     RelativeLayout recentViewed, faq, phone, reviews, address, wallet, stores, myOrders;
-    TextView name,userPhone;
+    TextView name, userPhone;
     LinearLayout pending, processing, completed, shipped;
+    CircleImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_screen);
 
+        image = findViewById(R.id.image);
         stores = findViewById(R.id.stores);
         wallet = findViewById(R.id.wallet);
         address = findViewById(R.id.address);
@@ -122,6 +127,9 @@ public class CustomerScreen extends AppCompatActivity {
                 startActivity(new Intent(CustomerScreen.this, StoresList.class));
             }
         });
+        if (SharedPrefs.getCustomerModel().getPicUrl() != null) {
+            Glide.with(CustomerScreen.this).load(SharedPrefs.getCustomerModel().getPicUrl()).into(image);
+        }
     }
 
     @Override

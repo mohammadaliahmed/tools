@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_brick">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/fort_city_green" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Your Attention Please !"
+            android:textColor="@color/colorGreen" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Maintaining the safety of our FortCity community is a responsibility we take very seriously. For this reason, and to comply with local &amp; International legal restrictions, some categories of products listed below is restricted for international Shipping, or completely banned from being Sold / Promoted. \n\nTherefore  we recommend you to avoid  Selling The following items which is not eligible for shipping Internatinally as per GDA (Global Distribution Alliance) Policy."
+            android:textColor="#fff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:text="Prohibited / Unacceptable Item List for International shipping
+"
+            android:textColor="@color/colorGreen" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:scaleType="fitStart"
+            android:layout_height="5000dp"
+            android:src="@drawable/ic_seller_prohibted" />
+    </LinearLayout>
+</ScrollView>

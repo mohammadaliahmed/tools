@@ -170,7 +170,7 @@ public class LiveChat extends AppCompatActivity implements NotificationObserver 
                             .setValue(new ChatModel(key, msg, SharedPrefs.getUsername()
                                     , System.currentTimeMillis(), "sending", SharedPrefs.getUsername(),
 
-                                    SharedPrefs.getName(),SharedPrefs.getCustomerModel().getName())
+                                    SharedPrefs.getName(),SharedPrefs.getCustomerModel().getName(),SharedPrefs.getCustomerModel().getPicUrl())
                             ).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {

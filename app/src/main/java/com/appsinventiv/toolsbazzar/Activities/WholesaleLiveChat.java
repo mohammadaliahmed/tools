@@ -60,8 +60,6 @@ public class WholesaleLiveChat extends AppCompatActivity implements Notification
         soundId = sp.load(WholesaleLiveChat.this, R.raw.tick_sound, 1);
 
 
-
-
     }
 
     @Override
@@ -170,9 +168,9 @@ public class WholesaleLiveChat extends AppCompatActivity implements Notification
                     final String key = mDatabase.push().getKey();
                     mDatabase.child("Chats/WholesaleChats").child(SharedPrefs.getUsername()).child(key)
                             .setValue(new ChatModel(key, msg, SharedPrefs.getUsername()
-                                    , System.currentTimeMillis(), "sending",SharedPrefs.getUsername(),
+                                    , System.currentTimeMillis(), "sending", SharedPrefs.getUsername(),
 
-                                    SharedPrefs.getName(),SharedPrefs.getCustomerModel().getName())).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    SharedPrefs.getName(), SharedPrefs.getCustomerModel().getName(), SharedPrefs.getCustomerModel().getPicUrl())).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
 

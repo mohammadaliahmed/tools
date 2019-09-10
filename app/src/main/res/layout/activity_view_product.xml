@@ -35,22 +35,120 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="310dp"
+                android:layout_marginTop="340dp"
                 app:dotsColor="@color/colorPrimaryDark"
                 app:dotsSize="5dp"
                 app:dotsWidthFactor="3" />
 
+            <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="70dp"-->
+            <!--android:layout_marginRight="5dp"-->
+            <!--app:layout_collapseMode="pin">-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                app:layout_collapseMode="pin">
+
+
+                <ImageView
+                    android:id="@+id/backImage1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/ic_back" />
+
+                <ImageView
+                    android:id="@+id/cartIcon1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_cart_black" />
+
+                <TextView
+                    android:id="@+id/cart_count1"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="-20dp"
+                    android:layout_toRightOf="@id/cartIcon1"
+                    android:background="@drawable/badge_background"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#fff"
+                    android:textSize="11sp" />
+
+
+            </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="25dp"
                 android:theme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_collapseMode="pin" />
+                android:visibility="visible"
+                app:layout_collapseMode="pin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <ImageView
+                        android:id="@+id/backImage"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_back" />
+
+                    <ImageView
+                        android:id="@+id/cartIcon"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/ic_cart_black" />
+
+                    <TextView
+                        android:id="@+id/toolbarTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/backImage"
+                        android:ellipsize="end"
+                        android:maxLength="20"
+
+                        android:text=""
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/cart_count"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="-30dp"
+                        android:layout_toRightOf="@id/cartIcon"
+                        android:background="@drawable/badge_background"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="#fff"
+                        android:textSize="11sp" />
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
+            <!--</RelativeLayout>-->
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="-30dp"
@@ -308,8 +406,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
                                 android:isIndicator="false"
-                                android:progressBackgroundTint="#dac20a"
-                                android:progressTint="#dac20a"
+                                android:progressBackgroundTint="#ffba25"
+                                android:progressTint="#ffba25"
                                 android:scaleX="1.3"
                                 android:scaleY="1.3"
                                 android:visibility="visible" />
@@ -333,7 +431,7 @@
                                     android:id="@+id/commentsCount"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Comment"
+                                    android:text="Ask us"
                                     android:textColor="#3b3b3b" />
 
 
@@ -418,13 +516,7 @@
                                     android:orientation="horizontal"></LinearLayout>
                             </HorizontalScrollView>
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_below="@+id/horic"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="30dp"
-                                android:background="#e6e6e6"></View>
+
                         </RelativeLayout>
 
 
@@ -448,8 +540,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_margin="10dp"
-                            android:text="Size Guide for Apparals &amp; footwear"
-                            android:textSize="16sp" />
+                            android:text="Size Guide for Apparals &amp; footwear" />
 
                         <ImageView
                             android:layout_width="30dp"
@@ -568,8 +659,8 @@
                             android:src="@drawable/ic_bars_yellow" />
 
                         <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
 

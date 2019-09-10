@@ -14,14 +14,14 @@
 
         android:lines="1"
         android:text="Ali ahmed, i am ur assistant"
-        android:textColor="@color/colorYellow"
+        android:textColor="@color/colorGreen"
         android:textSize="11sp" />
 
     <ImageView
         android:layout_width="30dp"
         android:layout_margin="2dp"
         android:layout_height="30dp"
-        android:src="@drawable/logo_small" />
+        android:src="@drawable/fort_city_without_green" />
 
 
     <RelativeLayout

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@drawable/bg_brick"
     tools:context="com.appsinventiv.toolsbazzar.Activities.AboutUs">
 
     <LinearLayout
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
-            
+            android:textColor="#fff"
             android:textSize="12sp" />
 
         <TextView
@@ -49,7 +49,7 @@
         <TextView
             android:id="@+id/cookies"
             android:layout_width="wrap_content"
-
+            android:textColor="#fff"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
@@ -69,7 +69,7 @@
         <TextView
             android:id="@+id/license"
             android:layout_width="wrap_content"
-
+            android:textColor="#fff"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
@@ -89,7 +89,7 @@
         <TextView
             android:id="@+id/hyperlink"
             android:layout_width="wrap_content"
-
+            android:textColor="#fff"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
@@ -109,7 +109,7 @@
         <TextView
             android:id="@+id/iframes"
             android:layout_width="wrap_content"
-
+            android:textColor="#fff"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
@@ -129,7 +129,7 @@
         <TextView
             android:id="@+id/contentLiability"
             android:layout_width="wrap_content"
-
+            android:textColor="#fff"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
@@ -149,7 +149,7 @@
         <TextView
             android:id="@+id/reservation"
             android:layout_width="wrap_content"
-
+            android:textColor="#fff"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
@@ -169,7 +169,7 @@
         <TextView
             android:id="@+id/removal"
             android:layout_width="wrap_content"
-
+            android:textColor="#fff"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:hint="ABOUT US"
-            
+            android:textColor="#fff"
             android:textSize="12sp" />
 
         <TextView
@@ -209,7 +209,7 @@
         <TextView
             android:id="@+id/replacement"
             android:layout_width="wrap_content"
-
+            android:textColor="#fff"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="50dp"
@@ -230,7 +230,7 @@
         <TextView
             android:id="@+id/other"
             android:layout_width="wrap_content"
-
+            android:textColor="#fff"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="50dp"
@@ -246,7 +246,7 @@
             android:layout_margin="20dp"
             android:gravity="center"
             android:text="ABOUT US"
-            
+            android:textColor="#fff"
             android:textSize="12sp" />
 
     </LinearLayout>

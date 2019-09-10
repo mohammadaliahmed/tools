@@ -178,7 +178,7 @@ public class SellerChats extends AppCompatActivity implements NotificationObserv
                             .setValue(new ChatModel(key, msg, SharedPrefs.getUsername()
                                     , System.currentTimeMillis(), "sending", SharedPrefs.getUsername(),
 
-                                    SharedPrefs.getVendor().getStoreName(), SharedPrefs.getVendor().getStoreName()))
+                                    SharedPrefs.getVendor().getStoreName(), SharedPrefs.getVendor().getStoreName(),SharedPrefs.getVendor().getPicUrl()))
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

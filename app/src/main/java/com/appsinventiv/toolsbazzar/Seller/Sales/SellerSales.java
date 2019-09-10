@@ -41,6 +41,7 @@ public class SellerSales extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
+
     }
 
     @Override

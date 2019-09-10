@@ -36,31 +36,56 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="310dp"
-                app:dotsColor="@color/colorPrimaryDark"
+                app:dotsColor="@color/colorGreenDark"
                 app:dotsSize="5dp"
                 app:dotsWidthFactor="3" />
 
-            <RelativeLayout
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="70dp">
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="25dp"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin">
 
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_marginTop="20dp"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
-                    app:layout_collapseMode="pin" />
+                    android:layout_height="wrap_content">
 
-            </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/nav"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_menu_bg" />
+
+
+                    <TextView
+                        android:id="@+id/toolbarTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="50dp"
+                        android:layout_toRightOf="@id/backImage"
+                        android:text=""
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
+
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/nested"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="-30dp"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
@@ -76,7 +101,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:background="#fff"
                 android:orientation="vertical">
 
@@ -92,12 +117,39 @@
                     app:tabMode="scrollable"
                     app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
 
+
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager1"
                     android:layout_width="match_parent"
-                    android:layout_height="510dp"
-                    android:layout_below="@id/sliding_tabs" />
+                    android:layout_height="350dp"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+                <View
+                    android:background="#ddd"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"/>
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/sliding_tabs2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    app:tabMode="scrollable"
+                    app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
+
+                <LinearLayout
+                    android:id="@+id/rela"
+                    android:layout_width="match_parent"
+                    android:background="#ddd"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/viewpager2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/sliding_tabs"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                </LinearLayout>
             </LinearLayout>
 
 

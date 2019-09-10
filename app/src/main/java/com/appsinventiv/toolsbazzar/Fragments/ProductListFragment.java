@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appsinventiv.toolsbazzar.Activities.SizeChart;
+import com.appsinventiv.toolsbazzar.Adapters.HomeProductsAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.RelatedProductsAdapter;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.Product;
@@ -52,7 +54,7 @@ public class ProductListFragment extends Fragment {
     ArrayList<ProductCountModel> userCartProductList = new ArrayList<>();
     ArrayList<String> userWishList = new ArrayList<>();
 
-    RelatedProductsAdapter adapter;
+    HomeProductsAdapter adapter;
     String category;
 
     DatabaseReference mDatabase;
@@ -119,7 +121,7 @@ public class ProductListFragment extends Fragment {
                 recyclerView.setLayoutManager(gridLayoutManager);
             }
         }
-        adapter = new RelatedProductsAdapter(context, productArrayList, userCartProductList, userWishList, new AddToCartInterface() {
+        adapter = new HomeProductsAdapter(context, productArrayList, userCartProductList, userWishList, new AddToCartInterface() {
             @Override
             public void addedToCart(final Product product, final int quantity, int position) {
                 size = "";
@@ -799,6 +801,9 @@ public class ProductListFragment extends Fragment {
                         }
                     });
                     adapter.notifyDataSetChanged();
+                    if (productArrayList.size() > 0) {
+                        sendMessage(productArrayList.size());
+                    }
                 }
             }
 
@@ -807,6 +812,14 @@ public class ProductListFragment extends Fragment {
 
             }
         });
+    }
+
+    private void sendMessage(int size) {
+        Log.d("sender", "Broadcasting message");
+        Intent intent = new Intent("viewPagerHeight");
+        // You can also include some extra data.
+        intent.putExtra("count", size);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
     private void getCategoryProductsFromDB() {
@@ -846,6 +859,9 @@ public class ProductListFragment extends Fragment {
                         }
                     });
                     adapter.notifyDataSetChanged();
+                    if (productArrayList.size() > 0) {
+                        sendMessage(productArrayList.size());
+                    }
                 }
             }
 

@@ -10,12 +10,14 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.appsinventiv.toolsbazzar.Adapters.SliderAdapter;
+import com.appsinventiv.toolsbazzar.Adapters.ViewPicturesSliderAdapter;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerViewProduct;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 public class ViewPictures extends AppCompatActivity {
     ViewPager mViewPager;
-    SliderAdapter sliderAdapter;
+    ViewPicturesSliderAdapter sliderAdapter;
     DotsIndicator dotsIndicator;
 
     @Override
@@ -26,7 +28,13 @@ public class ViewPictures extends AppCompatActivity {
         dotsIndicator = (DotsIndicator) findViewById(R.id.dots_indicator);
 
         mViewPager = findViewById(R.id.viewpager);
-        sliderAdapter = new SliderAdapter(ViewPictures.this, ViewProduct.picUrls, 0);
+        if(ViewProduct.picUrls.size()>0){
+            sliderAdapter = new ViewPicturesSliderAdapter(ViewPictures.this, ViewProduct.picUrls, 0);
+
+        }else{
+            sliderAdapter = new ViewPicturesSliderAdapter(ViewPictures.this, SellerViewProduct.picUrls, 0);
+
+        }
         mViewPager.setAdapter(sliderAdapter);
         dotsIndicator.setViewPager(mViewPager);
     }

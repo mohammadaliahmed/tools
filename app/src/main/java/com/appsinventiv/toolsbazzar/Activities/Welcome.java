@@ -206,7 +206,29 @@ public class Welcome extends AppCompatActivity {
                         if (userType.equalsIgnoreCase("")) {
                             CommonUtils.showToast("Please select your type");
                         } else {
-                            int current = getItem(+1);
+                            int current =0;
+                            if(userType.equalsIgnoreCase("sell")) {
+                                layouts = new int[]{
+                                        R.layout.welcome_slide1,
+                                        R.layout.welcome_slide2,
+                                        R.layout.welcome_slide3,
+                                        R.layout.welcome_slide_country,
+                                        R.layout.welcome_buy_sell,
+                                        R.layout.welcome_slide44,
+                                        R.layout.welcome_slide44,
+                                        R.layout.welcome_slide5,
+                                        R.layout.welcome_slide6,
+                                        R.layout.welcome_slide7,
+
+
+                                };
+
+                                myViewPagerAdapter.notifyDataSetChanged();
+                                 current = getItem(+2);
+                            }else{
+                                current = getItem(+1);
+                            }
+
                             if (current < layouts.length) {
                                 // move to next screen
                                 viewPager.setCurrentItem(current);
@@ -214,7 +236,13 @@ public class Welcome extends AppCompatActivity {
                         }
                     } else if (pageNumber == 5) {
                         if (userType.equalsIgnoreCase("sell")) {
-                            launchSellerHomeScreen();
+                            int current = getItem(+1);
+                            if (current < layouts.length) {
+                                // move to next screen
+                                viewPager.setCurrentItem(current);
+//                            launchHomeScreen();
+                            }
+//                            launchSellerHomeScreen();
                         } else if (userType.equalsIgnoreCase("buy")) {
                             if (!customerType.equalsIgnoreCase("")) {
                                 SharedPrefs.setUserType("buy");
@@ -224,7 +252,9 @@ public class Welcome extends AppCompatActivity {
                                 CommonUtils.showToast("Please choose your type");
                             }
                         }
-                    } else {
+                    } else if (pageNumber == 9) {
+                        launchSellerHomeScreen();
+                    }else {
                         int current = getItem(+1);
                         if (current < layouts.length) {
                             // move to next screen
@@ -265,6 +295,7 @@ public class Welcome extends AppCompatActivity {
         @Override
         public void onPageSelected(int position) {
             pageNumber = position;
+
             // changing the next button text 'NEXT' / 'GOT IT'
             pageNumber = position;
             if (position == 4) {
@@ -300,6 +331,9 @@ public class Welcome extends AppCompatActivity {
                 // still pages are left
                 btnNext.setText("NEXT");
                 btnBack.setVisibility(View.VISIBLE);
+            }
+            if(position==0){
+                btnBack.setVisibility(View.GONE);
             }
         }
 

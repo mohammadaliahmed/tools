@@ -2,6 +2,8 @@ package com.appsinventiv.toolsbazzar.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -46,11 +50,13 @@ public class MyOrders extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_orders);
         this.setTitle("My Orders");
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setElevation(0);
         }
+
         progress = findViewById(R.id.progress);
         shopping = findViewById(R.id.shopping);
         wholeLayout = findViewById(R.id.wholeLayout);
@@ -63,7 +69,7 @@ public class MyOrders extends AppCompatActivity {
         });
 
         orderStatus = getIntent().getStringExtra("orderStatus");
-        this.setTitle((orderStatus!=null?orderStatus+" Orders":"My Orders"));
+        this.setTitle((orderStatus != null ? orderStatus + " Orders" : "My Orders"));
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerView = findViewById(R.id.recycler);
@@ -120,13 +126,22 @@ public class MyOrders extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                         getOrdersFromDb(snapshot.getKey());
+                        if (orderModelArrayList.size() > 0) {
+                            wholeLayout.setVisibility(View.GONE);
+                        } else {
+                            wholeLayout.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     adapter.notifyDataSetChanged();
                 } else {
                     progress.setVisibility(View.GONE);
                     orderModelArrayList.clear();
-                    wholeLayout.setVisibility(View.VISIBLE);
+                    if (orderModelArrayList.size() > 0) {
+                        wholeLayout.setVisibility(View.GONE);
+                    } else {
+                        wholeLayout.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
@@ -158,6 +173,8 @@ public class MyOrders extends AppCompatActivity {
                         } else if (model.getOrderStatus().contains(orderStatus)) {
                             orderModelArrayList.add(model);
                         }
+
+
                         adapter.notifyDataSetChanged();
                         Collections.sort(orderModelArrayList, new Comparator<OrderModel>() {
                             @Override
@@ -172,9 +189,6 @@ public class MyOrders extends AppCompatActivity {
 
 
                     }
-
-                } else {
-                    wholeLayout.setVisibility(View.VISIBLE);
 
                 }
             }

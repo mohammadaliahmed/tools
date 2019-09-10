@@ -32,6 +32,7 @@ public class SellerFragmentAdapter extends FragmentPagerAdapter {
 
     }
 
+
     @Override
     public int getCount() {
         return categoryTitle.size();

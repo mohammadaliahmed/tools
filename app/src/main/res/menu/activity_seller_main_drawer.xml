@@ -5,11 +5,11 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item android:title="Offers">
+        <item android:title="My Store">
             <menu>
                 <item
                     android:id="@+id/addProduct"
-                    android:icon="@drawable/cart_menu"
+                    android:icon="@drawable/cart"
                     android:title="Add product" />
                 <item
                     android:id="@+id/myProducts"
@@ -72,6 +72,11 @@
                 android:id="@+id/terms"
                 android:icon="@drawable/ic_terms"
                 android:title="Terms &amp; Condition" />
+            <item
+                android:id="@+id/prohibted"
+                android:icon="@drawable/ic_warning"
+
+                android:title="Prohibited Items" />
             <item
                 android:id="@+id/signout"
                 android:icon="@drawable/power"

@@ -11,22 +11,52 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.ChooseCategory;
+import com.appsinventiv.toolsbazzar.Activities.MainActivity;
 import com.appsinventiv.toolsbazzar.Models.MainCategoryModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapter.ViewHolder> {
     Context context;
     ArrayList<MainCategoryModel> itemList;
+    private ArrayList<MainCategoryModel> arrayList;
 
 
     public MainCategoryAdapter(Context context, ArrayList<MainCategoryModel> itemList) {
         this.context = context;
         this.itemList = itemList;
+        this.arrayList = new ArrayList<>(itemList);
+
     }
+    public void updateList(ArrayList<MainCategoryModel> list) {
+        this.itemList = list;
+        arrayList.clear();
+        arrayList.addAll(list);
+    }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        itemList.clear();
+        if (charText.length() == 0) {
+            itemList.addAll(arrayList);
+        } else {
+            for (MainCategoryModel text : arrayList) {
+                if (text.getMainCategory().toLowerCase().contains(charText)
+                        ) {
+                    itemList.add(text);
+                }
+            }
+
+
+        }
+        notifyDataSetChanged();
+
+    }
+
 
     @NonNull
     @Override

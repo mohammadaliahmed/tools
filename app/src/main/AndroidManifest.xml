@@ -63,7 +63,7 @@
         <activity
             android:name=".Activities.ViewProduct"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppThemeBlackClock.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -75,8 +75,21 @@
                     android:pathPrefix="/product"
                     android:scheme="http" />
             </intent-filter>
-        </activity>    <activity
+        </activity>
+        <activity
             android:name=".Activities.FortcityFeatures"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
+            android:name=".Activities.ClientProhibted"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
+            android:name=".Activities.SellerProhibted"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -84,7 +97,8 @@
         <activity
             android:name=".Activities.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeMain.NoActionBar" />
+            android:hardwareAccelerated="true"
+            android:theme="@style/AppThemeBlackClock.NoActionBar" />
         <activity
             android:name=".Activities.Search"
             android:screenOrientation="portrait"
@@ -152,7 +166,7 @@
         <activity
             android:name=".Seller.SellerRegister"
             android:theme="@style/AppTheme.NoActionBar1"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Seller.SellerScreen"
             android:theme="@style/AppTheme.NoActionBar2" />
@@ -165,10 +179,12 @@
             android:theme="@style/AppTheme.NoActionBar2" />
         <activity
             android:name=".Seller.SellerAddProduct"
-            android:theme="@style/AppThemeGreen" />
+            android:theme="@style/AppThemeGreen"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Seller.AddProductWeight"
-            android:theme="@style/AppThemeGreen" />
+            android:theme="@style/AppThemeGreen"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".Seller.SellerProductComments"
             android:theme="@style/AppThemeGreen" />
@@ -207,18 +223,19 @@
         <activity
             android:name=".Seller.SellerAddBankAccount"
             android:theme="@style/AppThemeGreen"
-            android:windowSoftInputMode="stateHidden"/> <activity
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".Seller.Reviews.SellerProductReviews"
             android:theme="@style/AppThemeGreen"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Seller.ListOfOtherStores"
             android:theme="@style/AppThemeGreen"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Seller.SellerProfile"
             android:theme="@style/AppThemeGreen"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Seller.SellerChat.SellerChats"
             android:theme="@style/AppThemeGreen" />
@@ -226,6 +243,7 @@
         <activity
             android:name=".Seller.SellerStore.SellerStoreView"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".StickTabs" />
     </application>
 
 </manifest>

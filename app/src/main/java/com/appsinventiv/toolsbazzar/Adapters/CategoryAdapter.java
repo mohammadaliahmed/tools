@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 
 import com.appsinventiv.toolsbazzar.Activities.ChooseCategory;
+import com.appsinventiv.toolsbazzar.Models.MainCategoryModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.EditProduct;
 import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by AliAh on 27/11/2018.
@@ -25,12 +27,43 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     Context context;
     ArrayList<String> list;
     GetNewData getNewData;
+    private ArrayList<String> arrayList;
+
 
     public CategoryAdapter(Context context, ArrayList<String> list, GetNewData getNewData) {
         this.context = context;
         this.list = list;
         this.getNewData = getNewData;
+        this.arrayList = new ArrayList<>(list);
+
     }
+
+    public void updateList(ArrayList<String> list) {
+        this.list = list;
+        arrayList.clear();
+        arrayList.addAll(list);
+    }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        list.clear();
+        if (charText.length() == 0) {
+            list.addAll(arrayList);
+        } else {
+            for (String text : arrayList) {
+                if (text.toLowerCase().contains(charText)
+                        ) {
+                    list.add(text);
+                }
+            }
+
+
+        }
+        notifyDataSetChanged();
+
+    }
+
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -74,6 +107,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             title = itemView.findViewById(R.id.title);
         }
     }
+
     public interface GetNewData {
         public void whichCategory(String title);
     }

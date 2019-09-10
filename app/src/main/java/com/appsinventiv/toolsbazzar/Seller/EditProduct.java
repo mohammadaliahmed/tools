@@ -22,7 +22,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -57,9 +59,10 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
-public class EditProduct extends AppCompatActivity implements ProductObserver ,NotificationObserver {
+public class EditProduct extends AppCompatActivity implements ProductObserver, NotificationObserver {
     TextView categoryChoosen;
     StorageReference mStorageRef;
     DatabaseReference mDatabase;
@@ -91,6 +94,9 @@ public class EditProduct extends AppCompatActivity implements ProductObserver ,N
     public static String productWeight, dimens;
     TextView productIdd;
     public static int fromWhere = 0;
+
+    RadioButton both, wholesale, retail;
+    LinearLayout retailArea, wholesaleArea;
 
     @Override
     protected void onResume() {
@@ -128,6 +134,11 @@ public class EditProduct extends AppCompatActivity implements ProductObserver ,N
 
             }
         });
+        both = findViewById(R.id.both);
+        wholesale = findViewById(R.id.wholesale);
+        retail = findViewById(R.id.retail);
+        retailArea = findViewById(R.id.retailArea);
+        wholesaleArea = findViewById(R.id.wholesaleArea);
         pick = findViewById(R.id.pick);
         productIdd = findViewById(R.id.productId);
         upload = findViewById(R.id.upload);
@@ -161,6 +172,35 @@ public class EditProduct extends AppCompatActivity implements ProductObserver ,N
                 showWarrantyAlert();
             }
         });
+
+        both.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    retailArea.setVisibility(View.VISIBLE);
+                    wholesaleArea.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        wholesale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    retailArea.setVisibility(View.GONE);
+                    wholesaleArea.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        retail.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    retailArea.setVisibility(View.VISIBLE);
+                    wholesaleArea.setVisibility(View.GONE);
+                }
+            }
+        });
+
 
         weightChosen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,42 +310,29 @@ public class EditProduct extends AppCompatActivity implements ProductObserver ,N
                     int selectedId = radioGroup.getCheckedRadioButtonId();
 
                     selected = findViewById(selectedId);
-                    mDatabase.child("Products").child(productId).setValue(new Product(
-                            productId,
-                            e_title.getText().toString(),
-                            e_subtitle.getText().toString(),
-                            "true",
-                            newSku,
-                            product.getThumbnailUrl(),
-                            "",
-                            "",
-                            product.getTime(),
-                            Float.parseFloat(e_costPrice.getText().toString()),
-                            Float.parseFloat(e_wholesalePrice.getText().toString()),
-                            Float.parseFloat(e_retailPrice.getText().toString()),
-                            Integer.parseInt(e_minOrderQty.getText().toString()),
-                            e_measurement.getText().toString(),
-                            SharedPrefs.getVendor(),
-                            selected.getText().toString(),
-                            e_description.getText().toString(),
-                            container,
-                            container1,
-                            Float.parseFloat(e_oldWholesalePrice.getText().toString()),
-                            Float.parseFloat(e_oldRetailPrice.getText().toString()),
-                            product.getRating(),
-                            categoryList,
-                            Integer.parseInt(quantityAvailable.getText().toString()),
-                            brandName.getText().toString(),
-                            productContents.getText().toString(),
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("title", e_title.getText().toString());
+                    map.put("subtitle", e_subtitle.getText().toString());
+                    map.put("sku", newSku);
+                    map.put("costPrice", Float.parseFloat(e_costPrice.getText().toString()));
+                    map.put("wholeSalePrice", Float.parseFloat(e_wholesalePrice.getText().toString()));
+                    map.put("retailPrice", Float.parseFloat(e_retailPrice.getText().toString()));
+                    map.put("minOrderQuantity", Long.parseLong(e_minOrderQty.getText().toString()));
+                    map.put("measurement", e_measurement.getText().toString());
+                    map.put("description", e_description.getText().toString());
+                    map.put("sizeList", container);
+                    map.put("colorList", container1);
+                    map.put("oldWholeSalePrice", Float.parseFloat(e_oldWholesalePrice.getText().toString()));
+                    map.put("oldRetailPrice", Float.parseFloat(e_oldRetailPrice.getText().toString()));
+                    map.put("category", categoryList);
+                    map.put("quantityAvailable", Integer.parseInt(quantityAvailable.getText().toString()));
+                    map.put("brandName", brandName.getText().toString());
+                    map.put("productContents", productContents.getText().toString());
+                    map.put("warrantyType", whichWarranty);
+                    map.put("productWeight", productWeight);
+                    map.put("dimen", dimens);
 
-                            whichWarranty,
-                            productWeight,
-                            dimens,
-                            "Pending",
-                            product.getUploadedBy() == null ? "Admin" : product.getUploadedBy(),
-                            product.getLikesCount()
-
-                    )).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    mDatabase.child("Products").child(productId).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             int count = 0;
@@ -325,7 +352,7 @@ public class EditProduct extends AppCompatActivity implements ProductObserver ,N
                                 }
                             } else {
 
-                                putPicturesBack();
+//                                putPicturesBack();
                             }
 
                         }

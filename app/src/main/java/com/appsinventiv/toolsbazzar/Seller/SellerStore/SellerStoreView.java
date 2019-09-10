@@ -1,11 +1,13 @@
 package com.appsinventiv.toolsbazzar.Seller.SellerStore;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.appsinventiv.toolsbazzar.Activities.NewCart;
 import com.appsinventiv.toolsbazzar.Adapters.SellerStoreProductsAdapter;
 import com.appsinventiv.toolsbazzar.Models.CompanyDetailsModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
@@ -49,15 +52,17 @@ public class SellerStoreView extends AppCompatActivity {
     ImageView storeCover;
     CircleImageView profilePic;
     DatabaseReference mDatabase;
-    SellerStoreProductsAdapter adapter;
-    private ArrayList<Product> productArrayList = new ArrayList<>();
-    ArrayList<String> userWishList = new ArrayList<>();
     TextView storeName;
     private String sellerId;
     private VendorModel model;
     CollapsingToolbarLayout collapsing_toolbar;
 
     AppBarLayout app_bar_layout;
+    ImageView backImage;
+    NestedScrollView scrollview;
+    TextView toolbarTitle;
+    TextView cart_count;
+    ImageView cartIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,19 +71,24 @@ public class SellerStoreView extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
+
 //        this.setTitle("");
+        toolbarTitle = findViewById(R.id.toolbarTitle);
+        scrollview = findViewById(R.id.scrollview);
+        backImage = findViewById(R.id.backImage);
+        cart_count = findViewById(R.id.cart_count);
+        cartIcon = findViewById(R.id.cartIcon);
         app_bar_layout = findViewById(R.id.app_bar_layout);
         collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         profilePic = findViewById(R.id.profilePic);
@@ -92,7 +102,7 @@ public class SellerStoreView extends AppCompatActivity {
                 if (verticalOffset == -collapsing_toolbar.getHeight() + toolbar.getHeight()) {
                     //toolbar is collapsed here
                     //write your code here
-                    collapsing_toolbar.setTitle(model==null?"Fort City":model.getStoreName());
+                    collapsing_toolbar.setTitle(model == null ? "Fort City" : model.getStoreName());
                     collapsing_toolbar.setBackgroundColor(getResources().getColor(R.color.default_back));
                     collapsing_toolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.default_back));
 
@@ -103,6 +113,7 @@ public class SellerStoreView extends AppCompatActivity {
 
             }
         });
+
 
         sellerId = getIntent().getStringExtra("sellerId");
 
@@ -122,6 +133,51 @@ public class SellerStoreView extends AppCompatActivity {
             follow.setVisibility(View.GONE);
         }
 
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scrollview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                    if (i1 > 1) {
+                        toolbarTitle.setText(model==null?"Fort City":model.getStoreName());
+                    } else {
+                        toolbarTitle.setText("");
+                    }
+                }
+            });
+        }
+
+        cartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SellerStoreView.this, NewCart.class));
+            }
+        });
+
+
+        backImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+
+        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                long cartItemCountFromDb = dataSnapshot.getChildrenCount();
+//                textCartItemCount.setText("" + cartItemCountFromDb);
+                cart_count.setText("" + cartItemCountFromDb);
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 //        recyclerview.setLayoutManager(new GridLayoutManager(this, 2));
 //        adapter = new SellerStoreProductsAdapter(this, productArrayList, userWishList, new AddToCartInterface() {
@@ -191,6 +247,7 @@ public class SellerStoreView extends AppCompatActivity {
         }
 //        getSellerProductsFromDB();
 //        getUserWishList();
+//        getUserWishList();
 
     }
 
@@ -243,14 +300,8 @@ public class SellerStoreView extends AppCompatActivity {
 
                         }
                         if (model.getStoreCover() != null) {
-                            Glide.with(SellerStoreView.this).load(model.getStoreCover()).into(new SimpleTarget<GlideDrawable>() {
-                                @Override
-                                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                        storeCover.setBackground(resource);
-                                    }
-                                }
-                            });
+                            Glide.with(SellerStoreView.this).load(model.getStoreCover()).into(storeCover);
+//
                         }
                     }
                 }
@@ -263,78 +314,79 @@ public class SellerStoreView extends AppCompatActivity {
         });
     }
 
-    private void getSellerProductsFromDB() {
-        mDatabase.child("Products").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    productArrayList.clear();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Product product = snapshot.getValue(Product.class);
-                        if (product != null) {
+//    private void getSellerProductsFromDB() {
+//        mDatabase.child("Products").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.getValue() != null) {
+//                    productArrayList.clear();
+//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                        Product product = snapshot.getValue(Product.class);
+//                        if (product != null) {
+//
+//                            if (product.getVendor() != null && product.getVendor().getVendorId() != null) {
+//                                if (product.getVendor().getVendorId().equalsIgnoreCase(sellerId)) {
+//
+//                                    productArrayList.add(product);
+//
+//
+//                                }
+//                            }
+//
+//
+//                        }
+//                    }
+//                    Collections.sort(productArrayList, new Comparator<Product>() {
+//                        @Override
+//                        public int compare(Product listData, Product t1) {
+//                            String ob1 = listData.getTitle();
+//                            String ob2 = t1.getTitle();
+//
+//                            return ob1.compareTo(ob2);
+//
+//                        }
+//                    });
+////                    adapter.updatelist(productArrayList);
+//
+//                    adapter.notifyDataSetChanged();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//    }
 
-                            if (product.getVendor() != null && product.getVendor().getVendorId() != null) {
-                                if (product.getVendor().getVendorId().equalsIgnoreCase(sellerId)) {
-
-                                    productArrayList.add(product);
-
-
-                                }
-                            }
-
-
-                        }
-                    }
-                    Collections.sort(productArrayList, new Comparator<Product>() {
-                        @Override
-                        public int compare(Product listData, Product t1) {
-                            String ob1 = listData.getTitle();
-                            String ob2 = t1.getTitle();
-
-                            return ob1.compareTo(ob2);
-
-                        }
-                    });
-//                    adapter.updatelist(productArrayList);
-
-                    adapter.notifyDataSetChanged();
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void getUserWishList() {
-        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("WishList").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    userWishList.clear();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String productId = snapshot.getValue(String.class);
-                        if (productId != null) {
-                            userWishList.add(productId);
-                        }
-                    }
-                    adapter.notifyDataSetChanged();
-
-                } else {
-                    userWishList.clear();
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
+//    private void getUserWishList() {
+//        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("WishList").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.getValue() != null) {
+//                    userWishList.clear();
+//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                        String productId = snapshot.getValue(String.class);
+//                        if (productId != null) {
+//                            userWishList.add(productId);
+//                        }
+//                    }
+//                    adapter.notifyDataSetChanged();
+//
+//                } else {
+//                    userWishList.clear();
+//                    adapter.notifyDataSetChanged();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 
     @Override
     public void onBackPressed() {

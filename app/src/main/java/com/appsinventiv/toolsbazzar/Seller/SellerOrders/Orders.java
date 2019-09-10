@@ -48,6 +48,7 @@ public class Orders extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        viewPager.setOffscreenPageLimit(7);
 
 
     }

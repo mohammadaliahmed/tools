@@ -1,6 +1,9 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -12,10 +15,13 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -28,6 +34,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -48,6 +55,7 @@ import com.appsinventiv.toolsbazzar.Seller.SellerMainActivity;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,6 +68,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -76,11 +85,17 @@ public class MainActivity extends AppCompatActivity
     LinearLayout ic_settings, ic_chat, ic_mycart, ic_orders, ic_wishlist;
 
     CollapsingToolbarLayout collapsing_toolbar;
+    TextView toolbarTitle;
 
     //    ScrollView scrollView;
     DotsIndicator dots_indicator;
     TextView chat;
     private AppBarLayout mAppBarLayout;
+    NestedScrollView nested;
+    TextView cart_count;
+    ImageView cartIcon, search, nav;
+    private DrawerLayout drawer;
+    LinearLayout rela;
 
 
     @Override
@@ -93,34 +108,54 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        String languageToLoad  = "es"; // your language
-//        Locale locale = new Locale(languageToLoad);
-//        Locale.setDefault(locale);
-//        Configuration config = new Configuration();
-//        config.locale = locale;
-//        getBaseContext().getResources().updateConfiguration(config,
-//                getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_main);
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("viewPagerHeight"));
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 //        getUserAccountStatusFromDB();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        nav = findViewById(R.id.nav);
+        toolbarTitle = findViewById(R.id.toolbarTitle);
+        search = findViewById(R.id.search);
+        cartIcon = findViewById(R.id.cartIcon);
+        cart_count = findViewById(R.id.cart_count);
+        rela = findViewById(R.id.rela);
+        nested = findViewById(R.id.nested);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
 
-//        scrollView = findViewById(R.id.scrollView);
-        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setElevation(0);
-        }
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
+//            getSupportActionBar().setElevation(0);
         }
 
+
+        cartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, NewCart.class);
+                startActivity(i);
+            }
+        });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, Search.class);
+                startActivity(i);
+            }
+        });
+
+        nav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
         mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
         collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
 
@@ -148,6 +183,23 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            nested.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                    if (i1 > 1) {
+                        toolbarTitle.setText("Fort City");
+                    } else {
+                        toolbarTitle.setText("");
+                    }
+                }
+            });
+        }
+
+
+//        nested.setNestedScrollingEnabled(false);
+
 //        mAppBarLayout.setElevation(0);
 
 //        getSupportActionBar().setElevation(0);
@@ -213,25 +265,25 @@ public class MainActivity extends AppCompatActivity
 
         getBannerImagesFromDb();
         initViewPager();
-//        initFirstGrid();
         initDealView();
         initCategoryView();
 
         initDrawer();
         getAdminDetails();
+        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                cartItemCountFromDb = dataSnapshot.getChildrenCount();
+                cart_count.setText("" + cartItemCountFromDb);
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-//                @Override
-//                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-////                    if (i1 > 1200) {
-////                        setStatusBarColor(false);
-////                    } else {
-////                        setStatusBarColor(true);
-////                    }
-//                }
-//            });
-//        }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
     }
 
@@ -350,6 +402,21 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            int count = intent.getIntExtra("count", 0);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rela.getLayoutParams();
+            float abc = 500 * 175;
+            params.height = (int) abc;
+            rela.setLayoutParams(params);
+
+
+        }
+    };
 
 
     private void getBannerImagesFromDb() {
@@ -478,7 +545,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -509,32 +576,41 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initDrawer() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = (TextView) headerView.findViewById(R.id.name_drawer);
+        CircleImageView imageView = headerView.findViewById(R.id.imageView);
         TextView navSubtitle = (TextView) headerView.findViewById(R.id.customerType);
 
+        if (SharedPrefs.getCustomerModel().getPicUrl() != null) {
+            Glide.with(MainActivity.this).load(SharedPrefs.getCustomerModel().getPicUrl()).into(imageView);
+        } else {
+            Glide.with(MainActivity.this).load(R.drawable.logo).into(imageView);
+
+        }
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, MyProfile.class));
+            }
+        });
 
         chat = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.chat));
 
-        chat.setTextColor(getResources().getColor(R.color.colorAccent));
-        if (SharedPrefs.getNewMsg().equalsIgnoreCase("1")) {
-            chat.setText("(New msg)");
-
-        } else {
-            chat.setText("");
-
-        }
         chat.setGravity(Gravity.CENTER_VERTICAL);
-        chat.setTypeface(null, Typeface.BOLD);
+        chat.setTextColor(getResources().getColor(R.color.colorRed));
+        chat.setText(SharedPrefs.getNewMsg());
+        chat.setTextSize(12);
+
         if (SharedPrefs.getUsername().equalsIgnoreCase("")) {
             navSubtitle.setText("Welcome to Tools Bazzar");
 
@@ -549,7 +625,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             navSubtitle.setText(SharedPrefs.getCity());
 
-            navUsername.setText(SharedPrefs.getName());
+            navUsername.setText("Hi, " + SharedPrefs.getName());
             if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
                 navSubtitle.setText("Wholesale");
             } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
@@ -561,17 +637,18 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        final MenuItem menuItem = menu.findItem(R.id.action_cart);
-
-        View actionView = MenuItemCompat.getActionView(menuItem);
-        final TextView textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        final MenuItem menuItem = menu.findItem(R.id.action_cart);
+//
+//        View actionView = MenuItemCompat.getActionView(menuItem);
+//        final TextView textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
 
         mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 cartItemCountFromDb = dataSnapshot.getChildrenCount();
-                textCartItemCount.setText("" + cartItemCountFromDb);
+//                textCartItemCount.setText("" + cartItemCountFromDb);
+                cart_count.setText("" + cartItemCountFromDb);
                 SharedPrefs.setCartCount("" + cartItemCountFromDb);
                 if (dataSnapshot.getChildrenCount() == 0) {
                     SharedPrefs.setCartCount("0");
@@ -585,12 +662,12 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        actionView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOptionsItemSelected(menuItem);
-            }
-        });
+//        actionView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onOptionsItemSelected(menuItem);
+//            }
+//        });
 
 
         return true;
@@ -604,19 +681,19 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            Intent i = new Intent(MainActivity.this, Search.class);
-            startActivity(i);
-        } else if (id == R.id.action_cart) {
-//            if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
-//                CommonUtils.showToast("Your Cart is empty");
-//            } else {
-            Intent i = new Intent(MainActivity.this, NewCart.class);
-            startActivity(i);
-//            }
-
-            return true;
-        }
+//        if (id == R.id.action_search) {
+//            Intent i = new Intent(MainActivity.this, Search.class);
+//            startActivity(i);
+//        } else if (id == R.id.action_cart) {
+////            if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
+////                CommonUtils.showToast("Your Cart is empty");
+////            } else {
+//            Intent i = new Intent(MainActivity.this, NewCart.class);
+//            startActivity(i);
+////            }
+//
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -666,6 +743,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.cart) {
             Intent i = new Intent(MainActivity.this, NewCart.class);
+            startActivity(i);
+        } else if (id == R.id.prohibted) {
+            Intent i = new Intent(MainActivity.this, ClientProhibted.class);
             startActivity(i);
         } else if (id == R.id.aboutUs) {
             Intent i = new Intent(MainActivity.this, AboutUs.class);

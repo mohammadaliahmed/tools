@@ -42,7 +42,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="80dp"
         android:fontFamily="@font/cosmic_fonts"
-        android:text="Door to door delivery for \n Whole sale hardware business owners &amp;\n retail clients &amp; cash on delivery &amp; much more"
+        android:text="Grab your Favorite Products &amp; avail \ngreat discounts"
         android:textAlignment="center"
         android:textColor="@android:color/white" />
 

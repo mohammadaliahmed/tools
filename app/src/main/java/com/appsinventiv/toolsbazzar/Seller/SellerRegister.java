@@ -7,9 +7,11 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -144,9 +146,44 @@ public class SellerRegister extends AppCompatActivity {
         chooseLocation = findViewById(R.id.chooseLocation);
         e_phone.setText(SharedPrefs.getCountryModel().getMobileCode());
         e_telPhone.setText(SharedPrefs.getCountryModel().getMobileCode());
+        e_phone.setSelection(3);
+        e_telPhone.setSelection(3);
 
 
         createAccountText.setText("Create Vendor Account");
+
+
+
+//        e_password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+//                boolean handled = false;
+//                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+//                    /* Write your logic here that will be executed when user taps next button */
+//                    e_phone.setText(SharedPrefs.getCountryModel().getMobileCode());
+//                    e_phone.requestFocus();
+//
+//                    handled = true;
+//                }
+//
+//                return handled;
+//            }
+//        });
+//        e_phone .setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+//                boolean handled = false;
+//                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+//                    /* Write your logic here that will be executed when user taps next button */
+//                    e_telPhone.setText(SharedPrefs.getCountryModel().getMobileCode());
+//                    e_telPhone.requestFocus();
+//
+//                    handled = true;
+//                }
+//
+//                return handled;
+//            }
+//        });
 
 
         chooseLocation.setOnClickListener(new View.OnClickListener() {
@@ -307,6 +344,14 @@ public class SellerRegister extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(SellerRegister.this, SellerLogin.class);
+        startActivity(i);
+        finish();
+
     }
 
     private void launchHomeScreen() {

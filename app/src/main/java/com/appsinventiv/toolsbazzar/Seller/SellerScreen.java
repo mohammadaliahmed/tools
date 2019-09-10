@@ -22,6 +22,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -97,7 +98,7 @@ public class SellerScreen extends AppCompatActivity {
     private static final int REQUEST_CODE_CHOOSE_COVER = 25;
     public static String language;
     Toolbar toolbar;
-//    ImageView back;
+    //    ImageView back;
     ImageView storeCover;
     CircleImageView profilePic;
     ImageView pickProfilePic;
@@ -112,15 +113,18 @@ public class SellerScreen extends AppCompatActivity {
 
     DatabaseReference mDatabase;
     RelativeLayout myOrders;
-//    ProgressBar coverProgress, picProgress;
+    //    ProgressBar coverProgress, picProgress;
     LinearLayout addProducts, myProducts, mySales;
-    RelativeLayout accountSettings, bankAccount, selectCountry, selectLanguage, myReviews, otherStores, contactUs, aboutUs, termsConditions;
+    RelativeLayout  bankAccount, selectCountry, selectLanguage, myReviews, otherStores, contactUs, aboutUs, termsConditions;
     TextView address;
 
     CollapsingToolbarLayout collapsing_toolbar;
 
     AppBarLayout app_bar_layout;
     private VendorModel model;
+    ImageView accountSettings,backImage;
+    NestedScrollView scrollview;
+    TextView toolbarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,19 +134,20 @@ public class SellerScreen extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setElevation(0);
         }
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
 
+        toolbarTitle = findViewById(R.id.toolbarTitle);
+        scrollview = findViewById(R.id.scrollview);
+        backImage = findViewById(R.id.backImage);
+//        editIcon = findViewById(R.id.editIcon);
         app_bar_layout = findViewById(R.id.app_bar_layout);
         collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
         accountSettings = findViewById(R.id.accountSettings);
@@ -171,6 +176,26 @@ public class SellerScreen extends AppCompatActivity {
         myOrders = findViewById(R.id.myOrders);
         getPermissions();
 
+
+        backImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scrollview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                    if (i1 > 1) {
+                        setStatusBarColor(false);
+                    } else {
+                        setStatusBarColor(true);
+                    }
+                }
+            });
+        }
 
 
 
@@ -239,7 +264,7 @@ public class SellerScreen extends AppCompatActivity {
         myReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               startActivity(new Intent(SellerScreen.this, SellerProductReviews.class));
+                startActivity(new Intent(SellerScreen.this, SellerProductReviews.class));
 
             }
         });
@@ -354,12 +379,30 @@ public class SellerScreen extends AppCompatActivity {
         getAddressFromDb();
     }
 
+    private void setStatusBarColor(boolean abc) {
+        if (abc) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(Color.TRANSPARENT);
+                toolbarTitle.setText("");
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(getResources().getColor(R.color.colorGreenDark));
+                toolbarTitle.setText(model.getStoreName());
+            }
+        }
+    }
+
     private void getVendorDataFromDB() {
         mDatabase.child("Sellers").child(SharedPrefs.getVendor().getUsername()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                     model = dataSnapshot.getValue(VendorModel.class);
+                    model = dataSnapshot.getValue(VendorModel.class);
                     if (model != null) {
 //                        coverProgress.setVisibility(View.GONE);
 //                        picProgress.setVisibility(View.GONE);
@@ -553,7 +596,6 @@ public class SellerScreen extends AppCompatActivity {
 
 
     }
-
 
 
     @Override

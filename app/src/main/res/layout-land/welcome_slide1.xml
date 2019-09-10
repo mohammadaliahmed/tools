@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+
+        android:paddingBottom="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="220dp"
+            android:layout_height="240dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/fort_city" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="30dp"
+            android:fontFamily="@font/cosmic_fonts"
+            android:id="@+id/aad"
+            android:text="Welcome on Board"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/aad"
+            android:layout_margin="40dp"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/cosmic_fonts"
+            android:text="Join the biggest shopping community \n today &amp; discover the beautiful world of \nonline shopping! "
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            app:fontFamily="@font/cosmic_fonts" />
+    </RelativeLayout>
+
+
+</ScrollView>

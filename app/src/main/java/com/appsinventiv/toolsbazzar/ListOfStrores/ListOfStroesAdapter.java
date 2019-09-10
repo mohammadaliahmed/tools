@@ -26,7 +26,7 @@ public class ListOfStroesAdapter extends RecyclerView.Adapter<ListOfStroesAdapte
     StoreCallbacks callbacks;
     ArrayList<String> userStores;
     boolean flag;
-    int[] colorList={R.color.lightPink,R.color.lightPurple,R.color.lightYellow,R.color.lightBlue,R.color.lightGreen};
+    int[] colorList = {R.color.lightPink, R.color.lightPurple, R.color.lightYellow, R.color.lightBlue, R.color.lightGreen};
 
     public ListOfStroesAdapter(Context context, ArrayList<StoreListModel> itemList, ArrayList<String> userStores, boolean flag) {
         this.context = context;
@@ -52,8 +52,8 @@ public class ListOfStroesAdapter extends RecyclerView.Adapter<ListOfStroesAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final StoreListModel model = itemList.get(position);
-        Random r=new Random();
-        int randomNumber=r.nextInt(colorList.length);
+        Random r = new Random();
+        int randomNumber = r.nextInt(colorList.length);
         holder.linear.setBackgroundColor(context.getResources().getColor(colorList[randomNumber]));
 
         if (flag) {
@@ -66,12 +66,12 @@ public class ListOfStroesAdapter extends RecyclerView.Adapter<ListOfStroesAdapte
             if (userStores.contains(model.getSeller().getUsername())) {
                 holder.follow.setText("Following");
                 holder.follow.setEnabled(false);
-                holder.follow.setBackgroundColor(context.getResources().getColor(R.color.colorGrey));
+                holder.follow.setBackgroundResource(R.drawable.btn_black_bg);
             }
         }
 
 
-        holder.storeName.setText(model.getSeller().getVendorName());
+        holder.storeName.setText(model.getSeller().getStoreName());
         StorePicsAdapter adapter = new StorePicsAdapter(context, model.getPictures(), model.getSeller().getUsername());
         holder.recyler.setLayoutManager(new GridLayoutManager(context, 3));
         holder.recyler.setAdapter(adapter);
@@ -96,7 +96,7 @@ public class ListOfStroesAdapter extends RecyclerView.Adapter<ListOfStroesAdapte
                 callbacks.followStore(model.getSeller());
                 holder.follow.setText("Following");
                 holder.follow.setEnabled(false);
-                holder.follow.setBackgroundColor(context.getResources().getColor(R.color.colorGrey));
+                holder.follow.setBackgroundResource(R.drawable.btn_black_bg);
             }
         });
 

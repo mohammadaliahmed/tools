@@ -90,7 +90,7 @@ public class MeFollowingStores extends Fragment {
 
     private void showAlert(final VendorModel model) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-        builder1.setMessage("Unfollow " + model.getVendorName() + "?");
+        builder1.setMessage("Unfollow " + model.getStoreName() + "?");
         builder1.setCancelable(true);
 
         builder1.setPositiveButton(
@@ -104,7 +104,7 @@ public class MeFollowingStores extends Fragment {
                                         mDatabase.child("Sellers").child(model.getUsername()).child("followersCount").setValue(
                                                 model.getFollowersCount() - 1
                                         );
-                                        CommonUtils.showToast("Unfollowed " + model.getVendorName());
+                                        CommonUtils.showToast("Unfollowed " + model.getStoreName());
                                     }
                                 });
 

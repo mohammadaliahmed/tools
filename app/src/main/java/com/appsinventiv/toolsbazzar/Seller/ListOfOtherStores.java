@@ -42,7 +42,7 @@ public class ListOfOtherStores extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_other_stores);
-        mDatabase=FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         this.setTitle("Stores");
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -103,12 +103,13 @@ public class ListOfOtherStores extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
-
-                            if (product.getId() != null && vendor.getProducts() != null) {
-                                for (Map.Entry<String, String> entry : vendor.getProducts().entrySet()) {
-                                    String key = entry.getKey();
-                                    if (key.equalsIgnoreCase(product.getId())) {
-                                        image.add(product.getThumbnailUrl());
+                            if (product.getSellerProductStatus() != null && product.getSellerProductStatus().equalsIgnoreCase("Approved")) {
+                                if (product.getId() != null && vendor.getProducts() != null) {
+                                    for (Map.Entry<String, String> entry : vendor.getProducts().entrySet()) {
+                                        String key = entry.getKey();
+                                        if (key.equalsIgnoreCase(product.getId())) {
+                                            image.add(product.getThumbnailUrl());
+                                        }
                                     }
                                 }
 

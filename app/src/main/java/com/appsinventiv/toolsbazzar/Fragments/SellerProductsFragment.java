@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +68,7 @@ public class SellerProductsFragment extends Fragment {
     String sizeSelected = "";
 
 
+
     public SellerProductsFragment() {
         // Required empty public constructor
     }
@@ -94,8 +97,10 @@ public class SellerProductsFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.recycler_view_products);
 
 
-        setUpRecycler();
 
+
+        setUpRecycler();
+        getProductIdsFromdb();
         return rootView;
 
     }
@@ -103,23 +108,9 @@ public class SellerProductsFragment extends Fragment {
 
     private void setUpRecycler() {
         int gridCount = 2;
-//        if (CommonUtils.screenSize() > 7) {
-//            gridCount = 3;
-//        }
-//        if (CommonUtils.screenSize() > 9) {
-//            gridCount = 4;
-//        }
-
-
         gridLayoutManager = new GridLayoutManager(context, gridCount);
-//        if (flag != null) {
-//            if (flag.equalsIgnoreCase("0")) {
-//                recyclerView.setLayoutManager(layoutManager);
-//            } else if (flag.equalsIgnoreCase("1")) {
-//                recyclerView.setLayoutManager(gridLayoutManager);
-//            }
-//        }
-        recyclerView.setLayoutManager(gridLayoutManager);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
         adapter = new SellerProductsAdapter(context, productArrayList);
         recyclerView.setAdapter(adapter);
 
@@ -162,6 +153,7 @@ public class SellerProductsFragment extends Fragment {
         TextView oldPrice = customView.findViewById(R.id.oldPrice);
         TextView quantityText = customView.findViewById(R.id.quantityText);
         ImageView whichArrow = customView.findViewById(R.id.whichArrow);
+
 
         if (product.getQuantityAvailable() == 0) {
 
@@ -536,7 +528,6 @@ public class SellerProductsFragment extends Fragment {
         }
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -545,48 +536,34 @@ public class SellerProductsFragment extends Fragment {
     }
 
 
-    private void getProductsFromDB() {
+    private void getProductsFromDB(String productId) {
 
-        mDatabase.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Products").child(productId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     progress.setVisibility(View.GONE);
-                    productArrayList.clear();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Product product = snapshot.getValue(Product.class);
-                        if (product != null) {
-                            if (product.getVendor() != null) {
-                                if (product.getVendor() != null && product.getVendor().getVendorId() != null) {
-                                    if (product.getVendor().getVendorId().equalsIgnoreCase(SharedPrefs.getVendor().getVendorId())) {
-
-                                        if (product.getSellerProductStatus() != null) {
-                                            if (product.getSellerProductStatus().equalsIgnoreCase(sellerProductStatus)) {
-                                                productArrayList.add(product);
-
-                                            }
-                                        }
-                                    }
-                                }
+                    Product product = dataSnapshot.getValue(Product.class);
+                    if (product != null) {
+                        if (product.getSellerProductStatus() != null) {
+                            if (product.getSellerProductStatus().equalsIgnoreCase(sellerProductStatus)) {
+                                productArrayList.add(product);
                             }
                         }
-
                     }
+
                     Collections.sort(productArrayList, new Comparator<Product>() {
                         @Override
                         public int compare(Product listData, Product t1) {
                             Long ob1 = listData.getTime();
                             Long ob2 = t1.getTime();
-
                             return ob2.compareTo(ob1);
                         }
                     });
-//                    adapter.updateList(productArrayList);
                     adapter.notifyDataSetChanged();
-                } else {
-                    CommonUtils.showToast("No Data");
-                    progress.setVisibility(View.GONE);
-                    adapter.notifyDataSetChanged();
+//                    if(productArrayList.size()>0){
+//                        sendMessage(productArrayList.size());
+//                    }
                 }
             }
 
@@ -597,6 +574,13 @@ public class SellerProductsFragment extends Fragment {
         });
     }
 
+    private void sendMessage(int size) {
+        Log.d("sender", "Broadcasting message");
+        Intent intent = new Intent("viewPagerHeight");
+        // You can also include some extra data.
+        intent.putExtra("count", size);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -612,17 +596,28 @@ public class SellerProductsFragment extends Fragment {
 
     @Override
     public void onResume() {
-
-//        if (sellerProductStatus.equalsIgnoreCase("All")) {
-        getProductsFromDB();
-//        } else {
-//            getCategoryProductsFromDB();
-//
-//
-//        }
-//        getUserCartProductsFromDB();
-//        getUserWishList();
         super.onResume();
+
+    }
+
+    private void getProductIdsFromdb() {
+
+        mDatabase.child("Sellers").child(SharedPrefs.getVendor().getUsername()).child("products").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    productArrayList.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        getProductsFromDB(snapshot.getKey());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

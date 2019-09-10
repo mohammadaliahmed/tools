@@ -10,6 +10,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -62,7 +63,11 @@ import java.util.Comparator;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+
 public class ViewProduct extends AppCompatActivity implements View.OnClickListener {
+    TextView cart_count;
+    ImageView cartIcon;
     String text;
     String productId;
     TextView textCartItemCount;
@@ -116,6 +121,10 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
     private boolean cannotRate;
     private boolean forCityProduct;
     ImageView social;
+    ImageView backImage;
+    NestedScrollView scrollview;
+    TextView toolbarTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,19 +132,17 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setElevation(0);
         }
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         onNewIntent(getIntent());
@@ -151,6 +158,11 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         }
 
 
+        toolbarTitle = findViewById(R.id.toolbarTitle);
+        scrollview = findViewById(R.id.scrollview);
+        backImage = findViewById(R.id.backImage);
+        cart_count = findViewById(R.id.cart_count);
+        cartIcon = findViewById(R.id.cartIcon);
         social = findViewById(R.id.social);
         fPromo = findViewById(R.id.fPromo);
         fCash = findViewById(R.id.fCash);
@@ -196,11 +208,31 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         });
 
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scrollview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                    if (i1 > 1) {
+                        toolbarTitle.setText(product.getTitle());
+                    } else {
+                        toolbarTitle.setText("");
+                    }
+                }
+            });
+        }
+
+
+        backImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         social.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ViewProduct.this,ConnectWithUs.class));
+                startActivity(new Intent(ViewProduct.this, ConnectWithUs.class));
             }
         });
 
@@ -274,6 +306,18 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
             }
         });
 
+        cartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
+//                    CommonUtils.showToast("Your Cart is empty");
+//                } else {
+                    Intent i = new Intent(ViewProduct.this, NewCart.class);
+                    startActivity(i);
+//                }
+            }
+        });
+
         heart_button.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
@@ -329,7 +373,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset == -collapsing_toolbar.getHeight() +toolbar.getHeight()) {
+                if (verticalOffset == -collapsing_toolbar.getHeight() + toolbar.getHeight()) {
                     //toolbar is collapsed here
                     //write your code here
                     collapsing_toolbar.setTitle(product.getTitle());
@@ -450,7 +494,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
         try {
             sliderAdapter = new SliderAdapter(ViewProduct.this, picUrls, 1);
             mViewPager.setAdapter(sliderAdapter);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -464,6 +508,23 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 
     }
 
+    private void setStatusBarColor(boolean abc) {
+        if (abc) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(Color.TRANSPARENT);
+                toolbarTitle.setText("");
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+                toolbarTitle.setText(product.getTitle());
+            }
+        }
+    }
 
     private void getCustomersRatedProducts() {
         mDatabase.child("Ratings").child(SharedPrefs.getUsername()).child(productId).addValueEventListener(new ValueEventListener() {
@@ -981,25 +1042,19 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 
 
                         }
-                        if (product.getVendor() != null) {
 
-                            if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
-                                gotoStore.setVisibility(View.VISIBLE);
-                                forCityProduct=false;
-                                storeName.setText("" + product.getVendor().getStoreName());
-
-                            } else {
-//                                gotoStore.setVisibility(View.GONE);
-                                storeName.setText("" + "Fort City");
-                                forCityProduct=true;
-                                Glide.with(ViewProduct.this).load(R.drawable.logo_small).into(gotoSstore);
-                            }
-                        } else {
-//                            gotoStore.setVisibility(View.GONE);
+                        if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
+                            getVendorDetailsFromDB();
+                        }else{
                             storeName.setText("" + "Fort City");
-                            forCityProduct=true;
+                            forCityProduct = true;
                             Glide.with(ViewProduct.this).load(R.drawable.logo_small).into(gotoSstore);
                         }
+
+
+
+
+
                         String text1 = product.getBrandName() == null ? "Not available\n\n" : product.getBrandName() + "\n\n";
                         String text2 = product.getWarrantyType() == null ? "No Warranty\n\n" : product.getWarrantyType() + "\n\n";
                         String text3 = product.getDimen() == null ? "Not available\n\n" : product.getDimen() + "\n\n";
@@ -1051,9 +1106,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                         getProductsFromDB(product.getCategory().get(0));
 
                         getUserCartProductsFromDB();
-                        if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
-                            getVendorDetailsFromDB();
-                        }
+
                         setUpAddToCartButton();
                         picUrls.clear();
                         for (DataSnapshot childSnapshot : dataSnapshot.child("pictures").getChildren()) {
@@ -1062,7 +1115,7 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                             try {
                                 sliderAdapter.notifyDataSetChanged();
 
-                            }catch (Exception e){
+                            } catch (Exception e) {
 
                             }
 
@@ -1136,9 +1189,8 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
                         if (vendorModel.getPicUrl() != null) {
                             Glide.with(ViewProduct.this).load(vendorModel.getPicUrl()).into(gotoSstore);
                         }
-//                        SharedPrefs.setVendorModel(vendorModel);
+                        storeName.setText("" + vendorModel.getStoreName());
                     }
-
                 }
             }
 
@@ -1722,40 +1774,41 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (item.getItemId() == android.R.id.home) {
-
-            finish();
-        }
-
-        if (id == R.id.action_cart) {
-            if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
-                CommonUtils.showToast("Your Cart is empty");
-            } else {
-                Intent i = new Intent(ViewProduct.this, NewCart.class);
-                startActivity(i);
-            }
-
-            return true;
-        }
+//        int id = item.getItemId();
+//        if (item.getItemId() == android.R.id.home) {
+//
+//            finish();
+//        }
+//
+//        if (id == R.id.action_cart) {
+//            if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
+//                CommonUtils.showToast("Your Cart is empty");
+//            } else {
+//                Intent i = new Intent(ViewProduct.this, NewCart.class);
+//                startActivity(i);
+//            }
+//
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_view_product, menu);
+//        getMenuInflater().inflate(R.menu.menu_view_product, menu);
 
-        menuItem = menu.findItem(R.id.action_cart);
-
-        View actionView = MenuItemCompat.getActionView(menuItem);
-        textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
-
-
+//        menuItem = menu.findItem(R.id.action_cart);
+//
+//        View actionView = MenuItemCompat.getActionView(menuItem);
+//        textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
+//
+//
         mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 cartItemCountFromDb = dataSnapshot.getChildrenCount();
-                textCartItemCount.setText("" + cartItemCountFromDb);
+//                textCartItemCount.setText("" + cartItemCountFromDb);
+                cart_count.setText("" + cartItemCountFromDb);
                 SharedPrefs.setCartCount("" + cartItemCountFromDb);
                 if (dataSnapshot.getChildrenCount() == 0) {
                     SharedPrefs.setCartCount("0");
@@ -1769,12 +1822,12 @@ public class ViewProduct extends AppCompatActivity implements View.OnClickListen
 
             }
         });
-        actionView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOptionsItemSelected(menuItem);
-            }
-        });
+//        actionView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onOptionsItemSelected(menuItem);
+//            }
+//        });
 
 
         return true;

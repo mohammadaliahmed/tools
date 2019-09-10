@@ -4,15 +4,19 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +24,7 @@ import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Models.OrderModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerStore.SellerStoreView;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.bumptech.glide.Glide;
@@ -44,19 +49,37 @@ public class TrackOrder extends AppCompatActivity {
     TextView orderNumber, orderStatus, paymentMethod, shippingCarrier, trackingNumber, address, deliveredTo;
     TextView date;
 
+    ImageView backImage;
+    NestedScrollView scrollview;
+    TextView toolbarTitle;
+    TextView cart_count;
+    ImageView cartIcon;
+    TextView status;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_order);
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setElevation(0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
 
+
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+        status = findViewById(R.id.status);
+        toolbarTitle = findViewById(R.id.toolbarTitle);
+        scrollview = findViewById(R.id.scrollview);
+        backImage = findViewById(R.id.backImage);
+        cart_count = findViewById(R.id.cart_count);
+        cartIcon = findViewById(R.id.cartIcon);
         date = findViewById(R.id.date);
         orderNumber = findViewById(R.id.orderNumber);
         orderStatus = findViewById(R.id.orderStatus);
@@ -78,6 +101,52 @@ public class TrackOrder extends AppCompatActivity {
         orderId = i.getStringExtra("orderId");
 
         getOrderDataFromDB();
+        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                cartItemCountFromDb = dataSnapshot.getChildrenCount();
+//                textCartItemCount.setText("" + cartItemCountFromDb);
+                cart_count.setText("" + cartItemCountFromDb);
+                SharedPrefs.setCartCount("" + cartItemCountFromDb);
+                if (dataSnapshot.getChildrenCount() == 0) {
+                    SharedPrefs.setCartCount("0");
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scrollview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                    if (i1 > 1) {
+                        toolbarTitle.setText("Tracking Order #: " + orderId);
+                    } else {
+                        toolbarTitle.setText("");
+                    }
+                }
+            });
+        }
+
+        cartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(TrackOrder.this, NewCart.class));
+            }
+        });
+
+
+        backImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
 
         app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -116,6 +185,7 @@ public class TrackOrder extends AppCompatActivity {
                     OrderModel model = dataSnapshot.getValue(OrderModel.class);
                     if (model != null) {
                         orderStatus.setText("Order status: " + model.getOrderStatus());
+                        status.setText(model.getOrderStatus());
                         orderNumber.setText("Order Number: " + model.getOrderId());
                         paymentMethod.setText("Payment method: Not available");
                         shippingCarrier.setText("Shipping Carrier: " + (model.getCarrier() == null ? "Not Available" : model.getCarrier()));
@@ -126,39 +196,39 @@ public class TrackOrder extends AppCompatActivity {
                         date.setText("Date: " + CommonUtils.getFormattedDate(model.getTime()));
 
                         if (model.getOrderStatus().equalsIgnoreCase("pending")) {
-//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#DAF5C8"));
+                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#DAF5C8"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_pending1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_pending2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("under process")) {
-//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#C0CDE2"));
+                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#C0CDE2"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_under_process1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_under_process2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("shipped")) {
-//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFC8AD"));
+                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFC8AD"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_shipped1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_shipped2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("delivered")) {
-//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFEFC2"));
+                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFEFC2"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_delviered1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_delviered2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("cancelled")) {
-//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFFFC2C3"));
+                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFFFC2C3"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_cancelled).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_cancelled2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("out of stock")) {
-//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FD8C8E"));
+                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FD8C8E"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_out_of_stock1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_out_of_stock2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("delivered by courier")) {
-//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFEFC2"));
+                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFEFC2"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_delviered1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_delviered2).into(trackImage2);
-                        }  else if (model.getOrderStatus().equalsIgnoreCase("shipped by courier")) {
-//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFC8AD"));
+                        } else if (model.getOrderStatus().equalsIgnoreCase("shipped by courier")) {
+                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FFC8AD"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_shipped1).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_shipped2).into(trackImage2);
                         } else if (model.getOrderStatus().equalsIgnoreCase("refused by courier")) {
-//                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FD8C8E"));
+                            collapsing_toolbar.setBackgroundColor(Color.parseColor("#FD8C8E"));
                             Glide.with(TrackOrder.this).load(R.drawable.ic_cancelled).into(trackImage);
                             Glide.with(TrackOrder.this).load(R.drawable.ic_cancelled2).into(trackImage2);
                         }
@@ -183,53 +253,53 @@ public class TrackOrder extends AppCompatActivity {
             finish();
         }
 
-        if (id == R.id.action_cart) {
-            if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
-                CommonUtils.showToast("Your Cart is empty");
-            } else {
-                Intent i = new Intent(TrackOrder.this, NewCart.class);
-                startActivity(i);
-            }
-
-            return true;
-        }
+//        if (id == R.id.action_cart) {
+//            if (SharedPrefs.getCartCount().equalsIgnoreCase("0")) {
+//                CommonUtils.showToast("Your Cart is empty");
+//            } else {
+//                Intent i = new Intent(TrackOrder.this, NewCart.class);
+//                startActivity(i);
+//            }
+//
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_view_product, menu);
+//        getMenuInflater().inflate(R.menu.menu_view_product, menu);
 
-        menuItem = menu.findItem(R.id.action_cart);
-
-        View actionView = MenuItemCompat.getActionView(menuItem);
-        textCartItemCount = actionView.findViewById(R.id.cart_badge);
-
-
-        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                cartItemCountFromDb = dataSnapshot.getChildrenCount();
-                textCartItemCount.setText("" + cartItemCountFromDb);
-                SharedPrefs.setCartCount("" + cartItemCountFromDb);
-                if (dataSnapshot.getChildrenCount() == 0) {
-                    SharedPrefs.setCartCount("0");
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        actionView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOptionsItemSelected(menuItem);
-            }
-        });
+//        menuItem = menu.findItem(R.id.action_cart);
+//
+//        View actionView = MenuItemCompat.getActionView(menuItem);
+//        textCartItemCount = actionView.findViewById(R.id.cart_badge);
+//
+//
+//        mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                cartItemCountFromDb = dataSnapshot.getChildrenCount();
+//                textCartItemCount.setText("" + cartItemCountFromDb);
+//                SharedPrefs.setCartCount("" + cartItemCountFromDb);
+//                if (dataSnapshot.getChildrenCount() == 0) {
+//                    SharedPrefs.setCartCount("0");
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//        actionView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onOptionsItemSelected(menuItem);
+//            }
+//        });
 
 
         return true;

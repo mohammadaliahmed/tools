@@ -397,7 +397,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="40dp"
-                    android:background="@drawable/btn_bg_yellow"
+                    android:background="@drawable/btn_bg_green"
                     android:text="Update"
                     android:textColor="#fff" />
             </LinearLayout>

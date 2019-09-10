@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,6 +84,7 @@ public class ChooseCategory extends AppCompatActivity {
                         String value = snapshot.getValue(String.class);
                         itemList.add(value);
                     }
+                    adapter.updateList(itemList);
                     progress.setVisibility(View.GONE);
 
                     adapter.notifyDataSetChanged();
@@ -91,7 +93,7 @@ public class ChooseCategory extends AppCompatActivity {
 //                        CommonUtils.showToast("sdfsdf");
                         ChooseMainCategory.activity.finish();
                         finish();
-                    }else{
+                    } else {
                         Intent i = new Intent(ChooseCategory.this, ListOfProducts.class);
                         i.putExtra("parentCategory", parentCategory);
                         startActivity(i);
@@ -160,7 +162,28 @@ public class ChooseCategory extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.only_search_menu, menu);
+        final MenuItem mSearch = menu.findItem(R.id.action_search);
+//        mSearch.expandActionView();
+        SearchView mSearchView = (SearchView) mSearch.getActionView();
+
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                adapter.filter(newText);
+//                    getUserCartProductsFromDB();
+
+                return false;
+            }
+        });
+        return true;
     }
 
     @Override

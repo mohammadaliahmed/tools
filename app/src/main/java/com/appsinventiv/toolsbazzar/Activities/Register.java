@@ -61,7 +61,11 @@ public class Register extends AppCompatActivity {
             chooseLocation.setText("Choose address");
         } else {
             chooseLocation.setText("Location: " + country + " > " + province + " > " + district + " > " + city);
-            getShippingDetailsFromDB(country);
+            if (country.contains("lanka")) {
+                getLocalShippingDetailsFromDB(country);
+            } else {
+                getShippingDetailsFromDB(country);
+            }
         }
     }
 
@@ -138,6 +142,8 @@ public class Register extends AppCompatActivity {
         e_businessNumber = findViewById(R.id.businessRegNumber);
         e_telPhone = findViewById(R.id.telPhone);
         chooseLocation = findViewById(R.id.chooseLocation);
+        e_phone.setSelection(3);
+        e_telPhone.setSelection(3);
 
         e_phone.setText(SharedPrefs.getCountryModel().getMobileCode());
         e_telPhone.setText(SharedPrefs.getCountryModel().getMobileCode());
@@ -188,15 +194,16 @@ public class Register extends AppCompatActivity {
                     e_phone.setError("Cannot be null");
                 } else if (e_address.getText().toString().length() == 0) {
                     e_address.setError("Cannot be null");
-                } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
-                    if (e_businessNumber.getText().toString().length() == 0) {
-                        e_businessNumber.setError("Cannot be null");
-                    }
-                } else if (city.equalsIgnoreCase("")) {
+                } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale") && e_businessNumber.getText().length() == 0) {
+
+                    e_businessNumber.setError("Cannot be null");
+
+                } else if (country.equalsIgnoreCase("")) {
                     CommonUtils.showToast("Please choose country and city");
                     Intent i = new Intent(Register.this, ChooseLocation.class);
                     startActivityForResult(i, 1);
                 } else {
+
                     fullname = e_fullname.getText().toString();
                     username = e_username.getText().toString();
                     email = e_email.getText().toString();
@@ -298,8 +305,24 @@ public class Register extends AppCompatActivity {
 //        }
 //    }
 
+    private void getLocalShippingDetailsFromDB(String country) {
+        mDatabase.child("Settings").child("Locations").child("Countries").child("local").child(country).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    chargesModel = dataSnapshot.getValue(CountryModel.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void getShippingDetailsFromDB(String country) {
-        mDatabase.child("Settings").child("Locations").child("Countries").child(country).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Settings").child("Locations").child("Countries").child("international").child(country).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {

@@ -85,6 +85,8 @@ public class SellerStoreProductsAdapter extends RecyclerView.Adapter<SellerStore
                 holder.oldPrice.setText("");
             }
         }
+
+
         holder.oldPrice.setPaintFlags(holder.oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
 
@@ -96,6 +98,13 @@ public class SellerStoreProductsAdapter extends RecyclerView.Adapter<SellerStore
         boolean flag = false;
         boolean isLiked = false;
 
+        if (!userWishList.isEmpty()) {
+            for (int i = 0; i < userWishList.size(); i++) {
+                if (model.getId().equalsIgnoreCase(userWishList.get(i))) {
+                    isLiked = true;
+                }
+            }
+        }
         if (isLiked) {
             holder.heart_button.setLiked(true);
         } else {

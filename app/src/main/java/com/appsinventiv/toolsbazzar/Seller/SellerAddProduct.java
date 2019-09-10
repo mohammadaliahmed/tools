@@ -22,7 +22,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -94,6 +96,11 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
     public static String productWeight, dimens;
     public static int fromWhere = 0;
 
+
+    RadioButton both, wholesale, retail;
+    LinearLayout retailArea, wholesaleArea;
+    int sellingTo = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +126,11 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
 
             }
         });
+        both = findViewById(R.id.both);
+        wholesale = findViewById(R.id.wholesale);
+        retail = findViewById(R.id.retail);
+        retailArea = findViewById(R.id.retailArea);
+        wholesaleArea = findViewById(R.id.wholesaleArea);
         pick = findViewById(R.id.pick);
         upload = findViewById(R.id.upload);
         e_title = findViewById(R.id.title);
@@ -143,6 +155,38 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
         weightChosen = findViewById(R.id.weightChosen);
         warrantyChosen = findViewById(R.id.warrantyChosen);
 
+
+        both.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    sellingTo = 1;
+                    retailArea.setVisibility(View.VISIBLE);
+                    wholesaleArea.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        wholesale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    sellingTo = 2;
+                    retailArea.setVisibility(View.GONE);
+                    wholesaleArea.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        retail.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    sellingTo = 3;
+                    retailArea.setVisibility(View.VISIBLE);
+                    wholesaleArea.setVisibility(View.GONE);
+                }
+            }
+        });
+
         warrantyChosen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,6 +207,20 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
         getSKUFromDb();
 
 
+        e_title.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    /* Write your logic here that will be executed when user taps next button */
+                    e_subtitle.requestFocus();
+
+                    handled = true;
+                }
+
+                return handled;
+            }
+        });
         e_wholesalePrice.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -178,6 +236,20 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
             }
         });
         e_oldWholesalePrice.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    /* Write your logic here that will be executed when user taps next button */
+                    e_minOrderQty.requestFocus();
+
+                    handled = true;
+                }
+
+                return handled;
+            }
+        });
+        e_minOrderQty.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 boolean handled = false;
@@ -205,6 +277,20 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                 return handled;
             }
         });
+//        e_quantityAvailable.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+//                boolean handled = false;
+//                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+//                    /* Write your logic here that will be executed when user taps next button */
+//                    e_retailPrice.requestFocus();
+//
+//                    handled = true;
+//                }
+//
+//                return handled;
+//            }
+//        });
 
 
         pick.setOnClickListener(new View.OnClickListener() {
@@ -236,18 +322,25 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                     CommonUtils.showToast("Please select category");
                 } else if (e_title.getText().length() == 0) {
                     e_title.setError("Enter title");
+                    CommonUtils.showToast("Enter title");
+                    e_title.requestFocus();
                 } else if (e_subtitle.getText().length() == 0) {
                     e_subtitle.setError("Enter subtitle");
+                    CommonUtils.showToast("Enter subtitle");
+                    e_subtitle.requestFocus();
                 } else if (e_costPrice.getText().length() == 0) {
-                    e_costPrice.setError("Enter price");
-                } else if (e_wholesalePrice.getText().length() == 0) {
-                    e_wholesalePrice.setError("Enter whole sale price");
-                } else if (e_retailPrice.getText().length() == 0) {
-                    e_retailPrice.setError("Enter price");
+                    e_costPrice.setError("Enter cost price");
+                    CommonUtils.showToast("Enter cost price");
+                    e_costPrice.requestFocus();
                 } else if (e_quantityAvailable.getText().length() == 0) {
                     e_quantityAvailable.setError("Enter quantity");
+                    CommonUtils.showToast("Enter quantity");
+                    e_quantityAvailable.requestFocus();
+                } else if (!checkk()) {
+                    CommonUtils.showToast("Please fix errors");
                 } else if (whichWarranty == null) {
                     CommonUtils.showToast("Please select warranty type");
+
                 } else if (productWeight == null) {
                     CommonUtils.showToast("Please select product weight");
                 } else if (mSelected.size() == 0) {
@@ -312,7 +405,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                             mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("products").child(productId).setValue(productId);
                             int count = 0;
                             NotificationAsync notificationAsync = new NotificationAsync(SellerAddProduct.this);
-                            String NotificationTitle = "New product uploaded by " + SharedPrefs.getUsername();
+                            String NotificationTitle = "New product uploaded by " + SharedPrefs.getVendor().getStoreName();
                             String NotificationMessage = "Product: " + e_title.getText().toString();
                             notificationAsync.execute("ali", SharedPrefs.getAdminFcmKey(), NotificationTitle, NotificationMessage, "NewSellerProduct", "");
                             for (String img : imageUrl) {
@@ -334,6 +427,46 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
 
             }
         });
+
+
+    }
+
+    private boolean checkk() {
+
+
+        int whole = Integer.parseInt(e_wholesalePrice.getText().toString());
+        int retail = Integer.parseInt(e_retailPrice.getText().toString());
+        int cost = Integer.parseInt(e_costPrice.getText().toString());
+        if (sellingTo == 1) {
+            if (retail > whole && retail > cost && whole>cost) {
+                return true;
+            } else {
+                e_retailPrice.setError("Error");
+                e_wholesalePrice.setError("Error");
+                e_retailPrice.requestFocus();
+                CommonUtils.showToast("Selling price should be greater than cost price");
+                return false;
+            }
+        } else if (sellingTo == 2) {
+            if (whole > cost) {
+                return true;
+            } else {
+                e_wholesalePrice.setError("Error");
+                e_wholesalePrice.requestFocus();
+                CommonUtils.showToast("Selling price should be greater than cost price");
+                return false;
+            }
+        } else if (sellingTo == 3) {
+            if (retail > cost) {
+                return true;
+            } else {
+                e_retailPrice.setError("Error");
+                e_retailPrice.requestFocus();
+                CommonUtils.showToast("Selling price should be greater than cost price");
+                return false;
+            }
+        }
+        return false;
 
 
     }

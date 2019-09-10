@@ -1,18 +1,23 @@
 package com.appsinventiv.toolsbazzar.Seller.SellerOrders;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,7 +48,10 @@ import java.util.ArrayList;
 public class ViewUnderProcessOrder extends AppCompatActivity {
     Button markAsCourier, markAsShipped, markAsOutOfStock;
     Spinner chooseDeliveryBoy;
-    EditText carrier, trackingNumber;
+    TextView carrier;
+    EditText trackingNumber;
+    ArrayList<ShippingCompanyModel> shippingList = new ArrayList<>();
+
 
     //    ArrayList<Employee> employeeArrayList = new ArrayList<>();
 //    Employee employee;
@@ -73,6 +81,8 @@ public class ViewUnderProcessOrder extends AppCompatActivity {
     Button markAsCOD, markAsDeliveredCredit, markAsRefused;
     EditText dueDate;
 
+    private ArrayList<BottomDialogModel> shippingCompanies = new ArrayList<>();
+    private ShippingCompanyModel shippingCarrier;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +123,14 @@ public class ViewUnderProcessOrder extends AppCompatActivity {
         shipping_card = findViewById(R.id.shipping_card);
         order_card = findViewById(R.id.order_card);
         shipping_info_card = findViewById(R.id.shipping_info_card);
+
+        carrier.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showShippingBottomDialog(shippingCompanies);
+            }
+        });
+
 
         selectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -275,6 +293,75 @@ public class ViewUnderProcessOrder extends AppCompatActivity {
 
         getDeliveryBoysFromDb();
         getInvoiceCountFromDb();
+        getShippingCompaniesFromDb();
+
+    }
+
+    @SuppressLint("WrongConstant")
+    private void showShippingBottomDialog(ArrayList<BottomDialogModel> list) {
+
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View customView = inflater.inflate(R.layout.bottom_option, null);
+        final BottomSheetDialog dialog = new BottomSheetDialog(this);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        dialog.setContentView(customView);
+        RecyclerView recyclerview = customView.findViewById(R.id.recyclerview);
+
+
+        BottomAdapter adapter = new BottomAdapter(this, list, new BottomAdapter.ShareMessageFriendsAdapterCallbacks() {
+            @Override
+            public void onChoose(int position) {
+                shippingCarrier = shippingList.get(position);
+                dialog.dismiss();
+                carrier.setText(shippingCarrier.getName());
+            }
+        });
+
+//        dialog.dismiss();
+
+
+        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerview.setAdapter(adapter);
+
+        dialog.show();
+
+
+    }
+
+    private void getShippingCompaniesFromDb() {
+
+        mDatabase.child("Settings").child("ShippingCompanies").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    shippingList.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        ShippingCompanyModel model = snapshot.getValue(ShippingCompanyModel.class);
+                        if (model != null) {
+                            shippingList.add(model);
+                        }
+                    }
+                    setUpShippingCompanySpinner();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setUpShippingCompanySpinner() {
+        shippingCompanies = new ArrayList<>();
+        for (int i = 0; i < shippingList.size(); i++) {
+            shippingCompanies.add(new BottomDialogModel(shippingList.get(i).getId(), shippingList.get(i).getName()
+                    , shippingList.get(i).getTelephone(), shippingList.get(i).getPicUrl()));
+
+        }
 
     }
 
@@ -511,7 +598,7 @@ public class ViewUnderProcessOrder extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         CommonUtils.showToast("Order marked as out of stock");
-                        finish();
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -564,7 +651,6 @@ public class ViewUnderProcessOrder extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 CommonUtils.showToast("Order marked as courier");
-                finish();
             }
         });
     }

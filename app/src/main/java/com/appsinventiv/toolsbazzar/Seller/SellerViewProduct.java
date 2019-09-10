@@ -3,11 +3,13 @@ package com.appsinventiv.toolsbazzar.Seller;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -65,7 +68,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
     ImageView image, increase, decrease;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
-    SellerRelatedProductsAdapter adapter;
+    SellerProductsAdapter adapter;
     ArrayList<Product> productArrayList = new ArrayList<>();
     String productCategory;
 
@@ -101,6 +104,9 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
 
     private FortcityFeaturesModel forCityFeatures;
     ImageView social;
+    ImageView backImage, edit;
+    NestedScrollView scrollview;
+    TextView toolbarTitle;
 
 
     @Override
@@ -110,8 +116,8 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setElevation(0);
         }
 
@@ -127,7 +133,10 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         } else {
             getDataFromServer(productId);
         }
-
+        toolbarTitle = findViewById(R.id.toolbarTitle);
+        edit = findViewById(R.id.edit);
+        scrollview = findViewById(R.id.scrollview);
+        backImage = findViewById(R.id.backImage);
         social = findViewById(R.id.social);
 
         fPromo = findViewById(R.id.fPromo);
@@ -170,18 +179,57 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         colors = findViewById(R.id.colors);
         app_bar_layout = findViewById(R.id.app_bar_layout);
 
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SellerViewProduct.this, EditProduct.class);
+                i.putExtra("productId", product.getId());
+                startActivity(i);
+            }
+        });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scrollview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                    if (i1 > 1) {
+                        toolbarTitle.setText(product.getTitle());
+                    } else {
+                        toolbarTitle.setText("");
+                    }
+                }
+            });
+        }
+
+
+        backImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+
         social.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SellerViewProduct.this,ConnectWithUs.class));
+                startActivity(new Intent(SellerViewProduct.this, ConnectWithUs.class));
             }
         });
 
 
         HashMap<String, Double> map = SharedPrefs.getCommentsCount();
-        if(map!=null&&map.size()>0) {
+        if (map != null && map.size() > 0) {
             map.put(productId, 0.0);
             SharedPrefs.setCommentsCount(map);
+        }
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
 
 
@@ -344,7 +392,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
 //        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 //        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        adapter = new SellerRelatedProductsAdapter(SellerViewProduct.this, productArrayList);
+        adapter = new SellerProductsAdapter(SellerViewProduct.this, productArrayList);
 
         recyclerView.setAdapter(adapter);
         mViewPager = findViewById(R.id.viewpager);
@@ -352,6 +400,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
         mViewPager.setAdapter(sliderAdapter);
         dotsIndicator.setViewPager(mViewPager);
         getForCitFeaturesFrom();
+        getProductIdsFromdb();
     }
 
     private void getForCitFeaturesFrom() {
@@ -740,38 +789,53 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
 
     }
 
+    private void getProductIdsFromdb() {
 
-    private void getProductsFromDB(final String cat) {
-
-        mDatabase.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Sellers").child(SharedPrefs.getVendor().getUsername()).child("products").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     productArrayList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Product product = snapshot.getValue(Product.class);
-                        if (product != null) {
-                            if (product.getIsActive().equals("true")) {
-                                if (product.getCategory().contains(cat)) {
-                                    if (!product.getId().equals(productId)) {
-                                        productArrayList.add(product);
-
-                                    }
-                                }
-                            }
-                        }
+                        getProductsFromDB(snapshot.getKey());
                     }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getProductsFromDB(String productId) {
+
+        mDatabase.child("Products").child(productId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+//                    progress.setVisibility(View.GONE);
+                    Product product = dataSnapshot.getValue(Product.class);
+                    if (product != null) {
+                        if (product.getSellerProductStatus() != null) {
+                            productArrayList.add(product);
+                        }
+
+                    }
+
                     Collections.sort(productArrayList, new Comparator<Product>() {
                         @Override
                         public int compare(Product listData, Product t1) {
-                            String ob1 = listData.getTitle();
-                            String ob2 = t1.getTitle();
-
-                            return ob1.compareTo(ob2);
-
+                            Long ob1 = listData.getTime();
+                            Long ob2 = t1.getTime();
+                            return ob2.compareTo(ob1);
                         }
                     });
                     adapter.notifyDataSetChanged();
+//                    if(productArrayList.size()>0){
+//                        sendMessage(productArrayList.size());
+//                    }
                 }
             }
 
@@ -814,7 +878,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_seller_view_product, menu);
+//        getMenuInflater().inflate(R.menu.menu_seller_view_product, menu);
 
 
         return true;

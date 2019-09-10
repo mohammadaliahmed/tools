@@ -8,7 +8,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="270dp"
+        android:layout_height="350dp"
         android:visibility="visible">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -22,22 +22,70 @@
             <ImageView
                 android:id="@+id/storeCover"
                 android:layout_width="match_parent"
-                android:layout_height="270dp"
+                android:layout_height="330dp"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <ImageView
+                        android:id="@+id/backImage"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_back" />
+
+                    <ImageView
+                        android:id="@+id/accountSettings"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/ic_edit" />
+
+                    <TextView
+                        android:id="@+id/toolbarTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/backImage"
+                        android:text=""
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/cart_count"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="-30dp"
+                        android:layout_toRightOf="@id/cartIcon"
+                        android:background="@drawable/badge_background"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="#fff"
+                        android:textSize="11sp" />
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/scrollview"
         android:layout_marginTop="-30dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -103,11 +151,12 @@
                     <Button
                         android:id="@+id/changeCover"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:layout_marginTop="100dp"
                         android:background="@drawable/btn_bg_green"
                         android:inputType="text"
                         android:text="Change Cover"
+                        android:visibility="visible"
                         android:textColor="#fff" />
                 </RelativeLayout>
 
@@ -263,37 +312,7 @@
                         android:background="#fff"
                         android:orientation="vertical">
 
-                        <RelativeLayout
-                            android:id="@+id/accountSettings"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:foreground="?android:attr/selectableItemBackground">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="20dp"
-                                android:text="Account settings" />
-
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_margin="10dp"
-                                android:alpha="0.5"
-                                android:padding="2dp"
-                                android:src="@drawable/ic_arrow_view" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_alignParentBottom="true"
-                                android:layout_marginTop="20dp"
-                                android:background="#e4e4e4" />
-
-                        </RelativeLayout>
 
                         <RelativeLayout
                             android:id="@+id/bankAccount"

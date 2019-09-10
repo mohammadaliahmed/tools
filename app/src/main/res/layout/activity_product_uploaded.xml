@@ -20,6 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/abc"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:text="Keep up the good work"
         android:textColor="#000"
@@ -43,7 +45,7 @@
         android:layout_below="@id/aasdsadas"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
-        android:background="@drawable/btn_bg_yellow"
+        android:background="@drawable/btn_bg_green"
         android:inputType="text"
 
         android:text="Done"

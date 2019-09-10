@@ -3,8 +3,7 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
->
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,8 +11,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
 
             <LinearLayout
@@ -36,10 +34,10 @@
                             android:id="@+id/text1"
                             android:layout_width="wrap_content"
                             android:layout_height="18dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="4dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="OrderId"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -52,10 +50,10 @@
                             android:id="@+id/order_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="4dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="OrderId"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -68,10 +66,10 @@
                             android:id="@+id/order_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="OrderId"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -84,10 +82,10 @@
                             android:id="@+id/order_quantity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="OrderId"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -100,10 +98,10 @@
                             android:id="@+id/order_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="OrderId"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -116,10 +114,10 @@
                             android:id="@+id/text4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="Order Time"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -132,10 +130,10 @@
                             android:id="@+id/text5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="Quanity"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -148,10 +146,10 @@
                             android:id="@+id/text6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="Total Price"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -165,9 +163,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="Order Info"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -184,11 +182,11 @@
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/shipping_card"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_margin="10dp"
-                    android:elevation="5dp">
+                    android:elevation="5dp"
+                    android:visibility="gone">
 
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
@@ -198,10 +196,10 @@
                             android:id="@+id/textview11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="4dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="Name"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -214,10 +212,10 @@
                             android:id="@+id/ship_username"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="4dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="OrderId"
                             android:textIsSelectable="true"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -231,10 +229,10 @@
                             android:id="@+id/ship_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="OrderId"
                             android:textIsSelectable="true"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -248,10 +246,10 @@
                             android:id="@+id/ship_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="OrderId"
                             android:textIsSelectable="true"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -265,10 +263,10 @@
                             android:id="@+id/ship_city"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="OrderId"
                             android:textIsSelectable="true"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -282,10 +280,10 @@
                             android:id="@+id/textview44"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="Phone"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -298,10 +296,10 @@
                             android:id="@+id/textview55"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="Address"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -314,10 +312,10 @@
                             android:id="@+id/textview66"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="City"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -330,8 +328,8 @@
                             android:id="@+id/textview67"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
                             android:layout_marginStart="15dp"
+                            android:layout_marginLeft="8dp"
                             android:layout_marginTop="10dp"
                             android:text="Country"
                             app:layout_constraintStart_toStartOf="parent"
@@ -343,9 +341,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="Shipping info"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -359,10 +357,10 @@
                             android:id="@+id/ship_country"
                             android:layout_width="wrap_content"
                             android:layout_height="22dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
                             android:text="OrderId"
                             android:textIsSelectable="true"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -400,9 +398,9 @@
                             android:id="@+id/instructions"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="20dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="40dp"
+                            android:layout_marginBottom="20dp"
                             android:text=""
                             android:textSize="16sp" />
                     </RelativeLayout>
@@ -410,30 +408,31 @@
                 </android.support.v7.widget.CardView>
 
                 <CheckBox
+                    android:id="@+id/selectAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|end"
-                    android:id="@+id/selectAll"
-                    android:layoutDirection="rtl"
-                    android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layoutDirection="rtl"
                     android:text="Select All" />
 
                 <TextView
-                    android:layout_gravity="right"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="Uncheck the Box if Item Is Out Of Stock"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Uncheck the Box if Item Is Out Of Stock"
+                    android:textSize="12sp" />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recylerview"
-                    android:nestedScrollingEnabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/shipping_card"
-                    android:layout_marginBottom="50dp">
+                    android:layout_marginBottom="50dp"
+                    android:nestedScrollingEnabled="false">
 
 
                 </android.support.v7.widget.RecyclerView>
@@ -449,18 +448,35 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <android.support.design.widget.TextInputLayout
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="10dp">
+                            android:layout_margin="10dp"
+                            android:background="@drawable/edit_text_background"
+                            android:padding="10dp">
 
-                            <android.support.design.widget.TextInputEditText
+                            <TextView
                                 android:id="@+id/carrier"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Shipping carrier eg. DHL or aramex"
-                                android:inputType="textCapWords" />
-                        </android.support.design.widget.TextInputLayout>
+                                android:text="Shipping Agent"
+
+                                android:textSize="17sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:text=">"
+
+                                android:textSize="20dp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
@@ -489,11 +505,11 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:elevation="5dp">
+                    android:elevation="5dp"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -503,9 +519,9 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="30dp"
+                            android:layout_marginBottom="10dp"
                             android:text="Choose delivery boy" />
 
                         <Spinner
@@ -514,9 +530,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_gravity="center"
-                            android:layout_marginBottom="20dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
+                            android:layout_marginBottom="20dp"
                             android:gravity="center"
                             android:spinnerMode="dropdown" />
 
@@ -565,8 +581,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/button"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
 
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
