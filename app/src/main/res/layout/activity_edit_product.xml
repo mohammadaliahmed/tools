@@ -572,7 +572,7 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_gravity="center"
+                        android:layout_marginTop="12dp"
                         android:src="@drawable/image338" />
 
                     <android.support.design.widget.TextInputLayout
@@ -706,7 +706,7 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_gravity="center"
+                        android:layout_marginTop="12dp"
                         android:src="@drawable/image333" />
 
                     <android.support.design.widget.TextInputLayout

@@ -37,9 +37,10 @@
             <item
                 android:id="@+id/chat"
                 android:icon="@drawable/chat"
+                app:actionLayout="@layout/menu_counter"
 
                 android:title="Live Chat"
-                app:actionViewClass="android.widget.TextView" />
+                />
             <item
                 android:id="@+id/profile"
                 android:icon="@drawable/user"

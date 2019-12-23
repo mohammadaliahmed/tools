@@ -1,6 +1,7 @@
 package com.appsinventiv.toolsbazzar.Models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  */
 
 public class Product {
-    String id, title, subtitle, isActive, thumbnailUrl, mainCategory, subCategory;
+    String id, title, subtitle, thumbnailUrl, mainCategory, subCategory;
     long time;
     float costPrice, wholeSalePrice, retailPrice;
     int minOrderQuantity;
@@ -33,9 +34,15 @@ public class Product {
     int ratingCount;
     int positiveCount,neutralCount,negativeCount;
     String rejectReason;
+    boolean active;
 
+    HashMap<String,String> attributesWithPics;
 
+    String warrantyPeriod, warrantyPolicy, dangerousGood;
+    HashMap<String, Object> productAttributes;
 
+    HashMap<String,String> colorSizeMap;
+    HashMap<String,ArrayList<NewProductModel>> productCountHashmap;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,6 +61,56 @@ public class Product {
         }
 //        return id != null ? !id.equals(product.id) : product.id != null;
     }
+
+    public HashMap<String, String> getColorSizeMap() {
+        return colorSizeMap;
+    }
+
+    public void setColorSizeMap(HashMap<String, String> colorSizeMap) {
+        this.colorSizeMap = colorSizeMap;
+    }
+
+    public HashMap<String, ArrayList<NewProductModel>> getProductCountHashmap() {
+        return productCountHashmap;
+    }
+
+    public void setProductCountHashmap(HashMap<String, ArrayList<NewProductModel>> productCountHashmap) {
+        this.productCountHashmap = productCountHashmap;
+    }
+
+    public HashMap<String, String> getAttributesWithPics() {
+        return attributesWithPics;
+    }
+
+    public void setAttributesWithPics(HashMap<String, String> attributesWithPics) {
+        this.attributesWithPics = attributesWithPics;
+    }
+
+    public String getWarrantyPeriod() {
+        return warrantyPeriod;
+    }
+
+    public void setWarrantyPeriod(String warrantyPeriod) {
+        this.warrantyPeriod = warrantyPeriod;
+    }
+
+    public String getWarrantyPolicy() {
+        return warrantyPolicy;
+    }
+
+    public void setWarrantyPolicy(String warrantyPolicy) {
+        this.warrantyPolicy = warrantyPolicy;
+    }
+
+    public String getDangerousGood() {
+        return dangerousGood;
+    }
+
+    public void setDangerousGood(String dangerousGood) {
+        this.dangerousGood = dangerousGood;
+    }
+
+
 
     public String getRejectReason() {
         return rejectReason;
@@ -87,7 +144,7 @@ public class Product {
         this.negativeCount = negativeCount;
     }
 
-    public Product(String id, String title, String subtitle, String isActive,
+    public Product(String id, String title, String subtitle,
                    int sku, String thumbnailUrl, String mainCategory, String subCategory,
                    long time, float costPrice, float wholeSalePrice, float retailPrice,
                    int minOrderQuantity, String measurement, VendorModel vendor, String sellingTo,
@@ -106,7 +163,6 @@ public class Product {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
-        this.isActive = isActive;
         this.sku = sku;
         this.thumbnailUrl = thumbnailUrl;
         this.mainCategory = mainCategory;
@@ -135,6 +191,22 @@ public class Product {
         this.sellerProductStatus = sellerProductStatus;
         this.uploadedBy = uploadedBy;
         this.likesCount=likesCount;
+    }
+
+    public HashMap<String, Object> getProductAttributes() {
+        return productAttributes;
+    }
+
+    public void setProductAttributes(HashMap<String, Object> productAttributes) {
+        this.productAttributes = productAttributes;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public int getRatingCount() {
@@ -216,7 +288,9 @@ public class Product {
 
 
     public Product() {
+
     }
+
 
     public int getQuantityAvailable() {
         return quantityAvailable;
@@ -339,13 +413,7 @@ public class Product {
         this.subtitle = subtitle;
     }
 
-    public String getIsActive() {
-        return isActive;
-    }
 
-    public void setIsActive(String isActive) {
-        this.isActive = isActive;
-    }
 
     public int getSku() {
         return sku;

@@ -114,7 +114,12 @@ public class SellerStoreView extends AppCompatActivity {
             }
         });
 
+        if(SharedPrefs.getCustomerModel()!=null){
 
+        }else{
+            cartIcon.setVisibility(View.INVISIBLE);
+            cart_count.setVisibility(View.INVISIBLE);
+        }
         sellerId = getIntent().getStringExtra("sellerId");
 
 

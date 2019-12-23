@@ -447,6 +447,12 @@
 
                         </RelativeLayout>
 
+                        <android.support.v7.widget.RecyclerView
+
+                            android:id="@+id/recyclerColors"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
                         <RelativeLayout
                             android:id="@+id/sizeSection"
 
@@ -485,6 +491,11 @@
                                 android:background="#e6e6e6"></View>
                         </RelativeLayout>
 
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recyclerSize"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
                         <RelativeLayout
                             android:id="@+id/colorSection"
 
@@ -499,6 +510,7 @@
                                 android:layout_marginTop="20dp"
                                 android:text="Select Color"
                                 android:textStyle="bold" />
+
 
                             <HorizontalScrollView
                                 android:id="@+id/horic"

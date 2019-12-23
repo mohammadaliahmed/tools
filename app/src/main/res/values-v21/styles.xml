@@ -3,18 +3,23 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
     </style>
 
     <style name="AppThemeMain.NoActionBar">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
     </style>
+
 
     <style name="AppTheme.NoActionBar2">
         <item name="android:statusBarColor">@color/colorGreenDark</item>
         <item name="colorAccent">@color/colorGreen</item>
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+
     </style>
 
     <style name="Theme.AppCompat.Light.NoActionBar">
@@ -38,4 +43,6 @@
         <item name="drawerArrowStyle">@style/DrawerIcon</item>
 
     </style>
+
+
 </resources>

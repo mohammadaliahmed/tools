@@ -33,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public class SellerProductComments extends AppCompatActivity implements NotificationObserver {
     CommentsAdapter adapter;
@@ -46,7 +47,7 @@ public class SellerProductComments extends AppCompatActivity implements Notifica
     TextView title, price;
     CardView productLayout;
     private Product product;
-    String commentText=" ";
+    String commentText = " ";
 
 
     @Override
@@ -72,12 +73,12 @@ public class SellerProductComments extends AppCompatActivity implements Notifica
         productLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(SharedPrefs.getVendor()!=null){
+                if (SharedPrefs.getVendor() != null) {
                     Intent intent = new Intent(SellerProductComments.this, SellerViewProduct.class);
                     intent.putExtra("productId", productId);
                     startActivity(intent);
                     finish();
-                }else {
+                } else {
                     Intent intent = new Intent(SellerProductComments.this, ViewProduct.class);
                     intent.putExtra("productId", productId);
                     startActivity(intent);
@@ -87,11 +88,21 @@ public class SellerProductComments extends AppCompatActivity implements Notifica
         });
         getProductFromDB();
         getCommentsDromDB();
+        HashMap<String, Double> map = SharedPrefs.getCommentsCount();
+        if (map != null && map.size() > 0) {
+            map.put(productId, 0.0);
+            SharedPrefs.setCommentsCount(map);
+        }
 
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
         adapter = new CommentsAdapter(this, itemList);
         recyclerView.setAdapter(adapter);
+        layoutManager.setStackFromEnd(true);
+
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +137,7 @@ public class SellerProductComments extends AppCompatActivity implements Notifica
 
                         }
                         if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
-                            if(product.getVendor()!=null)
+                            if (product.getVendor() != null)
                                 getVendorDetailsFromDB(product.getVendor().getUsername());
                         }
 
@@ -214,7 +225,7 @@ public class SellerProductComments extends AppCompatActivity implements Notifica
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        commentText=comment.getText().toString();
+                        commentText = comment.getText().toString();
                         comment.setText("");
 //
 //                        NotificationAsync notificationAsync = new NotificationAsync(SellerProductComments.this);

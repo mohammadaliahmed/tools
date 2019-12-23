@@ -59,6 +59,9 @@
 
     </style>
 
+
+
+
     <style name="AppThemeMain.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

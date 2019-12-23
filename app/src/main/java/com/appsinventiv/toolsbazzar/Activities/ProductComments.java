@@ -94,9 +94,11 @@ public class ProductComments extends AppCompatActivity implements NotificationOb
         getProductFromDB();
         getCommentsDromDB();
 
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
         adapter = new CommentsAdapter(this, itemList);
+        layoutManager.setStackFromEnd(true);
+
         recyclerView.setAdapter(adapter);
 
         send.setOnClickListener(new View.OnClickListener() {

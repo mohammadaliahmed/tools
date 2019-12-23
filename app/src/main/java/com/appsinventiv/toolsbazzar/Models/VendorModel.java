@@ -28,7 +28,19 @@ public class VendorModel {
     int followersCount;
 
     boolean online;
+    boolean approved;
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
 
     public boolean isOnline() {
         return online;

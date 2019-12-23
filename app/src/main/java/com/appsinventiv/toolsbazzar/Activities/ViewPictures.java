@@ -28,13 +28,9 @@ public class ViewPictures extends AppCompatActivity {
         dotsIndicator = (DotsIndicator) findViewById(R.id.dots_indicator);
 
         mViewPager = findViewById(R.id.viewpager);
-        if(ViewProduct.picUrls.size()>0){
-            sliderAdapter = new ViewPicturesSliderAdapter(ViewPictures.this, ViewProduct.picUrls, 0);
+        sliderAdapter = new ViewPicturesSliderAdapter(ViewPictures.this, ViewProduct.picUrls, 0);
 
-        }else{
-            sliderAdapter = new ViewPicturesSliderAdapter(ViewPictures.this, SellerViewProduct.picUrls, 0);
 
-        }
         mViewPager.setAdapter(sliderAdapter);
         dotsIndicator.setViewPager(mViewPager);
     }

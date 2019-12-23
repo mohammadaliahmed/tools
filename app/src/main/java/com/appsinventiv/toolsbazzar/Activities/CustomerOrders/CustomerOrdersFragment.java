@@ -1,28 +1,32 @@
-package com.appsinventiv.toolsbazzar.Activities;
+package com.appsinventiv.toolsbazzar.Activities.CustomerOrders;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Canvas;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import com.appsinventiv.toolsbazzar.Adapters.OrdersAdapter;
 import com.appsinventiv.toolsbazzar.Models.OrderModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerOrders.OrdersAdapter;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
+import com.appsinventiv.toolsbazzar.Utils.SwipeControllerActions;
+import com.appsinventiv.toolsbazzar.Utils.SwipeToDeleteCallback;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,51 +38,65 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class MyOrders extends AppCompatActivity {
 
+public class CustomerOrdersFragment extends Fragment {
+
+    Context context;
     DatabaseReference mDatabase;
     RecyclerView recyclerView;
-    OrdersAdapter adapter;
+    com.appsinventiv.toolsbazzar.Adapters.OrdersAdapter adapter;
     ArrayList<OrderModel> orderModelArrayList = new ArrayList<>();
     ProgressBar progress;
     Button shopping;
     RelativeLayout wholeLayout;
     String orderStatus;
 
+
+    public CustomerOrdersFragment() {
+        // Required empty public constructor
+    }
+
+    @SuppressLint("ValidFragment")
+    public CustomerOrdersFragment(String orderStatus) {
+        this.orderStatus = orderStatus;
+
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_orders);
-        this.setTitle("My Orders");
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setElevation(0);
-        }
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        progress = findViewById(R.id.progress);
-        shopping = findViewById(R.id.shopping);
-        wholeLayout = findViewById(R.id.wholeLayout);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_my_orders, container, false);
+        progress = rootView.findViewById(R.id.progress);
+        shopping = rootView.findViewById(R.id.shopping);
+        wholeLayout = rootView.findViewById(R.id.wholeLayout);
         shopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                Intent i=new Intent(MyOrders.this)
-                finish();
+//                finish();
             }
         });
 
-        orderStatus = getIntent().getStringExtra("orderStatus");
-        this.setTitle((orderStatus != null ? orderStatus + " Orders" : "My Orders"));
+//        this.setTitle((orderStatus != null ? orderStatus + " Orders" : "My Orders"));
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        recyclerView = findViewById(R.id.recycler);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView = rootView.findViewById(R.id.recycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new OrdersAdapter(this, orderModelArrayList, new OrdersAdapter.ChangeOrderStatus() {
+        adapter = new com.appsinventiv.toolsbazzar.Adapters.OrdersAdapter(context, orderModelArrayList, new com.appsinventiv.toolsbazzar.Adapters.OrdersAdapter.ChangeOrderStatus() {
             @Override
             public void onCancelOrder(final OrderModel product) {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(MyOrders.this);
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
                 builder1.setMessage("Cancel Order?");
                 builder1.setCancelable(true);
 
@@ -112,9 +130,9 @@ public class MyOrders extends AppCompatActivity {
         });
         recyclerView.setAdapter(adapter);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         getOrders();
+        return rootView;
     }
 
     private void getOrders() {
@@ -126,14 +144,14 @@ public class MyOrders extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                         getOrdersFromDb(snapshot.getKey());
-                        if (orderModelArrayList.size() > 0) {
-                            wholeLayout.setVisibility(View.GONE);
-                        } else {
-                            wholeLayout.setVisibility(View.VISIBLE);
-                        }
+//                        if (orderModelArrayList.size() > 0) {
+//                            wholeLayout.setVisibility(View.GONE);
+//                        } else {
+//                            wholeLayout.setVisibility(View.VISIBLE);
+//                        }
                     }
 
-                    adapter.notifyDataSetChanged();
+//                    adapter.notifyDataSetChanged();
                 } else {
                     progress.setVisibility(View.GONE);
                     orderModelArrayList.clear();
@@ -151,12 +169,7 @@ public class MyOrders extends AppCompatActivity {
             }
         });
 
-    }
 
-    @Override
-    public void onBackPressed() {
-
-        finish();
     }
 
     private void getOrdersFromDb(String key) {
@@ -168,14 +181,13 @@ public class MyOrders extends AppCompatActivity {
                     if (model != null) {
                         wholeLayout.setVisibility(View.GONE);
                         progress.setVisibility(View.GONE);
-                        if (orderStatus == null) {
+                        if (orderStatus.equalsIgnoreCase("all")) {
                             orderModelArrayList.add(model);
-                        } else if (model.getOrderStatus().contains(orderStatus)) {
+                        } else if (model.getOrderStatus().toLowerCase().contains(orderStatus.toLowerCase())) {
                             orderModelArrayList.add(model);
                         }
 
 
-                        adapter.notifyDataSetChanged();
                         Collections.sort(orderModelArrayList, new Comparator<OrderModel>() {
                             @Override
                             public int compare(OrderModel listData, OrderModel t1) {
@@ -186,6 +198,7 @@ public class MyOrders extends AppCompatActivity {
 
                             }
                         });
+                        adapter.notifyDataSetChanged();
 
 
                     }
@@ -200,20 +213,13 @@ public class MyOrders extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+
     }
+
 
 }
-

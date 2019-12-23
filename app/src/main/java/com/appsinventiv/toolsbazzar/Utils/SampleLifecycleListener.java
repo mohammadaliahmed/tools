@@ -10,7 +10,7 @@ import java.util.Calendar;
 public class SampleLifecycleListener implements LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void onStart() {
-        CommonUtils.sendCustomerStatus(true);
+//        CommonUtils.sendCustomerStatus(true);
 
 //        CommonUtils.showToast("start");
 //        String getUserId = MyApp.getInstance().UserId;
@@ -30,7 +30,7 @@ public class SampleLifecycleListener implements LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void onDestroy() {
 
-        CommonUtils.sendCustomerStatus(false);
+//        CommonUtils.sendCustomerStatus(false);
 
 //        String getUserId = MyApp.getInstance().UserId;
 //        if (getUserId != null && !getUserId.equals("")) {

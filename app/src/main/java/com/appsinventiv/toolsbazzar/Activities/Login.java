@@ -1,6 +1,5 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -16,9 +15,7 @@ import android.widget.TextView;
 import com.appsinventiv.toolsbazzar.Models.CityDeliveryChargesModel;
 import com.appsinventiv.toolsbazzar.Models.CountryModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
-import com.appsinventiv.toolsbazzar.Models.LocationAndChargesModel;
 import com.appsinventiv.toolsbazzar.R;
-import com.appsinventiv.toolsbazzar.Seller.SellerMainActivity;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;

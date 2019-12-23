@@ -146,6 +146,7 @@ public class SellerProductsCategoryFragment extends Fragment {
 
             quantityText.setText("Sorry item is currently out of stock");
             whichArrow.setImageResource(R.drawable.ic_arrow_red);
+            confirm.setVisibility(View.INVISIBLE);
         } else if (product.getQuantityAvailable() > 0 && product.getQuantityAvailable() <= 5) {
             quantityText.setText("Only " + product.getQuantityAvailable() + " left in stock, Hurry up & grab yours");
 
@@ -352,6 +353,7 @@ public class SellerProductsCategoryFragment extends Fragment {
 
             quantityText.setText("Sorry item is currently out of stock");
             whichArrow.setImageResource(R.drawable.ic_arrow_red);
+            confirm.setVisibility(View.INVISIBLE);
         } else if (product.getQuantityAvailable() > 0 && product.getQuantityAvailable() <= 5) {
             quantityText.setText("Only " + product.getQuantityAvailable() + " left in stock, Hurry up & grab yours");
 
@@ -533,9 +535,9 @@ public class SellerProductsCategoryFragment extends Fragment {
                     Product product = dataSnapshot.getValue(Product.class);
                     if (product != null) {
                         if (product.getSellerProductStatus() != null) {
-                            if(sellerProductStatus.equalsIgnoreCase("All")){
+                            if (sellerProductStatus.equalsIgnoreCase("All")) {
                                 productArrayList.add(product);
-                            }else {
+                            } else {
                                 if (product.getCategory().contains(sellerProductStatus)) {
                                     productArrayList.add(product);
                                 }

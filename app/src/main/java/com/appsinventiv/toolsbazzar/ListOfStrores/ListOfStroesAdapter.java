@@ -20,6 +20,8 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.Random;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ListOfStroesAdapter extends RecyclerView.Adapter<ListOfStroesAdapter.ViewHolder> {
     Context context;
     ArrayList<StoreListModel> itemList = new ArrayList<>();
@@ -78,6 +80,9 @@ public class ListOfStroesAdapter extends RecyclerView.Adapter<ListOfStroesAdapte
         if (model.getSeller().getPicUrl() != null) {
             Glide.with(context).load(model.getSeller().getPicUrl()).into(holder.storeImg);
 
+        } else {
+            Glide.with(context).load(R.drawable.placeholder).into(holder.storeImg);
+
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +124,7 @@ public class ListOfStroesAdapter extends RecyclerView.Adapter<ListOfStroesAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView storeName, followerCount;
-        ImageView storeImg;
+        CircleImageView storeImg;
         Button follow, unFollow;
         RecyclerView recyler;
         LinearLayout linear;

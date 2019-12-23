@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.appsinventiv.toolsbazzar.ListOfStrores.ListOfStroesAdapter;
 import com.appsinventiv.toolsbazzar.ListOfStrores.StoreCallbacks;
 import com.appsinventiv.toolsbazzar.ListOfStrores.StoreListModel;
+import com.appsinventiv.toolsbazzar.Models.NewProductModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
@@ -37,6 +38,8 @@ public class ListOfOtherStores extends AppCompatActivity {
     ArrayList<StoreListModel> itemList = new ArrayList<>();
     StoreListAdapter adapter;
     ArrayList<VendorModel> vendors = new ArrayList<>();
+    ArrayList<Product> productArrayList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +56,9 @@ public class ListOfOtherStores extends AppCompatActivity {
 
 
         setUpRecycler();
-        getStoreListFromDB();
+        getProductss();
     }
+
 
     private void setUpRecycler() {
         recyclerview.setLayoutManager(new LinearLayoutManager(ListOfOtherStores.this, LinearLayoutManager.VERTICAL, false));
@@ -63,6 +67,47 @@ public class ListOfOtherStores extends AppCompatActivity {
         recyclerview.setAdapter(adapter);
 
 
+    }
+
+    private void getProductss() {
+        mDatabase.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Product product = snapshot.getValue(Product.class);
+                        if (product != null) {
+                            if (product.getAttributesWithPics() != null && snapshot.child("newAttributes").getValue() != null) {
+                                HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
+                                for (DataSnapshot color : snapshot.child("newAttributes").getChildren()) {
+                                    ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
+                                    for (DataSnapshot size : color.getChildren()) {
+                                        NewProductModel countModel = size.getValue(NewProductModel.class);
+                                        if (countModel != null) {
+                                            newProductModelArrayList.add(countModel);
+                                        }
+                                        newMap.put(color.getKey(), newProductModelArrayList);
+                                    }
+
+                                }
+                                product.setProductCountHashmap(newMap);
+
+                            }
+
+                            productArrayList.add(product);
+                        }
+                    }
+                    if (productArrayList.size() > 0) {
+                        getStoreListFromDB();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
@@ -81,6 +126,7 @@ public class ListOfOtherStores extends AppCompatActivity {
 
                         }
                     }
+                    getFortCityProducts();
 
                     adapter.notifyDataSetChanged();
 
@@ -94,42 +140,54 @@ public class ListOfOtherStores extends AppCompatActivity {
         });
     }
 
+    private void getFortCityProducts() {
+        ArrayList<String> image = new ArrayList<>();
+        for (Product product : productArrayList) {
+            if (product != null) {
+                if (product.getUploadedBy() != null && product.getSellerProductStatus() != null) {
+                    if (product.getUploadedBy().equalsIgnoreCase("admin") && product.getSellerProductStatus().equalsIgnoreCase("Approved")) {
+                        image.add(product.getThumbnailUrl());
+                    }
+                }
+            }
+
+        }
+        VendorModel vendor = new VendorModel();
+        vendor.setUsername("Fort City");
+        vendor.setStoreName("Fort City");
+        itemList.add(new StoreListModel(vendor, image));
+
+        adapter.notifyDataSetChanged();
+    }
+
     private void getProductsFromDB(final VendorModel vendor, final int size) {
-        mDatabase.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    ArrayList<String> image = new ArrayList<>();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Product product = snapshot.getValue(Product.class);
-                        if (product != null) {
-                            if (product.getSellerProductStatus() != null && product.getSellerProductStatus().equalsIgnoreCase("Approved")) {
-                                if (product.getId() != null && vendor.getProducts() != null) {
-                                    for (Map.Entry<String, String> entry : vendor.getProducts().entrySet()) {
-                                        String key = entry.getKey();
-                                        if (key.equalsIgnoreCase(product.getId())) {
-                                            image.add(product.getThumbnailUrl());
-                                        }
-                                    }
-                                }
 
-
+        ArrayList<String> image = new ArrayList<>();
+        for (Product product : productArrayList) {
+            if (product != null) {
+                if (product.getSellerProductStatus() != null && product.getSellerProductStatus().equalsIgnoreCase("Approved")) {
+                    if (product.getId() != null && vendor.getProducts() != null) {
+                        for (Map.Entry<String, String> entry : vendor.getProducts().entrySet()) {
+                            String key = entry.getKey();
+                            if (key.equalsIgnoreCase(product.getId())) {
+                                image.add(product.getThumbnailUrl());
                             }
                         }
-
                     }
-                    vendors.get(size).setProductsimages(image);
-                    itemList.add(new StoreListModel(vendor, vendors.get(size).getProductsimages()));
-                    adapter.notifyDataSetChanged();
+
 
                 }
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+        }
+        vendors.get(size).setProductsimages(image);
+        if (vendors.get(size).getProductsimages().size() > 5) {
+            itemList.add(new StoreListModel(vendor, vendors.get(size).getProductsimages()));
+        } else {
+        }
+        adapter.notifyDataSetChanged();
 
-            }
-        });
+
     }
 
 

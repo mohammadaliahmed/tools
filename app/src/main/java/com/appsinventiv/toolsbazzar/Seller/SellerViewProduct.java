@@ -33,6 +33,7 @@ import com.appsinventiv.toolsbazzar.Activities.SizeChart;
 import com.appsinventiv.toolsbazzar.Activities.ViewProduct;
 import com.appsinventiv.toolsbazzar.Adapters.SliderAdapter;
 import com.appsinventiv.toolsbazzar.Models.FortcityFeaturesModel;
+import com.appsinventiv.toolsbazzar.Models.NewProductModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
@@ -396,7 +397,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
 
         recyclerView.setAdapter(adapter);
         mViewPager = findViewById(R.id.viewpager);
-        sliderAdapter = new SliderAdapter(SellerViewProduct.this, picUrls, 1);
+        sliderAdapter = new SliderAdapter(SellerViewProduct.this, picUrls, 1, 2);
         mViewPager.setAdapter(sliderAdapter);
         dotsIndicator.setViewPager(mViewPager);
         getForCitFeaturesFrom();
@@ -443,98 +444,6 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
     }
 
 
-    @SuppressLint("ResourceAsColor")
-    public void initiliazeSizeButtons(final Product product, final LinearLayout sizes) {
-        sizes.removeAllViews();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.height = 120;
-        params.width = 130;
-        params.setMargins(5, 1, 5, 1);
-        final ArrayList<Button> btnList = new ArrayList<>();
-
-        for (int i = 0; i < product.getSizeList().size(); i++) {
-            final Button btn = new Button(SellerViewProduct.this);
-            btn.setLayoutParams(params);
-            btn.setBackgroundResource(R.drawable.size_button_layout);
-            btn.setText("" + product.getSizeList().get(i));
-            sizes.addView(btn);
-            btn.setTextSize(9);
-            btn.setId(i);
-            btnList.add(btn);
-
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (selected == -1) {
-                        selected = view.getId();
-
-                    } else {
-                        sizes.getChildAt(selected).setBackgroundResource(R.drawable.size_button_layout);
-                        selected = view.getId();
-                    }
-                    for (Button j : btnList) {
-
-                        j.setTextColor(getResources().getColor(R.color.default_grey_text));
-
-                    }
-                    sizes.getChildAt(view.getId()).setBackgroundResource(R.drawable.size_button_selected);
-                    sizeSelected = product.getSizeList().get(selected);
-                    btn.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-                }
-            });
-        }
-    }
-
-    @SuppressLint("ResourceAsColor")
-    public void initializeColorButtons(final Product product, final LinearLayout colors) {
-        colors.removeAllViews();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.height = 120;
-        params.width = 170;
-        params.setMargins(5, 1, 5, 1);
-        final ArrayList<Button> btnList = new ArrayList<>();
-
-        if (product.getColorList() != null) {
-            for (int i = 0; i < product.getColorList().size(); i++) {
-                final Button btn = new Button(SellerViewProduct.this);
-                btn.setLayoutParams(params);
-                btn.setBackgroundResource(R.drawable.size_button_layout);
-                btn.setText("" + product.getColorList().get(i));
-                btn.setTextSize(9);
-                colors.addView(btn);
-                btn.setId(i);
-                btnList.add(btn);
-
-
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (selectedColor == -1) {
-                            selectedColor = view.getId();
-
-                        } else {
-                            colors.getChildAt(selectedColor).setBackgroundResource(R.drawable.size_button_layout);
-                            selectedColor = view.getId();
-                        }
-
-
-                        for (Button j : btnList) {
-
-                            j.setTextColor(getResources().getColor(R.color.default_grey_text));
-
-                        }
-                        colors.getChildAt(view.getId()).setBackgroundResource(R.drawable.size_button_selected);
-                        colorSelected = product.getColorList().get(selectedColor);
-                        btn.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-                    }
-                });
-            }
-        }
-    }
-
-
     private void getLikeFromDB() {
         mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("WishList").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -564,6 +473,23 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
                 if (dataSnapshot.getValue() != null) {
                     product = dataSnapshot.getValue(Product.class);
                     if (product != null) {
+                        if (product.getAttributesWithPics() != null && dataSnapshot.child("newAttributes").getValue() != null) {
+                            HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
+                            for (DataSnapshot color : dataSnapshot.child("newAttributes").getChildren()) {
+                                ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
+                                for (DataSnapshot size : color.getChildren()) {
+                                    NewProductModel countModel = size.getValue(NewProductModel.class);
+                                    if (countModel != null) {
+                                        newProductModelArrayList.add(countModel);
+                                    }
+                                    newMap.put(color.getKey(), newProductModelArrayList);
+                                }
+
+                            }
+                            product.setProductCountHashmap(newMap);
+
+                        }
+
                         title.setText(product.getTitle());
                         subtitle.setText(product.getSubtitle());
 
@@ -635,11 +561,16 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
 
                             if (product.getVendor().getUsername().equalsIgnoreCase(SharedPrefs.getVendor().getUsername())) {
                                 relativeLayout1.setVisibility(View.VISIBLE);
+                                edit.setVisibility(View.VISIBLE);
+
                             } else {
                                 relativeLayout1.setVisibility(View.GONE);
+                                edit.setVisibility(View.GONE);
+
                             }
 
                         } else {
+                            edit.setVisibility(View.GONE);
                             relativeLayout1.setVisibility(View.GONE);
                         }
                         if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")) {
@@ -818,6 +749,23 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
 //                    progress.setVisibility(View.GONE);
                     Product product = dataSnapshot.getValue(Product.class);
                     if (product != null) {
+                        if (product.getAttributesWithPics() != null && dataSnapshot.child("newAttributes").getValue() != null) {
+                            HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
+                            for (DataSnapshot color : dataSnapshot.child("newAttributes").getChildren()) {
+                                ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
+                                for (DataSnapshot size : color.getChildren()) {
+                                    NewProductModel countModel = size.getValue(NewProductModel.class);
+                                    if (countModel != null) {
+                                        newProductModelArrayList.add(countModel);
+                                    }
+                                    newMap.put(color.getKey(), newProductModelArrayList);
+                                }
+
+                            }
+                            product.setProductCountHashmap(newMap);
+
+                        }
+
                         if (product.getSellerProductStatus() != null) {
                             productArrayList.add(product);
                         }

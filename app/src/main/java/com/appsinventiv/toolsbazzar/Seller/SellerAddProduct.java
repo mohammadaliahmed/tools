@@ -1,13 +1,18 @@
 package com.appsinventiv.toolsbazzar.Seller;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +20,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -37,10 +44,13 @@ import com.appsinventiv.toolsbazzar.Interface.NotificationObserver;
 import com.appsinventiv.toolsbazzar.Interfaces.ProductObserver;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
+import com.appsinventiv.toolsbazzar.ProductManagement.ChooseProductVariation;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.SellerChat.SellerChats;
+import com.appsinventiv.toolsbazzar.Seller.SellerOrders.BottomDialogModel;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.CompressImage;
+import com.appsinventiv.toolsbazzar.Utils.Constants;
 import com.appsinventiv.toolsbazzar.Utils.NotificationAsync;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -60,7 +70,9 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SellerAddProduct extends AppCompatActivity implements ProductObserver, NotificationObserver {
     TextView categoryChoosen;
@@ -92,7 +104,6 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
     public static ArrayList<String> categoryList = new ArrayList<>();
     EditText brandName, productContents;
     TextView warrantyChosen, weightChosen;
-    private String whichWarranty;
     public static String productWeight, dimens;
     public static int fromWhere = 0;
 
@@ -100,6 +111,21 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
     RadioButton both, wholesale, retail;
     LinearLayout retailArea, wholesaleArea;
     int sellingTo = 1;
+    public static HashMap<String, Object> productAttributesMap = new HashMap<>();
+
+    private ArrayList<BottomDialogModel> vendrs = new ArrayList<>();
+    private String localThumbnail;
+    EditText warrantyPolicy;
+    TextView dangerousGoodsTv;
+    TextView productVariation;
+
+    TextView productVariationSubtitle;
+    public static SellerAddProduct activity;
+
+    public static String whichWarranty, warrantyPeriod, dangerousGoods;
+    TextView warrantyPeriodTv;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +152,13 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
 
             }
         });
+
+
+
+        productVariationSubtitle = findViewById(R.id.productVariationSubtitle);
+        productVariation = findViewById(R.id.productVariation);
         both = findViewById(R.id.both);
+        dangerousGoodsTv = findViewById(R.id.dangerousGoods);
         wholesale = findViewById(R.id.wholesale);
         retail = findViewById(R.id.retail);
         retailArea = findViewById(R.id.retailArea);
@@ -154,6 +186,14 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
         productContents = findViewById(R.id.productContents);
         weightChosen = findViewById(R.id.weightChosen);
         warrantyChosen = findViewById(R.id.warrantyChosen);
+        warrantyPeriodTv = findViewById(R.id.warrantyPeriod);
+
+        productVariation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SellerAddProduct.this, ChooseProductVariation.class));
+            }
+        });
 
 
         both.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -328,6 +368,10 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                     e_subtitle.setError("Enter subtitle");
                     CommonUtils.showToast("Enter subtitle");
                     e_subtitle.requestFocus();
+                } else if (e_description.getText().length() == 0) {
+                    e_description.setError("Enter description");
+                    CommonUtils.showToast("Enter description");
+                    e_description.requestFocus();
                 } else if (e_costPrice.getText().length() == 0) {
                     e_costPrice.setError("Enter cost price");
                     CommonUtils.showToast("Enter cost price");
@@ -336,9 +380,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                     e_quantityAvailable.setError("Enter quantity");
                     CommonUtils.showToast("Enter quantity");
                     e_quantityAvailable.requestFocus();
-                } else if (!checkk()) {
-                    CommonUtils.showToast("Please fix errors");
-                } else if (whichWarranty == null) {
+                }  else if (whichWarranty == null) {
                     CommonUtils.showToast("Please select warranty type");
 
                 } else if (productWeight == null) {
@@ -346,88 +388,140 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                 } else if (mSelected.size() == 0) {
                     CommonUtils.showToast("Please select image");
                 } else {
-                    List<String> container = new ArrayList<>();
-                    if (e_sizes.getText().length() > 0) {
-                        String[] sizes = e_sizes.getText().toString().split(",");
-                        container = Arrays.asList(sizes);
 
-                    }
-                    List<String> container1 = new ArrayList<>();
+                    showUploadAlert();
 
-                    if (e_colors.getText().length() > 0) {
-                        String[] colors = e_colors.getText().toString().split(",");
-                        container1 = Arrays.asList(colors);
-
-                    }
-
-
-                    progressBar.setVisibility(View.VISIBLE);
-                    int selectedId = radioGroup.getCheckedRadioButtonId();
-
-                    selected = findViewById(selectedId);
-                    productId = mDatabase.push().getKey();
-                    mDatabase.child("Products").child(productId).setValue(new Product(
-                            productId,
-                            e_title.getText().toString(),
-                            e_subtitle.getText().toString(),
-                            "true",
-                            Integer.parseInt("" + newSku),
-                            "",
-                            "",
-                            "",
-                            System.currentTimeMillis(),
-                            Float.parseFloat(e_costPrice.getText().toString()),
-                            Float.parseFloat(e_wholesalePrice.getText().toString()),
-                            Float.parseFloat(e_retailPrice.getText().toString()),
-                            Integer.parseInt(e_minOrderQty.getText().length() > 0 ? e_minOrderQty.getText().toString() : "" + 1),
-                            e_measurement.getText().toString(),
-                            SharedPrefs.getVendor(),
-                            selected.getText().toString(),
-                            e_description.getText().toString(),
-                            container,
-                            container1,
-                            Float.parseFloat(e_oldWholesalePrice.getText().length() > 0 ? e_oldWholesalePrice.getText().toString() : "" + 0),
-                            Float.parseFloat(e_oldRetailPrice.getText().length() > 0 ? e_oldRetailPrice.getText().toString() : "" + 0),
-                            0,
-                            categoryList, Integer.parseInt(e_quantityAvailable.getText().toString()),
-                            brandName.getText().toString(),
-                            productContents.getText().toString(),
-                            whichWarranty,
-                            productWeight,
-                            dimens, "Pending",
-                            "seller",
-                            0
-
-
-                    )).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("products").child(productId).setValue(productId);
-                            int count = 0;
-                            NotificationAsync notificationAsync = new NotificationAsync(SellerAddProduct.this);
-                            String NotificationTitle = "New product uploaded by " + SharedPrefs.getVendor().getStoreName();
-                            String NotificationMessage = "Product: " + e_title.getText().toString();
-                            notificationAsync.execute("ali", SharedPrefs.getAdminFcmKey(), NotificationTitle, NotificationMessage, "NewSellerProduct", "");
-                            for (String img : imageUrl) {
-
-                                putPictures(img, "" + productId, count);
-                                count++;
-                                observer.onUploaded(count, imageUrl.size());
-
-                            }
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                        }
-                    });
                 }
 
             }
         });
 
+
+    }
+
+    private void showUploadAlert() {
+        final Dialog dialog = new Dialog(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View layout = layoutInflater.inflate(R.layout.alert_dialog_title_curved, null);
+
+        dialog.setContentView(layout);
+
+        TextView message = layout.findViewById(R.id.message);
+        TextView no = layout.findViewById(R.id.no);
+        TextView yes = layout.findViewById(R.id.yes);
+
+        message.setText("Upload Product?");
+
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                uploadNow();
+            }
+        });
+
+
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.show();
+
+    }
+
+    private void uploadNow() {
+        List<String> container = new ArrayList<>();
+        if (e_sizes.getText().length() > 0) {
+            String[] sizes = e_sizes.getText().toString().split(",");
+            container = Arrays.asList(sizes);
+
+        }
+        List<String> container1 = new ArrayList<>();
+
+        if (e_colors.getText().length() > 0) {
+            String[] colors = e_colors.getText().toString().split(",");
+            container1 = Arrays.asList(colors);
+
+        }
+
+
+        progressBar.setVisibility(View.VISIBLE);
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+
+        selected = findViewById(selectedId);
+        productId = mDatabase.push().getKey();
+        mDatabase.child("Products").child(productId).setValue(new Product(
+                productId,
+                e_title.getText().toString(),
+                e_subtitle.getText().toString(),
+
+                Integer.parseInt("" + newSku),
+                "",
+                "",
+                "",
+                System.currentTimeMillis(),
+                Float.parseFloat(e_costPrice.getText().toString()),
+                Float.parseFloat(e_wholesalePrice.getText().toString()),
+                Float.parseFloat(e_retailPrice.getText().toString()),
+                Integer.parseInt(e_minOrderQty.getText().length() > 0 ? e_minOrderQty.getText().toString() : "" + 1),
+                e_measurement.getText().toString(),
+                SharedPrefs.getVendor(),
+                selected.getText().toString(),
+                e_description.getText().toString(),
+                container,
+                container1,
+                Float.parseFloat(e_oldWholesalePrice.getText().length() > 0 ? e_oldWholesalePrice.getText().toString() : "" + 0),
+                Float.parseFloat(e_oldRetailPrice.getText().length() > 0 ? e_oldRetailPrice.getText().toString() : "" + 0),
+                0,
+                categoryList, Integer.parseInt(e_quantityAvailable.getText().toString()),
+                brandName.getText().toString(),
+                productContents.getText().toString(),
+                whichWarranty,
+                productWeight,
+                dimens, "Pending",
+                "seller",
+                0
+
+
+        )).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("products").child(productId).setValue(productId);
+
+//                putThumbnail(localThumbnail, productId);
+//                mDatabase.child("Products").child(productId).child("productAttributes").updateChildren(productAttributesMap);
+//                mDatabase.child("Products").child(productId).child("attributesWithPics").updateChildren(ChooseProductVariation.uploadedMap);
+//                mDatabase.child("Products").child(productId).child("newAttributes").updateChildren(ChooseProductVariation.hashMapHashMap);
+//                categoryList.clear();
+//                productAttributesMap.clear();
+
+                int count = 0;
+                NotificationAsync notificationAsync = new NotificationAsync(SellerAddProduct.this);
+                String NotificationTitle = "New product uploaded by " + SharedPrefs.getVendor().getStoreName();
+                String NotificationMessage = "Product: " + e_title.getText().toString();
+                notificationAsync.execute("ali", SharedPrefs.getAdminFcmKey(), NotificationTitle, NotificationMessage, "NewSellerProduct", "");
+                for (String img : imageUrl) {
+
+                    putPictures(img, "" + productId, count);
+                    count++;
+                    observer.onUploaded(count, imageUrl.size());
+
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
 
     }
 
@@ -438,7 +532,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
         int retail = Integer.parseInt(e_retailPrice.getText().toString());
         int cost = Integer.parseInt(e_costPrice.getText().toString());
         if (sellingTo == 1) {
-            if (retail > whole && retail > cost && whole>cost) {
+            if (retail > whole && retail > cost && whole > cost) {
                 return true;
             } else {
                 e_retailPrice.setError("Error");
@@ -581,8 +675,64 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
     @Override
     protected void onResume() {
         super.onResume();
+//        if (productWeight != null) {
+//            weightChosen.setText("Weight: " + productWeight + "Kg");
+//        }
         if (productWeight != null) {
             weightChosen.setText("Weight: " + productWeight + "Kg");
+        }
+        if (productAttributesMap != null && productAttributesMap.size() > 0) {
+            final LinearLayout options_layout = (LinearLayout) findViewById(R.id.layout);
+            options_layout.removeAllViews();
+            for (final Map.Entry<String, Object> entry : productAttributesMap.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue().toString();
+                LayoutInflater inflater = LayoutInflater.from(this);
+                final View to_add = inflater.inflate(R.layout.product_attributes_layout,
+                        options_layout, false);
+//                ImageView  delete = to_add.findViewById(R.id.delete);
+                TextInputEditText subtitle = to_add.findViewById(R.id.subtitle);
+                TextInputLayout keu = to_add.findViewById(R.id.TextInputLayout);
+                ImageView delete = to_add.findViewById(R.id.delete);
+                keu.setHint(key);
+                subtitle.setText(value);
+                options_layout.addView(to_add);
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        options_layout.removeView(to_add);
+                        productAttributesMap.remove(entry.getKey());
+                    }
+                });
+            }
+
+        }
+        if (categoryList.size() > 0) {
+            categoryChoosen.setText("Category: " + categoryList);
+
+        }
+        if (whichWarranty != null) {
+            warrantyChosen.setText("Warranty: " + whichWarranty);
+        }
+        if (warrantyPeriod != null) {
+            warrantyPeriodTv.setText("Period:" + warrantyPeriod);
+        }
+        if (dangerousGoods != null) {
+            dangerousGoodsTv.setText("Dangerous:" + dangerousGoods);
+        }
+
+        if (categoryList != null && categoryList.size() > 0) {
+            Constants.ADDING_PRODUCT = false;
+        } else {
+            Constants.ADDING_PRODUCT = true;
+            Intent i = new Intent(SellerAddProduct.this, ChooseMainCategory.class);
+            categoryList.clear();
+            startActivityForResult(i, 1);
+        }
+        if (ChooseProductVariation.hashMapHashMap != null && ChooseProductVariation.hashMapHashMap.size() > 0) {
+            productVariationSubtitle.setText("Color and size selected");
+        } else {
+
         }
     }
 

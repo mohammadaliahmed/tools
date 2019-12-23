@@ -28,14 +28,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.ViewHolder> {
     Context context;
     ArrayList<StoreListModel> itemList = new ArrayList<>();
-    int[] colorList={R.color.lightPink,R.color.lightPurple,R.color.lightYellow,R.color.lightBlue,R.color.lightGreen};
+    int[] colorList = {R.color.lightPink, R.color.lightPurple, R.color.lightYellow, R.color.lightBlue, R.color.lightGreen};
 
     public StoreListAdapter(Context context, ArrayList<StoreListModel> itemList) {
         this.context = context;
         this.itemList = itemList;
 
     }
-
 
 
     @NonNull
@@ -49,27 +48,35 @@ public class StoreListAdapter extends RecyclerView.Adapter<StoreListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final StoreListModel model = itemList.get(position);
-        Random r=new Random();
-        int randomNumber=r.nextInt(colorList.length);
+        Random r = new Random();
+        int randomNumber = r.nextInt(colorList.length);
         holder.linear.setBackgroundColor(context.getResources().getColor(colorList[randomNumber]));
 
 
-
-        holder.storeName.setText(model.getSeller().getVendorName());
+        holder.storeName.setText(model.getSeller().getStoreName());
         StorePicsAdapter adapter = new StorePicsAdapter(context, model.getPictures(), model.getSeller().getUsername());
         holder.recyler.setLayoutManager(new GridLayoutManager(context, 3));
         holder.recyler.setAdapter(adapter);
         if (model.getSeller().getPicUrl() != null) {
             Glide.with(context).load(model.getSeller().getPicUrl()).into(holder.storeImg);
 
+        } else {
+            Glide.with(context).load(R.drawable.logo).into(holder.storeImg);
+
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, SellerStoreView.class);
-                i.putExtra("sellerId", model.getSeller().getUsername());
-                context.startActivity(i);
+                if(model.getSeller().getStoreName().equalsIgnoreCase("fort city")){
+                    Intent i = new Intent(context, SellerStoreView.class);
+                    i.putExtra("sellerId", model.getSeller().getUsername());
+                    context.startActivity(i);
+                }else {
+                    Intent i = new Intent(context, SellerStoreView.class);
+                    i.putExtra("sellerId", model.getSeller().getUsername());
+                    context.startActivity(i);
+                }
             }
         });
 

@@ -18,4 +18,16 @@ public class Constants {
     public static String PRODUCT_DETAIL_ACTIVITY="productDetail";
     public static String PRODUCT_ID="productId";
 
+    public static String TYPE_OF_SO="Fort City";
+    public static String SHIPPING_COMPANY="";
+    public static String STORE_NAME="";
+
+
+    public static String REJECT_REASON="";
+    public static String PRODUCT_STATUS="Approved";
+    public static int TAB=0;
+    public static String SKU_ATT="";
+    public static String LAST_CATEGORY="";
+    public static boolean ADDING_PRODUCT=false;
+
 }

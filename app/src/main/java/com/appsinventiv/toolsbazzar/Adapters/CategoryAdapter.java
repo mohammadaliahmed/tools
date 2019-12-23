@@ -76,6 +76,20 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final String title = list.get(position);
         holder.title.setText(title);
+        String[] abc = title.split(" ");
+        if (abc.length > 1) {
+            if (abc[1].substring(0, 1).equalsIgnoreCase("&")) {
+                holder.initials.setText(abc[0].substring(0, 1) + abc[2].substring(0, 1));
+
+            } else {
+                holder.initials.setText(abc[0].substring(0, 1) + abc[1].substring(0, 1));
+
+            }
+        } else {
+            holder.initials.setText(abc[0].substring(0, 1));
+
+        }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,11 +114,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
+        TextView title,initials;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
+            initials = itemView.findViewById(R.id.initials);
         }
     }
 

@@ -141,17 +141,11 @@
     </RelativeLayout>
 
 
-    <HorizontalScrollView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="15dp">
+        android:id="@+id/recyclerSize"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
-        <LinearLayout
-            android:id="@+id/sizes"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal"></LinearLayout>
-    </HorizontalScrollView>
 
 
     <Button

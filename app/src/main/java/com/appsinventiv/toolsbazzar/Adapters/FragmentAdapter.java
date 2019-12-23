@@ -5,8 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.appsinventiv.toolsbazzar.Home.NewHomeFragment;
 import com.appsinventiv.toolsbazzar.Fragments.ProductListFragment;
-import com.appsinventiv.toolsbazzar.Fragments.SellerProductsFragment;
 
 import java.util.ArrayList;
 
@@ -28,9 +28,12 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        if(position==0){
+            return new NewHomeFragment();
+        }else {
+            return new ProductListFragment(categoryTitle.get(position), flag);
 
-        return new ProductListFragment(categoryTitle.get(position),flag);
-
+        }
     }
 
     @Override

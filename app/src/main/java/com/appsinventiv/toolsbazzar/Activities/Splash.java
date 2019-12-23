@@ -14,14 +14,18 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.appsinventiv.toolsbazzar.R;
-import com.appsinventiv.toolsbazzar.StickTabs;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
-import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 
 public class Splash extends AppCompatActivity {
     public static int SPLASH_TIME_OUT = 2000;
     ImageView logo;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

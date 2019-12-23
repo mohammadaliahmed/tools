@@ -13,9 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.No_Internet;
-import com.appsinventiv.toolsbazzar.Activities.Splash;
 import com.appsinventiv.toolsbazzar.Activities.ViewProduct;
-import com.appsinventiv.toolsbazzar.Activities.Welcome;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
@@ -170,9 +168,9 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
                             addToCartInterface.addedToCart(model, model.getMinOrderQuantity(), position);
                         }
                     } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
-                        if (model.getQuantityAvailable() == 0) {
-                            CommonUtils.showToast("Not available in stock");
-                        } else {
+//                        if (model.getQuantityAvailable() == 0) {
+//                            CommonUtils.showToast("Not available in stock");
+//                        } else {
                             holder.relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
                             holder.count.setTextColor(context.getResources().getColor(R.color.default_grey_text));
 
@@ -181,7 +179,7 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
                             holder.decrease.setVisibility(View.VISIBLE);
                             addToCartInterface.addedToCart(model, count[0], position);
                         }
-                    }
+//                    }
 
                 }
             }

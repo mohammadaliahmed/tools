@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,10 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.appsinventiv.toolsbazzar.Models.ChatModel;
 import com.appsinventiv.toolsbazzar.Models.CountryModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
-import com.appsinventiv.toolsbazzar.Models.LocationAndChargesModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
@@ -35,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Register extends AppCompatActivity {
     Button signup;
@@ -53,6 +51,16 @@ public class Register extends AppCompatActivity {
     public static String province = "", district = "", city = "", country = "", locationId = "";
     TextView terms;
     Customer customer;
+    HashMap<String, Customer> emailMap = new HashMap<>();
+    HashMap<String, Customer> usernameMap = new HashMap<>();
+    HashMap<String, Customer> phoneMap = new HashMap<>();
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, Login.class));
+        finish();
+    }
 
     @Override
     protected void onResume() {
@@ -90,33 +98,7 @@ public class Register extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
-        mDatabase.child("Customers").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                userslist.add(dataSnapshot.getKey());
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
+        getCustomersFromDB();
         terms = findViewById(R.id.terms);
         terms.setPaintFlags(terms.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
@@ -142,11 +124,13 @@ public class Register extends AppCompatActivity {
         e_businessNumber = findViewById(R.id.businessRegNumber);
         e_telPhone = findViewById(R.id.telPhone);
         chooseLocation = findViewById(R.id.chooseLocation);
-        e_phone.setSelection(3);
-        e_telPhone.setSelection(3);
+
 
         e_phone.setText(SharedPrefs.getCountryModel().getMobileCode());
         e_telPhone.setText(SharedPrefs.getCountryModel().getMobileCode());
+
+        e_phone.setSelection(3);
+        e_telPhone.setSelection(3);
 
         if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
             createAccountText.setText("Create Retail Account");
@@ -199,9 +183,8 @@ public class Register extends AppCompatActivity {
                     e_businessNumber.setError("Cannot be null");
 
                 } else if (country.equalsIgnoreCase("")) {
-                    CommonUtils.showToast("Please choose country and city");
-                    Intent i = new Intent(Register.this, ChooseLocation.class);
-                    startActivityForResult(i, 1);
+                    Intent i = new Intent(Register.this, ChooseCountry.class);
+                    startActivity(i);
                 } else {
 
                     fullname = e_fullname.getText().toString();
@@ -214,9 +197,16 @@ public class Register extends AppCompatActivity {
                     storeName = e_storeName.getText().toString();
                     address = e_address.getText().toString();
 
-                    if (userslist.contains("" + username)) {
-                        Toast.makeText(Register.this, "Username is already taken\nPlease choose another", Toast.LENGTH_SHORT).show();
+                    if (phoneMap.containsKey(phone)) {
+                        CommonUtils.showToast("We found an Existing Account under same phone number. Try to Sign in using your Password");
+
+                    } else if (emailMap.containsKey(email)) {
+                        CommonUtils.showToast("We found an Existing Account under same Email.Try to Sign in using your Password");
+                    } else if (usernameMap.containsKey(username)) {
+                        CommonUtils.showToast("Username is already taken\nPlease choose another");
                     } else {
+
+
                         int randomPIN = (int) (Math.random() * 900000) + 100000;
                         time = System.currentTimeMillis();
                         final String userId = "" + time;
@@ -283,27 +273,29 @@ public class Register extends AppCompatActivity {
 
     }
 
+    private void getCustomersFromDB() {
+        mDatabase.child("Customers").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Customer customer = snapshot.getValue(Customer.class);
+                        if (customer != null && customer.getUsername() != null) {
+                            emailMap.put(customer.getEmail(), customer);
+                            usernameMap.put(customer.getUsername(), customer);
+                            phoneMap.put(customer.getPhone(), customer);
+                        }
+                    }
+                }
+            }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (data != null) {
-//            if (requestCode == 1) {
-//                Bundle extras;
-//                extras = data.getExtras();
-//                if (extras.getString("city") != null) {
-//                    city = extras.getString("city");
-//                    country = extras.getString("country");
-//                    province = extras.getString("province");
-//                    locationId = extras.getString("locationId");
-//                    locationPosition = extras.getInt("locationPosition");
-//                    chooseLocation.setText("Location: " + extras.getString("country") + " > " + extras.get("city"));
-//                    getShippingDetailsFromDB(extras.getString("country"));
-//
-//                }
-//            }
-//        }
-//    }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     private void getLocalShippingDetailsFromDB(String country) {
         mDatabase.child("Settings").child("Locations").child("Countries").child("local").child(country).addListenerForSingleValueEvent(new ValueEventListener() {

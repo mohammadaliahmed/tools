@@ -168,9 +168,9 @@ public class HomeProductsAdapter extends RecyclerView.Adapter<HomeProductsAdapte
                             addToCartInterface.addedToCart(model, model.getMinOrderQuantity(), position);
                         }
                     } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
-                        if (model.getQuantityAvailable() == 0) {
-                            CommonUtils.showToast("Not available in stock");
-                        } else {
+//                        if (model.getQuantityAvailable() == 0) {
+//                            CommonUtils.showToast("Not available in stock");
+//                        } else {
                             holder.relativeLayout.setBackgroundResource(R.drawable.add_to_cart_bg_transparent);
                             holder.count.setTextColor(context.getResources().getColor(R.color.default_grey_text));
 
@@ -179,7 +179,7 @@ public class HomeProductsAdapter extends RecyclerView.Adapter<HomeProductsAdapte
                             holder.decrease.setVisibility(View.VISIBLE);
                             addToCartInterface.addedToCart(model, count[0], position);
                         }
-                    }
+//                    }
 
                 }
             }

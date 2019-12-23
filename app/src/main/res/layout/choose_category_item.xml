@@ -1,31 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="60dp"
 
-    android:layout_height="60dp">
+    android:background="#fff">
+
+    <TextView
+        android:id="@+id/initials"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/yellow_round"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#000"
+        android:textSize="23sp" />
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="70dp"
         android:text="Text"
-        android:textColor="#000"
-       />
+        android:textColor="#000" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="60dp"
+        android:background="#ddd" />
 
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
+        android:layout_margin="10dp"
+        android:padding="2dp"
         android:src="@drawable/ic_arrow_view" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:background="#ddd" />
 
 </RelativeLayout>

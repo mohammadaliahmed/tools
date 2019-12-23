@@ -1,12 +1,11 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.res.Configuration;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,19 +14,13 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -36,22 +29,18 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.appsinventiv.toolsbazzar.Adapters.DealsFragmentAdapter;
+import com.appsinventiv.toolsbazzar.Activities.CustomerOrders.MyOrders;
 import com.appsinventiv.toolsbazzar.Adapters.FragmentAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.MainSliderAdapter;
-import com.appsinventiv.toolsbazzar.Adapters.WithoutPic2ProductAdapter;
-import com.appsinventiv.toolsbazzar.Adapters.WithoutPic3ProductAdapter;
-import com.appsinventiv.toolsbazzar.ApplicationClass;
 import com.appsinventiv.toolsbazzar.Customer.CustomerScreen;
 import com.appsinventiv.toolsbazzar.Models.AdminModel;
+import com.appsinventiv.toolsbazzar.Models.CompanyDetailsModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.MainCategoryModel;
-import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.R;
-import com.appsinventiv.toolsbazzar.Seller.SellerMainActivity;
+import com.appsinventiv.toolsbazzar.Seller.SupportCenter;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
@@ -65,7 +54,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -91,44 +79,29 @@ public class MainActivity extends AppCompatActivity
     DotsIndicator dots_indicator;
     TextView chat;
     private AppBarLayout mAppBarLayout;
-    NestedScrollView nested;
     TextView cart_count;
     ImageView cartIcon, search, nav;
     private DrawerLayout drawer;
-    LinearLayout rela;
+//    LinearLayout rela;
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter("viewPagerHeight"));
         getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-//        getUserAccountStatusFromDB();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         nav = findViewById(R.id.nav);
         toolbarTitle = findViewById(R.id.toolbarTitle);
         search = findViewById(R.id.search);
         cartIcon = findViewById(R.id.cartIcon);
         cart_count = findViewById(R.id.cart_count);
-        rela = findViewById(R.id.rela);
-        nested = findViewById(R.id.nested);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
-
-        if (getSupportActionBar() != null) {
-//            getSupportActionBar().setElevation(0);
-        }
 
 
         cartIcon.setOnClickListener(new View.OnClickListener() {
@@ -159,17 +132,39 @@ public class MainActivity extends AppCompatActivity
         mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
         collapsing_toolbar = findViewById(R.id.collapsing_toolbar);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//
+//            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+//
+//                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//        }
+//
+//        Window window = getWindow();
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            window.setStatusBarColor(Color.TRANSPARENT); }
+//        getWindow().setFlags(
+//                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+//                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+//        );
 
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
-
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//        getWindow().addFlags(WindowManager.LayoutParams.NAV);
+//        getWindow().setFlags(
+//                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+//                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+//        );
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        );
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset == -collapsing_toolbar.getHeight() + toolbar.getHeight()) {
+
+                if (verticalOffset == (-collapsing_toolbar.getHeight() + toolbar.getHeight() + 75)) {
                     //toolbar is collapsed here
                     //write your code here
                     collapsing_toolbar.setTitle("Fort City");
@@ -184,78 +179,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            nested.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-                    if (i1 > 1) {
-                        toolbarTitle.setText("Fort City");
-                    } else {
-                        toolbarTitle.setText("");
-                    }
-                }
-            });
-        }
-
-
-//        nested.setNestedScrollingEnabled(false);
-
-//        mAppBarLayout.setElevation(0);
-
-//        getSupportActionBar().setElevation(0);
-//        getSupportActionBar().setElevation(0);
-//        toolbar.getBackground().setAlpha(0);
         this.setTitle("Fort City");
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        dots_indicator = findViewById(R.id.dots_indicator);
-        ic_settings = findViewById(R.id.ic_settings);
-        ic_chat = findViewById(R.id.ic_chat);
-        ic_mycart = findViewById(R.id.ic_mycart);
-        ic_orders = findViewById(R.id.ic_orders);
-        ic_wishlist = findViewById(R.id.ic_wishlist);
-
-
-        ic_chat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
-                    Intent i = new Intent(MainActivity.this, WholesaleLiveChat.class);
-                    startActivity(i);
-                } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
-                    Intent i = new Intent(MainActivity.this, LiveChat.class);
-                    startActivity(i);
-                }
-
-            }
-        });
-        ic_settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, CustomerScreen.class);
-                startActivity(i);
-            }
-        });
-        ic_mycart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, NewCart.class);
-                startActivity(i);
-            }
-        });
-        ic_orders.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, ChooseMainCategory.class);
-                startActivity(i);
-            }
-        });
-        ic_wishlist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, Whishlist.class);
-                startActivity(i);
-            }
-        });
 
 
         if (SharedPrefs.getIsLoggedIn().equals("yes")) {
@@ -265,11 +190,10 @@ public class MainActivity extends AppCompatActivity
 
         getBannerImagesFromDb();
         initViewPager();
-        initDealView();
         initCategoryView();
-
         initDrawer();
         getAdminDetails();
+        getCompanyDetails();
         mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -285,6 +209,93 @@ public class MainActivity extends AppCompatActivity
         });
 
 
+    }
+
+    private void initCategoryView() {
+
+        ViewPager viewPager = findViewById(R.id.viewpager);
+        final ArrayList<String> categoryList = new ArrayList<>();
+        final FragmentAdapter adapter = new FragmentAdapter(this, getSupportFragmentManager(), categoryList, "1");
+        viewPager.setAdapter(adapter);
+
+        TabLayout tabLayout = findViewById(R.id.sliding_tabs);
+
+        tabLayout.setupWithViewPager(viewPager);
+
+        mDatabase.child("Settings").child("Categories").child("MainCategories").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    categoryList.add("Home");
+                    categoryList.add("All");
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        MainCategoryModel categoryTitle = snapshot.getValue(MainCategoryModel.class);
+                        categoryList.add(categoryTitle.getMainCategory());
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getCompanyDetails() {
+
+        mDatabase.child("Settings").child("CompanyDetails").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    CompanyDetailsModel model = dataSnapshot.getValue(CompanyDetailsModel.class);
+                    if (model != null) {
+                        SharedPrefs.setCompanyDetails(model);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void getLogoDetails() {
+        mDatabase.child("Settings").child("appIcon").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    String name = dataSnapshot.getValue(String.class);
+                    if (name.equalsIgnoreCase("eidUlFitr")) {
+                        changeIcon("com.appsinventiv.toolsbazzar.SplashAliasActivity");
+                    } else {
+                        changeIcon("com.appsinventiv.toolsbazzar.Activities.Splash");
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void changeIcon(String activityPath) {
+        PackageManager pm = getPackageManager();
+        pm.setComponentEnabledSetting(getComponentName(),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(new ComponentName(this, activityPath),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
+
+        //重启桌面 加速显示
+//        restartSystemLauncher(pm);
     }
 
     private void getAdminDetails() {
@@ -351,68 +362,16 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void initFirstGrid() {
-        final ArrayList<Product> itemList = new ArrayList<>();
-
-        mDatabase.child("Products").limitToFirst(5).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Product product = snapshot.getValue(Product.class);
-                        if (product != null) {
-                            itemList.add(product);
-
-                        }
-                    }
-                    ArrayList<Product> abc = new ArrayList<>();
-                    for (int i = 0; i < 3; i++) {
-                        abc.add(itemList.get(i));
-                    }
-                    final RecyclerView recyclerGrid = findViewById(R.id.recyclerGrid1);
-                    final WithoutPic3ProductAdapter adapter = new WithoutPic3ProductAdapter(MainActivity.this, abc);
-                    recyclerGrid.setLayoutManager(new GridLayoutManager(MainActivity.this, 3));//
-                    recyclerGrid.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-
-                    ArrayList<Product> def = new ArrayList<>();
-                    for (int i = 3; i < 5; i++) {
-                        def.add(itemList.get(i));
-                    }
-                    final RecyclerView recyclerGrid2 = findViewById(R.id.recyclerGrid2);
-                    final WithoutPic2ProductAdapter adapter2 = new WithoutPic2ProductAdapter(MainActivity.this, def);
-                    recyclerGrid2.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));//
-                    recyclerGrid2.setAdapter(adapter2);
-                    adapter2.notifyDataSetChanged();
-
-
-                } else {
-
-                    itemList.clear();
-//                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-    }
-
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
-            int count = intent.getIntExtra("count", 0);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rela.getLayoutParams();
-            float abc = 500 * 175;
-            params.height = (int) abc;
-            rela.setLayoutParams(params);
+//            int count = intent.getIntExtra("count", 0);
+//            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) rela.getLayoutParams();
+//            float abc = 500 * 175;
+//            params.height = (int) abc;
+//            rela.setLayoutParams(params);
 
 
         }
@@ -442,65 +401,12 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void initDealView() {
-        ViewPager viewPager = findViewById(R.id.viewpager1);
-        ArrayList<String> categoryList = new ArrayList<>();
-
-        categoryList.add("Top Sellers");
-        categoryList.add("Deals");
-        categoryList.add("Most Liked");
-
-
-        DealsFragmentAdapter adapter = new DealsFragmentAdapter(getSupportFragmentManager(), this, categoryList);
-        viewPager.setAdapter(adapter);
-
-        TabLayout tabLayout = findViewById(R.id.sliding_tabs1);
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-
-        tabLayout.setupWithViewPager(viewPager);
-    }
-
-    private void initCategoryView() {
-
-        ViewPager viewPager = findViewById(R.id.viewpager);
-        final ArrayList<String> categoryList = new ArrayList<>();
-        final FragmentAdapter adapter = new FragmentAdapter(this, getSupportFragmentManager(), categoryList, "1");
-        viewPager.setAdapter(adapter);
-
-        TabLayout tabLayout = findViewById(R.id.sliding_tabs);
-
-        tabLayout.setupWithViewPager(viewPager);
-
-        mDatabase.child("Settings").child("Categories").child("MainCategories").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    categoryList.add("All");
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        MainCategoryModel categoryTitle = snapshot.getValue(MainCategoryModel.class);
-                        categoryList.add(categoryTitle.getMainCategory());
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
 
     private void initViewPager() {
-//        pics = SharedPrefs.getArrayList("banners");
-//        CommonUtils.showToast(""+pics);
-
-//        pics.add("https://static.daraz.pk/cms/2017/W43/lipton/Lipton_06.jpg");
-//        pics.add("https://i.pinimg.com/originals/c8/ea/1c/c8ea1c22157b50a8e455e17128afe497.png");
 
 
         banner = findViewById(R.id.slider);
+        dots_indicator = findViewById(R.id.dots_indicator);
         mViewPagerAdapter = new MainSliderAdapter(this, pics);
         banner.setAdapter(mViewPagerAdapter);
         mViewPagerAdapter.notifyDataSetChanged();
@@ -577,10 +483,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initDrawer() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -606,10 +509,17 @@ public class MainActivity extends AppCompatActivity
         chat = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.chat));
 
-        chat.setGravity(Gravity.CENTER_VERTICAL);
-        chat.setTextColor(getResources().getColor(R.color.colorRed));
+//        chat.setGravity(Gravity.CENTER);
+//
+//        chat.setBackgroundResource(R.drawable.red_count);
+//        chat.setTextColor(getResources().getColor(R.color.colorRed));
+//        if(SharedPrefs.getNewMsg().equalsIgnoreCase("") || SharedPrefs.getNewMsg().equalsIgnoreCase("0")){
+//
+//        }else{
         chat.setText(SharedPrefs.getNewMsg());
-        chat.setTextSize(12);
+
+//        }
+//        chat.setTextSize(15);
 
         if (SharedPrefs.getUsername().equalsIgnoreCase("")) {
             navSubtitle.setText("Welcome to Tools Bazzar");
@@ -636,12 +546,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main_menu, menu);
-//        final MenuItem menuItem = menu.findItem(R.id.action_cart);
-//
-//        View actionView = MenuItemCompat.getActionView(menuItem);
-//        final TextView textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
 
         mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("cart").addValueEventListener(new ValueEventListener() {
             @Override
@@ -736,7 +640,9 @@ public class MainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.contactUs) {
-            Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "+94 775292313"));
+//            Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + SharedPrefs.getCompanyDetails().getTelephone()));
+//            startActivity(i);
+            Intent i = new Intent(MainActivity.this, SupportCenter.class);
             startActivity(i);
         } else if (id == R.id.terms) {
             Intent i = new Intent(MainActivity.this, TermsAndConditions.class);
@@ -788,9 +694,4 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    protected void onPause() {
-
-        super.onPause();
-    }
 }

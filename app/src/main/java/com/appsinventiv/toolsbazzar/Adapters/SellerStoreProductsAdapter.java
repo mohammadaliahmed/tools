@@ -18,6 +18,7 @@ import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerViewProduct;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.bumptech.glide.Glide;
@@ -116,9 +117,16 @@ public class SellerStoreProductsAdapter extends RecyclerView.Adapter<SellerStore
             @Override
             public void onClick(View view) {
                 if (CommonUtils.isNetworkConnected()) {
-                    Intent i = new Intent(context, ViewProduct.class);
-                    i.putExtra("productId", model.getId());
-                    context.startActivity(i);
+                    if(SharedPrefs.getCustomerModel()!=null){
+                        Intent i = new Intent(context, ViewProduct.class);
+                        i.putExtra("productId", model.getId());
+                        context.startActivity(i);
+                    }else{
+                        Intent i = new Intent(context, SellerViewProduct.class);
+                        i.putExtra("productId", model.getId());
+                        context.startActivity(i);
+                    }
+
                 } else {
                     Intent i = new Intent(context, No_Internet.class);
                     context.startActivity(i);

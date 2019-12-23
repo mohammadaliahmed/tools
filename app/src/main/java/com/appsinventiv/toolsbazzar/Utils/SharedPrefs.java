@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.appsinventiv.toolsbazzar.ApplicationClass;
+import com.appsinventiv.toolsbazzar.Models.CompanyDetailsModel;
 import com.appsinventiv.toolsbazzar.Models.CountryModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
@@ -48,19 +49,32 @@ public class SharedPrefs {
     }
 
 
-    public static void setCommentsCount(HashMap<String,Double> model) {
+    public static void setCompanyDetails(CompanyDetailsModel model) {
+
+        Gson gson = new Gson();
+        String json = gson.toJson(model);
+        preferenceSetter("company", json);
+    }
+
+    public static CompanyDetailsModel getCompanyDetails() {
+        Gson gson = new Gson();
+        CompanyDetailsModel customer = gson.fromJson(preferenceGetter("company"), CompanyDetailsModel.class);
+        return customer;
+    }
+
+
+    public static void setCommentsCount(HashMap<String, Double> model) {
 
         Gson gson = new Gson();
         String json = gson.toJson(model);
         preferenceSetter("commentsCount", json);
     }
 
-    public static HashMap<String,Double> getCommentsCount() {
+    public static HashMap<String, Double> getCommentsCount() {
         Gson gson = new Gson();
-        HashMap<String,Double> map = gson.fromJson(preferenceGetter("commentsCount"), HashMap.class);
+        HashMap<String, Double> map = gson.fromJson(preferenceGetter("commentsCount"), HashMap.class);
         return map;
     }
-
 
 
     public static void setCustomerModel(Customer model) {

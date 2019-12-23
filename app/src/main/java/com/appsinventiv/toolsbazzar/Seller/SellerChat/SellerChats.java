@@ -127,6 +127,8 @@ public class SellerChats extends AppCompatActivity implements NotificationObserv
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new SellerChatAdapter(SellerChats.this, chatModelArrayList);
+        layoutManager.setStackFromEnd(true);
+
         recyclerView.setAdapter(adapter);
 
         mDatabase.child("Chats/SellerChats").child(SharedPrefs.getUsername()).addValueEventListener(new ValueEventListener() {

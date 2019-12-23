@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1400dp"
+    android:layout_height="60dp"
+    android:layout_gravity="center"
+    android:orientation="horizontal"
+    android:weightSum="28.5">
+
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+
+        android:padding="5dp"
+        android:src="@drawable/ic_cancel"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+
+        android:padding="5dp"
+        android:src="@drawable/image215"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:padding="5dp"
+        android:textStyle="bold"
+        android:text="Color"
+        android:textColor="@color/colorRed"
+        android:textSize="11sp" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+
+        android:padding="5dp"
+        android:src="@drawable/image343"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:padding="5dp"
+        android:text="Size"
+        android:textColor="@color/colorRed"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+
+        android:padding="5dp"
+        android:src="@drawable/image344"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:padding="5dp"
+        android:text="SKU"
+        android:textColor="@color/colorRed"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:padding="5dp"
+
+
+        android:src="@drawable/image339"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:padding="5dp"
+        android:text="QTY"
+        android:textColor="@color/colorRed"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_weight="0.5"
+        android:padding="5dp"
+
+        android:src="@drawable/image350"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:padding="5dp"
+        android:text="Wholesale price"
+        android:textColor="@color/colorRed"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+
+        android:layout_margin="5dp"
+        android:layout_weight="0.5"
+        android:padding="5dp"
+
+        android:src="@drawable/image349"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2.5"
+        android:padding="5dp"
+        android:text="Whole sale old price"
+        android:textColor="@color/colorRed"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+
+        android:layout_margin="5dp"
+        android:layout_weight="0.5"
+
+        android:padding="5dp"
+        android:src="@drawable/image337"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2.5"
+        android:padding="5dp"
+        android:text="min whole sale qty"
+        android:textColor="@color/colorRed"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+
+        android:layout_weight="0.5"
+        android:padding="5dp"
+        android:src="@drawable/image341"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:padding="5dp"
+        android:text="Retial price"
+        android:textColor="@color/colorRed"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_weight="0.5"
+
+
+        android:padding="5dp"
+        android:src="@drawable/image340"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:padding="5dp"
+        android:text="Old retail price"
+        android:textColor="@color/colorRed"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+
+</LinearLayout>
+
+

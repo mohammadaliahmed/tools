@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.appsinventiv.toolsbazzar">
 
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+
+
     <application
         android:name=".ApplicationClass"
         android:allowBackup="true"
@@ -27,7 +30,7 @@
             android:name=".Activities.Cart"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.MyOrders"
+            android:name=".Activities.CustomerOrders.MyOrders"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.ProductDescription"
@@ -37,6 +40,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
+        <!--<activity-->
+        <!--android:name=".Activities.Splash"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:theme="@style/AppTheme.NoActionBar">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+
+        <!--</intent-filter>-->
+        <!--</activity>-->
         <activity
             android:name=".Activities.Splash"
             android:screenOrientation="portrait"
@@ -47,6 +60,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--<activity-alias-->
+        <!--android:name=".SplashAliasActivity"-->
+        <!--android:enabled="false"-->
+        <!--android:icon="@drawable/admin_logo"-->
+        <!--android:label="Fort City"-->
+        <!--android:targetActivity=".Splash">-->
+
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
+
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
+
+        <!--</activity-alias>-->
+
         <activity
             android:name=".Activities.Checkout"
             android:screenOrientation="portrait" />
@@ -96,9 +125,9 @@
         </activity>
         <activity
             android:name=".Activities.MainActivity"
-            android:screenOrientation="portrait"
             android:hardwareAccelerated="true"
-            android:theme="@style/AppThemeBlackClock.NoActionBar" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.Search"
             android:screenOrientation="portrait"
@@ -120,62 +149,110 @@
 
         <activity
             android:name=".Activities.Welcome"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.ChooseLocation" />
         <activity
             android:name=".Activities.AboutUs"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.TermsAndConditions"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.ViewPictures"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".Activities.Whishlist" />
-        <activity android:name=".Activities.RecentlyViewed.RecentViewedActivity" />
+        <activity
+            android:name=".Activities.Whishlist"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.RecentlyViewed.RecentViewedActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.TrackOrder"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.ProductComments" />
-        <activity android:name=".Activities.SizeChart" />
-        <activity android:name=".Seller.SellerSizeChart" />
-        <activity android:name=".Activities.No_Internet" />
-        <activity android:name=".ListOfStrores.StoresList" />
-        <activity android:name=".Activities.ChooseLanguage" />
-        <activity android:name=".Activities.AccountIsDisabled" />
-        <activity android:name=".Activities.ChooseCountry" />
-        <activity android:name=".Activities.NewSales" />
-        <activity android:name=".Activities.ConnectWithUs" />
-        <activity android:name=".Activities.ChooseCategory" />
-        <activity android:name=".Seller.SellerPendingProduct" />
-        <activity android:name=".Seller.SellerRejectedProduct" />
+        <activity
+            android:name=".Activities.ProductComments"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.SizeChart"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Seller.SellerSizeChart"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.No_Internet"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ListOfStrores.StoresList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.ChooseLanguage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.AccountIsDisabled"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.ChooseCountry"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.NewSales"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.ConnectWithUs"
+            android:screenOrientation="portrait" />
+        <activity
+            android:theme="@style/AppThemeGreen"
+            android:name=".Activities.ChooseCategory"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Seller.SellerPendingProduct"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Seller.SellerRejectedProduct"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.ViewInvoice"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.ChooseMainCategory" />
-        <activity android:name=".Activities.ChooseAddress" />
+        <activity
+            android:theme="@style/AppThemeGreen"
+            android:name=".Activities.ChooseMainCategory"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.ChooseAddress"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Seller.SellerTermsAndConditions"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Seller.SellerLogin"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar1" />
         <activity
             android:name=".Seller.SellerVerficiation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar1" />
         <activity
             android:name=".Seller.SellerRegister"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar1"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Seller.SellerScreen"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar2" />
         <activity
             android:name=".Customer.CustomerScreen"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar2" />
         <activity
             android:name=".Seller.SellerMainActivity"
             android:label="@string/title_activity_seller_main"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar2" />
         <activity
             android:name=".Seller.SellerAddProduct"
@@ -183,34 +260,44 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Seller.AddProductWeight"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Seller.SellerProductComments"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Seller.ProductUploaded"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Seller.SellerListOfProducts"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Seller.EditProduct"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Seller.SellerOrders.Orders"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Seller.SellerOrders.ViewUnderProcessOrder"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Seller.SellerOrders.OrdersCourier"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Seller.SellerOrders.ViewDeliveryShippedOrder"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Seller.SellerOrders.ViewOrder"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity android:name=".Activities.NewCart" />
         <activity
@@ -219,31 +306,58 @@
             android:theme="@style/AppThemeGreen.NoActionBar" />
         <activity
             android:name=".Seller.Sales.SellerSales"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Seller.SellerAddBankAccount"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Seller.Reviews.SellerProductReviews"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Seller.ListOfOtherStores"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Seller.SellerProfile"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Seller.SellerChat.SellerChats"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen" />
         <activity android:name=".Activities.ViewOrderStatus" />
         <activity
             android:name=".Seller.SellerStore.SellerStoreView"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StickTabs" />
+        <activity
+            android:name=".StickTabs"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Seller.SellerLocked"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Seller.SupportCenter"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Seller.SellerViewPictures"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".ProductManagement.ChooseProductVariation" />
+        <activity android:name=".ProductManagement.CategoryPackage.ChooseOtherMainCategory" />
+        <activity android:name=".ProductManagement.AttributesManagement.ChooseAttributes" />
+        <activity android:name=".ProductManagement.AttributesManagement.ChooseSKU" />
+        <activity android:name=".ProductManagement.AttributesManagement.ChooseWarrenty" />
+        <activity android:name=".ProductManagement.AttributesManagement.DangerousGoods" />
+        <activity android:name=".ProductManagement.AttributesManagement.WarrentyPeriod" />
+        <activity android:name=".ProductManagement.AttributesManagement.AssignAttributes" />
+
     </application>
 
 </manifest>

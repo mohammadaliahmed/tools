@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.appsinventiv.toolsbazzar.Activities.ViewPictures;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerViewPictures;
 import com.bogdwellers.pinchtozoom.ImageMatrixTouchHandler;
 import com.bumptech.glide.Glide;
 
@@ -26,12 +27,14 @@ public class SliderAdapter extends PagerAdapter {
     LayoutInflater layoutInflater;
     public ArrayList<String> pictures;
     int flag;
+    int to;
 
 
-    public SliderAdapter(Context context, ArrayList<String> pictures, int flag) {
+    public SliderAdapter(Context context, ArrayList<String> pictures, int flag,int to) {
         this.context = context;
         this.pictures = pictures;
         this.flag = flag;
+        this.to = to;
     }
 
 
@@ -64,8 +67,13 @@ public class SliderAdapter extends PagerAdapter {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(context, ViewPictures.class);
-                    context.startActivity(i);
+                    if(to==1) {
+                        Intent i = new Intent(context, ViewPictures.class);
+                        context.startActivity(i);
+                    }else{
+                        Intent i = new Intent(context, SellerViewPictures.class);
+                        context.startActivity(i);
+                    }
                 }
             });
         } else {

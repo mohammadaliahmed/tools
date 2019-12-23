@@ -141,7 +141,7 @@ public class FortcityFeatures extends AppCompatActivity {
                         collapsing_toolbar.setTitle("Paypal Option");
 
                     }
-                    collapsing_toolbar.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                    collapsing_toolbar.setBackgroundColor(getResources().getColor(R.color.default_back));
                     collapsing_toolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.default_back));
 
 

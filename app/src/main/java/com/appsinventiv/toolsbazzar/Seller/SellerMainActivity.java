@@ -1,11 +1,9 @@
 package com.appsinventiv.toolsbazzar.Seller;
 
-import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -14,64 +12,46 @@ import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.AboutUs;
-import com.appsinventiv.toolsbazzar.Activities.AccountIsDisabled;
-import com.appsinventiv.toolsbazzar.Activities.Cart;
-import com.appsinventiv.toolsbazzar.Activities.ChooseMainCategory;
-import com.appsinventiv.toolsbazzar.Activities.ClientProhibted;
-import com.appsinventiv.toolsbazzar.Activities.LiveChat;
 import com.appsinventiv.toolsbazzar.Activities.Login;
 import com.appsinventiv.toolsbazzar.Activities.MainActivity;
-import com.appsinventiv.toolsbazzar.Activities.MyOrders;
-import com.appsinventiv.toolsbazzar.Activities.MyProfile;
 import com.appsinventiv.toolsbazzar.Activities.NewCart;
-import com.appsinventiv.toolsbazzar.Activities.NewSales;
 import com.appsinventiv.toolsbazzar.Activities.Search;
 import com.appsinventiv.toolsbazzar.Activities.SellerProhibted;
 import com.appsinventiv.toolsbazzar.Activities.Splash;
-import com.appsinventiv.toolsbazzar.Activities.TermsAndConditions;
 import com.appsinventiv.toolsbazzar.Activities.Welcome;
 import com.appsinventiv.toolsbazzar.Activities.Whishlist;
-import com.appsinventiv.toolsbazzar.Activities.WholesaleLiveChat;
-import com.appsinventiv.toolsbazzar.Adapters.DealsFragmentAdapter;
-import com.appsinventiv.toolsbazzar.Adapters.FragmentAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.MainSliderAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.SellerFragmentAdapter;
 import com.appsinventiv.toolsbazzar.Models.AdminModel;
-import com.appsinventiv.toolsbazzar.Models.Customer;
+import com.appsinventiv.toolsbazzar.Models.CompanyDetailsModel;
 import com.appsinventiv.toolsbazzar.Models.MainCategoryModel;
+import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.Reviews.SellerProductReviews;
 import com.appsinventiv.toolsbazzar.Seller.Sales.SellerSales;
 import com.appsinventiv.toolsbazzar.Seller.SellerChat.SellerChats;
 import com.appsinventiv.toolsbazzar.Seller.SellerOrders.Orders;
-import com.appsinventiv.toolsbazzar.Seller.SellerOrders.OrdersCourier;
-import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.bumptech.glide.Glide;
@@ -84,6 +64,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -98,7 +80,7 @@ public class SellerMainActivity extends AppCompatActivity
     ViewPager banner;
     int currentPic = 0;
     DotsIndicator dots_indicator;
-    private TextView chat;
+    private TextView chat, reviewsCount;
 
     FloatingActionButton fab;
     private AppBarLayout mAppBarLayout;
@@ -209,7 +191,6 @@ public class SellerMainActivity extends AppCompatActivity
         initViewPager();
         initDrawer();
         getAdminDetails();
-        getUserAccountStatusFromDB();
 
     }
 
@@ -298,24 +279,6 @@ public class SellerMainActivity extends AppCompatActivity
         });
     }
 
-    private void getUserAccountStatusFromDB() {
-        mDatabase.child("Sellers").child(SharedPrefs.getVendor().getUsername()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() != null) {
-                    VendorModel vendor = dataSnapshot.getValue(VendorModel.class);
-                    if (vendor != null) {
-                        SharedPrefs.setVendorModel(vendor);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     private void initTabsView() {
         viewPager = findViewById(R.id.viewpager1);
@@ -492,6 +455,9 @@ public class SellerMainActivity extends AppCompatActivity
         if (SharedPrefs.getVendor().getPicUrl() != null) {
             Glide.with(this).load(SharedPrefs.getVendor().getPicUrl()).into(imageView);
 
+        } else {
+            Glide.with(this).load(R.drawable.fort_city_without_green).into(imageView);
+
         }
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -501,19 +467,42 @@ public class SellerMainActivity extends AppCompatActivity
             }
         });
 
+        reviewsCount = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
+                findItem(R.id.reviews));
+
+
+        HashMap<String, Double> map = SharedPrefs.getCommentsCount();
+        double revCount = 0;
+        if(map!=null && map.entrySet()!=null) {
+            for (Map.Entry<String, Double> entry : map.entrySet()) {
+                revCount = revCount + entry.getValue();
+            }
+        }
+
+
+        reviewsCount.setTextColor(getResources().getColor(R.color.colorGreen));
+//        if (revCount > 0) {
+        reviewsCount.setText(String.format("%.0f", revCount));
+//
+//        } else {
+//            reviewsCount.setText("");
+//
+//        }
+
+
         chat = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.chat));
 
-        chat.setTextColor(getResources().getColor(R.color.colorGreen));
+//        chat.setTextColor(getResources().getColor(R.color.colorGreen));
         if (SharedPrefs.getNewMsg().equalsIgnoreCase("1")) {
-            chat.setText("(New msg)");
+            chat.setText(SharedPrefs.getNewMsg());
 
         } else {
             chat.setText("");
 
         }
-        chat.setGravity(Gravity.CENTER_VERTICAL);
-        chat.setTypeface(null, Typeface.BOLD);
+//        chat.setGravity(Gravity.CENTER_VERTICAL);
+//        chat.setTypeface(null, Typeface.BOLD);
         if (SharedPrefs.getUsername().equalsIgnoreCase("")) {
             navSubtitle.setText("Welcome to Tools Bazzar");
 
@@ -528,7 +517,7 @@ public class SellerMainActivity extends AppCompatActivity
         } else {
             navSubtitle.setText(SharedPrefs.getCity());
 
-            navUsername.setText("Hi, " +SharedPrefs.getVendor().getStoreName());
+            navUsername.setText("Hi, " + SharedPrefs.getVendor().getStoreName());
             navSubtitle.setText("Vendor");
 //            if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
 //                navSubtitle.setText("Wholesale");
@@ -537,21 +526,26 @@ public class SellerMainActivity extends AppCompatActivity
 //            }
         }
         getVendorDetailsFromDB();
+        getCompanyDetails();
 
 
     }
 
     private void getVendorDetailsFromDB() {
-        mDatabase.child("Sellers").child(SharedPrefs.getVendor().getUsername()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Sellers").child(SharedPrefs.getVendor().getUsername()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     VendorModel model = dataSnapshot.getValue(VendorModel.class);
                     if (model != null) {
                         SharedPrefs.setVendorModel(model);
-                        if (model.getPicUrl() != null) {
+                        if (model.isStatus()) {
 
+                        } else {
+                            startActivity(new Intent(SellerMainActivity.this, SellerLocked.class));
+                            finish();
                         }
+
                     }
                 }
             }
@@ -664,6 +658,27 @@ public class SellerMainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void getCompanyDetails() {
+
+        mDatabase.child("Settings").child("CompanyDetails").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    CompanyDetailsModel model = dataSnapshot.getValue(CompanyDetailsModel.class);
+                    if (model != null) {
+                        SharedPrefs.setCompanyDetails(model);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -681,7 +696,7 @@ public class SellerMainActivity extends AppCompatActivity
             Intent i = new Intent(SellerMainActivity.this, Orders.class);
             startActivity(i);
 
-        } else if (id == R.id.shipping) {
+        } else if (id == R.id.reviews) {
             Intent i = new Intent(SellerMainActivity.this, SellerProductReviews.class);
             startActivity(i);
 
@@ -720,7 +735,9 @@ public class SellerMainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.contactUs) {
-            Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "+94 775292313"));
+//            Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + SharedPrefs.getCompanyDetails().getTelephone()));
+//            startActivity(i);
+            Intent i = new Intent(SellerMainActivity.this, SupportCenter.class);
             startActivity(i);
         } else if (id == R.id.terms) {
             Intent i = new Intent(SellerMainActivity.this, SellerTermsAndConditions.class);

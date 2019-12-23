@@ -3,28 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e6e6e6">
+   >
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-
-        android:visibility="visible">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            app:collapsedTitleTextAppearance="@style/WhiteText"
-            app:contentScrim="@color/colorWhite"
+            android:layout_height="380dp"
+            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/slider"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
+                android:visibility="visible"
                 app:layout_collapseMode="parallax">
 
             </android.support.v4.view.ViewPager>
@@ -36,17 +34,23 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="310dp"
+                android:visibility="visible"
                 app:dotsColor="@color/colorPrimaryDark"
                 app:dotsSize="5dp"
                 app:dotsWidthFactor="3" />
 
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="110dp"
                 android:layout_marginTop="25dp"
-                android:theme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_collapseMode="pin">
+                android:gravity="top"
+                android:minHeight="?attr/actionBarSize"
+                android:paddingBottom="10dp"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:titleMarginTop="15dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -76,9 +80,10 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="50dp"
                         android:layout_toRightOf="@id/backImage"
-                        android:text=""
+                        android:text="Fort City"
                         android:textColor="#000"
-                        android:textSize="18sp" />
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:id="@+id/cartIcon"
@@ -103,114 +108,42 @@
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+            <!--<include layout="@layout/home_sub_menu"></include>-->
 
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/nested"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-30dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="-20dp"
-
-            app:cardCornerRadius="30dp"
-            app:cardElevation="0dp">
-
-
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                android:background="#fff"
-                android:orientation="vertical">
-
-                <include layout="@layout/home_sub_menu"></include>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#fff"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:text="Trending"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recyclerGrid1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        android:visibility="gone">
-
-                    </android.support.v7.widget.RecyclerView>
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recyclerGrid2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:nestedScrollingEnabled="false"
-                        android:visibility="gone">
-
-                    </android.support.v7.widget.RecyclerView>
-                </LinearLayout>
-
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/sliding_tabs1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="#ffffff"
-                    app:tabMode="scrollable"
-                    app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
-
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewpager1"
-                    android:layout_width="match_parent"
-                    android:layout_height="270dp"
-                    android:layout_below="@id/sliding_tabs"
-                    android:background="#ededed" />
-
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="-20dp"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="20dp">
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/sliding_tabs"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#ffffff"
+                    android:layout_height="40dp"
+                    android:background="#fff"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:padding="5dp"
+                    app:tabBackground="@drawable/tab_layout_selector"
+                    app:tabIndicatorColor="@android:color/transparent"
                     app:tabMode="scrollable"
+                    app:tabSelectedTextColor="#000"
                     app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
 
+            </android.support.v7.widget.CardView>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-                <LinearLayout
-                    android:id="@+id/rela"
-                    android:layout_width="match_parent"
-                    android:layout_height="500dp">
-
-                    <android.support.v4.view.ViewPager
-                        android:id="@+id/viewpager"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-                        android:layout_below="@id/sliding_tabs"
-                        android:background="#ededed" />
-                </LinearLayout>
-
-            </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
 
 
-        </android.support.v7.widget.CardView>
-    </android.support.v4.widget.NestedScrollView>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#dfdfdf"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
 </android.support.design.widget.CoordinatorLayout>
+

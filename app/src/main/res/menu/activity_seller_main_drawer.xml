@@ -27,8 +27,10 @@
                 android:icon="@drawable/checklist"
                 android:title="My Orders" />
             <item
-                android:id="@+id/shipping"
+                android:id="@+id/reviews"
                 android:icon="@drawable/ic_reviews"
+                app:actionLayout="@layout/menu_counter_seller"
+
                 android:title="My Reviews" />
             <item
                 android:id="@+id/sales"
@@ -36,7 +38,7 @@
                 android:title="My Sales" />
             <item
                 android:id="@+id/chat"
-                app:actionViewClass="android.widget.TextView"
+                app:actionLayout="@layout/menu_counter_seller"
 
                 android:icon="@drawable/chat"
                 android:title="Live Chat" />

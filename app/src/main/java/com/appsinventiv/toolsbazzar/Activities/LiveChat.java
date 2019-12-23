@@ -120,6 +120,8 @@ public class LiveChat extends AppCompatActivity implements NotificationObserver 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ChatAdapter(LiveChat.this, chatModelArrayList);
+        layoutManager.setStackFromEnd(true);
+
         recyclerView.setAdapter(adapter);
 
         mDatabase.child("Chats/ClientChats").child(SharedPrefs.getUsername()).addValueEventListener(new ValueEventListener() {

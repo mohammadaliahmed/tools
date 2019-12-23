@@ -7,25 +7,17 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.appsinventiv.toolsbazzar.Activities.ChooseAddress;
 import com.appsinventiv.toolsbazzar.Activities.ChooseCountry;
 import com.appsinventiv.toolsbazzar.Activities.ChooseLocation;
-import com.appsinventiv.toolsbazzar.Activities.CustomerVerficiation;
-import com.appsinventiv.toolsbazzar.Activities.Login;
-import com.appsinventiv.toolsbazzar.Activities.MainActivity;
-import com.appsinventiv.toolsbazzar.Activities.Register;
-import com.appsinventiv.toolsbazzar.Models.ChatModel;
 import com.appsinventiv.toolsbazzar.Models.CountryModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
@@ -43,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SellerRegister extends AppCompatActivity {
     Button signup;
@@ -59,6 +52,10 @@ public class SellerRegister extends AppCompatActivity {
     CountryModel chargesModel;
     TextView terms;
     public static String province = "", district = "", city = "", country = "", locationId = "";
+
+    HashMap<String, VendorModel> emailMap = new HashMap<>();
+    HashMap<String, VendorModel> usernameMap = new HashMap<>();
+    HashMap<String, VendorModel> phoneMap = new HashMap<>();
 
     @Override
     protected void onResume() {
@@ -91,32 +88,7 @@ public class SellerRegister extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
-        mDatabase.child("Sellers").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                userslist.add(dataSnapshot.getKey());
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        getSellersFromDB();
 
         terms = findViewById(R.id.terms);
         terms.setPaintFlags(terms.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -151,7 +123,6 @@ public class SellerRegister extends AppCompatActivity {
 
 
         createAccountText.setText("Create Vendor Account");
-
 
 
 //        e_password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -237,15 +208,17 @@ public class SellerRegister extends AppCompatActivity {
                     storeName = e_storeName.getText().toString();
                     address = e_address.getText().toString();
 
-                    if (userslist.contains("" + username)) {
-                        Toast.makeText(SellerRegister.this, "Username is already taken\nPlease choose another", Toast.LENGTH_SHORT).show();
+
+                    if (phoneMap.containsKey(phone)) {
+                        CommonUtils.showToast("We found an Existing Account under same phone number. Try to Sign in using your Password");
+
+                    } else if (emailMap.containsKey(email)) {
+                        CommonUtils.showToast("We found an Existing Account under same Email.Try to Sign in using your Password");
+                    } else if (usernameMap.containsKey(username)) {
+                        CommonUtils.showToast("Username is already taken\nPlease choose another");
                     } else {
                         int randomPIN = (int) (Math.random() * 900000) + 100000;
                         time = System.currentTimeMillis();
-                        final String userId = "" + time;
-                        ArrayList<String> ratedProducts = new ArrayList<>();
-                        ArrayList<String> wishList = new ArrayList<>();
-                        ArrayList<String> recentlyViewed = new ArrayList<>();
                         final VendorModel model = new VendorModel(username,
                                 fullname,
                                 username,
@@ -308,6 +281,31 @@ public class SellerRegister extends AppCompatActivity {
 
     }
 
+    private void getSellersFromDB() {
+        mDatabase.child("Sellers").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        VendorModel customer = snapshot.getValue(VendorModel.class);
+                        if (customer != null && customer.getUsername() != null) {
+                            emailMap.put(customer.getEmail(), customer);
+                            usernameMap.put(customer.getUsername(), customer);
+                            phoneMap.put(customer.getPhone(), customer);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -358,7 +356,7 @@ public class SellerRegister extends AppCompatActivity {
         prefManager.setFirstTimeLaunchSeller(false);
         prefManager.setIsFirstTimeLaunchWelcome(false);
 
-        startActivity(new Intent(SellerRegister.this, SellerMainActivity.class));
+        startActivity(new Intent(SellerRegister.this, SellerUnderApproval.class));
 
         finish();
     }

@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Adapters.SellerStoreProductsAdapter;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
+import com.appsinventiv.toolsbazzar.Models.NewProductModel;
 import com.appsinventiv.toolsbazzar.Models.OrderModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
@@ -47,6 +48,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 
 public class SellerStoreProductsFragment extends Fragment {
@@ -88,7 +90,14 @@ public class SellerStoreProductsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_seller_store
                 , container, false);
         RecyclerView recyclerview = rootView.findViewById(R.id.recycler_orders);
-        recyclerview.setLayoutManager(new GridLayoutManager(context, 2));
+        int gridCount = 2;
+        if (CommonUtils.screenSize() > 7) {
+            gridCount = 3;
+        }
+        if (CommonUtils.screenSize() > 9) {
+            gridCount = 4;
+        }
+        recyclerview.setLayoutManager(new GridLayoutManager(context, gridCount));
         adapter = new SellerStoreProductsAdapter(context, productArrayList, userWishList, new AddToCartInterface() {
             @Override
             public void addedToCart(Product product, int quantity, int position) {
@@ -179,6 +188,23 @@ public class SellerStoreProductsFragment extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
+                            if (product.getAttributesWithPics() != null && snapshot.child("newAttributes").getValue() != null) {
+                                HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
+                                for (DataSnapshot color : snapshot.child("newAttributes").getChildren()) {
+                                    ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
+                                    for (DataSnapshot size : color.getChildren()) {
+                                        NewProductModel countModel = size.getValue(NewProductModel.class);
+                                        if (countModel != null) {
+                                            newProductModelArrayList.add(countModel);
+                                        }
+                                        newMap.put(color.getKey(), newProductModelArrayList);
+                                    }
+
+                                }
+                                product.setProductCountHashmap(newMap);
+
+                            }
+
                             if (product.getUploadedBy() != null) {
                                 if (product.getUploadedBy().equalsIgnoreCase("admin")) {
                                     productArrayList.add(product);
@@ -214,51 +240,7 @@ public class SellerStoreProductsFragment extends Fragment {
     }
 
     private void getSellerProductsFromDB() {
-//        mDatabase.child("Products").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.getValue() != null) {
-//                    productArrayList.clear();
-//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                        Product product = snapshot.getValue(Product.class);
-//                        if (product != null) {
-//
-//                            if (product.getVendor() != null && product.getVendor().getVendorId() != null && product.getVendor().getUsername()!=null) {
-//                                if (product.getVendor().getVendorId().equalsIgnoreCase(sellerId)) {
-//
-//                                    productArrayList.add(product);
-//
-//
-//                                }
-//                            }else{
-//                                productArrayList.add(product);
-//                            }
-//
-//
-//                        }
-//                    }
-//                    Collections.sort(productArrayList, new Comparator<Product>() {
-//                        @Override
-//                        public int compare(Product listData, Product t1) {
-//                            String ob1 = listData.getTitle();
-//                            String ob2 = t1.getTitle();
-//
-//                            return ob1.compareTo(ob2);
-//
-//                        }
-//                    });
-////                    adapter.updatelist(productArrayList);
-//
-//                    adapter.notifyDataSetChanged();
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+
         mDatabase.child("Products").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -268,10 +250,29 @@ public class SellerStoreProductsFragment extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
+                            if (product.getAttributesWithPics() != null && snapshot.child("newAttributes").getValue() != null) {
+                                HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
+                                for (DataSnapshot color : snapshot.child("newAttributes").getChildren()) {
+                                    ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
+                                    for (DataSnapshot size : color.getChildren()) {
+                                        NewProductModel countModel = size.getValue(NewProductModel.class);
+                                        if (countModel != null) {
+                                            newProductModelArrayList.add(countModel);
+                                        }
+                                        newMap.put(color.getKey(), newProductModelArrayList);
+                                    }
+
+                                }
+                                product.setProductCountHashmap(newMap);
+
+                            }
+
                             if (product.getUploadedBy() != null) {
                                 if (product.getUploadedBy().equalsIgnoreCase("seller")) {
                                     if (product.getVendor().getUsername().equalsIgnoreCase(sellerId)) {
-                                        productArrayList.add(product);
+                                        if (product.getSellerProductStatus().equalsIgnoreCase("Approved") && product.isActive()) {
+                                            productArrayList.add(product);
+                                        }
                                     }
 
                                 }

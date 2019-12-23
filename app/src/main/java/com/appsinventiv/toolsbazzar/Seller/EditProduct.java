@@ -419,6 +419,7 @@ public class EditProduct extends AppCompatActivity implements ProductObserver, N
                 if (dataSnapshot.getValue() != null) {
                     product = dataSnapshot.getValue(Product.class);
                     if (product != null) {
+
                         e_title.setText(product.getTitle());
                         e_subtitle.setText(product.getSubtitle() + "");
                         e_costPrice.setText(product.getCostPrice() + "");

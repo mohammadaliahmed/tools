@@ -12,7 +12,7 @@ import android.util.Log;
 
 import com.appsinventiv.toolsbazzar.Activities.LiveChat;
 import com.appsinventiv.toolsbazzar.Activities.MainActivity;
-import com.appsinventiv.toolsbazzar.Activities.MyOrders;
+import com.appsinventiv.toolsbazzar.Activities.CustomerOrders.MyOrders;
 import com.appsinventiv.toolsbazzar.Activities.ProductComments;
 import com.appsinventiv.toolsbazzar.Activities.WholesaleLiveChat;
 import com.appsinventiv.toolsbazzar.R;
@@ -79,7 +79,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         /**Creates an explicit intent for an Activity in your app**/
         Intent resultIntent = null;
         if (type.equalsIgnoreCase("RetailChat")) {
-            SharedPrefs.setNewMsg("1");
+            int c = Integer.parseInt(SharedPrefs.getNewMsg().equalsIgnoreCase("") ? "0" : SharedPrefs.getNewMsg());
+            c = c + 1;
+            SharedPrefs.setNewMsg(c + "");
             resultIntent = new Intent(this, LiveChat.class);
             resultIntent.putExtra("username", Id);
         } else if (type.equalsIgnoreCase("WholesaleChat")) {

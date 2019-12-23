@@ -1,22 +1,32 @@
 package com.appsinventiv.toolsbazzar.Activities;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.appsinventiv.toolsbazzar.Adapters.CategoryAdapter;
+import com.appsinventiv.toolsbazzar.ProductManagement.AttributesManagement.AssignAttributes;
+import com.appsinventiv.toolsbazzar.ProductManagement.AttributesManagement.ChooseAttributes;
+import com.appsinventiv.toolsbazzar.ProductManagement.CategoryPackage.ChooseOtherMainCategory;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.EditProduct;
 import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.appsinventiv.toolsbazzar.Utils.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -73,7 +83,7 @@ public class ChooseCategory extends AppCompatActivity {
 
     }
 
-    private void getCategoryDataFromDB(String cat) {
+    private void getCategoryDataFromDB(final String cat) {
         progress.setVisibility(View.VISIBLE);
         mDatabase.child("Settings").child("Categories").child(cat).addValueEventListener(new ValueEventListener() {
             @Override
@@ -89,16 +99,32 @@ public class ChooseCategory extends AppCompatActivity {
 
                     adapter.notifyDataSetChanged();
                 } else {
-                    if (SellerAddProduct.fromWhere == 1) {
-//                        CommonUtils.showToast("sdfsdf");
-                        ChooseMainCategory.activity.finish();
-                        finish();
+//                    if (SellerAddProduct.fromWhere == 1) {
+////                        CommonUtils.showToast("sdfsdf");
+//                        ChooseMainCategory.activity.finish();
+//                        finish();
+//                    } else {
+//                        Intent i = new Intent(ChooseCategory.this, ListOfProducts.class);
+//                        i.putExtra("parentCategory", cat);
+//                        startActivity(i);
+//                        finish();
+////                        CommonUtils.showToast("jgjhgj");
+//                    }
+
+                    if (!Constants.ADDING_PRODUCT) {
+                        showAttAlert(cat);
+
                     } else {
-                        Intent i = new Intent(ChooseCategory.this, ListOfProducts.class);
-                        i.putExtra("parentCategory", parentCategory);
+                        itemList.clear();
+                        adapter.notifyDataSetChanged();
+                        if (ChooseMainCategory.activity != null) {
+                            ChooseMainCategory.activity.finish();
+                        }
+                        ChooseOtherMainCategory.activity.finish();
+                        Intent i = new Intent(ChooseCategory.this, ChooseAttributes.class);
                         startActivity(i);
+
                         finish();
-//                        CommonUtils.showToast("jgjhgj");
                     }
                 }
             }
@@ -109,6 +135,52 @@ public class ChooseCategory extends AppCompatActivity {
             }
         });
     }
+    private void showAttAlert(final String cate) {
+        final Dialog dialog = new Dialog(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View layout = layoutInflater.inflate(R.layout.alert_dialog_attri, null);
+
+        dialog.setContentView(layout);
+
+        RelativeLayout attribute = layout.findViewById(R.id.attribute);
+        RelativeLayout sku = layout.findViewById(R.id.sku);
+
+        attribute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Intent i = new Intent(ChooseCategory.this, AssignAttributes.class);
+                i.putExtra("type", "Attributes");
+                i.putExtra("category", cate);
+                startActivity(i);
+                Constants.SKU_ATT = "attributes";
+
+            }
+        });
+
+        sku.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Intent i = new Intent(ChooseCategory.this, AssignAttributes.class);
+                i.putExtra("type", "SKU");
+                i.putExtra("category", cate);
+                Constants.SKU_ATT = "sku";
+
+
+                startActivity(i);
+
+            }
+        });
+
+
+        dialog.show();
+
+    }
+
 
     private void getDataFromDB() {
         progress.setVisibility(View.VISIBLE);

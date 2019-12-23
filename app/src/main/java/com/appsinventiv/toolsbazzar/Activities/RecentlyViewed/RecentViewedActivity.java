@@ -27,6 +27,7 @@ import com.appsinventiv.toolsbazzar.Activities.NewCart;
 import com.appsinventiv.toolsbazzar.Activities.Search;
 import com.appsinventiv.toolsbazzar.Activities.SizeChart;
 import com.appsinventiv.toolsbazzar.Adapters.WishListAdapter;
+import com.appsinventiv.toolsbazzar.BottomSheets.ShowBottomDialog;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
@@ -115,19 +116,47 @@ public class RecentViewedActivity extends AppCompatActivity {
             public void addedToCart(final Product product, final int quantity, int position) {
                 size = "";
                 color = "";
-                if (product.getSizeList() != null && product.getColorList() != null) {
-                    showSizeAndColorBottomDialog(product, quantity);
-                } else if (product.getSizeList() != null && product.getColorList() == null) {
-                    showSizeBottomDialog(product, quantity);
-                } else if (product.getColorList() != null && product.getSizeList() == null) {
-                    showColorBottomDialog(product, quantity);
-                } else if (product.getColorList() == null && product.getSizeList() == null) {
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("product").setValue(product);
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("quantity").setValue(quantity);
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+                if (product.getAttributesWithPics() != null) {
+                    ShowBottomDialog.showSizeAndColorDialogNew(RecentViewedActivity.this, product, quantity, mDatabase, new ShowBottomDialog.AttributesListener() {
+
+                        @Override
+                        public void onCancelled() {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                } else {
+                    if (product.getSizeList() != null && product.getColorList() != null) {
+                        ShowBottomDialog.showSizeAndColorDialog(RecentViewedActivity.this, product, quantity, mDatabase, new ShowBottomDialog.AttributesListener() {
+
+                            @Override
+                            public void onCancelled() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    } else if (product.getSizeList() != null && product.getColorList() == null) {
+                        ShowBottomDialog.showSizeBottomDialog(RecentViewedActivity.this, product, quantity, mDatabase, new ShowBottomDialog.AttributesListener() {
+
+                            @Override
+                            public void onCancelled() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    } else if (product.getColorList() != null && product.getSizeList() == null) {
+                        ShowBottomDialog.showColorBottomDialog(RecentViewedActivity.this, product, quantity, mDatabase, new ShowBottomDialog.AttributesListener() {
+
+                            @Override
+                            public void onCancelled() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    } else if (product.getColorList() == null && product.getSizeList() == null) {
+                        mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                .child("cart").child(product.getId()).child("product").setValue(product);
+                        mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                        mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+                    }
                 }
 
             }
@@ -224,436 +253,6 @@ public class RecentViewedActivity extends AppCompatActivity {
 
     }
 
-    private void showColorBottomDialog(final Product product, final int quantity) {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.attributes_color_layout, null);
-//
-        final BottomDialog bottomDialog = new BottomDialog.Builder(RecentViewedActivity.this)
-                .setContent(null)
-                .setCustomView(customView)
-
-                .setCancelable(false)
-                .build();
-
-        TextView title = customView.findViewById(R.id.title);
-        TextView price = customView.findViewById(R.id.price);
-        ImageView image = customView.findViewById(R.id.image);
-        ImageView close = customView.findViewById(R.id.close);
-        Button confirm = customView.findViewById(R.id.confirm);
-        LinearLayout sizes = customView.findViewById(R.id.sizes);
-        LinearLayout colors = customView.findViewById(R.id.colors);
-        TextView percentageOff = customView.findViewById(R.id.percentageOff);
-        TextView oldPrice = customView.findViewById(R.id.oldPrice);
-        TextView quantityText = customView.findViewById(R.id.quantityText);
-        ImageView whichArrow = customView.findViewById(R.id.whichArrow);
-        if (product.getQuantityAvailable() == 0) {
-            quantityText.setText("Sorry item is currently out of stock");
-            whichArrow.setImageResource(R.drawable.ic_arrow_red);
-        } else if (product.getQuantityAvailable() > 0 && product.getQuantityAvailable() <= 5) {
-            quantityText.setText("Only " + product.getQuantityAvailable() + " left in stock, Hurry up & grab yours");
-        } else {
-            quantityText.setText("Available quantity in stock " + product.getQuantityAvailable());
-        }
-
-        if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
-            if (product.getOldWholeSalePrice() != 0) {
-                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-                String percent = "" + String.format("%.0f", ((product.getWholeSalePrice() - product.getWholeSalePrice()) / product.getWholeSalePrice()) * 100);
-                percentageOff.setVisibility(View.VISIBLE);
-                percentageOff.setText(percent + "% Off");
-            } else {
-                oldPrice.setText("");
-                percentageOff.setVisibility(View.GONE);
-
-            }
-        } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
-            price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-            if (product.getOldRetailPrice() != 0) {
-                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-                String percent = "" + String.format("%.0f", ((product.getOldRetailPrice() - product.getRetailPrice()) / product.getOldRetailPrice()) * 100);
-                percentageOff.setVisibility(View.VISIBLE);
-                percentageOff.setText(percent + "% Off");
-            } else {
-                oldPrice.setText("");
-                percentageOff.setVisibility(View.GONE);
-
-            }
-        }
-        oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        title.setText(product.getTitle());
-        Glide.with(RecentViewedActivity.this).load(product.getThumbnailUrl()).into(image);
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                adapter.notifyDataSetChanged();
-                bottomDialog.dismiss();
-            }
-        });
-
-
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!colorSelected.equalsIgnoreCase("")) {
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("product").setValue(product);
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("quantity").setValue(quantity);
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
-
-
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("color").setValue(colorSelected).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            colorSelected = "";
-                            selectedColor = -1;
-                            sizeSelected = "";
-                            selected = -1;
-                        }
-                    });
-
-
-                    bottomDialog.dismiss();
-                } else {
-                    CommonUtils.showToast("Please select color");
-
-                }
-            }
-        });
-        initializeColorButtons(product, colors);
-
-        bottomDialog.show();
-    }
-
-    private void showSizeBottomDialog(final Product product, final int quantity) {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.attributes_size_layout, null);
-//
-        final BottomDialog bottomDialog = new BottomDialog.Builder(RecentViewedActivity.this)
-                .setContent(null)
-                .setCustomView(customView)
-
-                .setCancelable(false)
-                .build();
-
-        TextView title = customView.findViewById(R.id.title);
-        TextView price = customView.findViewById(R.id.price);
-        ImageView image = customView.findViewById(R.id.image);
-        ImageView close = customView.findViewById(R.id.close);
-        final Button confirm = customView.findViewById(R.id.confirm);
-        LinearLayout sizes = customView.findViewById(R.id.sizes);
-        TextView percentageOff = customView.findViewById(R.id.percentageOff);
-        TextView oldPrice = customView.findViewById(R.id.oldPrice);
-        TextView quantityText = customView.findViewById(R.id.quantityText);
-        ImageView whichArrow = customView.findViewById(R.id.whichArrow);
-        if (product.getQuantityAvailable() == 0) {
-            quantityText.setText("Sorry item is currently out of stock");
-            whichArrow.setImageResource(R.drawable.ic_arrow_red);
-        } else if (product.getQuantityAvailable() > 0 && product.getQuantityAvailable() <= 5) {
-            quantityText.setText("Only " + product.getQuantityAvailable() + " left in stock, Hurry up & grab yours");
-        } else {
-            quantityText.setText("Available quantity in stock " + product.getQuantityAvailable());
-        }
-
-        if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
-            if (product.getOldWholeSalePrice() != 0) {
-                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-                String percent = "" + String.format("%.0f", ((product.getWholeSalePrice() - product.getWholeSalePrice()) / product.getWholeSalePrice()) * 100);
-                percentageOff.setVisibility(View.VISIBLE);
-                percentageOff.setText(percent + "% Off");
-            } else {
-                oldPrice.setText("");
-                percentageOff.setVisibility(View.GONE);
-
-            }
-        } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
-            price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-            if (product.getOldRetailPrice() != 0) {
-                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-                String percent = "" + String.format("%.0f", ((product.getOldRetailPrice() - product.getRetailPrice()) / product.getOldRetailPrice()) * 100);
-                percentageOff.setVisibility(View.VISIBLE);
-                percentageOff.setText(percent + "% Off");
-            } else {
-                oldPrice.setText("");
-                percentageOff.setVisibility(View.GONE);
-
-            }
-        }
-        oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
-
-        TextView sizeChart = customView.findViewById(R.id.sizeChart);
-
-        sizeChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(RecentViewedActivity.this, SizeChart.class);
-                RecentViewedActivity.this.startActivity(i);
-            }
-        });
-
-        title.setText(product.getTitle());
-        price.setText("Rs: " + product.getRetailPrice());
-        Glide.with(RecentViewedActivity.this).load(product.getThumbnailUrl()).into(image);
-
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                adapter.notifyDataSetChanged();
-                bottomDialog.dismiss();
-            }
-        });
-
-
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!sizeSelected.equalsIgnoreCase("")) {
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("product").setValue(product);
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("quantity").setValue(quantity);
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
-
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("size").setValue(sizeSelected).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            sizeSelected = "";
-                            selected = -1;
-                            colorSelected = "";
-                            selectedColor = -1;
-                        }
-                    });
-
-
-                    bottomDialog.dismiss();
-                } else {
-                    CommonUtils.showToast("Please select size ");
-
-                }
-            }
-        });
-        initiliazeSizeButtons(product, sizes);
-
-        bottomDialog.show();
-    }
-
-    @SuppressLint("ResourceAsColor")
-    public void initiliazeSizeButtons(final Product product, final LinearLayout sizes) {
-        sizes.removeAllViews();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.height = 120;
-        params.width = 130;
-        params.setMargins(5, 1, 5, 1);
-        final ArrayList<Button> btnList = new ArrayList<>();
-
-        for (int i = 0; i < product.getSizeList().size(); i++) {
-            final Button btn = new Button(RecentViewedActivity.this);
-            btn.setLayoutParams(params);
-            btn.setBackgroundResource(R.drawable.size_button_layout);
-            btn.setText("" + product.getSizeList().get(i));
-            sizes.addView(btn);
-            btn.setTextSize(9);
-            btn.setId(i);
-            btnList.add(btn);
-
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (selected == -1) {
-                        selected = view.getId();
-
-                    } else {
-                        sizes.getChildAt(selected).setBackgroundResource(R.drawable.size_button_layout);
-                        selected = view.getId();
-                    }
-                    for (Button j : btnList) {
-
-                        j.setTextColor(getResources().getColor(R.color.default_grey_text));
-
-                    }
-                    sizes.getChildAt(view.getId()).setBackgroundResource(R.drawable.size_button_selected);
-                    sizeSelected = product.getSizeList().get(selected);
-                    btn.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-                }
-            });
-        }
-    }
-
-    @SuppressLint("ResourceAsColor")
-    public void initializeColorButtons(final Product product, final LinearLayout colors) {
-        colors.removeAllViews();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.height = 120;
-        params.width = 170;
-        params.setMargins(5, 1, 5, 1);
-        final ArrayList<Button> btnList = new ArrayList<>();
-
-        if (product.getColorList() != null) {
-            for (int i = 0; i < product.getColorList().size(); i++) {
-                final Button btn = new Button(RecentViewedActivity.this);
-                btn.setLayoutParams(params);
-                btn.setBackgroundResource(R.drawable.size_button_layout);
-                btn.setText("" + product.getColorList().get(i));
-                btn.setTextSize(9);
-                colors.addView(btn);
-                btn.setId(i);
-                btnList.add(btn);
-
-
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (selectedColor == -1) {
-                            selectedColor = view.getId();
-
-                        } else {
-                            colors.getChildAt(selectedColor).setBackgroundResource(R.drawable.size_button_layout);
-                            selectedColor = view.getId();
-                        }
-
-                        for (Button j : btnList) {
-
-                            j.setTextColor(getResources().getColor(R.color.default_grey_text));
-
-                        }
-                        colors.getChildAt(view.getId()).setBackgroundResource(R.drawable.size_button_selected);
-                        colorSelected = product.getColorList().get(selectedColor);
-                        btn.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-
-                    }
-                });
-            }
-        }
-    }
-
-    private void showSizeAndColorBottomDialog(final Product product, final int quantity) {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.attributes_size_color_layout, null);
-//
-        final BottomDialog bottomDialog = new BottomDialog.Builder(RecentViewedActivity.this)
-                .setContent(null)
-                .setCustomView(customView)
-
-                .setCancelable(false)
-                .build();
-
-        TextView title = customView.findViewById(R.id.title);
-        TextView price = customView.findViewById(R.id.price);
-        ImageView image = customView.findViewById(R.id.image);
-        ImageView close = customView.findViewById(R.id.close);
-        Button confirm = customView.findViewById(R.id.confirm);
-        LinearLayout sizes = customView.findViewById(R.id.sizes);
-        LinearLayout colors = customView.findViewById(R.id.colors);
-        TextView sizeChart = customView.findViewById(R.id.sizeChart);
-        TextView percentageOff = customView.findViewById(R.id.percentageOff);
-        TextView oldPrice = customView.findViewById(R.id.oldPrice);
-        TextView quantityText = customView.findViewById(R.id.quantityText);
-        ImageView whichArrow = customView.findViewById(R.id.whichArrow);
-        if (product.getQuantityAvailable() == 0) {
-            quantityText.setText("Sorry item is currently out of stock");
-            whichArrow.setImageResource(R.drawable.ic_arrow_red);
-        } else if (product.getQuantityAvailable() > 0 && product.getQuantityAvailable() <= 5) {
-            quantityText.setText("Only " + product.getQuantityAvailable() + " left in stock, Hurry up & grab yours");
-        } else {
-            quantityText.setText("Available quantity in stock " + product.getQuantityAvailable());
-        }
-
-        if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
-            if (product.getOldWholeSalePrice() != 0) {
-                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldWholeSalePrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-                String percent = "" + String.format("%.0f", ((product.getWholeSalePrice() - product.getWholeSalePrice()) / product.getWholeSalePrice()) * 100);
-                percentageOff.setVisibility(View.VISIBLE);
-                percentageOff.setText(percent + "% Off");
-            } else {
-                oldPrice.setText("");
-                percentageOff.setVisibility(View.GONE);
-
-            }
-        } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
-            price.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-            if (product.getOldRetailPrice() != 0) {
-                oldPrice.setText(SharedPrefs.getCurrencySymbol() + " " + String.format("%.2f", product.getOldRetailPrice() * Float.parseFloat(SharedPrefs.getExchangeRate())));
-                String percent = "" + String.format("%.0f", ((product.getOldRetailPrice() - product.getRetailPrice()) / product.getOldRetailPrice()) * 100);
-                percentageOff.setVisibility(View.VISIBLE);
-                percentageOff.setText(percent + "% Off");
-            } else {
-                oldPrice.setText("");
-                percentageOff.setVisibility(View.GONE);
-
-            }
-        }
-        oldPrice.setPaintFlags(oldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        title.setText(product.getTitle());
-        Glide.with(RecentViewedActivity.this).load(product.getThumbnailUrl()).into(image);
-
-        sizeChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(RecentViewedActivity.this, SizeChart.class);
-                RecentViewedActivity.this.startActivity(i);
-            }
-        });
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                adapter.notifyDataSetChanged();
-                bottomDialog.dismiss();
-            }
-        });
-
-
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!sizeSelected.equalsIgnoreCase("") && !colorSelected.equalsIgnoreCase("")) {
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("product").setValue(product);
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("quantity").setValue(quantity);
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
-
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("size").setValue(sizeSelected).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            sizeSelected = "";
-                            selected = -1;
-                        }
-                    });
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("color").setValue(colorSelected).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            colorSelected = "";
-                            selectedColor = -1;
-                        }
-                    });
-
-
-                    bottomDialog.dismiss();
-                } else {
-                    CommonUtils.showToast("Please select size and color");
-
-                }
-            }
-        });
-        initializeColorButtons(product, colors);
-        initiliazeSizeButtons(product, sizes);
-
-        bottomDialog.show();
-    }
-
     private void getUserWishList() {
         mDatabase.child("Customers").child(SharedPrefs.getUsername()).child("WishList").addValueEventListener(new ValueEventListener() {
             @Override
@@ -745,7 +344,7 @@ public class RecentViewedActivity extends AppCompatActivity {
                 if (dataSnapshot.getValue() != null) {
                     product = dataSnapshot.getValue(Product.class);
                     if (product != null) {
-                        if (product.getIsActive().equals("true")) {
+                        if (product.isActive()) {
                             productArrayList.add(product);
 
 

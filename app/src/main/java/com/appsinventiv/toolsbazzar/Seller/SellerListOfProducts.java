@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 
+import com.appsinventiv.toolsbazzar.Models.NewProductModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
@@ -38,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public class SellerListOfProducts extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -190,6 +192,22 @@ public class SellerListOfProducts extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
+                            if (product.getAttributesWithPics() != null && snapshot.child("newAttributes").getValue() != null) {
+                                HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
+                                for (DataSnapshot color : snapshot.child("newAttributes").getChildren()) {
+                                    ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
+                                    for (DataSnapshot size : color.getChildren()) {
+                                        NewProductModel countModel = size.getValue(NewProductModel.class);
+                                        if (countModel != null) {
+                                            newProductModelArrayList.add(countModel);
+                                        }
+                                        newMap.put(color.getKey(), newProductModelArrayList);
+                                    }
+
+                                }
+                                product.setProductCountHashmap(newMap);
+
+                            }
 
                             if (product.getVendor() != null && product.getVendor().getVendorId() != null) {
                                 if (product.getVendor().getVendorId().equalsIgnoreCase(SharedPrefs.getVendor().getVendorId())) {

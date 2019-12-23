@@ -7,6 +7,7 @@ package com.appsinventiv.toolsbazzar.Models;
 public class AboutUsModel {
     String about,vision,mission,values,contact;
 
+
     public AboutUsModel(String about, String vision, String mission, String values, String contact) {
         this.about = about;
         this.vision = vision;

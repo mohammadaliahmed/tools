@@ -120,6 +120,8 @@ public class WholesaleLiveChat extends AppCompatActivity implements Notification
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ChatAdapter(WholesaleLiveChat.this, chatModelArrayList);
+        layoutManager.setStackFromEnd(true);
+
         recyclerView.setAdapter(adapter);
 
         mDatabase.child("Chats/WholesaleChats").child(SharedPrefs.getUsername()).addValueEventListener(new ValueEventListener() {

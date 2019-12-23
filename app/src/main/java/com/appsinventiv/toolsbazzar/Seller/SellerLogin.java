@@ -12,13 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.appsinventiv.toolsbazzar.Activities.CustomerVerficiation;
-import com.appsinventiv.toolsbazzar.Activities.Login;
-import com.appsinventiv.toolsbazzar.Activities.MainActivity;
-import com.appsinventiv.toolsbazzar.Activities.Register;
 import com.appsinventiv.toolsbazzar.Models.CityDeliveryChargesModel;
-import com.appsinventiv.toolsbazzar.Models.CountryModel;
-import com.appsinventiv.toolsbazzar.Models.Customer;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
@@ -146,6 +140,7 @@ public class SellerLogin extends AppCompatActivity {
                             VendorModel user = dataSnapshot.child("" + username).getValue(VendorModel.class);
                             if (user != null) {
                                 if (user.getPassword().equals(password)) {
+
                                     SharedPrefs.setOneKgRate("1");
                                     SharedPrefs.setHalfKgRate("1");
                                     SharedPrefs.setVendorModel(user);
@@ -160,7 +155,15 @@ public class SellerLogin extends AppCompatActivity {
                                     SharedPrefs.setCountry(user.getCountry());
                                     setUserData(user.getProvince(), user.getCity());
                                     SharedPrefs.setUserType("sell");
-                                    launchHomeScreen();
+                                    if(user.isApproved()){
+                                        launchHomeScreen();
+
+                                    }else{
+                                        startActivity(new Intent(SellerLogin.this, SellerUnderApproval.class));
+
+
+                                        finish();
+                                    }
 //                                    if (user.isCodeVerified()) {
 //
 //
@@ -217,6 +220,7 @@ public class SellerLogin extends AppCompatActivity {
 
 
     private void launchHomeScreen() {
+
         prefManager.setIsFirstTimeLaunchWelcome(false);
         prefManager.setFirstTimeLaunchSeller(false);
         startActivity(new Intent(SellerLogin.this, SellerMainActivity.class));

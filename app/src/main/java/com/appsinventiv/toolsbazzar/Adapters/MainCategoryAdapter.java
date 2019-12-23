@@ -11,9 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Activities.ChooseCategory;
-import com.appsinventiv.toolsbazzar.Activities.MainActivity;
 import com.appsinventiv.toolsbazzar.Models.MainCategoryModel;
+import com.appsinventiv.toolsbazzar.ProductManagement.CategoryPackage.ChooseOtherMainCategory;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.EditProduct;
 import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
 import com.bumptech.glide.Glide;
 
@@ -32,6 +33,7 @@ public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapte
         this.arrayList = new ArrayList<>(itemList);
 
     }
+
     public void updateList(ArrayList<MainCategoryModel> list) {
         this.itemList = list;
         arrayList.clear();
@@ -78,11 +80,26 @@ public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapte
             @Override
             public void onClick(View view) {
                 SellerAddProduct.categoryList.add(model.getMainCategory());
-                Intent i = new Intent(context, ChooseCategory.class);
-                i.putExtra("parentCategory", model.getMainCategory());
+                EditProduct.categoryList.add(model.getMainCategory());
+
+                Intent i = new Intent(context, ChooseOtherMainCategory.class);
+                i.putExtra("mainCategory", model.getMainCategory());
+
                 context.startActivity(i);
+//                    ((ChooseMainCategory) context).finish();
+
             }
         });
+
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SellerAddProduct.categoryList.add(model.getMainCategory());
+//                Intent i = new Intent(context, ChooseCategory.class);
+//                i.putExtra("parentCategory", model.getMainCategory());
+//                context.startActivity(i);
+//            }
+//        });
 
     }
 
