@@ -204,9 +204,9 @@
             android:name=".Activities.ConnectWithUs"
             android:screenOrientation="portrait" />
         <activity
-            android:theme="@style/AppThemeGreen"
             android:name=".Activities.ChooseCategory"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Seller.SellerPendingProduct"
             android:screenOrientation="portrait" />
@@ -218,9 +218,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:theme="@style/AppThemeGreen"
             android:name=".Activities.ChooseMainCategory"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Activities.ChooseAddress"
             android:screenOrientation="portrait" />
@@ -351,12 +351,30 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".ProductManagement.ChooseProductVariation" />
         <activity android:name=".ProductManagement.CategoryPackage.ChooseOtherMainCategory" />
-        <activity android:name=".ProductManagement.AttributesManagement.ChooseAttributes" />
-        <activity android:name=".ProductManagement.AttributesManagement.ChooseSKU" />
-        <activity android:name=".ProductManagement.AttributesManagement.ChooseWarrenty" />
-        <activity android:name=".ProductManagement.AttributesManagement.DangerousGoods" />
-        <activity android:name=".ProductManagement.AttributesManagement.WarrentyPeriod" />
-        <activity android:name=".ProductManagement.AttributesManagement.AssignAttributes" />
+        <activity
+            android:name=".ProductManagement.AttributesManagement.ChooseAttributes"
+            android:theme="@style/AppThemeGreen"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ProductManagement.AttributesManagement.ChooseSKU"
+            android:theme="@style/AppThemeGreen"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ProductManagement.AttributesManagement.ChooseWarrenty"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".ProductManagement.AttributesManagement.DangerousGoods"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".ProductManagement.AttributesManagement.WarrentyPeriod"
+            android:theme="@style/AppThemeGreen" />
+        <activity
+            android:name=".ProductManagement.AttributesManagement.AssignAttributes"
+            android:theme="@style/AppThemeGreen" />
+        <activity android:name=".ProductManagement.AttributesManagement.ChooseAttributesAgain" />
+        <activity android:name=".ProductManagement.ChooseSiz" />
 
     </application>
 

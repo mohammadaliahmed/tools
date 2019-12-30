@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.appsinventiv.toolsbazzar.Utils.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +44,7 @@ public class ChooseSKU extends AppCompatActivity {
     EditText manualAttribute;
     Button add;
     TextInputLayout aaa;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +76,13 @@ public class ChooseSKU extends AppCompatActivity {
                     count++;
                     getSubSubAttributesFromDB(attributeModelArrayList.get(count));
                 } else {
-                    startActivity(new Intent(ChooseSKU.this, ChooseWarrenty.class));
+                    if (Constants.RE_ATTRIBUTES) {
+                        ChooseAttributes.chooseAttributes.finish();
+
+                        finish();
+                    } else {
+                        startActivity(new Intent(ChooseSKU.this, ChooseWarrenty.class));
+                    }
                 }
 
             }
@@ -87,7 +95,12 @@ public class ChooseSKU extends AppCompatActivity {
                     count++;
                     getSubSubAttributesFromDB(attributeModelArrayList.get(count));
                 } else {
-                    startActivity(new Intent(ChooseSKU.this, ChooseWarrenty.class));
+                    if (Constants.RE_ATTRIBUTES) {
+                        ChooseAttributes.chooseAttributes.finish();
+                        finish();
+                    } else {
+                        startActivity(new Intent(ChooseSKU.this, ChooseWarrenty.class));
+                    }
                 }
 
             }
@@ -110,7 +123,7 @@ public class ChooseSKU extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        adapter = new ChooseAttributeOptionAdapter(this, itemList, new ChooseAttributeOptionAdapter.ChooseOptionCallback() {
+        adapter = new ChooseAttributeOptionAdapter(this, itemList,"sku", new ChooseAttributeOptionAdapter.ChooseOptionCallback() {
             @Override
             public void onOptionSelected(String value) {
                 SellerAddProduct.productAttributesMap.put(attributeModelArrayList.get(count).getMainCategory(), value);
@@ -189,7 +202,7 @@ public class ChooseSKU extends AppCompatActivity {
                         } else if (subAttributeModel.getSelection().equalsIgnoreCase("multiple")) {
                             adapter.setMultiSelect(true);
                         }
-                        adapter.selectedText="";
+                        adapter.selectedText = "";
                         adapter.setSelected(-1);
                         adapter.updateList(itemList);
                         adapter.notifyDataSetChanged();

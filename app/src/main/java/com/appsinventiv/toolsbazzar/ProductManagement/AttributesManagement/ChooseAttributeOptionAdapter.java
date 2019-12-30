@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 
 import com.appsinventiv.toolsbazzar.R;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -29,11 +30,13 @@ public class ChooseAttributeOptionAdapter extends RecyclerView.Adapter<ChooseAtt
     boolean multiSelect;
     String selectedText = "";
     private ArrayList<String> arrayList;
+    String type;
 
 
-    public ChooseAttributeOptionAdapter(Context context, ArrayList<String> list, ChooseOptionCallback callback) {
+    public ChooseAttributeOptionAdapter(Context context, ArrayList<String> list, String type, ChooseOptionCallback callback) {
         this.context = context;
         this.list = list;
+        this.type = type;
         this.callback = callback;
         this.arrayList = new ArrayList<>(list);
 
@@ -89,6 +92,14 @@ public class ChooseAttributeOptionAdapter extends RecyclerView.Adapter<ChooseAtt
         final String title = list.get(position);
         holder.title.setText(title);
 
+        if (type.equalsIgnoreCase("sku")) {
+            Glide.with(context).load(R.drawable.ic_sku).into(holder.image);
+
+        } else {
+            Glide.with(context).load(R.drawable.ic_att).into(holder.image);
+
+        }
+
 
         if (!multiSelect) {
             holder.arrow.setVisibility(View.VISIBLE);
@@ -129,7 +140,7 @@ public class ChooseAttributeOptionAdapter extends RecyclerView.Adapter<ChooseAtt
                         selectedText = selectedText + ", " + title;
                     }
                     callback.onOptionSelected(selectedText);
-                }else{
+                } else {
 
                 }
             }
@@ -143,7 +154,7 @@ public class ChooseAttributeOptionAdapter extends RecyclerView.Adapter<ChooseAtt
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
-        ImageView tick, arrow;
+        ImageView tick, arrow, image;
         CheckBox checkBox;
 
         public ViewHolder(View itemView) {
@@ -152,6 +163,7 @@ public class ChooseAttributeOptionAdapter extends RecyclerView.Adapter<ChooseAtt
             tick = itemView.findViewById(R.id.tick);
             checkBox = itemView.findViewById(R.id.checkBox);
             arrow = itemView.findViewById(R.id.arrow);
+            image = itemView.findViewById(R.id.image);
         }
     }
 

@@ -29,6 +29,7 @@ import com.appsinventiv.toolsbazzar.Adapters.SearchProductsAdapter;
 import com.appsinventiv.toolsbazzar.Adapters.WishListAdapter;
 import com.appsinventiv.toolsbazzar.BottomSheets.ShowBottomDialog;
 import com.appsinventiv.toolsbazzar.Interface.AddToCartInterface;
+import com.appsinventiv.toolsbazzar.Models.NewProductModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
@@ -47,6 +48,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public class Whishlist extends AppCompatActivity {
 
@@ -58,7 +60,6 @@ public class Whishlist extends AppCompatActivity {
     DatabaseReference mDatabase;
     EditText search;
     long cartItemCountFromDb;
-    Product product;
     ArrayList<String> userWishList = new ArrayList<>();
     RelativeLayout wholeLayout;
     Button startShopping;
@@ -341,28 +342,65 @@ public class Whishlist extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
-                    product = dataSnapshot.getValue(Product.class);
+                    Product product = dataSnapshot.getValue(Product.class);
                     if (product != null) {
-                        if (product.isActive()) {
-                            productArrayList.add(product);
+                        if (product.getAttributesWithPics() != null && dataSnapshot.child("newAttributes").getValue() != null) {
+                            HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
+                            for (DataSnapshot color : dataSnapshot.child("newAttributes").getChildren()) {
+                                ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
+                                for (DataSnapshot size : color.getChildren()) {
+                                    NewProductModel countModel = size.getValue(NewProductModel.class);
+                                    if (countModel != null) {
+                                        newProductModelArrayList.add(countModel);
+                                    }
+                                    newMap.put(color.getKey(), newProductModelArrayList);
+                                }
 
-
+                            }
+                            product.setProductCountHashmap(newMap);
                         }
+                        productArrayList.add(product);
+                        Collections.sort(productArrayList, new Comparator<Product>() {
+                            @Override
+                            public int compare(Product listData, Product t1) {
+                                String ob1 = listData.getTitle();
+                                String ob2 = t1.getTitle();
 
+                                return ob1.compareTo(ob2);
+
+                            }
+                        });
+                        adapter.notifyDataSetChanged();
+//                        if (product.getAttributesWithPics() != null && dataSnapshot.child("newAttributes").getValue() != null) {
+//                            HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
+//                            for (DataSnapshot color : dataSnapshot.child("newAttributes").getChildren()) {
+//                                ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
+//                                for (DataSnapshot size : color.getChildren()) {
+//                                    NewProductModel countModel = size.getValue(NewProductModel.class);
+//                                    if (countModel != null) {
+//                                        newProductModelArrayList.add(countModel);
+//                                    }
+//                                    newMap.put(color.getKey(), newProductModelArrayList);
+//                                }
+//
+//                            }
+//                            product.setProductCountHashmap(newMap);
+//
+//                        }
+
+
+//                        if (product.isActive() && (product.getUploadedBy() == null || product.getUploadedBy().equalsIgnoreCase("admin"))) {
+//                            if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
+//                                productArrayList.add(product);
+//                            }
+//                        } else if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")
+//                                && product.getSellerProductStatus().equalsIgnoreCase("Approved")) {
+//                            if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
+//                                productArrayList.add(product);
+//                            }
+//                        }
 
                     }
-                    Collections.sort(productArrayList, new Comparator<Product>() {
-                        @Override
-                        public int compare(Product listData, Product t1) {
-                            String ob1 = listData.getTitle();
-                            String ob2 = t1.getTitle();
-
-                            return ob1.compareTo(ob2);
-
-                        }
-                    });
-                    adapter.notifyDataSetChanged();
-
                 }
             }
 
@@ -371,6 +409,7 @@ public class Whishlist extends AppCompatActivity {
 
             }
         });
+
 
     }
 

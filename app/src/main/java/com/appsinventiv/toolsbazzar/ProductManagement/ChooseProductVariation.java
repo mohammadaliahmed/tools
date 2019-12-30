@@ -52,7 +52,7 @@ public class ChooseProductVariation extends AppCompatActivity {
     DatabaseReference mDatabase;
     ArrayList<String> colorList = new ArrayList<>();
     ArrayList<String> sizeList = new ArrayList<>();
-    TextView colorSubtitle, sizeSubtitle;
+    public static TextView colorSubtitle, sizeSubtitle;
     LinearLayout layout, skuInfo;
     HashMap<String, View> viewMap = new HashMap<>();
     private static final int REQUEST_CODE_CHOOSE = 23;
@@ -67,6 +67,14 @@ public class ChooseProductVariation extends AppCompatActivity {
 
     String colorss, sizess;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (hashMap.get("size") != null && hashMap.get("size").size() > 0
+                && hashMap.get("color") != null && hashMap.get("color").size() > 0) {
+            addSKULayout();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +106,8 @@ public class ChooseProductVariation extends AppCompatActivity {
         size.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showSizeAlert();
+//                showSizeAlert();
+                startActivity(new Intent(ChooseProductVariation.this, ChooseSiz.class));
             }
         });
 
@@ -126,7 +135,7 @@ public class ChooseProductVariation extends AppCompatActivity {
                         String abc = snapshot.getValue(String.class);
                         colorList.add(abc);
                     }
-                    for (DataSnapshot snapshot : dataSnapshot.child("Size Shoes").getChildren()) {
+                    for (DataSnapshot snapshot : dataSnapshot.child("Sizes").getChildren()) {
                         String abc = snapshot.getValue(String.class);
                         sizeList.add(abc);
                     }
@@ -442,7 +451,7 @@ public class ChooseProductVariation extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     uploadedMap.remove(color);
-                    Glide.with(ChooseProductVariation.this).load(R.drawable.placeholder).into(image);
+                    Glide.with(ChooseProductVariation.this).load(R.drawable.fort_city_without_green).into(image);
                 }
             });
             selectImage.setOnClickListener(new View.OnClickListener() {

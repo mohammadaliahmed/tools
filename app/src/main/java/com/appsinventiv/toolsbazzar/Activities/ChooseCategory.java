@@ -99,33 +99,34 @@ public class ChooseCategory extends AppCompatActivity {
 
                     adapter.notifyDataSetChanged();
                 } else {
-//                    if (SellerAddProduct.fromWhere == 1) {
-////                        CommonUtils.showToast("sdfsdf");
-//                        ChooseMainCategory.activity.finish();
-//                        finish();
-//                    } else {
-//                        Intent i = new Intent(ChooseCategory.this, ListOfProducts.class);
-//                        i.putExtra("parentCategory", cat);
-//                        startActivity(i);
-//                        finish();
-////                        CommonUtils.showToast("jgjhgj");
-//                    }
+                    if (SellerAddProduct.fromWhere == 1) {
+//                        CommonUtils.showToast("sdfsdf");
+                        ChooseMainCategory.activity.finish();
 
-                    if (!Constants.ADDING_PRODUCT) {
-                        showAttAlert(cat);
+                        if (!Constants.ADDING_PRODUCT) {
+                            showAttAlert(cat);
 
-                    } else {
-                        itemList.clear();
-                        adapter.notifyDataSetChanged();
-                        if (ChooseMainCategory.activity != null) {
-                            ChooseMainCategory.activity.finish();
+                        } else {
+                            itemList.clear();
+                            adapter.notifyDataSetChanged();
+                            if (ChooseMainCategory.activity != null) {
+                                ChooseMainCategory.activity.finish();
+                            }
+                            ChooseOtherMainCategory.activity.finish();
+                            Intent i = new Intent(ChooseCategory.this, ChooseAttributes.class);
+                            startActivity(i);
+
+                            finish();
                         }
-                        ChooseOtherMainCategory.activity.finish();
-                        Intent i = new Intent(ChooseCategory.this, ChooseAttributes.class);
+                    } else {
+                        Intent i = new Intent(ChooseCategory.this, ListOfProducts.class);
+                        i.putExtra("parentCategory", cat);
                         startActivity(i);
-
                         finish();
+//                        CommonUtils.showToast("jgjhgj");
                     }
+
+
                 }
             }
 

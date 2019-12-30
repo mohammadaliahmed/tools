@@ -110,6 +110,7 @@ public class Search extends AppCompatActivity {
                     });
                 } else {
                     if (product.getSizeList() != null && product.getColorList() != null) {
+
                         ShowBottomDialog.showSizeAndColorDialog(Search.this, product, quantity, mDatabase, new ShowBottomDialog.AttributesListener() {
 
                             @Override
@@ -117,6 +118,7 @@ public class Search extends AppCompatActivity {
                                 adapter.notifyDataSetChanged();
                             }
                         });
+
                     } else if (product.getSizeList() != null && product.getColorList() == null) {
                         ShowBottomDialog.showSizeBottomDialog(Search.this, product, quantity, mDatabase, new ShowBottomDialog.AttributesListener() {
 
@@ -142,6 +144,7 @@ public class Search extends AppCompatActivity {
                                 .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
                     }
                 }
+
             }
 
             @Override
@@ -226,7 +229,7 @@ public class Search extends AppCompatActivity {
                 }
 
             }
-        }, false);
+        }, true);
         recyclerView.setAdapter(adapter);
 
 
@@ -305,10 +308,11 @@ public class Search extends AppCompatActivity {
 
     private void getProductsFromDB() {
 //        productArrayList.clear();
-        mDatabase.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Products").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
+//                    progress.setVisibility(View.GONE);
                     productArrayList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Product product = snapshot.getValue(Product.class);
@@ -330,29 +334,45 @@ public class Search extends AppCompatActivity {
 
                             }
 
-                            if (product.isActive()&& product.getSellerProductStatus().equalsIgnoreCase("approved")) {
+//                            if (product.getAttributesWithPics() != null && snapshot.child("newAttributes").getValue() != null) {
+//                                HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
+//                                for (DataSnapshot color : snapshot.child("newAttributes").getChildren()) {
+//                                    ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
+//                                    for (DataSnapshot size : color.getChildren()) {
+//                                        NewProductModel countModel = size.getValue(NewProductModel.class);
+//                                        if (countModel != null) {
+//                                            newProductModelArrayList.add(countModel);
+//                                        }
+//                                        newMap.put(color.getKey(), newProductModelArrayList);
+//                                    }
+//
+//                                }
+//                                product.setProductCountHashmap(newMap);
+//
+//                            }
+
+                            if (product.isActive() && (product.getUploadedBy() == null || product.getUploadedBy().equalsIgnoreCase("admin"))) {
                                 if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
-
                                     productArrayList.add(product);
-
                                 }
-
+                            } else if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")
+                                    && product.getSellerProductStatus().equalsIgnoreCase("Approved")) {
+                                if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
+                                    productArrayList.add(product);
+                                }
                             }
                         }
-
-
                     }
                     Collections.sort(productArrayList, new Comparator<Product>() {
                         @Override
                         public int compare(Product listData, Product t1) {
-                            String ob1 = listData.getTitle();
-                            String ob2 = t1.getTitle();
+                            Long ob1 = listData.getTime();
+                            Long ob2 = t1.getTime();
 
-                            return ob1.compareTo(ob2);
+                            return ob2.compareTo(ob1);
 
                         }
                     });
-                    adapter.updatelist(productArrayList);
                     adapter.notifyDataSetChanged();
 
                 }
@@ -385,7 +405,6 @@ public class Search extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
     @SuppressLint("RestrictedApi")

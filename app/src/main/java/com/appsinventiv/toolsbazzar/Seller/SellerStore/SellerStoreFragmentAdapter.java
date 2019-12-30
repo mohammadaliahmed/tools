@@ -20,7 +20,7 @@ public class SellerStoreFragmentAdapter extends FragmentPagerAdapter {
     Context mContext;
     ArrayList<String> arrayList;
 
-    public SellerStoreFragmentAdapter(Context context, ArrayList<String> arrayList, FragmentManager fm,String sellerId) {
+    public SellerStoreFragmentAdapter(Context context, ArrayList<String> arrayList, FragmentManager fm, String sellerId) {
         super(fm);
         this.mContext = context;
         this.arrayList = arrayList;
@@ -31,8 +31,11 @@ public class SellerStoreFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-
-        return new SellerStoreProductsFragment(arrayList.get(position),sellerId);
+//        if (position == 0) {
+//            return new SellerStoreNewProductsFragment(arrayList.get(position), sellerId);
+//        } else {
+            return new SellerStoreProductsFragment(arrayList.get(position), sellerId);
+//        }
 
 
     }

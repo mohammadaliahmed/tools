@@ -361,22 +361,22 @@ public class ProductListFragment extends Fragment {
 
                             }
 
-                            if (product.getAttributesWithPics() != null && snapshot.child("newAttributes").getValue() != null) {
-                                HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
-                                for (DataSnapshot color : snapshot.child("newAttributes").getChildren()) {
-                                    ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
-                                    for (DataSnapshot size : color.getChildren()) {
-                                        NewProductModel countModel = size.getValue(NewProductModel.class);
-                                        if (countModel != null) {
-                                            newProductModelArrayList.add(countModel);
-                                        }
-                                        newMap.put(color.getKey(), newProductModelArrayList);
-                                    }
-
-                                }
-                                product.setProductCountHashmap(newMap);
-
-                            }
+//                            if (product.getAttributesWithPics() != null && snapshot.child("newAttributes").getValue() != null) {
+//                                HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
+//                                for (DataSnapshot color : snapshot.child("newAttributes").getChildren()) {
+//                                    ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
+//                                    for (DataSnapshot size : color.getChildren()) {
+//                                        NewProductModel countModel = size.getValue(NewProductModel.class);
+//                                        if (countModel != null) {
+//                                            newProductModelArrayList.add(countModel);
+//                                        }
+//                                        newMap.put(color.getKey(), newProductModelArrayList);
+//                                    }
+//
+//                                }
+//                                product.setProductCountHashmap(newMap);
+//
+//                            }
 
                             if (product.isActive() && (product.getUploadedBy() == null || product.getUploadedBy().equalsIgnoreCase("admin"))) {
                                 if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,6 +44,10 @@ public class ChooseAttributes extends AppCompatActivity {
     EditText manualAttribute;
     Button add;
     TextInputLayout aaa;
+    TextView text;
+    ImageView delete;
+    RelativeLayout deleteLayout;
+    public static ChooseAttributes chooseAttributes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,10 @@ public class ChooseAttributes extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         this.setTitle("Choose Attribute");
+        chooseAttributes = this;
+        deleteLayout = findViewById(R.id.deleteLayout);
+        delete = findViewById(R.id.delete);
+        text = findViewById(R.id.text);
         add = findViewById(R.id.add);
         manualAttribute = findViewById(R.id.manualAttribute);
         back = findViewById(R.id.back);
@@ -64,9 +73,17 @@ public class ChooseAttributes extends AppCompatActivity {
         next = findViewById(R.id.next);
         skip = findViewById(R.id.skip);
         wholeLayout = findViewById(R.id.wholeLayout);
-        try {
-            category = SellerAddProduct.categoryList.get(SellerAddProduct.categoryList.size() - 1);
-        }catch (Exception e){}
+        category = SellerAddProduct.categoryList.get(SellerAddProduct.categoryList.size() - 1);
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                manualAttribute.setText("");
+                SellerAddProduct.productAttributesMap.remove(attributeModelArrayList.get(count).getMainCategory());
+                deleteLayout.setVisibility(View.GONE);
+
+            }
+        });
 
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,10 +129,10 @@ public class ChooseAttributes extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        adapter = new ChooseAttributeOptionAdapter(this, itemList, new ChooseAttributeOptionAdapter.ChooseOptionCallback() {
+        adapter = new ChooseAttributeOptionAdapter(this, itemList, "attribute", new ChooseAttributeOptionAdapter.ChooseOptionCallback() {
             @Override
             public void onOptionSelected(String value) {
-                if(SellerAddProduct.productAttributesMap!=null) {
+                if (SellerAddProduct.productAttributesMap != null) {
                     SellerAddProduct.productAttributesMap.put(attributeModelArrayList.get(count).getMainCategory(), value);
                 }
             }
@@ -126,10 +143,12 @@ public class ChooseAttributes extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                aaa.setHint(attributeModelArrayList.get(count).getMainCategory());
                 SellerAddProduct.productAttributesMap.put(attributeModelArrayList.get(count).getMainCategory(),
                         manualAttribute.getText().toString());
-                CommonUtils.showToast("Added\nGo to next");
+
+                text.setText(manualAttribute.getText().toString());
+                deleteLayout.setVisibility(View.VISIBLE);
+//                CommonUtils.showToast("Added\nGo to next");
             }
         });
 
@@ -167,9 +186,12 @@ public class ChooseAttributes extends AppCompatActivity {
         itemList.clear();
 
         if (subAttributeModel.getSelection().equalsIgnoreCase("userInput")) {
-
+            aaa.setHint("Enter: " + subAttributeModel.getMainCategory());
+            manualAttribute.setText("");
             userInput.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
+            deleteLayout.setVisibility(View.GONE);
+            text.setText("");
 
         } else {
             userInput.setVisibility(View.GONE);
@@ -192,7 +214,7 @@ public class ChooseAttributes extends AppCompatActivity {
                         } else if (subAttributeModel.getSelection().equalsIgnoreCase("multiple")) {
                             adapter.setMultiSelect(true);
                         }
-                        adapter.selectedText="";
+                        adapter.selectedText = "";
                         adapter.setSelected(-1);
                         adapter.updateList(itemList);
                         adapter.notifyDataSetChanged();

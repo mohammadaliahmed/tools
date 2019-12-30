@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -44,6 +45,9 @@ import com.appsinventiv.toolsbazzar.Interface.NotificationObserver;
 import com.appsinventiv.toolsbazzar.Interfaces.ProductObserver;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
+import com.appsinventiv.toolsbazzar.ProductManagement.AttributesManagement.ChooseAttributes;
+import com.appsinventiv.toolsbazzar.ProductManagement.AttributesManagement.ChooseAttributesAgain;
+import com.appsinventiv.toolsbazzar.ProductManagement.CategoryPackage.ChooseOtherMainCategory;
 import com.appsinventiv.toolsbazzar.ProductManagement.ChooseProductVariation;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.SellerChat.SellerChats;
@@ -126,6 +130,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
     TextView warrantyPeriodTv;
 
 
+    CardView cardAttr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +157,6 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
 
             }
         });
-
 
 
         productVariationSubtitle = findViewById(R.id.productVariationSubtitle);
@@ -187,6 +191,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
         weightChosen = findViewById(R.id.weightChosen);
         warrantyChosen = findViewById(R.id.warrantyChosen);
         warrantyPeriodTv = findViewById(R.id.warrantyPeriod);
+        cardAttr = findViewById(R.id.cardAttr);
 
         productVariation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,6 +250,18 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
         showPickedPictures();
 
         getSKUFromDb();
+
+        cardAttr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Constants.RE_ATTRIBUTES = true;
+                ChooseOtherMainCategory.activity.finish();
+                Intent i = new Intent(SellerAddProduct.this, ChooseAttributes.class);
+                startActivity(i);
+
+                finish();
+            }
+        });
 
 
         e_title.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -380,7 +397,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                     e_quantityAvailable.setError("Enter quantity");
                     CommonUtils.showToast("Enter quantity");
                     e_quantityAvailable.requestFocus();
-                }  else if (whichWarranty == null) {
+                } else if (whichWarranty == null) {
                     CommonUtils.showToast("Please select warranty type");
 
                 } else if (productWeight == null) {
@@ -410,10 +427,12 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
         dialog.setContentView(layout);
 
         TextView message = layout.findViewById(R.id.message);
+        TextView title = layout.findViewById(R.id.message);
         TextView no = layout.findViewById(R.id.no);
         TextView yes = layout.findViewById(R.id.yes);
 
         message.setText("Upload Product?");
+        title.setText("Alert");
 
         yes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -675,9 +694,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
     @Override
     protected void onResume() {
         super.onResume();
-//        if (productWeight != null) {
-//            weightChosen.setText("Weight: " + productWeight + "Kg");
-//        }
+        Constants.RE_ATTRIBUTES = false;
         if (productWeight != null) {
             weightChosen.setText("Weight: " + productWeight + "Kg");
         }
@@ -685,7 +702,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
             final LinearLayout options_layout = (LinearLayout) findViewById(R.id.layout);
             options_layout.removeAllViews();
             for (final Map.Entry<String, Object> entry : productAttributesMap.entrySet()) {
-                String key = entry.getKey();
+                final String key = entry.getKey();
                 String value = entry.getValue().toString();
                 LayoutInflater inflater = LayoutInflater.from(this);
                 final View to_add = inflater.inflate(R.layout.product_attributes_layout,
@@ -694,6 +711,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                 TextInputEditText subtitle = to_add.findViewById(R.id.subtitle);
                 TextInputLayout keu = to_add.findViewById(R.id.TextInputLayout);
                 ImageView delete = to_add.findViewById(R.id.delete);
+                ImageView edit = to_add.findViewById(R.id.edit);
                 keu.setHint(key);
                 subtitle.setText(value);
                 options_layout.addView(to_add);
@@ -702,6 +720,14 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                     public void onClick(View view) {
                         options_layout.removeView(to_add);
                         productAttributesMap.remove(entry.getKey());
+                    }
+                });
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(SellerAddProduct.this, ChooseAttributesAgain.class);
+                        i.putExtra("attribute", key);
+                        startActivity(i);
                     }
                 });
             }
@@ -725,6 +751,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
             Constants.ADDING_PRODUCT = false;
         } else {
             Constants.ADDING_PRODUCT = true;
+            sellingTo=1;
             Intent i = new Intent(SellerAddProduct.this, ChooseMainCategory.class);
             categoryList.clear();
             startActivityForResult(i, 1);

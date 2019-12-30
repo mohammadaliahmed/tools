@@ -47,7 +47,12 @@ public class NewMainCategoryAdapter extends RecyclerView.Adapter<NewMainCategory
 
         holder.maincategory.setText(model.getMainCategory());
         Glide.with(context).load(model.getUrl()).into(holder.icon);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
 
     }
 

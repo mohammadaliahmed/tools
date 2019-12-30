@@ -81,6 +81,8 @@ public class NewHomeFragment extends Fragment {
 
     ArrayList<VendorModel> vendors = new ArrayList<>();
 
+    TextView viewAll;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -100,7 +102,16 @@ public class NewHomeFragment extends Fragment {
         ic_mycart = rootView.findViewById(R.id.ic_mycart);
         ic_orders = rootView.findViewById(R.id.ic_orders);
         ic_wishlist = rootView.findViewById(R.id.ic_wishlist);
+        viewAll = rootView.findViewById(R.id.viewAll);
 
+
+        viewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(context, ChooseMainCategory.class));
+
+            }
+        });
 
         ic_chat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +188,7 @@ public class NewHomeFragment extends Fragment {
 
         categoryRecycler = rootView.findViewById(R.id.categoryRecycler);
         categoryRecycler.setLayoutManager(new GridLayoutManager(context, gridCount));
-        categoryAdapter = new NewMainCategoryAdapter(context, categoryList,returnSize);
+        categoryAdapter = new NewMainCategoryAdapter(context, categoryList, returnSize);
         categoryRecycler.setAdapter(categoryAdapter);
         getMainCategoriesFromDb();
 

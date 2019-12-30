@@ -84,38 +84,51 @@ public class ListOfProducts extends AppCompatActivity {
             public void addedToCart(final Product product, final int quantity, int position) {
                 size = "";
                 color = "";
-                if (product.getSizeList() != null && product.getColorList() != null) {
-                    ShowBottomDialog.showSizeAndColorDialog(ListOfProducts.this, product, quantity, mDatabase, new ShowBottomDialog.AttributesListener() {
+                if (product.getAttributesWithPics() != null) {
+                    ShowBottomDialog.showSizeAndColorDialogNew(ListOfProducts.this, product, quantity, mDatabase, new ShowBottomDialog.AttributesListener() {
 
                         @Override
                         public void onCancelled() {
                             adapter.notifyDataSetChanged();
                         }
                     });
-                } else if (product.getSizeList() != null && product.getColorList() == null) {
-                    ShowBottomDialog.showSizeBottomDialog(ListOfProducts.this, product, quantity, mDatabase, new ShowBottomDialog.AttributesListener() {
+                } else {
+                    if (product.getSizeList() != null && product.getColorList() != null) {
 
-                        @Override
-                        public void onCancelled() {
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
-                } else if (product.getColorList() != null && product.getSizeList() == null) {
-                    ShowBottomDialog.showColorBottomDialog(ListOfProducts.this, product, quantity, mDatabase, new ShowBottomDialog.AttributesListener() {
+                        ShowBottomDialog.showSizeAndColorDialog(ListOfProducts.this, product, quantity, mDatabase, new ShowBottomDialog.AttributesListener() {
 
-                        @Override
-                        public void onCancelled() {
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
-                } else if (product.getColorList() == null && product.getSizeList() == null) {
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("product").setValue(product);
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("quantity").setValue(quantity);
-                    mDatabase.child("Customers").child(SharedPrefs.getUsername())
-                            .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+                            @Override
+                            public void onCancelled() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+
+                    } else if (product.getSizeList() != null && product.getColorList() == null) {
+                        ShowBottomDialog.showSizeBottomDialog(ListOfProducts.this, product, quantity, mDatabase, new ShowBottomDialog.AttributesListener() {
+
+                            @Override
+                            public void onCancelled() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    } else if (product.getColorList() != null && product.getSizeList() == null) {
+                        ShowBottomDialog.showColorBottomDialog(ListOfProducts.this, product, quantity, mDatabase, new ShowBottomDialog.AttributesListener() {
+
+                            @Override
+                            public void onCancelled() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    } else if (product.getColorList() == null && product.getSizeList() == null) {
+                        mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                .child("cart").child(product.getId()).child("product").setValue(product);
+                        mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                .child("cart").child(product.getId()).child("quantity").setValue(quantity);
+                        mDatabase.child("Customers").child(SharedPrefs.getUsername())
+                                .child("cart").child(product.getId()).child("time").setValue(System.currentTimeMillis());
+                    }
                 }
+
             }
 
             @Override
@@ -276,65 +289,146 @@ public class ListOfProducts extends AppCompatActivity {
         });
     }
 
+//    private void getProductsFromDB() {
+//        mDatabase.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.getValue() != null) {
+//                    productArrayList.clear();
+//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                        Product product = snapshot.getValue(Product.class);
+//                        if (product != null) {
+//                            if (product.getAttributesWithPics() != null && snapshot.child("newAttributes").getValue() != null) {
+//                                HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
+//                                for (DataSnapshot color : snapshot.child("newAttributes").getChildren()) {
+//                                    ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
+//                                    for (DataSnapshot size : color.getChildren()) {
+//                                        NewProductModel countModel = size.getValue(NewProductModel.class);
+//                                        if (countModel != null) {
+//                                            newProductModelArrayList.add(countModel);
+//                                        }
+//                                        newMap.put(color.getKey(), newProductModelArrayList);
+//                                    }
+//
+//                                }
+//                                product.setProductCountHashmap(newMap);
+//
+//                            }
+//
+//                            if (product.isActive() && product.getSellerProductStatus().equalsIgnoreCase("approved")) {
+//                                if (product.getCategory() != null) {
+//
+//                                    if (product.getCategory().contains(category)) {
+////                                        productArrayList.add(product);
+//                                        if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
+//
+//                                            if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
+//                                                productArrayList.add(product);
+//
+//                                            } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
+//                                                productArrayList.add(product);
+//
+//                                            }
+//                                        }
+//
+////
+//                                    } else {
+//                                    }
+//                                }
+//                            }
+//                        }
+//
+//
+//                    }
+////                    adapter.updatelist(productArrayList);
+//                    Collections.sort(productArrayList, new Comparator<Product>() {
+//                        @Override
+//                        public int compare(Product listData, Product t1) {
+//                            String ob1 = listData.getTitle();
+//                            String ob2 = t1.getTitle();
+//
+//                            return ob1.compareTo(ob2);
+//
+//                        }
+//                    });
+//                    adapter.notifyDataSetChanged();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
+
     private void getProductsFromDB() {
-        mDatabase.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
+
+        mDatabase.child("Products").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
+//                    progress.setVisibility(View.GONE);
                     productArrayList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Product product = snapshot.getValue(Product.class);
                         if (product != null) {
-                            if (product.getAttributesWithPics() != null && snapshot.child("newAttributes").getValue() != null) {
-                                HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
-                                for (DataSnapshot color : snapshot.child("newAttributes").getChildren()) {
-                                    ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
-                                    for (DataSnapshot size : color.getChildren()) {
-                                        NewProductModel countModel = size.getValue(NewProductModel.class);
-                                        if (countModel != null) {
-                                            newProductModelArrayList.add(countModel);
+                            if (product.getCategory().contains(category)) {
+                                if (product.getAttributesWithPics() != null && snapshot.child("newAttributes").getValue() != null) {
+                                    HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
+                                    for (DataSnapshot color : snapshot.child("newAttributes").getChildren()) {
+                                        ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
+                                        for (DataSnapshot size : color.getChildren()) {
+                                            NewProductModel countModel = size.getValue(NewProductModel.class);
+                                            if (countModel != null) {
+                                                newProductModelArrayList.add(countModel);
+                                            }
+                                            newMap.put(color.getKey(), newProductModelArrayList);
                                         }
-                                        newMap.put(color.getKey(), newProductModelArrayList);
+
                                     }
+                                    product.setProductCountHashmap(newMap);
 
                                 }
-                                product.setProductCountHashmap(newMap);
 
-                            }
-
-                            if (product.isActive() && product.getSellerProductStatus().equalsIgnoreCase("approved")) {
-                                if (product.getCategory() != null) {
-
-                                    if (product.getCategory().contains(category)) {
-//                                        productArrayList.add(product);
-                                        if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
-
-                                            if (SharedPrefs.getCustomerType().equalsIgnoreCase("wholesale")) {
-                                                productArrayList.add(product);
-
-                                            } else if (SharedPrefs.getCustomerType().equalsIgnoreCase("retail")) {
-                                                productArrayList.add(product);
-
-                                            }
-                                        }
-
+//                            if (product.getAttributesWithPics() != null && snapshot.child("newAttributes").getValue() != null) {
+//                                HashMap<String, ArrayList<NewProductModel>> newMap = new HashMap<>();
+//                                for (DataSnapshot color : snapshot.child("newAttributes").getChildren()) {
+//                                    ArrayList<NewProductModel> newProductModelArrayList = new ArrayList<>();
+//                                    for (DataSnapshot size : color.getChildren()) {
+//                                        NewProductModel countModel = size.getValue(NewProductModel.class);
+//                                        if (countModel != null) {
+//                                            newProductModelArrayList.add(countModel);
+//                                        }
+//                                        newMap.put(color.getKey(), newProductModelArrayList);
+//                                    }
 //
-                                    } else {
+//                                }
+//                                product.setProductCountHashmap(newMap);
+//
+//                            }
+
+                                if (product.isActive() && (product.getUploadedBy() == null || product.getUploadedBy().equalsIgnoreCase("admin"))) {
+                                    if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
+                                        productArrayList.add(product);
+                                    }
+                                } else if (product.getUploadedBy() != null && product.getUploadedBy().equalsIgnoreCase("seller")
+                                        && product.getSellerProductStatus().equalsIgnoreCase("Approved")) {
+                                    if (product.getSellingTo().equalsIgnoreCase("Both") || product.getSellingTo().equalsIgnoreCase(SharedPrefs.getCustomerType())) {
+                                        productArrayList.add(product);
                                     }
                                 }
                             }
                         }
-
-
                     }
-//                    adapter.updatelist(productArrayList);
                     Collections.sort(productArrayList, new Comparator<Product>() {
                         @Override
                         public int compare(Product listData, Product t1) {
-                            String ob1 = listData.getTitle();
-                            String ob2 = t1.getTitle();
+                            Long ob1 = listData.getTime();
+                            Long ob2 = t1.getTime();
 
-                            return ob1.compareTo(ob2);
+                            return ob2.compareTo(ob1);
 
                         }
                     });
