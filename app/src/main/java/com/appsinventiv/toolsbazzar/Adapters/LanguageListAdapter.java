@@ -48,6 +48,20 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
         final LanguageModel model = list.get(position);
         holder.title.setText(model.getLanguageName());
 
+        String[] abc = model.getLanguageName().split(" ");
+        if (abc.length > 1) {
+            if (abc[1].substring(0, 1).equalsIgnoreCase("&")) {
+                holder.initials.setText(abc[0].substring(0, 1) + abc[2].substring(0, 1));
+
+            } else {
+                holder.initials.setText(abc[0].substring(0, 1) + abc[1].substring(0, 1));
+
+            }
+        } else {
+            holder.initials.setText(abc[0].substring(0, 1));
+
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,11 +78,13 @@ public class LanguageListAdapter extends RecyclerView.Adapter<LanguageListAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
+        TextView title, initials;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
+            initials = itemView.findViewById(R.id.initials);
+
         }
     }
 

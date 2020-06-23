@@ -37,6 +37,7 @@ import com.appsinventiv.toolsbazzar.Seller.Sales.SellerSales;
 import com.appsinventiv.toolsbazzar.Seller.SellerOrders.Orders;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.CompressImage;
+import com.appsinventiv.toolsbazzar.Utils.Constants;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -299,6 +300,8 @@ public class SellerScreen extends AppCompatActivity {
         addProducts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Constants.ADDING_PRODUCT_BACK=false;
+
                 startActivity(new Intent(SellerScreen.this, SellerAddProduct.class));
 
             }

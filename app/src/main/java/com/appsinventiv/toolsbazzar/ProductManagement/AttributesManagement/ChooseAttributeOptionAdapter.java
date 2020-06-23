@@ -130,6 +130,14 @@ public class ChooseAttributeOptionAdapter extends RecyclerView.Adapter<ChooseAtt
                 }
             }
         });
+
+        if(selected==-1){
+            holder.checkBox.setChecked(false);
+
+        }else{
+
+
+        }
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

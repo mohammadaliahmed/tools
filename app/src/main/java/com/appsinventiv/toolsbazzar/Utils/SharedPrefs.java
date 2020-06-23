@@ -8,6 +8,7 @@ import com.appsinventiv.toolsbazzar.ApplicationClass;
 import com.appsinventiv.toolsbazzar.Models.CompanyDetailsModel;
 import com.appsinventiv.toolsbazzar.Models.CountryModel;
 import com.appsinventiv.toolsbazzar.Models.Customer;
+import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -61,7 +62,18 @@ public class SharedPrefs {
         CompanyDetailsModel customer = gson.fromJson(preferenceGetter("company"), CompanyDetailsModel.class);
         return customer;
     }
+    public static void setProduct(Product model) {
 
+        Gson gson = new Gson();
+        String json = gson.toJson(model);
+        preferenceSetter("Product", json);
+    }
+
+    public static Product getProduct() {
+        Gson gson = new Gson();
+        Product employee = gson.fromJson(preferenceGetter("Product"), Product.class);
+        return employee;
+    }
 
     public static void setCommentsCount(HashMap<String, Double> model) {
 

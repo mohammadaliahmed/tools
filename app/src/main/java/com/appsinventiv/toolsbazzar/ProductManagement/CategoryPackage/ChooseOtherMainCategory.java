@@ -26,6 +26,7 @@ import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.EditProduct;
 import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.appsinventiv.toolsbazzar.Utils.Constants;
 import com.appsinventiv.toolsbazzar.Utils.SwipeControllerActions;
 import com.appsinventiv.toolsbazzar.Utils.SwipeToDeleteCallback;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -70,8 +71,6 @@ public class ChooseOtherMainCategory extends AppCompatActivity {
 //                showAlert(model);
             }
         });
-
-
 
 
         recycler.setAdapter(adapter);
@@ -184,6 +183,7 @@ public class ChooseOtherMainCategory extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Constants.ADDING_PRODUCT_BACK = true;
 
             SellerAddProduct.categoryList.clear();
             EditProduct.categoryList.clear();
@@ -197,6 +197,8 @@ public class ChooseOtherMainCategory extends AppCompatActivity {
     public void onBackPressed() {
         SellerAddProduct.categoryList.clear();
         EditProduct.categoryList.clear();
+        Constants.ADDING_PRODUCT_BACK = true;
+
         finish();
     }
 

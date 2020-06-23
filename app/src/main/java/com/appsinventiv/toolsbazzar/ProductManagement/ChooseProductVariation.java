@@ -45,6 +45,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChooseProductVariation extends AppCompatActivity {
     public static HashMap<String, ArrayList<String>> hashMap = new HashMap<>();
@@ -66,6 +67,8 @@ public class ChooseProductVariation extends AppCompatActivity {
     Button ok;
 
     String colorss, sizess;
+    HashMap<String, NewProductModel> anotherMap = new HashMap<>();
+
 
     @Override
     protected void onResume() {
@@ -114,9 +117,12 @@ public class ChooseProductVariation extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hashMapHashMap.clear();
+                for (Map.Entry<String, NewProductModel> entry : anotherMap.entrySet()) {
+                    hashMapHashMap.put(entry.getValue().getColor(), anotherMap);
+                }
 
-//                CommonUtils.showToast("" + hashMapHashMap);
-//                hashMapHashMap.put(hashMap.get("color").get(finalJ), newProductModelHashMap);
+
                 finish();
             }
         });
@@ -212,153 +218,34 @@ public class ChooseProductVariation extends AppCompatActivity {
 
 
                 Button setValues = to_add.findViewById(R.id.setValues);
-                EditText sku = to_add.findViewById(R.id.sku);
-                EditText quantityAvailable = to_add.findViewById(R.id.quantityAvailable);
-                EditText wholesalePrice = to_add.findViewById(R.id.wholesalePrice);
-                EditText oldWholeSalePrice = to_add.findViewById(R.id.oldWholeSalePrice);
-                EditText minOrder = to_add.findViewById(R.id.minOrder);
-                EditText retailPrice = to_add.findViewById(R.id.retailPrice);
-                EditText oldRetailPrice = to_add.findViewById(R.id.oldRetailPrice);
-
-                final NewProductModel newProductsModel = new NewProductModel();
-                newProductsModel.setColor(hashMap.get("color").get(j));
-                newProductsModel.setSize(hashMap.get("size").get(k));
-
-                sku.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        newProductsModel.setSku(editable.toString());
-                    }
-                });
-                quantityAvailable.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        if (editable.length() > 0) {
-                            newProductsModel.setQty(Integer.parseInt(editable.toString()));
-                        }
-                    }
-                });
-                wholesalePrice.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        if (editable.length() > 0) {
-                            newProductsModel.setWholesalePrice(Integer.parseInt(editable.toString()));
-                        }
-                    }
-                });
-                oldWholeSalePrice.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        if (editable.length() > 0) {
-                            newProductsModel.setOldWholesalePrice(Integer.parseInt(editable.toString()));
-                        }
-                    }
-                });
-                minOrder.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        if (editable.length() > 0) {
-                            newProductsModel.setMinOrderQuantity(Integer.parseInt(editable.toString()));
-                        }
-                    }
-                });
-                retailPrice.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        if (editable.length() > 0) {
-                            newProductsModel.setRetailPrice(Integer.parseInt(editable.toString()));
-                        }
-                    }
-                });
-                oldRetailPrice.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        if (editable.length() > 0) {
-                            newProductsModel.setOldRetailPrice(Integer.parseInt(editable.toString()));
-                        }
-//
-
-                    }
-                });
-
+                final EditText sku = to_add.findViewById(R.id.sku);
+                final EditText quantityAvailable = to_add.findViewById(R.id.quantityAvailable);
+                final EditText wholesalePrice = to_add.findViewById(R.id.wholesalePrice);
+                final EditText oldWholeSalePrice = to_add.findViewById(R.id.oldWholeSalePrice);
+                final EditText minOrder = to_add.findViewById(R.id.minOrder);
+                final EditText retailPrice = to_add.findViewById(R.id.retailPrice);
+                final EditText oldRetailPrice = to_add.findViewById(R.id.oldRetailPrice);
                 final int finalK = k;
                 final int finalJ = j;
+
+
                 setValues.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        final NewProductModel newProductsModel = new NewProductModel();
+                        newProductsModel.setSku(sku.getText().toString());
+                        newProductsModel.setQty(Integer.parseInt(quantityAvailable.getText().length() == 0 ? "1" : quantityAvailable.getText().toString()));
+                        newProductsModel.setWholesalePrice(Integer.parseInt(wholesalePrice.getText().length() == 0 ? "1" : wholesalePrice.getText().toString()));
+                        newProductsModel.setOldWholesalePrice(Integer.parseInt(oldWholeSalePrice.getText().length() == 0 ? "1" : oldWholeSalePrice.getText().toString()));
+                        newProductsModel.setMinOrderQuantity(Integer.parseInt(minOrder.getText().length() == 0 ? "1" : minOrder.getText().toString()));
+                        newProductsModel.setRetailPrice(Integer.parseInt(retailPrice.getText().length() == 0 ? "1" : retailPrice.getText().toString()));
+                        newProductsModel.setOldRetailPrice(Integer.parseInt(oldRetailPrice.getText().length() == 0 ? "1" : oldRetailPrice.getText().toString()));
+                        newProductsModel.setColor(hashMap.get("color").get(finalJ));
+                        newProductsModel.setSize(hashMap.get("size").get(finalK));
                         NewProductModel newProductsModel1 = new NewProductModel(newProductsModel);
                         newProductModelHashMap.put(hashMap.get("size").get(finalK), newProductsModel1);
-                        hashMapHashMap.put(hashMap.get("color").get(finalJ), newProductModelHashMap);
+                        anotherMap.put(hashMap.get("color").get(finalJ) + hashMap.get("size").get(finalK), newProductsModel);
+
                         CommonUtils.showToast("Value set");
                     }
                 });

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Utils.Constants;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -84,6 +85,8 @@ public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapte
             public void onClick(View view) {
                 Intent i = new Intent(context, EditProduct.class);
                 i.putExtra("productId", model.getId());
+                Constants.PRODUCT_ID=model.getId();
+
                 context.startActivity(i);
             }
         });

@@ -43,6 +43,7 @@ public class Product {
 
     HashMap<String,String> colorSizeMap;
     HashMap<String,ArrayList<NewProductModel>> productCountHashmap;
+    String productModel;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -144,7 +145,56 @@ public class Product {
         this.negativeCount = negativeCount;
     }
 
-    public Product(String id, String title, String subtitle,
+//    public Product(String id, String title, String subtitle,
+//                   int sku, String thumbnailUrl, String mainCategory, String subCategory,
+//                   long time, float costPrice, float wholeSalePrice, float retailPrice,
+//                   int minOrderQuantity, String measurement, VendorModel vendor, String sellingTo,
+//                   String description,
+//
+//                   List<String> sizeList,
+//                   List<String> colorList,
+//                   float oldWholeSalePrice, float oldRetailPrice
+//            , float rating,
+//                   ArrayList<String> category, int quantityAvailable,
+//                   String brandName, String productContents, String warrantyType, String productWeight,
+//                   String dimen, String sellerProductStatus, String uploadedBy
+//                   , int likesCount
+//
+//    ) {
+//        this.id = id;
+//        this.title = title;
+//        this.subtitle = subtitle;
+//        this.sku = sku;
+//        this.thumbnailUrl = thumbnailUrl;
+//        this.mainCategory = mainCategory;
+//        this.subCategory = subCategory;
+//        this.time = time;
+//        this.costPrice = costPrice;
+//        this.wholeSalePrice = wholeSalePrice;
+//        this.retailPrice = retailPrice;
+//        this.minOrderQuantity = minOrderQuantity;
+//        this.measurement = measurement;
+//        this.vendor = vendor;
+//        this.sellingTo = sellingTo;
+//        this.description = description;
+//        this.sizeList = sizeList;
+//        this.colorList = colorList;
+//        this.oldRetailPrice = oldRetailPrice;
+//        this.oldWholeSalePrice = oldWholeSalePrice;
+//        this.rating = rating;
+//        this.category = category;
+//        this.quantityAvailable = quantityAvailable;
+//        this.brandName = brandName;
+//        this.productContents = productContents;
+//        this.warrantyType = warrantyType;
+//        this.productWeight = productWeight;
+//        this.dimen = dimen;
+//        this.sellerProductStatus = sellerProductStatus;
+//        this.uploadedBy = uploadedBy;
+//        this.likesCount=likesCount;
+//    }
+
+    public Product(String id, String title, String subtitle, boolean active,
                    int sku, String thumbnailUrl, String mainCategory, String subCategory,
                    long time, float costPrice, float wholeSalePrice, float retailPrice,
                    int minOrderQuantity, String measurement, VendorModel vendor, String sellingTo,
@@ -156,10 +206,14 @@ public class Product {
             , float rating,
                    ArrayList<String> category, int quantityAvailable,
                    String brandName, String productContents, String warrantyType, String productWeight,
-                   String dimen, String sellerProductStatus, String uploadedBy
-                   , int likesCount
+                   String dimen, String uploadedBy, String sellerProductStatus,
+                   String warrantyPeriod, String warrantyPolicy, String dangerousGood, String productModel
+
 
     ) {
+        this.warrantyPeriod = warrantyPeriod;
+        this.warrantyPolicy = warrantyPolicy;
+        this.dangerousGood = dangerousGood;
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
@@ -170,6 +224,7 @@ public class Product {
         this.time = time;
         this.costPrice = costPrice;
         this.wholeSalePrice = wholeSalePrice;
+        this.active = active;
         this.retailPrice = retailPrice;
         this.minOrderQuantity = minOrderQuantity;
         this.measurement = measurement;
@@ -188,9 +243,9 @@ public class Product {
         this.warrantyType = warrantyType;
         this.productWeight = productWeight;
         this.dimen = dimen;
-        this.sellerProductStatus = sellerProductStatus;
         this.uploadedBy = uploadedBy;
-        this.likesCount=likesCount;
+        this.sellerProductStatus = sellerProductStatus;
+        this.productModel = productModel;
     }
 
     public HashMap<String, Object> getProductAttributes() {
@@ -496,4 +551,11 @@ public class Product {
     }
 
 
+    public String getProductModel() {
+        return productModel;
+    }
+
+    public void setProductModel(String productModel) {
+        this.productModel = productModel;
+    }
 }

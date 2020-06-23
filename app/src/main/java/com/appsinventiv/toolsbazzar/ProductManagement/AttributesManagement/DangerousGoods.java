@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.EditProduct;
 import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
+import com.appsinventiv.toolsbazzar.Utils.Constants;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -43,7 +45,14 @@ public class DangerousGoods extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(DangerousGoods.this, SellerAddProduct.class));
+//                startActivity(new Intent(DangerousGoods.this, SellerAddProduct.class));
+                Constants.ADDING_PRODUCT_BACK = false;
+                if (Constants.EDITING_PRODUCT) {
+                    startActivity(new Intent(DangerousGoods.this, EditProduct.class));
+                } else {
+                    startActivity(new Intent(DangerousGoods.this, SellerAddProduct.class));
+
+                }
 
             }
         });

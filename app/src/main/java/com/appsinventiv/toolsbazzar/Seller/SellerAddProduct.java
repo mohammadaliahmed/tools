@@ -54,6 +54,7 @@ import com.appsinventiv.toolsbazzar.Seller.SellerChat.SellerChats;
 import com.appsinventiv.toolsbazzar.Seller.SellerOrders.BottomDialogModel;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
 import com.appsinventiv.toolsbazzar.Utils.CompressImage;
+import com.appsinventiv.toolsbazzar.Utils.CompressImageToThumnail;
 import com.appsinventiv.toolsbazzar.Utils.Constants;
 import com.appsinventiv.toolsbazzar.Utils.NotificationAsync;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
@@ -111,6 +112,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
     public static String productWeight, dimens;
     public static int fromWhere = 0;
 
+    EditText productModel;
 
     RadioButton both, wholesale, retail;
     LinearLayout retailArea, wholesaleArea;
@@ -162,6 +164,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
         productVariationSubtitle = findViewById(R.id.productVariationSubtitle);
         productVariation = findViewById(R.id.productVariation);
         both = findViewById(R.id.both);
+        productModel = findViewById(R.id.productModel);
         dangerousGoodsTv = findViewById(R.id.dangerousGoods);
         wholesale = findViewById(R.id.wholesale);
         retail = findViewById(R.id.retail);
@@ -173,6 +176,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
         recyclerView = findViewById(R.id.recyclerview);
         e_subtitle = findViewById(R.id.subtitle);
         e_costPrice = findViewById(R.id.costPrice);
+        warrantyPolicy = findViewById(R.id.warrantyPolicy);
         e_wholesalePrice = findViewById(R.id.wholeSalePrice);
         e_retailPrice = findViewById(R.id.retailPrice);
         e_minOrderQty = findViewById(R.id.minOrder);
@@ -427,7 +431,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
         dialog.setContentView(layout);
 
         TextView message = layout.findViewById(R.id.message);
-        TextView title = layout.findViewById(R.id.message);
+        TextView title = layout.findViewById(R.id.title);
         TextView no = layout.findViewById(R.id.no);
         TextView yes = layout.findViewById(R.id.yes);
 
@@ -480,7 +484,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                 productId,
                 e_title.getText().toString(),
                 e_subtitle.getText().toString(),
-
+                true,
                 Integer.parseInt("" + newSku),
                 "",
                 "",
@@ -489,7 +493,7 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                 Float.parseFloat(e_costPrice.getText().toString()),
                 Float.parseFloat(e_wholesalePrice.getText().toString()),
                 Float.parseFloat(e_retailPrice.getText().toString()),
-                Integer.parseInt(e_minOrderQty.getText().length() > 0 ? e_minOrderQty.getText().toString() : "" + 1),
+               Integer.parseInt(e_minOrderQty.getText().length() > 0 ? e_minOrderQty.getText().toString() : "" + 1),
                 e_measurement.getText().toString(),
                 SharedPrefs.getVendor(),
                 selected.getText().toString(),
@@ -504,9 +508,12 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                 productContents.getText().toString(),
                 whichWarranty,
                 productWeight,
-                dimens, "Pending",
-                "seller",
-                0
+                dimens, "admin",
+                "Approved", warrantyPeriod,
+                warrantyPolicy.getText().toString(),
+                dangerousGoods,
+                productModel.getText().toString()
+
 
 
         )).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -514,14 +521,15 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
             public void onSuccess(Void aVoid) {
                 mDatabase.child("Sellers").child(SharedPrefs.getUsername()).child("products").child(productId).setValue(productId);
 
-//                putThumbnail(localThumbnail, productId);
-//                mDatabase.child("Products").child(productId).child("productAttributes").updateChildren(productAttributesMap);
-//                mDatabase.child("Products").child(productId).child("attributesWithPics").updateChildren(ChooseProductVariation.uploadedMap);
-//                mDatabase.child("Products").child(productId).child("newAttributes").updateChildren(ChooseProductVariation.hashMapHashMap);
-//                categoryList.clear();
-//                productAttributesMap.clear();
-
                 int count = 0;
+                putThumbnail(localThumbnail, productId);
+                mDatabase.child("Products").child(productId).child("productAttributes").updateChildren(productAttributesMap);
+                mDatabase.child("Products").child(productId).child("attributesWithPics").updateChildren(ChooseProductVariation.uploadedMap);
+                mDatabase.child("Products").child(productId).child("newAttributes").updateChildren(ChooseProductVariation.hashMapHashMap);
+                categoryList.clear();
+                productAttributesMap.clear();
+
+
                 NotificationAsync notificationAsync = new NotificationAsync(SellerAddProduct.this);
                 String NotificationTitle = "New product uploaded by " + SharedPrefs.getVendor().getStoreName();
                 String NotificationMessage = "Product: " + e_title.getText().toString();
@@ -541,6 +549,41 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
 
             }
         });
+
+    }
+
+    public void putThumbnail(String path, final String key) {
+        String imgName = Long.toHexString(Double.doubleToLongBits(Math.random()));
+
+        Uri file = Uri.fromFile(new File(path));
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
+        StorageReference riversRef = mStorageRef.child("Photos").child(imgName);
+
+        riversRef.putFile(file)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    @SuppressWarnings("VisibleForTests")
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+
+                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        mDatabase.child("Products").child(productId).child("thumbnailUrl").setValue("" + downloadUrl);
+
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        // ...
+                        CommonUtils.showToast("There was some error uploading pic");
+
+                    }
+                });
+
 
     }
 
@@ -750,11 +793,16 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
         if (categoryList != null && categoryList.size() > 0) {
             Constants.ADDING_PRODUCT = false;
         } else {
-            Constants.ADDING_PRODUCT = true;
-            sellingTo=1;
-            Intent i = new Intent(SellerAddProduct.this, ChooseMainCategory.class);
-            categoryList.clear();
-            startActivityForResult(i, 1);
+            if (!Constants.ADDING_PRODUCT_BACK) {
+                SellerAddProduct.fromWhere=1;
+                Constants.ADDING_PRODUCT = true;
+                sellingTo = 1;
+                Intent i = new Intent(SellerAddProduct.this, ChooseMainCategory.class);
+                categoryList.clear();
+                startActivityForResult(i, 1);
+            } else {
+                finish();
+            }
         }
         if (ChooseProductVariation.hashMapHashMap != null && ChooseProductVariation.hashMapHashMap.size() > 0) {
             productVariationSubtitle.setText("Color and size selected");
@@ -773,6 +821,8 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
                 recyclerView.setVisibility(View.VISIBLE);
 
                 mSelected = Matisse.obtainResult(data);
+                CompressImageToThumnail compressImageToThumnail = new CompressImageToThumnail(SellerAddProduct.this);
+                localThumbnail = compressImageToThumnail.compressImage("" + mSelected.get(0));
                 for (Uri img :
                         mSelected) {
                     selectedAdImages.add(new SelectedAdImages("" + img));
@@ -826,13 +876,19 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-
+            categoryList.clear();
             finish();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        categoryList.clear();
+        finish();
+    }
 
     @Override
     public void onUploaded(int count, int arraySize) {
@@ -859,4 +915,5 @@ public class SellerAddProduct extends AppCompatActivity implements ProductObserv
     public void onFailure() {
 
     }
+
 }

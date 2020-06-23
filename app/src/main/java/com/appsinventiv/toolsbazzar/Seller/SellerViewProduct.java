@@ -39,6 +39,7 @@ import com.appsinventiv.toolsbazzar.Models.VendorModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Seller.SellerStore.SellerStoreView;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.appsinventiv.toolsbazzar.Utils.Constants;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -186,6 +187,7 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
             public void onClick(View view) {
                 Intent i = new Intent(SellerViewProduct.this, EditProduct.class);
                 i.putExtra("productId", product.getId());
+                Constants.PRODUCT_ID=product.getId();
                 startActivity(i);
             }
         });
@@ -298,6 +300,8 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
             public void onClick(View view) {
                 Intent i = new Intent(SellerViewProduct.this, EditProduct.class);
                 i.putExtra("productId", product.getId());
+                Constants.PRODUCT_ID=product.getId();
+
                 startActivity(i);
             }
         });
@@ -811,6 +815,8 @@ public class SellerViewProduct extends AppCompatActivity implements View.OnClick
                 } else {
                     Intent i = new Intent(SellerViewProduct.this, EditProduct.class);
                     i.putExtra("productId", product.getId());
+                    Constants.PRODUCT_ID=product.getId();
+
                     startActivity(i);
                 }
             } else {

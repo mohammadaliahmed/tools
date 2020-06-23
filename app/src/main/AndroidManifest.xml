@@ -278,6 +278,7 @@
         <activity
             android:name=".Seller.EditProduct"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppThemeGreen" />
         <activity
             android:name=".Seller.SellerOrders.Orders"
@@ -375,6 +376,7 @@
             android:theme="@style/AppThemeGreen" />
         <activity android:name=".ProductManagement.AttributesManagement.ChooseAttributesAgain" />
         <activity android:name=".ProductManagement.ChooseSiz" />
+        <activity android:name=".ProductManagement.AttributesManagement.EditProductVariation" />
 
     </application>
 

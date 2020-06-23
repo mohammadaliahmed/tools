@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.appsinventiv.toolsbazzar.Adapters.MainCategoryAdapter;
 import com.appsinventiv.toolsbazzar.Models.MainCategoryModel;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Utils.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,7 +35,7 @@ public class ChooseMainCategory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_main_category);
         this.setTitle("Choose Category");
-        activity=this;
+        activity = this;
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -77,6 +78,7 @@ public class ChooseMainCategory extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.only_search_menu, menu);
@@ -106,7 +108,7 @@ public class ChooseMainCategory extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-
+            Constants.ADDING_PRODUCT_BACK = true;
             finish();
         }
 
@@ -115,6 +117,8 @@ public class ChooseMainCategory extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Constants.ADDING_PRODUCT_BACK = true;
+
         finish();
     }
 

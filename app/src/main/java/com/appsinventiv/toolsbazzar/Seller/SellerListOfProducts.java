@@ -25,6 +25,7 @@ import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.Models.ProductCountModel;
 import com.appsinventiv.toolsbazzar.R;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.appsinventiv.toolsbazzar.Utils.Constants;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.appsinventiv.toolsbazzar.Utils.SwipeControllerActions;
 import com.appsinventiv.toolsbazzar.Utils.SwipeToDeleteCallback;
@@ -68,6 +69,8 @@ public class SellerListOfProducts extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Constants.ADDING_PRODUCT_BACK=false;
+
                 Intent i = new Intent(SellerListOfProducts.this, SellerAddProduct.class);
                 startActivity(i);
             }

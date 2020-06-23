@@ -1,18 +1,24 @@
 package com.appsinventiv.toolsbazzar.Seller.Reviews;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.appsinventiv.toolsbazzar.Models.NewProductModel;
 import com.appsinventiv.toolsbazzar.Models.Product;
 import com.appsinventiv.toolsbazzar.R;
+import com.appsinventiv.toolsbazzar.Seller.SellerAddProduct;
+import com.appsinventiv.toolsbazzar.Seller.SellerListOfProducts;
 import com.appsinventiv.toolsbazzar.Utils.CommonUtils;
+import com.appsinventiv.toolsbazzar.Utils.Constants;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +43,7 @@ public class SellerProductReviews extends AppCompatActivity {
 
     float posCount, neutCount, negCount, totalReviewCount, totalPositiveCount;
     TextView totalReviews;
+    FloatingActionButton fab;
 
 
     @Override
@@ -52,6 +59,7 @@ public class SellerProductReviews extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         positiveCount = findViewById(R.id.positiveCount);
+        fab = findViewById(R.id.fab);
         neutralCount = findViewById(R.id.neutralCount);
         negativeCount = findViewById(R.id.negativeCount);
         totalReviews = findViewById(R.id.totalReviews);
@@ -67,6 +75,15 @@ public class SellerProductReviews extends AppCompatActivity {
 
 
         getProductsFromDB();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Constants.ADDING_PRODUCT_BACK=false;
+                Intent i = new Intent(SellerProductReviews.this, SellerAddProduct.class);
+                startActivity(i);
+            }
+        });
 
     }
 

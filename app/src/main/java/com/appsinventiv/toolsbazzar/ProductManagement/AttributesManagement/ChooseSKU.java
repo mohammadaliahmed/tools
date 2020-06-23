@@ -27,6 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ChooseSKU extends AppCompatActivity {
     DatabaseReference mDatabase;
@@ -204,6 +206,15 @@ public class ChooseSKU extends AppCompatActivity {
                         }
                         adapter.selectedText = "";
                         adapter.setSelected(-1);
+                        Collections.sort(itemList, new Comparator<String>() {
+                            @Override
+                            public int compare(String listData, String t1) {
+
+
+                                return listData.compareTo(t1);
+
+                            }
+                        });
                         adapter.updateList(itemList);
                         adapter.notifyDataSetChanged();
                         wholeLayout.setVisibility(View.GONE);

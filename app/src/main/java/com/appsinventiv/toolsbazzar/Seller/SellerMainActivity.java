@@ -52,6 +52,7 @@ import com.appsinventiv.toolsbazzar.Seller.Reviews.SellerProductReviews;
 import com.appsinventiv.toolsbazzar.Seller.Sales.SellerSales;
 import com.appsinventiv.toolsbazzar.Seller.SellerChat.SellerChats;
 import com.appsinventiv.toolsbazzar.Seller.SellerOrders.Orders;
+import com.appsinventiv.toolsbazzar.Utils.Constants;
 import com.appsinventiv.toolsbazzar.Utils.PrefManager;
 import com.appsinventiv.toolsbazzar.Utils.SharedPrefs;
 import com.bumptech.glide.Glide;
@@ -114,12 +115,15 @@ public class SellerMainActivity extends AppCompatActivity
         rela = findViewById(R.id.rela);
 //        scrollview = findViewById(R.id.scrollview);
 //        scrollview.setFillViewport (true);
+        Constants.ADDING_PRODUCT_BACK = false;
 
 
         this.setTitle("My Store View");
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Constants.ADDING_PRODUCT_BACK=false;
+
                 Intent i = new Intent(SellerMainActivity.this, SellerAddProduct.class);
                 startActivity(i);
             }
@@ -473,7 +477,7 @@ public class SellerMainActivity extends AppCompatActivity
 
         HashMap<String, Double> map = SharedPrefs.getCommentsCount();
         double revCount = 0;
-        if(map!=null && map.entrySet()!=null) {
+        if (map != null && map.entrySet() != null) {
             for (Map.Entry<String, Double> entry : map.entrySet()) {
                 revCount = revCount + entry.getValue();
             }
@@ -686,6 +690,8 @@ public class SellerMainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.addProduct) {
+            Constants.ADDING_PRODUCT_BACK=false;
+
             Intent i = new Intent(SellerMainActivity.this, SellerAddProduct.class);
             startActivity(i);
         } else if (id == R.id.myProducts) {

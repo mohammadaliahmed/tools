@@ -1,178 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fff">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:paddingTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:weightSum="2">
 
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:id="@+id/positiveRatingText"
-                    android:text="82%"
-                    android:textColor="#000"
-                    android:textSize="25sp" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="Positive seller rating"
-                    android:textColor="#000" />
+                    <TextView
+                        android:id="@+id/positiveRatingText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="82%"
+                        android:textColor="#000"
+                        android:textSize="25sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Positive seller rating"
+                        android:textColor="#000" />
+
+                    <TextView
+                        android:id="@+id/totalReviews"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="17 customer reviews"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:id="@+id/totalReviews"
-                    android:text="17 customer reviews"
-                    android:textSize="12sp" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Positive "
+                            android:textSize="11sp" />
+
+                        <ProgressBar
+                            android:id="@+id/positiveBar"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="80dp"
+                            android:layout_height="10dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:progressBackgroundTint="#f1f1f1"
+                            android:progressTint="@color/colorGreen" />
+
+                        <TextView
+
+                            android:id="@+id/positiveCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="0"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Neutral  "
+                            android:textSize="11sp" />
+
+                        <ProgressBar
+                            android:id="@+id/neutralBar"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="80dp"
+                            android:layout_height="10dp"
+
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:progress="0"
+                            android:progressBackgroundTint="#f1f1f1"
+                            android:progressTint="@color/colorGreen" />
+
+                        <TextView
+                            android:id="@+id/neutralCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="0"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Negative"
+                            android:textSize="11sp" />
+
+                        <ProgressBar
+                            android:id="@+id/negativeBar"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="80dp"
+                            android:layout_height="10dp"
+                            android:layout_gravity="center"
+
+                            android:layout_marginLeft="5dp"
+                            android:progressBackgroundTint="#f1f1f1"
+                            android:progressTint="@color/colorGreen" />
+
+                        <TextView
+                            android:id="@+id/negativeCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="0"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#ececec" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_products"
+                android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Positive "
-                        android:textSize="11sp" />
-
-                    <ProgressBar
-                        style="@android:style/Widget.ProgressBar.Horizontal"
-                        android:layout_width="80dp"
-                        android:layout_height="10dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:progressTint="@color/colorGreen"
-                        android:id="@+id/positiveBar"
-                        android:progressBackgroundTint="#f1f1f1" />
-
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="0"
-                        android:id="@+id/positiveCount"
-                        android:textSize="11sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Neutral  "
-                        android:textSize="11sp" />
-
-                    <ProgressBar
-                        style="@android:style/Widget.ProgressBar.Horizontal"
-                        android:layout_width="80dp"
-                        android:layout_height="10dp"
-                        android:progressTint="@color/colorGreen"
-
-                        android:id="@+id/neutralBar"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:progress="0"
-                        android:progressBackgroundTint="#f1f1f1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="0"
-                        android:id="@+id/neutralCount"
-                        android:textSize="11sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Negative"
-                        android:textSize="11sp" />
-
-                    <ProgressBar
-                        style="@android:style/Widget.ProgressBar.Horizontal"
-                        android:layout_width="80dp"
-                        android:layout_height="10dp"
-                        android:layout_gravity="center"
-                        android:progressTint="@color/colorGreen"
-
-                        android:id="@+id/negativeBar"
-                        android:layout_marginLeft="5dp"
-                        android:progressBackgroundTint="#f1f1f1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="0"
-                        android:id="@+id/negativeCount"
-                        android:textSize="11sp" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
+                android:padding="5dp" />
         </LinearLayout>
-    <View
-        android:background="#ececec"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_products"
-            android:layout_width="match_parent"
+    </ScrollView>
 
-            android:layout_height="wrap_content"
-            android:padding="5dp" />
-    </LinearLayout>
-
-
-</ScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        app:backgroundTint="@color/colorGreenDark"
+        app:srcCompat="@drawable/ic_open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin" />
+</RelativeLayout>
